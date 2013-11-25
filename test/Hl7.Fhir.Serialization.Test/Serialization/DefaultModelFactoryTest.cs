@@ -6,7 +6,7 @@ using System.Collections;
 using Hl7.Fhir.Support;
 using Hl7.Fhir.Serialization;
 
-namespace Hl7.Fhir.Serialization.Test
+namespace Hl7.Fhir.Test.Serialization
 {
     [TestClass]
     public class DefaultModelFactoryTest

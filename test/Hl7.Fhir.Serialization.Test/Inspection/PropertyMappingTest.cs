@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Support;
+using Hl7.Fhir.Introspection;
 
-namespace Hl7.Fhir.Serialization.Test
+namespace Hl7.Fhir.Test.Inspection
 {
     [TestClass]
     public class ModelInspectorMembersTest
@@ -24,7 +25,7 @@ namespace Hl7.Fhir.Serialization.Test
             Assert.IsTrue(valueProp.RepresentsValueElement);
 
             mapping = ClassMapping.Create(typeof(Code<Address.AddressUse>));
-            Assert.AreEqual("codeOfT", mapping.Name);
+            Assert.AreEqual("codeOfT<Hl7.Fhir.Model.Address+AddressUse>", mapping.Name);
             Assert.IsTrue(mapping.HasPrimitiveValueMember);
             Assert.AreEqual(3, mapping.PropertyMappings.Count);
             valueProp = mapping.PrimitiveValueProperty;

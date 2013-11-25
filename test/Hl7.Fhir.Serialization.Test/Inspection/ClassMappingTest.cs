@@ -2,8 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Support;
+using Hl7.Fhir.Introspection;
 
-namespace Hl7.Fhir.Serialization.Test
+namespace Hl7.Fhir.Test.Inspection
 {
     [TestClass]
     public class ClassMappingTest

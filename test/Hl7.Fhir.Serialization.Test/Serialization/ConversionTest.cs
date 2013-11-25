@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Serialization;
 
-namespace Hl7.Fhir.Serialization.Test
+namespace Hl7.Fhir.Test.Serialization
 {
     [TestClass]
     public class ConversionTest

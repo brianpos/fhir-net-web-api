@@ -55,6 +55,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ArtifactStorageTest.cs" />
+    <Compile Include="SchemaCollectionTest.cs" />
     <Compile Include="TestAdvancedValidation.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="TestUnresolvedValidation.cs" />
@@ -69,6 +71,14 @@
   <ItemGroup>
     <None Include="packages.config" />
     <EmbeddedResource Include="TestPatient.json" />
+    <Content Include="example-lipid-profile-differential.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="example-lipid-profile-testmessage.xml" />
+    <Content Include="example-lipid-profile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="example-lipid-valueset-interpretation.xml" />
     <Content Include="TestData\example-lipid-profile-testmessage.xml" />
     <Content Include="TestData\ldlcholesterol-correct.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -137,13 +147,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.Api\Hl7.Fhir.Api.csproj">
+    <ProjectReference Include="..\Hl7.Fhir.Core\Hl7.Fhir.Core.csproj">
       <Project>{92cc9186-0a21-4e06-b11f-907584fbfd81}</Project>
       <Name>Hl7.Fhir.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hl7.Fhir.Profiling\Hl7.Fhir.Profiling.csproj">
-      <Project>{34a3b072-5abc-4f7c-b7e8-0ab67c58cc61}</Project>
-      <Name>Fhir.Profiling</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

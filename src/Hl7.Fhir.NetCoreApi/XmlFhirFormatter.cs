@@ -42,7 +42,7 @@ namespace Hl7.Fhir.WebApi
             if (encoding == null)
                 throw new ArgumentNullException(nameof(encoding));
 
-            if (encoding != Encoding.UTF8)
+            if (encoding.EncodingName != Encoding.UTF8.EncodingName)
                 throw new FhirServerException(HttpStatusCode.BadRequest, "FHIR supports UTF-8 encoding exclusively, not " + encoding.WebName);
 
             var request = context.HttpContext.Request;
@@ -99,7 +99,16 @@ namespace Hl7.Fhir.WebApi
             if (selectedEncoding == null)
                 throw new ArgumentNullException(nameof(selectedEncoding));
 
-            XmlWriterSettings settings = new XmlWriterSettings { Encoding = new UTF8Encoding(false), OmitXmlDeclaration = true };
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Encoding = new UTF8Encoding(false),
+                OmitXmlDeclaration = true,
+                Async = true,
+                CloseOutput = true,
+                Indent = true,
+                NewLineHandling = NewLineHandling.Entitize,
+                IndentChars = "  "
+            };
             using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
             {
                 SummaryType st = SummaryType.False;

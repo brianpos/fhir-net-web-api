@@ -21,9 +21,9 @@ namespace Hl7.Fhir.WebApi
         /// </summary>
         /// <param name="baseUri">The Base URI is the actual FHIR url used for this request, will end with /fhir/</param>
         public SystemModelBaseInputs(
-            Uri baseUri)
-            // System.Web.Http.Dependencies.IDependencyScope dependencyScope)
-            : base(GetSystemPrincipal(), null, null, null, baseUri) //, dependencyScope)
+            Uri baseUri,
+            IServiceProvider serviceProvider)
+            : base(GetSystemPrincipal(), null, null, null, baseUri, serviceProvider)
         {
         }
     }
@@ -45,15 +45,15 @@ namespace Hl7.Fhir.WebApi
             X509Certificate2 clientCertificate,
             string httpMethod,
             Uri requestUri,
-            Uri baseUri) //,
-            // System.Web.Http.Dependencies.IDependencyScope dependencyScope)
+            Uri baseUri, 
+            IServiceProvider serviceProvider)
         {
             this.User = user;
             this.ClientCertificate = clientCertificate;
             this.HttpMethod = httpMethod;
             this.RequestUri = requestUri;
             this.BaseUri = baseUri;
-            // this.DependencyScope = dependencyScope;
+            this.ServiceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -91,9 +91,9 @@ namespace Hl7.Fhir.WebApi
         // Prefer (return=minimal or return=representation)
 
         /// <summary>
-        /// 
+        /// Access to the Dependency Injector
         /// </summary>
-        // public System.Web.Http.Dependencies.IDependencyScope DependencyScope { get; private set; }
+        public IServiceProvider ServiceProvider { get; private set; }
 
         private static IPrincipal _systemPrincipal;
         /// <summary>

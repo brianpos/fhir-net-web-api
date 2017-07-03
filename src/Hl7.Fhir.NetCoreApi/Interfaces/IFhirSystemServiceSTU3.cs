@@ -25,7 +25,7 @@ namespace Hl7.Fhir.WebApi
         /// (was Conformance in DSTU2)
         /// </summary>
         /// <returns></returns>
-        CapabilityStatement GetConformance(ModelBaseInputs request, Rest.SummaryType summary);
+        Task<CapabilityStatement> GetConformance(ModelBaseInputs request, Rest.SummaryType summary);
 
         /// <summary>
         /// Retrieve a ResourceService processor for the provided resource type
@@ -39,7 +39,7 @@ namespace Hl7.Fhir.WebApi
         /// </summary>
         /// <param name="bundle"></param>
         /// <returns>the matching bundle with the results of the request</returns>
-        Bundle ProcessBatch(ModelBaseInputs request, Bundle bundle);
+        Task<Bundle> ProcessBatch(ModelBaseInputs request, Bundle bundle);
 
         /// <summary>
         /// Retreive the system history for the request
@@ -49,7 +49,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="Count"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Bundle SystemHistory(ModelBaseInputs request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, Rest.SummaryType summary);
+        Task<Bundle> SystemHistory(ModelBaseInputs request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, Rest.SummaryType summary);
 
         /// <summary>
         /// Perform the FHIR operation on the whole system (not a resource type/instance specific operation)
@@ -58,7 +58,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="operationParameters"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Resource PerformOperation(ModelBaseInputs request, string operation, Parameters operationParameters, Rest.SummaryType summary);
+        Task<Resource> PerformOperation(ModelBaseInputs request, string operation, Parameters operationParameters, Rest.SummaryType summary);
 
         /// <summary>
         /// Search the entire server (not a resource type/instance specific operation)
@@ -67,6 +67,6 @@ namespace Hl7.Fhir.WebApi
         /// <param name="Count"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Bundle Search(ModelBaseInputs request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary);
+        Task<Bundle> Search(ModelBaseInputs request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary);
     }
 }

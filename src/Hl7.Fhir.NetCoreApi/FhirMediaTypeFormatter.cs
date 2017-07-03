@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using Microsoft.Net.Http.Headers;
+using System.Diagnostics;
 
 namespace Hl7.Fhir.WebApi
 {

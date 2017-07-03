@@ -9,6 +9,7 @@
 using Hl7.Fhir.Model;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -28,7 +29,7 @@ namespace Hl7.Fhir.WebApi
         /// generate the rest resource component for this specific resource type
         /// </summary>
         /// <returns></returns>
-        CapabilityStatement.ResourceComponent GetRestResourceComponent();
+        Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent();
 
         /// <summary>
         /// Create/Update this resource (create when no Resource.Id is provided, update when it is)
@@ -42,7 +43,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="ifNoneExist"></param>
         /// <param name="ifModifiedSince"></param>
         /// <returns></returns>
-        Resource Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince);
+        Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince);
 
         /// <summary>
         /// Retrieve the resource with the provided resourceId/versionId
@@ -52,7 +53,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="VersionId">If this parameter is null/empty, then the latest version of the resource should be retrieved</param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Resource Get(string resourceId, string VersionId, Rest.SummaryType summary);
+        Task<Resource> Get(string resourceId, string VersionId, Rest.SummaryType summary);
 
         /// <summary>
         /// Delete the provided Resource Id
@@ -61,7 +62,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="id"></param>
         /// <param name="ifMatch"></param>
         /// <returns>Returns the ResourceIdentity of the resource (the deletion version)</returns>
-        string Delete(string id, string ifMatch);
+        Task<string> Delete(string id, string ifMatch);
 
         /// <summary>
         /// Retrieve the history items across all instances of this resource type
@@ -72,7 +73,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="Count"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Bundle TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, Rest.SummaryType summary);
+        Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, Rest.SummaryType summary);
 
         /// <summary>
         /// Retrieve the history items for the specific resource Id
@@ -84,7 +85,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="Count"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Bundle InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, Hl7.Fhir.Rest.SummaryType summary);
+        Task<Bundle> InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, Hl7.Fhir.Rest.SummaryType summary);
 
         /// <summary>
         /// Perform a search based on the provided search parameters
@@ -94,7 +95,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="Count"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Bundle Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary);
+        Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary);
 
         /// <summary>
         /// Perform a Resource Instance based Operation
@@ -105,7 +106,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="operationParameters"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Resource PerformOperation(string id, string operation, Parameters operationParameters, Rest.SummaryType summary);
+        Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, Rest.SummaryType summary);
 
         /// <summary>
         /// Perform a Resource Type based operation
@@ -115,6 +116,6 @@ namespace Hl7.Fhir.WebApi
         /// <param name="operationParameters"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Resource PerformOperation(string operation, Parameters operationParameters, Rest.SummaryType summary);
+        Task<Resource> PerformOperation(string operation, Parameters operationParameters, Rest.SummaryType summary);
     }
 }

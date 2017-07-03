@@ -16,9 +16,6 @@ namespace Hl7.Fhir.WebApi
 {
     public static class Const
     {
-        public const string RESOURCE_ENTRY = "Resource";
-        public const string UNPARSED_BODY = "UnparsedBody";
-
         static public int MAX_HISTORY_RESULT_SIZE = 400;
         static public int DEFAULT_PAGE_SIZE = 20;
 

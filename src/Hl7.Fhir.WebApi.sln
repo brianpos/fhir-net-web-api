@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.WebApi.STU3", "Hl7.Fhir.WebApi\Hl7.Fhir.WebApi.STU3.csproj", "{F219EEF4-570C-4DFE-9EE4-D11D5D093D5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.DemoFileSystemFhirServer", "Hl7.DemoFileSystemFhirServer\Hl7.DemoFileSystemFhirServer.csproj", "{79E3D0DC-BFDF-451E-89DE-52AF77F2F416}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestWebApi", "UnitTestWebApi\UnitTestWebApi.csproj", "{1125F427-BD84-451E-AF1D-C853835052CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.NetCoreApi.STU3", "Hl7.Fhir.NetCoreApi\Hl7.Fhir.NetCoreApi.STU3.csproj", "{D1453869-302F-4B9C-A241-BD4054BA2407}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1125F427-BD84-451E-AF1D-C853835052CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1125F427-BD84-451E-AF1D-C853835052CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1125F427-BD84-451E-AF1D-C853835052CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1453869-302F-4B9C-A241-BD4054BA2407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1453869-302F-4B9C-A241-BD4054BA2407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1453869-302F-4B9C-A241-BD4054BA2407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1453869-302F-4B9C-A241-BD4054BA2407}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

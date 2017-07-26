@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.WebApi.STU3", "Hl7.Fhir.WebApi\Hl7.Fhir.WebApi.STU3.csproj", "{F219EEF4-570C-4DFE-9EE4-D11D5D093D5B}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.DemoFileSystemFhirServe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestWebApi", "UnitTestWebApi\UnitTestWebApi.csproj", "{1125F427-BD84-451E-AF1D-C853835052CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.NetCoreApi.STU3", "Hl7.Fhir.NetCoreApi\Hl7.Fhir.NetCoreApi.STU3.csproj", "{D1453869-302F-4B9C-A241-BD4054BA2407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.NetCoreApi.STU3", "Hl7.Fhir.NetCoreApi\Hl7.Fhir.NetCoreApi.STU3.csproj", "{D1453869-302F-4B9C-A241-BD4054BA2407}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

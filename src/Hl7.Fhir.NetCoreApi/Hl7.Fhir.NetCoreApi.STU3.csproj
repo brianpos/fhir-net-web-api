@@ -15,7 +15,6 @@
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.Specification.STU3" Version="0.93.4" />
     <PackageReference Include="Hl7.Fhir.STU3" Version="0.93.4" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Buffering" Version="0.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />

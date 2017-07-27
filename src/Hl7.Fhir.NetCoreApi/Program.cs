@@ -17,7 +17,6 @@ namespace Hl7.Fhir.NetCoreApi
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
 
             host.Run();

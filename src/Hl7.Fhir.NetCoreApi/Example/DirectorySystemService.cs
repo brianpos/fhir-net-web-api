@@ -81,7 +81,7 @@ namespace Hl7.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        public async Task<Bundle> SystemHistory(ModelBaseInputs request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public Task<Bundle> SystemHistory(ModelBaseInputs request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta();
@@ -104,7 +104,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
             // also need to set the page links
 
-            return result;
+            return System.Threading.Tasks.Task.FromResult(result);
         }
     }
 }

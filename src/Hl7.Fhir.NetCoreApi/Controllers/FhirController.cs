@@ -30,15 +30,15 @@ namespace Hl7.Fhir.WebApi
     [Route("")]
     public partial class FhirSTU3Controller : Controller
     {
-        internal ModelBaseInputs GetInputs(string baseUrl)
+        internal ModelBaseInputs<IServiceProvider> GetInputs(string baseUrl)
         {
             return GetInputs(Request, User, new Uri(baseUrl));
         }
 
-        internal static ModelBaseInputs GetInputs(HttpRequest Request, System.Security.Principal.IPrincipal User, Uri baseUrl)
+        internal static ModelBaseInputs<IServiceProvider> GetInputs(HttpRequest Request, System.Security.Principal.IPrincipal User, Uri baseUrl)
         {
             var cert = Request.HttpContext.Connection.ClientCertificate;
-            var inputs = new ModelBaseInputs(
+            var inputs = new ModelBaseInputs<IServiceProvider>(
                 User,
                 cert,
                 Request.Method,
@@ -57,12 +57,12 @@ namespace Hl7.Fhir.WebApi
             return inputs;
         }
 
-        internal static IFhirSystemServiceSTU3 GetSystemModel(ModelBaseInputs inputs)
+        internal static IFhirSystemServiceSTU3<IServiceProvider> GetSystemModel(ModelBaseInputs<IServiceProvider> inputs)
         {
             return NetCoreApi.FhirFacadeBuilder._systemService;
         }
 
-        internal static IFhirResourceServiceSTU3 GetResourceModel(string ResourceName, ModelBaseInputs inputs)
+        internal static IFhirResourceServiceSTU3<IServiceProvider> GetResourceModel(string ResourceName, ModelBaseInputs<IServiceProvider> inputs)
         {
             var model = NetCoreApi.FhirFacadeBuilder._systemService.GetResourceService(inputs, ResourceName);
 
@@ -139,7 +139,7 @@ namespace Hl7.Fhir.WebApi
             }
 
             var Inputs = GetInputs(buri);
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, Inputs);
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, Inputs);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             Resource resource = await model.Get(id, vid, summary);
@@ -210,7 +210,7 @@ namespace Hl7.Fhir.WebApi
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
             var resource = await model.PerformOperation(id, operation, operationParameters, summary);
             return PrepareOperationOutputMessage(buri, resource);
         }
@@ -223,7 +223,7 @@ namespace Hl7.Fhir.WebApi
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
             var resource = await model.PerformOperation(id, operation, operationParameters, summary);
             return PrepareOperationOutputMessage(buri, resource);
         }
@@ -237,7 +237,7 @@ namespace Hl7.Fhir.WebApi
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
             var resource = await model.PerformOperation(operation, operationParameters, summary);
             return PrepareOperationOutputMessage(buri, resource);
         }
@@ -250,7 +250,7 @@ namespace Hl7.Fhir.WebApi
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
             var resource = await model.PerformOperation(operation, operationParameters, summary);
             return PrepareOperationOutputMessage(buri, resource);
         }
@@ -325,7 +325,7 @@ namespace Hl7.Fhir.WebApi
             var buri = this.CalculateBaseURI("{ResourceName");
             parameters = parameters.Union(includeParams);
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             Bundle result = await model.Search(parameters, pagesize, summary);
             result.ResourceBase = new Uri(buri);
@@ -347,7 +347,7 @@ namespace Hl7.Fhir.WebApi
 
             var buri = this.CalculateBaseURI("{ResourceName}");
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             // Also grab the application/x-www-form-urlencoded content body
             if (Request.HasFormContentType)
@@ -378,7 +378,7 @@ namespace Hl7.Fhir.WebApi
 
             var buri = this.CalculateBaseURI("{ResourceName}");
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             // TODO: Locate the till parameter in the history
             Bundle result = await model.TypeHistory(since, null, pagesize, summary);
@@ -402,7 +402,7 @@ namespace Hl7.Fhir.WebApi
 
             var buri = this.CalculateBaseURI("{ResourceName}");
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             Bundle result = await model.InstanceHistory(id, since, null, pagesize, summary);
             result.ResourceBase = new Uri(buri);
@@ -503,7 +503,7 @@ namespace Hl7.Fhir.WebApi
             }
 
             var Inputs = GetInputs(buri);
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             var result = await model.Create(bodyResource, null, null, null);
             // this.Request.SaveEntry(bodyResource);
@@ -604,7 +604,7 @@ namespace Hl7.Fhir.WebApi
             }
 
             // so.Success();
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             string ifMatch = null;
             var conditionalSearchParams = this.Request.TupledParameters(false);
@@ -691,7 +691,7 @@ namespace Hl7.Fhir.WebApi
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot PUT a AuditEvent, you must POST them");
             }
 
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             var result = await model.Create(bodyResource, null, null, null);
             // this.Request.SaveEntry(bodyResource);
@@ -773,7 +773,7 @@ namespace Hl7.Fhir.WebApi
                 // otherwise externally reported events can be updated!
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot DELETE a AuditEvent");
             }
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             string deletedIdentity = await model.Delete(id, null);
             // Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
@@ -819,7 +819,7 @@ namespace Hl7.Fhir.WebApi
                 // otherwise externally reported events can be updated!
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot DELETE a AuditEvent");
             }
-            IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceSTU3<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             string ifMatch = Request.RequestUri().Query;
             if (ifMatch.StartsWith("?"))

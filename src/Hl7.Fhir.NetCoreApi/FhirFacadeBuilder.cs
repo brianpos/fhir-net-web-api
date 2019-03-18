@@ -18,9 +18,15 @@ namespace Hl7.Fhir.NetCoreApi
 {
     public static class FhirFacadeBuilder
     {
-        internal static IFhirSystemServiceSTU3 _systemService;
+        internal static IFhirSystemServiceSTU3<IServiceProvider> _systemService;
 
-        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceSTU3 systemService, Action<MvcOptions> setupAction)
+        /// <summary>
+        /// Add the facade for the FHIR server using the provided System service model
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="systemService"></param>
+        /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any futher, such as registering other output formatters (e.g. HTML)</param>
+        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceSTU3<IServiceProvider> systemService, Action<MvcOptions> setupAction)
         {
             NetCoreApi.FhirFacadeBuilder._systemService = systemService;
             services.AddMvc(options =>

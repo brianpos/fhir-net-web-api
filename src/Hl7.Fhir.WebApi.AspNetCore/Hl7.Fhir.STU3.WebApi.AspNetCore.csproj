@@ -28,7 +28,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HL7.Fhir.NetCoreApi.STU3.Models\Hl7.Fhir.STU3.WebApi.Support.csproj" />
+    <ProjectReference Include="..\HL7.Fhir.WebApi.Support\Hl7.Fhir.STU3.WebApi.Support.csproj" />
   </ItemGroup>
 
 </Project>

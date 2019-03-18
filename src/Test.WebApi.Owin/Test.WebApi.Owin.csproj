@@ -107,17 +107,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.DemoFileSystemFhirServer\Hl7.DemoFileSystemFhirServer.Owin.csproj">
+    <ProjectReference Include="..\Hl7.DemoFileSystemFhirServer.Owin\Hl7.DemoFileSystemFhirServer.Owin.csproj">
       <Project>{79e3d0dc-bfdf-451e-89de-52af77f2f416}</Project>
       <Name>Hl7.DemoFileSystemFhirServer.Owin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HL7.Fhir.NetCoreApi.STU3.Models\Hl7.Fhir.STU3.WebApi.Support.csproj">
-      <Project>{f2b743c4-edc5-4abe-afcc-e246a2984460}</Project>
-      <Name>Hl7.Fhir.STU3.WebApi.Support</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hl7.Fhir.WebApi\Hl7.Fhir.STU3.WebApi.Owin.csproj">
+    <ProjectReference Include="..\Hl7.Fhir.WebApi.Owin\Hl7.Fhir.STU3.WebApi.Owin.csproj">
       <Project>{f219eef4-570c-4dfe-9ee4-d11d5d093d5b}</Project>
       <Name>Hl7.Fhir.STU3.WebApi.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hl7.Fhir.WebApi.Support\Hl7.Fhir.STU3.WebApi.Support.csproj">
+      <Project>{1752b9ad-8f42-4a19-88a5-bd1f68c98228}</Project>
+      <Name>Hl7.Fhir.STU3.WebApi.Support</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

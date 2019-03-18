@@ -59,12 +59,12 @@ namespace Hl7.Fhir.WebApi
 
         internal static IFhirSystemServiceSTU3 GetSystemModel(ModelBaseInputs inputs)
         {
-            return NetCoreApi.Startup._systemService;
+            return NetCoreApi.FhirFacadeBuilder._systemService;
         }
 
         internal static IFhirResourceServiceSTU3 GetResourceModel(string ResourceName, ModelBaseInputs inputs)
         {
-            var model = NetCoreApi.Startup._systemService.GetResourceService(inputs, ResourceName);
+            var model = NetCoreApi.FhirFacadeBuilder._systemService.GetResourceService(inputs, ResourceName);
 
             if (model != null)
                 return model;

@@ -22,7 +22,7 @@ namespace Hl7.Fhir.NetCoreApi
 
         public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceSTU3 systemService, Action<MvcOptions> setupAction)
         {
-            NetCoreApi.Startup._systemService = systemService;
+            NetCoreApi.FhirFacadeBuilder._systemService = systemService;
             services.AddMvc(options =>
             {
                 // remove the default formatters

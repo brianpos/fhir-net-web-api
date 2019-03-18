@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (c) 2017+ brianpos, Furore and contributors
+ * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
  * 
  * This file is licensed under the BSD 3-Clause license
@@ -44,8 +44,16 @@ namespace Hl7.Fhir.WebApi
                 Request.Method,
                 new Uri(Request.GetDisplayUrl()), //RequestUri,
                 baseUrl,
+                Request.Header("x-api-key"),
                 Request.HttpContext.RequestServices);
-
+            if (Request.Headers.ContainsKey("X-Correlation-Id"))
+            {
+                inputs.X_CorelationId = Request.Header("X-Correlation-Id");
+            }
+            else
+            {
+                inputs.X_CorelationId = Guid.NewGuid().ToFhirId();
+            }
             return inputs;
         }
 
@@ -82,7 +90,7 @@ namespace Hl7.Fhir.WebApi
         }
 
         /// <summary>
-        /// <http://hl7-fhir.github.io/http.html#transaction>
+        /// http://hl7-fhir.github.io/http.html#transaction
         /// </summary>
         [HttpPost, Route("")]
         public async Task<IActionResult> ProcessBatch(Bundle batch)
@@ -112,7 +120,7 @@ namespace Hl7.Fhir.WebApi
             return con;
         }
 
-        [HttpGet, Route("{ResourceName}/{id}")]
+        [HttpGet, Route(@"{ResourceName:regex(^((?!(C|c)ontent)(?!(S|S)cripts)[[A-Za-z]])+$)}/{id:regex(^(?!$.+)([[A-Za-z0-9\.-]])+$)}")]
         public Task<IActionResult> Get(string ResourceName, string id)
         {
             return Get(ResourceName, id, null);
@@ -120,10 +128,10 @@ namespace Hl7.Fhir.WebApi
 
         // GET fhir/patient/5/_history/4
         //[HttpGet, Route("{type}/{id}/_history/{vid}")]
-        [HttpGet, Route("{ResourceName}/{id}/_history/{vid}")]
+        [HttpGet, Route(@"{ResourceName:regex(^((?!(C|c)ontent)(?!(S|S)cripts)[[A-Za-z]])+$)}/{id:regex(^(?!$.+)([[A-Za-z0-9\.-]])+$)}/_history/{vid}")]
         public async Task<IActionResult> Get(string ResourceName, string id, string vid)
         {
-            var buri = this.CalculateBaseURI("{ResourceName}");
+            var buri = this.CalculateBaseURI("{ResourceName");
 
             if (!Id.IsValidValue(id))
             {
@@ -184,6 +192,8 @@ namespace Hl7.Fhir.WebApi
                     }
                 }
 
+                if (resource.HasAnnotation<HttpStatusCode>())
+                    return new FhirObjectResult(resource.Annotation<HttpStatusCode>(), resource);
                 return new ObjectResult(resource);
             }
 
@@ -195,7 +205,7 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> PerformOperation(string ResourceName, string id, string operation)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
             Parameters operationParameters = new Parameters();
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
@@ -209,7 +219,7 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> PerformOperation(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
@@ -222,7 +232,7 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> PerformOperation(string ResourceName, string operation)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
             Parameters operationParameters = new Parameters();
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
@@ -236,7 +246,7 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> PerformOperation(string ResourceName, string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
@@ -250,7 +260,10 @@ namespace Hl7.Fhir.WebApi
             if (resource != null)
             {
                 resource.ResourceBase = new Uri(buri);
-                return new OkObjectResult(resource);
+                HttpStatusCode resultCode = HttpStatusCode.OK;
+                if (resource.HasAnnotation<HttpStatusCode>())
+                    resultCode = resource.Annotation<HttpStatusCode>();
+                return new FhirObjectResult(resultCode, resource);
             }
 
             // this request is a "you wanted what?"
@@ -298,7 +311,7 @@ namespace Hl7.Fhir.WebApi
         // GET fhir/patient/search?
         //[HttpGet, Route("{type}")]
         //[HttpGet, Route("{type}/_search")]
-        [HttpGet, Route("{ResourceName}")]
+        [HttpGet, Route("{ResourceName:regex(^[[A-Za-z]]+$)}")]
         public async Task<Bundle> Search(string ResourceName)
         {
             System.Diagnostics.Debug.WriteLine("GET: " + this.Request.GetDisplayUrl());
@@ -309,7 +322,7 @@ namespace Hl7.Fhir.WebApi
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
             var includeParams = Request.TupledParameters(false).Where(i => i.Key == "_include");
 
-            var buri = this.CalculateBaseURI("{ResourceName}");
+            var buri = this.CalculateBaseURI("{ResourceName");
             parameters = parameters.Union(includeParams);
 
             IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
@@ -368,7 +381,7 @@ namespace Hl7.Fhir.WebApi
             IFhirResourceServiceSTU3 model = GetResourceModel(ResourceName, GetInputs(buri));
 
             // TODO: Locate the till parameter in the history
-            Bundle result = await model.TypeHistory(since, null, pagesize,  summary);
+            Bundle result = await model.TypeHistory(since, null, pagesize, summary);
             result.ResourceBase = new Uri(buri);
 
             // this.Request.SaveEntry(result);
@@ -440,6 +453,7 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="ResourceName"></param>
         /// <param name="bodyResource"></param>
         /// <returns></returns>
         /// <remarks>
@@ -549,15 +563,17 @@ namespace Hl7.Fhir.WebApi
                 }
             }
 
+            if (bodyResource.HasAnnotation<HttpStatusCode>())
+                returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+
             return returnMessage;
         }
 
         /// <summary>
         /// Support for Conditional Updates
-        /// eg. PUT fhir/Patient?identifier=http://temp|43&birthDate=1973-10
+        /// eg. PUT fhir/Patient?identifier=http://temp|43&amp;birthDate=1973-10
         /// </summary>
         /// <param name="ResourceName"></param>
-        /// <param name="id"></param>
         /// <param name="bodyResource"></param>
         /// <returns></returns>
         [HttpPut, Route("{ResourceName}")]
@@ -565,7 +581,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Debug.WriteLine("PUT: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
             if (String.IsNullOrEmpty(this.Request.RequestUri().Query))
             {
                 throw new FhirServerException(HttpStatusCode.BadRequest, "Conditional updates not supported without query parameters");
@@ -645,6 +661,9 @@ namespace Hl7.Fhir.WebApi
                     returnMessage.Value = null;
                 }
             }
+
+            if (bodyResource.HasAnnotation<HttpStatusCode>())
+                returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
 
             return returnMessage;
         }
@@ -732,6 +751,9 @@ namespace Hl7.Fhir.WebApi
                 }
             }
 
+            if (bodyResource.HasAnnotation<HttpStatusCode>())
+                returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+
             return returnMessage;
         }
 
@@ -741,7 +763,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Debug.WriteLine("DELETE: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
 
             var Inputs = GetInputs(buri);
 

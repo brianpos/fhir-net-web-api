@@ -1,19 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.NetCoreApi.STU3</AssemblyName>
-    <Company />
-    <Authors>Brian Postlethwaite and Contributors</Authors>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageId>Hl7.Fhir.NetCoreApi.STU3</PackageId>
+    <Version>0.96.0</Version>
+    <Title>HL7 Fhir WebApi AspNetCore Facade Layer</Title>
+    <Summary>AspNetCore based FHIR WebApi Facade layer</Summary>
+    <Description>This library Implements a FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>
+    <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
   </PropertyGroup>
 
+  <Import Project="..\platforms.props" />
+  <Import Project="..\fhir-net-web-api.props" />
+
+
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.Specification.STU3" Version="0.96.0" />
     <PackageReference Include="Hl7.Fhir.STU3" Version="0.96.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Buffering" Version="0.2.2" />
@@ -22,6 +24,9 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HL7.Fhir.NetCoreApi.STU3.Models\HL7.Fhir.NetCoreApi.STU3.Models.csproj" />
   </ItemGroup>
 
 </Project>

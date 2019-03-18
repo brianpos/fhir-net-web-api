@@ -19,7 +19,7 @@ namespace Hl7.Fhir.WebApi
         /// (Done as constructor with private setters so that when a new property 
         /// is added we don't miss places that need to populate it)
         /// </summary>
-        /// <param name="baseUri">The Base URI is the actual FHIR url used for this request, will end with /fhir/</param>
+        /// <param name="baseUri">The Base URI is the actual FHIR URL used for this request, will end with /fhir/</param>
         public SystemModelBaseInputs(
             Uri baseUri,
             System.Web.Http.Dependencies.IDependencyScope dependencyScope)
@@ -39,7 +39,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="clientCertificate"></param>
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
-        /// <param name="baseUri">The Base URI is the actual FHIR url used for this request, will end with /fhir/</param>
+        /// <param name="baseUri">The Base URI is the actual FHIR URL used for this request, will end with /fhir/</param>
         public ModelBaseInputs(
             IPrincipal user,
             X509Certificate2 clientCertificate,
@@ -67,7 +67,7 @@ namespace Hl7.Fhir.WebApi
         public X509Certificate2 ClientCertificate { get; private set; }
 
         /// <summary>
-        /// The Http method e.g. GET
+        /// The HTTP method e.g. GET
         /// </summary>
         public string HttpMethod { get; private set; }
 

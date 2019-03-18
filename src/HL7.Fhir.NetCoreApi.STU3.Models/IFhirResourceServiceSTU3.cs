@@ -37,7 +37,6 @@ namespace Hl7.Fhir.WebApi
         /// (otherwise set it to false - for when a new version of an existing resource is created)
         /// </summary>
         /// <remarks>The controller will validate if the PUT/POST has the correct values, and is also used in the batch operations</remarks>
-        /// <param name="request"></param>
         /// <param name="resource"></param>
         /// <param name="ifMatch"></param>
         /// <param name="ifNoneExist"></param>
@@ -48,7 +47,6 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Retrieve the resource with the provided resourceId/versionId
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="resourceId"></param>
         /// <param name="VersionId">If this parameter is null/empty, then the latest version of the resource should be retrieved</param>
         /// <param name="summary"></param>
@@ -58,7 +56,6 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Delete the provided Resource Id
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="id"></param>
         /// <param name="ifMatch"></param>
         /// <returns>Returns the ResourceIdentity of the resource (the deletion version)</returns>
@@ -67,7 +64,6 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Retrieve the history items across all instances of this resource type
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="since"></param>
         /// <param name="Till"></param>
         /// <param name="Count"></param>
@@ -78,7 +74,6 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Retrieve the history items for the specific resource Id
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="ResourceId"></param>
         /// <param name="since"></param>
         /// <param name="Till"></param>
@@ -90,7 +85,6 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Perform a search based on the provided search parameters
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="parameters"></param>
         /// <param name="Count"></param>
         /// <param name="summary"></param>
@@ -100,7 +94,6 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Perform a Resource Instance based Operation
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="id"></param>
         /// <param name="operation"></param>
         /// <param name="operationParameters"></param>
@@ -111,7 +104,6 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Perform a Resource Type based operation
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="operation"></param>
         /// <param name="operationParameters"></param>
         /// <param name="summary"></param>

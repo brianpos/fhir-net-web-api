@@ -103,9 +103,9 @@ namespace Hl7.Fhir.WebApi
         {
             byte[] data = null;
             if (target == ResourceFormat.Xml)
-                data = FhirSerializer.SerializeResourceToXmlBytes((OperationOutcome)outcome);
+                data = new FhirXmlSerializer().SerializeToBytes((OperationOutcome)outcome);
             else if (target == ResourceFormat.Json)
-                data = FhirSerializer.SerializeResourceToJsonBytes((OperationOutcome)outcome);
+                data = new FhirJsonSerializer().SerializeToBytes((OperationOutcome)outcome);
 
             HttpResponseMessage response = new HttpResponseMessage();
             //setResponseHeaders(response, target);

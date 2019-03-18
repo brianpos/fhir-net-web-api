@@ -13,35 +13,16 @@ using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
 using Hl7.Fhir.NetCoreApi.STU3;
-using Hl7.DemoFileSystemFhirServer;
 
 namespace Hl7.Fhir.NetCoreApi
 {
-    public class Startup
+    public static class FhirFacadeBuilder
     {
-        public Startup(IHostingEnvironment env)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-
-            _systemService = new DirectorySystemService();
-            DirectorySystemService.Directory = @"c:\temp\demoserver";
-            if (!System.IO.Directory.Exists(DirectorySystemService.Directory))
-                System.IO.Directory.CreateDirectory(DirectorySystemService.Directory);
-        }
-
         internal static IFhirSystemServiceSTU3 _systemService;
 
-        public IConfigurationRoot Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceSTU3 systemService, Action<MvcOptions> setupAction)
         {
-            // Add framework services.
+            NetCoreApi.FhirFacadeBuilder._systemService = systemService;
             services.AddMvc(options =>
             {
                 // remove the default formatters
@@ -62,17 +43,13 @@ namespace Hl7.Fhir.NetCoreApi
                 // (from the FHIR spec:  http://hl7.org/fhir/http.html#mime-type )
                 // https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters
                 options.Filters.Add(new FhirFormatParameterFilter());
-            });
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+                // permit the HTML to be generated for the browser
+                options.RespectBrowserAcceptHeader = true;
 
-            app.UseMvc();
-            app.UseResponseBuffering();
+                // give caller opportunity to modify the mvc options
+                setupAction(options);
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
     }
 }

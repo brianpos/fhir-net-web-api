@@ -67,7 +67,7 @@ namespace Hl7.Fhir.WebApi
             if (type == typeof(OperationOutcome))
             {
                 Resource resource = (Resource)value;
-                FhirSerializer.SerializeResource(resource, writer);
+                new FhirXmlSerializer().Serialize(resource, writer);
             }
             else if (typeof(Resource).IsAssignableFrom(type))
             {
@@ -77,7 +77,7 @@ namespace Hl7.Fhir.WebApi
                     SummaryType st = SummaryType.False;
                     if (r.HasAnnotation<SummaryType>())
                         st = r.Annotation<SummaryType>();
-                    FhirSerializer.SerializeResource(r, writer, st);
+                    new FhirXmlSerializer().Serialize(r, writer, st);
                 }
             }
 

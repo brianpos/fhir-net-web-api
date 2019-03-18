@@ -9,6 +9,12 @@ namespace Hl7.Fhir.NetCoreApi.STU3
 {
     public class FhirObjectResult : ObjectResult
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="resource">The resource that will be returned to the user (could be OperationOutcome due to prefer)</param>
+        /// <param name="result">The real result of the request (such as the updated Patient resource)</param>
         public FhirObjectResult(System.Net.HttpStatusCode status, Resource resource, Resource result)
             : base(resource)
         {

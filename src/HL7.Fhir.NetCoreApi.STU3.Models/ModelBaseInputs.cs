@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * Copyright (c) 2017+ brianpos, Furore and contributors
  * See the file CONTRIBUTORS for details.
  * 
@@ -19,11 +19,12 @@ namespace Hl7.Fhir.WebApi
         /// (Done as constructor with private setters so that when a new property 
         /// is added we don't miss places that need to populate it)
         /// </summary>
-        /// <param name="baseUri">The Base URI is the actual FHIR url used for this request, will end with /fhir/</param>
+        /// <param name="baseUri">The Base URI is the actual FHIR URL used for this request, will end with /fhir/</param>
+        /// <param name="serviceProvider"></param>
         public SystemModelBaseInputs(
             Uri baseUri,
             IServiceProvider serviceProvider)
-            : base(GetSystemPrincipal(), null, null, null, baseUri, serviceProvider)
+            : base(GetSystemPrincipal(), null, null, null, baseUri, null, serviceProvider)
         {
         }
     }
@@ -40,12 +41,15 @@ namespace Hl7.Fhir.WebApi
         /// <param name="httpMethod"></param>
         /// <param name="requestUri"></param>
         /// <param name="baseUri">The Base URI is the actual FHIR url used for this request, will end with /fhir/</param>
+        /// <param name="x_api_key"></param>
+        /// <param name="serviceProvider"></param>
         public ModelBaseInputs(
             IPrincipal user,
             X509Certificate2 clientCertificate,
             string httpMethod,
             Uri requestUri,
             Uri baseUri, 
+            string x_api_key,
             IServiceProvider serviceProvider)
         {
             this.User = user;
@@ -53,6 +57,7 @@ namespace Hl7.Fhir.WebApi
             this.HttpMethod = httpMethod;
             this.RequestUri = requestUri;
             this.BaseUri = baseUri;
+            this.X_Api_Key = x_api_key;
             this.ServiceProvider = serviceProvider;
         }
 
@@ -65,6 +70,11 @@ namespace Hl7.Fhir.WebApi
         /// The certificate used to connect with the API
         /// </summary>
         public X509Certificate2 ClientCertificate { get; private set; }
+
+        /// <summary>
+        /// The CorrelationId of the request
+        /// </summary>
+        public string X_CorelationId { get; set; }
 
         /// <summary>
         /// The Http method e.g. GET
@@ -89,6 +99,11 @@ namespace Hl7.Fhir.WebApi
         // If-None-Exist
         // If-Match
         // Prefer (return=minimal or return=representation)
+
+        /// <summary>
+        /// The x-api-key from the headers of the request
+        /// </summary>
+        public string X_Api_Key { get; private set; }
 
         /// <summary>
         /// Access to the Dependency Injector

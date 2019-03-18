@@ -33,7 +33,7 @@ namespace Hl7.DemoFileSystemFhirServer
             con.Description = new Markdown("Demonstration Directory based FHIR server (aspnetcore)");
             con.DateElement = new Hl7.Fhir.Model.FhirDateTime("2017-04-30");
             con.Version = "1.0.0.0";
-            con.Name = "";
+            con.Name = "demoCapStmt";
             con.Experimental = true;
             con.Status = PublicationStatus.Active;
             con.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;

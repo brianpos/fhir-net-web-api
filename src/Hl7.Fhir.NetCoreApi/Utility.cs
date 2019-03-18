@@ -65,9 +65,11 @@ namespace Hl7.Fhir.WebApi
             // Don't add a stack trace if this is an acceptable logical-level error
             if (!(exception is FhirServerException))
             {
-                var stackTrace = new OperationOutcome.IssueComponent();
-                stackTrace.Severity = OperationOutcome.IssueSeverity.Information;
-                stackTrace.Details = new CodeableConcept(null,null, exception.StackTrace);
+                var stackTrace = new OperationOutcome.IssueComponent()
+                {
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, exception.StackTrace)
+                };
                 baseResult.Issue.Add(stackTrace);
             }
 
@@ -93,9 +95,11 @@ namespace Hl7.Fhir.WebApi
         {
             if (outcome.Issue == null) outcome.Init();
 
-            var item = new OperationOutcome.IssueComponent();
-            item.Severity = severity;
-            item.Details = new CodeableConcept(null, null, message);
+            var item = new OperationOutcome.IssueComponent()
+            {
+                Severity = severity,
+                Details = new CodeableConcept(null, null, message)
+            };
             outcome.Issue.Add(item);
             return outcome;
         }
@@ -137,7 +141,7 @@ namespace Hl7.Fhir.WebApi
                 ri.Scheme,
                 ri.Host,
                 ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
-                me.Request.PathBase.Value.TrimEnd('/')+'/',
+                me.Request.PathBase.Value.TrimEnd('/') + '/',
                 me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Substring(0, me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.LastIndexOf(resourceName)));
             return baseUri;
         }

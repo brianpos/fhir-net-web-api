@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netcoreapp2.2</TargetFrameworks>
+    <AssemblyName>Hl7.Fhir.NetCoreApi.Models.STU3</AssemblyName>
+    <PackageId>Hl7.Fhir.NetCoreApi.Models.STU3</PackageId>
+    <Version>0.96.0</Version>
+    <Title>HL7 Fhir WebApi Interfaces</Title>
+    <Summary>Class interfaces for the FHIR WebApi Models</Summary>
+    <Description>This library contains the interface definitions that an implementation should use to create the storage layer for a FHIR server using the FHIR WebApi Facade</Description>
+    <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
+  </PropertyGroup>
+
+  <Import Project="..\platforms.props" />
+  <Import Project="..\fhir-net-web-api.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Hl7.Fhir.STU3" Version="0.96.0" />
+  </ItemGroup>
+
+</Project>

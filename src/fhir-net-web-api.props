@@ -1,0 +1,38 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <!-- Solution-wide properties for NuGet packaging -->
+  <PropertyGroup>
+    <Authors>Brian Postlethwaite (brian_pos@hotmail.com) and contributors</Authors>
+    <Company>Brian Postlethwaite and contributors</Company>
+    <Copyright>Copyright 2017+ Brian Postlethwaite and contributors  Contains materials (C) HL7 International</Copyright>
+    <PackageProjectUrl>https://github.com/brianpos/fhir-net-web-api</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/ewoutkramer/fhir-net-api/master/icon-fhir-32.png</PackageIconUrl>
+    <PackageReleaseNotes>See http://brianpos.github.io/fhir-net-web-api/whats-new.html</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <!-- Compiler settings -->
+  <PropertyGroup>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+     <DebugType>full</DebugType>
+     <DebugSymbols>True</DebugSymbols>
+     <NoWarn>1591</NoWarn>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\FhirNetApi.snk</AssemblyOriginatorKeyFile>
+    <IncludeSymbols>True</IncludeSymbols>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+      <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>
+

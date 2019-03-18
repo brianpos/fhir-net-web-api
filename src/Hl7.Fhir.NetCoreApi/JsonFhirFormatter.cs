@@ -129,7 +129,7 @@ namespace Hl7.Fhir.WebApi
                         OperationOutcome resource = (OperationOutcome)context.Object;
                         if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
                             st = resource.Annotation<SummaryType>();
-                        FhirSerializer.SerializeResource(resource, jsonwriter, st);
+                        new FhirJsonSerializer().Serialize(resource, jsonwriter, st);
                     }
                     else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
                     {
@@ -138,7 +138,7 @@ namespace Hl7.Fhir.WebApi
                             Resource r = context.Object as Resource;
                             if (r.HasAnnotation<SummaryType>())
                                 st = r.Annotation<SummaryType>();
-                            FhirSerializer.SerializeResource(r, jsonwriter, st);
+                            new FhirJsonSerializer().Serialize(r, jsonwriter, st);
                         }
                     }
                     return writer.FlushAsync();

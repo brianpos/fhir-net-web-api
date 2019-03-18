@@ -104,9 +104,9 @@ namespace Hl7.Fhir.WebApi
         {
             byte[] data = null;
             if (target == ResourceFormat.Xml)
-                data = FhirSerializer.SerializeResourceToXmlBytes((OperationOutcome)outcome);
+                data = new FhirXmlSerializer().SerializeToBytes((OperationOutcome)outcome);
             else if (target == ResourceFormat.Json)
-                data = FhirSerializer.SerializeResourceToJsonBytes((OperationOutcome)outcome);
+                data = new FhirJsonSerializer().SerializeToBytes((OperationOutcome)outcome);
 
             HttpResponseMessage response = new HttpResponseMessage();
             //setResponseHeaders(response, target);
@@ -131,8 +131,8 @@ namespace Hl7.Fhir.WebApi
                     me.Request.PathBase.Value.TrimEnd('/') + '/',
                     me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Replace("/metadata", "").Replace("/${operation}", ""));
             }
-            if (me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Contains("{ResourceName}"))
-                resourceName = "{ResourceName}";
+            if (me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Contains("{ResourceName"))
+                resourceName = "{ResourceName";
             string baseUri = String.Format("{0}://{1}{2}{3}{4}",
                 ri.Scheme,
                 ri.Host,

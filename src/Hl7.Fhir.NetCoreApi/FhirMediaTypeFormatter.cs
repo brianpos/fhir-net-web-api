@@ -72,6 +72,9 @@ namespace Hl7.Fhir.WebApi
                 return true;
             if (typeof(Resource).IsAssignableFrom(type))
                 return true;
+            // The null case here is to support the deleted FhirObjectResult
+            if (type == null)
+                return true;
             return false;
         }
 

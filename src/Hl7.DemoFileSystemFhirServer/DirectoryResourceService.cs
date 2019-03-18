@@ -4,16 +4,19 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.WebApi;
 using Hl7.Fhir.Utility;
+using System.Threading.Tasks;
+using System.Web.Http.Dependencies;
+using System.Linq;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
-    public class DirectoryResourceService : Hl7.Fhir.WebApi.IFhirResourceServiceSTU3
+    public class DirectoryResourceService : Hl7.Fhir.WebApi.IFhirResourceServiceSTU3<IDependencyScope>
     {
-        public ModelBaseInputs RequestDetails { get; set; }
+        public ModelBaseInputs<IDependencyScope> RequestDetails { get; set; }
 
         public string ResourceName { get; set; }
 
-        public Resource Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
+        public Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
             if (String.IsNullOrEmpty(resource.Id))
                 resource.Id = Guid.NewGuid().ToFhirId();
@@ -25,46 +28,58 @@ namespace Hl7.DemoFileSystemFhirServer
                 path,
                 new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
             resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
-            return resource;
+            return System.Threading.Tasks.Task.FromResult(resource);
         }
 
-        public string Delete(string id, string ifMatch)
+        public Task<string> Delete(string id, string ifMatch)
         {
             string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{this.ResourceName}.{id}..xml");
             if (System.IO.File.Exists(path))
                 System.IO.File.Delete(path);
-            return null;
+            return System.Threading.Tasks.Task.FromResult<string>(null);
         }
 
-        public Resource Get(string resourceId, string VersionId, SummaryType summary)
+        public Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
         {
             string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
             if (System.IO.File.Exists(path))
-                return new Fhir.Serialization.FhirXmlParser().Parse<Resource>(System.IO.File.ReadAllText(path));
-            return null;
+                return System.Threading.Tasks.Task.FromResult(new Fhir.Serialization.FhirXmlParser().Parse<Resource>(System.IO.File.ReadAllText(path)));
+            return System.Threading.Tasks.Task.FromResult<Resource>(null);
         }
 
-        public CapabilityStatement.ResourceComponent GetRestResourceComponent()
+        public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
         {
             throw new NotImplementedException();
         }
 
-        public Bundle InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public Task<Bundle> InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             throw new NotImplementedException();
         }
 
-        public Resource PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
+        public Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
+        {
+            if (operation == "count-em")
+            {
+                var result = new OperationOutcome();
+                result.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, $"{ResourceName} resource instances: {System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"{ResourceName}.*.xml").Count()}")
+                });
+                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
         {
             throw new NotImplementedException();
         }
 
-        public Resource PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Bundle Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
+        public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
         {
             throw new NotImplementedException();
             //Bundle result = new Bundle();
@@ -78,7 +93,7 @@ namespace Hl7.DemoFileSystemFhirServer
             // result.ProcessLastModifiedFromEntriesAndLinks(Request.RequestUri, pagesize, pagenumber, snapshotID);
         }
 
-        public Bundle TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta()
@@ -103,7 +118,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
             // also need to set the page links
 
-            return result;
+            return System.Threading.Tasks.Task.FromResult(result);
         }
     }
 }

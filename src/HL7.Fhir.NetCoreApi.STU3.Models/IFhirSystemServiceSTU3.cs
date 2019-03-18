@@ -18,14 +18,15 @@ namespace Hl7.Fhir.WebApi
     /// <summary>
     /// Implementations of this interface cover the system scope of the FHIR Server
     /// </summary>
-    public interface IFhirSystemServiceSTU3
+    /// <typeparam name="TSP">The Dependency Injector class - IServiceProvider for aspnetcore and IDependencyResolver for webapi</typeparam>
+    public interface IFhirSystemServiceSTU3<TSP>
     {
         /// <summary>
         /// Retrieve the CapabilityStatement resource applicable for this server
         /// (was Conformance in DSTU2)
         /// </summary>
         /// <returns></returns>
-        Task<CapabilityStatement> GetConformance(ModelBaseInputs request, Rest.SummaryType summary);
+        Task<CapabilityStatement> GetConformance(ModelBaseInputs<TSP> request, Rest.SummaryType summary);
 
         /// <summary>
         /// Retrieve a ResourceService processor for the provided resource type
@@ -33,7 +34,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="request"></param>
         /// <param name="resourceName"></param>
         /// <returns></returns>
-        IFhirResourceServiceSTU3 GetResourceService(ModelBaseInputs request, string resourceName);
+        IFhirResourceServiceSTU3<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName);
 
         /// <summary>
         /// Process the bundle passed in (could be a batch or a transaction)
@@ -41,7 +42,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="request"></param>
         /// <param name="bundle"></param>
         /// <returns>the matching bundle with the results of the request</returns>
-        Task<Bundle> ProcessBatch(ModelBaseInputs request, Bundle bundle);
+        Task<Bundle> ProcessBatch(ModelBaseInputs<TSP> request, Bundle bundle);
 
         /// <summary>
         /// Retrieve the system history for the request
@@ -52,7 +53,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="Count"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Task<Bundle> SystemHistory(ModelBaseInputs request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, Rest.SummaryType summary);
+        Task<Bundle> SystemHistory(ModelBaseInputs<TSP> request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, Rest.SummaryType summary);
 
         /// <summary>
         /// Perform the FHIR operation on the whole system (not a resource type/instance specific operation)
@@ -62,7 +63,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="operationParameters"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Task<Resource> PerformOperation(ModelBaseInputs request, string operation, Parameters operationParameters, Rest.SummaryType summary);
+        Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, Rest.SummaryType summary);
 
         /// <summary>
         /// Search the entire server (not a resource type/instance specific operation)
@@ -72,6 +73,6 @@ namespace Hl7.Fhir.WebApi
         /// <param name="Count"></param>
         /// <param name="summary"></param>
         /// <returns></returns>
-        Task<Bundle> Search(ModelBaseInputs request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary);
+        Task<Bundle> Search(ModelBaseInputs<TSP> request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary);
     }
 }

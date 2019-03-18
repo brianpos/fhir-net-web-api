@@ -16,14 +16,15 @@ namespace Hl7.Fhir.WebApi
     /// <summary>
     /// Implementations of this interface may cover only a specific resource type
     /// </summary>
-    public interface IFhirResourceServiceSTU3
+    /// <typeparam name="TSP">The Dependency Injector class - IServiceProvider for aspnetcore and IDependencyResolver for webapi</typeparam>
+    public interface IFhirResourceServiceSTU3<TSP>
     {
         /// <summary>
         /// Implementations of this interface process this resource name
         /// </summary>
         string ResourceName { get; }
 
-        ModelBaseInputs RequestDetails { get; }
+        ModelBaseInputs<TSP> RequestDetails { get; }
 
         /// <summary>
         /// generate the rest resource component for this specific resource type

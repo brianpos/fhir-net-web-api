@@ -12,7 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Hl7.Fhir.WebApi
 {
-    public class SystemModelBaseInputs : ModelBaseInputs
+    public class SystemModelBaseInputs<TSP> : ModelBaseInputs<TSP>
     {
         /// <summary>
         /// Constructor to create the Model inputs and set all the properties
@@ -23,13 +23,13 @@ namespace Hl7.Fhir.WebApi
         /// <param name="serviceProvider"></param>
         public SystemModelBaseInputs(
             Uri baseUri,
-            IServiceProvider serviceProvider)
+            TSP serviceProvider)
             : base(GetSystemPrincipal(), null, null, null, baseUri, null, serviceProvider)
         {
         }
     }
 
-    public class ModelBaseInputs
+    public class ModelBaseInputs<TSP>
     {
         /// <summary>
         /// Constructor to create the Model inputs and set all the properties
@@ -50,7 +50,7 @@ namespace Hl7.Fhir.WebApi
             Uri requestUri,
             Uri baseUri, 
             string x_api_key,
-            IServiceProvider serviceProvider)
+            TSP serviceProvider)
         {
             this.User = user;
             this.ClientCertificate = clientCertificate;
@@ -108,7 +108,7 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// Access to the Dependency Injector
         /// </summary>
-        public IServiceProvider ServiceProvider { get; private set; }
+        public TSP ServiceProvider { get; private set; }
 
         private static IPrincipal _systemPrincipal;
         /// <summary>

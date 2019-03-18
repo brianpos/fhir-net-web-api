@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Http.Dependencies;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.WebApi;
+using System.Linq;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system
     /// </summary>
-    public class DirectorySystemService : Hl7.Fhir.WebApi.IFhirSystemServiceSTU3
+    public class DirectorySystemService : Hl7.Fhir.WebApi.IFhirSystemServiceSTU3<IDependencyScope>
     {
         public DirectorySystemService()
         {
@@ -25,7 +27,7 @@ namespace Hl7.DemoFileSystemFhirServer
         {
         }
 
-        public CapabilityStatement GetConformance(ModelBaseInputs request, SummaryType summary)
+        public System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<IDependencyScope> request, SummaryType summary)
         {
             Hl7.Fhir.Model.CapabilityStatement con = new Hl7.Fhir.Model.CapabilityStatement();
             con.Url = request.BaseUri + "metadata";
@@ -57,30 +59,42 @@ namespace Hl7.DemoFileSystemFhirServer
             //    con.Rest[0].Resource.Add(model.GetRestResourceComponent());
             //}
 
-            return con;
+            return System.Threading.Tasks.Task.FromResult(con);
         }
 
-        public IFhirResourceServiceSTU3 GetResourceService(ModelBaseInputs request, string resourceName)
+        public IFhirResourceServiceSTU3<IDependencyScope> GetResourceService(ModelBaseInputs<IDependencyScope> request, string resourceName)
         {
             return new DirectoryResourceService() { RequestDetails = request, ResourceName = resourceName };
         }
 
-        public Resource PerformOperation(ModelBaseInputs request, string operation, Parameters operationParameters, SummaryType summary)
+        public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<IDependencyScope> request, string operation, Parameters operationParameters, SummaryType summary)
+        {
+            if (operation == "count-em")
+            {
+                var result = new OperationOutcome();
+                result.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, $"All resource type instances: {System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"*.xml").Count()}")
+                });
+                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public System.Threading.Tasks.Task<Bundle> ProcessBatch(ModelBaseInputs<IDependencyScope> request, Bundle bundle)
         {
             throw new NotImplementedException();
         }
 
-        public Bundle ProcessBatch(ModelBaseInputs request, Bundle bundle)
+        public System.Threading.Tasks.Task<Bundle> Search(ModelBaseInputs<IDependencyScope> request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
         {
             throw new NotImplementedException();
         }
 
-        public Bundle Search(ModelBaseInputs request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Bundle SystemHistory(ModelBaseInputs request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public System.Threading.Tasks.Task<Bundle> SystemHistory(ModelBaseInputs<IDependencyScope> request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta();
@@ -103,7 +117,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
             // also need to set the page links
 
-            return result;
+            return System.Threading.Tasks.Task.FromResult(result);
         }
     }
 }

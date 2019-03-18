@@ -205,5 +205,24 @@ namespace UnitTestWebApi
             Assert.IsTrue(resultOrgs.Total.Value < result.Total.Value, "Should be less orgs than the whole system entry count");
         }
 
+        [TestMethod]
+        public void PerformCustomOperationCountResourceTypeInstances()
+        {
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            var result = clientFhir.TypeOperation<Patient>("count-em", null, true) as OperationOutcome;
+            Assert.IsNotNull(result, "Should be a capability statement returned");
+            Assert.AreEqual(1, result.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
+            Console.WriteLine($"{result.Issue[0].Details.Text}");
+        }
+
+        [TestMethod]
+        public void PerformCustomOperationCountAllResourceInstances()
+        {
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            var result = clientFhir.WholeSystemOperation("count-em") as OperationOutcome;
+            Assert.IsNotNull(result, "Should be a capability statement returned");
+            Assert.AreEqual(1, result.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
+            Console.WriteLine($"{result.Issue[0].Details.Text}");
+        }
     }
 }

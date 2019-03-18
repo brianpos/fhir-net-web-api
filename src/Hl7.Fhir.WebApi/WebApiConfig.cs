@@ -10,15 +10,16 @@ using Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin;
 using System.Net.Http.Extensions.Compression.Core.Compressors;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Validation;
 
 namespace Hl7.Fhir.WebApi
 {
 	public static class WebApiConfig
 	{
-        internal static IFhirSystemServiceSTU3 _systemService;
+        internal static IFhirSystemServiceSTU3<IDependencyScope> _systemService;
 
-		public static void Register(HttpConfiguration config, IFhirSystemServiceSTU3 systemService)
+		public static void Register(HttpConfiguration config, IFhirSystemServiceSTU3<IDependencyScope> systemService)
 		{
             _systemService = systemService;
 

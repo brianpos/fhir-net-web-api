@@ -23,7 +23,7 @@ namespace Hl7.DemoFileSystemFhirServer
             string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{resource.TypeName}.{resource.Id}.{resource.Meta.VersionId}.xml");
             System.IO.File.WriteAllText(
                 path,
-                Hl7.Fhir.Serialization.FhirSerializer.SerializeResourceToXml(resource));
+                new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
             resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
             return resource;
         }

@@ -14,9 +14,10 @@ This library provides:
 * An interface for the Resource Service
 * A partial example implementation of a fhir server CRUD that just writes files to C:\Temp\demoserver
 * A unit test project that utilizes the FhirClient NuGet packages to test the example Service
+* Support for both Owin (.NET 4.7+) and AspNetCore
 
-> There is now also a new implementation of this assembly (very much in progress) ported to aspnet core, which should run on non Windows platforms too!
-> And we're looking for people with experience on this platform to contribute, as this is my first aspnet core port/project
+> **Note:** Project currently uses the 0.96.0 version of the FHIR NET API assemblies - due to some 
+> compatibility issues with the new parsers.
 
 The library depends on several NuGet packages (notably):
 
@@ -27,12 +28,13 @@ The library depends on several NuGet packages (notably):
 * *Owin*
 
 **IMPORTANT**
-Once things settle in, the HL7.Fhir.WebApi.STU3 project may be created into a NuGet package.
+Once things settle in, the HL7.Fhir.WebApi.STU3 project will be created into a NuGet package.
 Before installing one of the NuGet packages (or clone the repo) it is important to understand that HL7 has published several updates of the FHIR specification,
 each with breaking changes - so you need to ensure you use the version that is right for you:
 
-* [STU3][stu3-spec] (published March 2017) latest release, support in alpha by this library.
-* [DSTU2][dstu2-spec] (published October 2015) in widespread use, and is not supported by this library.
+* [R4][r4-spec] (published December 2019) latest release, no current support in this library.
+* [STU3][stu3-spec] (published March 2017) increasing use, support in alpha by this library.
+* [DSTU2][dstu2-spec] (published October 2015) in widespread use, not planning to supported by this library.
 
 ## Getting Started ##
 
@@ -40,10 +42,7 @@ To create your own server, copy the Hl7.DemoFileSystemFhirServer example project
 DirectorySystemService and DirectoryResourceService classes.
 Depending on your implementation needs, you may have one or more Resource classes.
 
-|Spec version|Git branche|Core NuGet|Specification NuGet|
-|---|---|---|---|
-|STU3|https://github.com/ewoutkramer/fhir-net-api/tree/develop-stu3|https://www.nuget.org/packages/Hl7.Fhir.STU3/|https://www.nuget.org/packages/Hl7.Fhir.Specification.STU3/|
-|DSTU2| https://github.com/ewoutkramer/fhir-net-api/tree/develop|https://www.nuget.org/packages/Hl7.Fhir.DSTU2/ | https://www.nuget.org/packages/Hl7.Fhir.Specification.DSTU2/ |
+(Choose either the Owin if you have a .net 4.7+ project, or the aspnetcore project if using netcore)
 
 ## Support ##
 
@@ -56,14 +55,15 @@ We are welcoming contributors!
 
 If you want to participate in this project, we're using [Git Flow][nvie] for our branch management, so please submit your commits using pull requests no on the develop branches mentioned above!
 
-[netapi-docu]: http://ewoutkramer.github.io/fhir-net-api/docu-index.html
-[netapi-zulip]: https://chat.fhir.org/#narrow/stream/dotnet
-[fhir-spec]: http://www.hl7.org/fhir
-[dstu2-spec]: http://hl7.org/fhir/DSTU2/index.html
-[stu3-spec]: http://www.hl7.org/fhir
-[fhirpath-spec]: http://hl7.org/fhirpath/
-
 ### GIT branching strategy ###
 
 - [NVIE](http://nvie.com/posts/a-successful-git-branching-model/)
 - Or see: [Git workflow](https://www.atlassian.com/git/workflows#!workflow-gitflow)
+
+[netapi-docu]: http://ewoutkramer.github.io/fhir-net-api/docu-index.html
+[netapi-zulip]: https://chat.fhir.org/#narrow/stream/dotnet
+[fhir-spec]: http://www.hl7.org/fhir
+[r4-spec]: http://www.hl7.org/fhir/r4
+[stu3-spec]: http://www.hl7.org/fhir/stu3
+[dstu2-spec]: http://www.hl7.org/fhir/dstu2
+[fhirpath-spec]: http://hl7.org/fhirpath/

@@ -42,6 +42,7 @@ namespace Hl7.Fhir.WebApi
                 Request.RequestUri,
                 baseUrl,
                 Request.Header("x-api-key"),
+                Request.Headers,
                 Request.GetDependencyScope());
 
             if (Request.Headers.Contains("X-Correlation-Id"))

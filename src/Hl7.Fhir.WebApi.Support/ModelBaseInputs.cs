@@ -9,6 +9,7 @@
 using System;
 using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -24,7 +25,7 @@ namespace Hl7.Fhir.WebApi
         public SystemModelBaseInputs(
             Uri baseUri,
             TSP serviceProvider)
-            : base(GetSystemPrincipal(), null, null, null, baseUri, null, serviceProvider)
+            : base(GetSystemPrincipal(), null, null, null, baseUri, null, null, serviceProvider)
         {
         }
     }
@@ -42,6 +43,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="requestUri"></param>
         /// <param name="baseUri">The Base URI is the actual FHIR url used for this request, will end with /fhir/</param>
         /// <param name="x_api_key"></param>
+        /// <param name="headers"></param>
         /// <param name="serviceProvider"></param>
         public ModelBaseInputs(
             IPrincipal user,
@@ -50,6 +52,7 @@ namespace Hl7.Fhir.WebApi
             Uri requestUri,
             Uri baseUri, 
             string x_api_key,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers,
             TSP serviceProvider)
         {
             this.User = user;
@@ -58,6 +61,7 @@ namespace Hl7.Fhir.WebApi
             this.RequestUri = requestUri;
             this.BaseUri = baseUri;
             this.X_Api_Key = x_api_key;
+            this.Headers = headers;
             this.ServiceProvider = serviceProvider;
         }
 
@@ -104,6 +108,8 @@ namespace Hl7.Fhir.WebApi
         /// The x-api-key from the headers of the request
         /// </summary>
         public string X_Api_Key { get; private set; }
+
+        public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; private set; }
 
         /// <summary>
         /// Access to the Dependency Injector

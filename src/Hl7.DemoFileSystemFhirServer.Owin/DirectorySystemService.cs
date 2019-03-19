@@ -78,6 +78,16 @@ namespace Hl7.DemoFileSystemFhirServer
                     Severity = OperationOutcome.IssueSeverity.Information,
                     Details = new CodeableConcept(null, null, $"All resource type instances: {System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"*.xml").Count()}")
                 });
+                if (request.Headers.Any())
+                {
+                    string headers = String.Join("\r\n", request.Headers.Select(h => $"{h.Key}: {String.Join(",", h.Value)}"));
+                    result.Issue.Add(new OperationOutcome.IssueComponent()
+                    {
+                        Code = OperationOutcome.IssueType.Informational,
+                        Severity = OperationOutcome.IssueSeverity.Information,
+                        Details = new CodeableConcept(null, null, headers)
+                    });
+                }
                 return System.Threading.Tasks.Task.FromResult<Resource>(result);
             }
 

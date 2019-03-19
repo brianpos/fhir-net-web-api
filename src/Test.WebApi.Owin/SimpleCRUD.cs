@@ -210,6 +210,8 @@ namespace UnitTestWebApi
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.TypeOperation<Patient>("count-em", null, true) as OperationOutcome;
+            string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
+            System.Diagnostics.Trace.WriteLine(xml);
             Assert.IsNotNull(result, "Should be a capability statement returned");
             Assert.AreEqual(1, result.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
             Console.WriteLine($"{result.Issue[0].Details.Text}");
@@ -219,10 +221,18 @@ namespace UnitTestWebApi
         public void PerformCustomOperationCountAllResourceInstances()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
             var result = clientFhir.WholeSystemOperation("count-em") as OperationOutcome;
+            string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
+            System.Diagnostics.Trace.WriteLine(xml);
             Assert.IsNotNull(result, "Should be a capability statement returned");
-            Assert.AreEqual(1, result.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
+            Assert.AreEqual(2, result.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
             Console.WriteLine($"{result.Issue[0].Details.Text}");
+            Assert.IsTrue(result.Issue[1].Details.Text.Contains("x-test: Cleaner"), "Missing the custom header added to the request");
+        }
+        private void ClientFhir_OnBeforeRequest(object sender, BeforeRequestEventArgs e)
+        {
+            e.RawRequest.Headers.Add("x-test", "Cleaner");
         }
     }
 }

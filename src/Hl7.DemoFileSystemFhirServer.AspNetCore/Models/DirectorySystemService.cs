@@ -36,10 +36,10 @@ namespace Hl7.DemoFileSystemFhirServer
             con.Name = "demoCapStmt";
             con.Experimental = true;
             con.Status = PublicationStatus.Active;
-            con.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version;
-            con.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
+            con.FhirVersion = FHIRVersion.N4_0_0;
+            // con.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
             con.Format = new string[] { "xml", "json" };
-            con.Kind = CapabilityStatement.CapabilityStatementKind.Instance;
+            con.Kind = CapabilityStatementKind.Instance;
             con.Meta = new Meta();
             con.Meta.LastUpdatedElement = Instant.Now();
 

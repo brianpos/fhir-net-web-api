@@ -56,7 +56,7 @@ namespace Hl7.Fhir.WebApi
             string contentType = xContentHeader.FirstOrDefault();
 
             Binary binary = new Binary();
-            binary.Content = stream.ToArray();
+            binary.Data = stream.ToArray();
             binary.ContentType = contentType;
 
             return System.Threading.Tasks.Task.FromResult<object>(binary);
@@ -85,7 +85,7 @@ namespace Hl7.Fhir.WebApi
                     GetFileExtensionForMimeType(binary.ContentType))
                 };
 
-                var stream = new MemoryStream(binary.Content);
+                var stream = new MemoryStream(binary.Data);
                 stream.CopyTo(writeStream);
                 stream.Flush();
             }

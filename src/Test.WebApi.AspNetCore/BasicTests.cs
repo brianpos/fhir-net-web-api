@@ -257,7 +257,7 @@ namespace UnitTestWebApi
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
-            var result = clientFhir.WholeSystemOperation("count-em") as OperationOutcome;
+            var result = clientFhir.WholeSystemOperation("count-em", null, true) as OperationOutcome;
             Assert.IsNotNull(result, "Should be a capability statement returned");
             string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
             System.Diagnostics.Trace.WriteLine(xml);

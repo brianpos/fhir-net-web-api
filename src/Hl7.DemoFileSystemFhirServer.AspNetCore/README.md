@@ -17,8 +17,8 @@ Existing features:
 Technically the utility is:
 * built on the Microsoft .NET (dotnetcore) platform
 * uses the HL7 FHIR reference assemblies
-  * *Core* (NuGet packages starting with `Hl7.Fhir.STU3`) - contains the FhirClient and parsers
-  * *Specification* (NuGet packages starting with `Hl7.Fhir.Specification.STU3`) - contains the FHIR Validator
+  * *Core* (NuGet packages starting with `Hl7.Fhir.R3`) - contains the FhirClient and parsers
+  * *Specification* (NuGet packages starting with `Hl7.Fhir.Specification.R3`) - contains the FHIR Validator
   * *FhirPath* (NuGet package `Hl7.FhirPath`) - the FhirPath evaluator, used by the Core and Specification assemblies
   * *Support* (NuGet package `Hl7.Fhir.Support`) - a library with interfaces, abstractions and utility methods that are used by the other packages
 

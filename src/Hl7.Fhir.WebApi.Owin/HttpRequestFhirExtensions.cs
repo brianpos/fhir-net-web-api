@@ -49,7 +49,7 @@ namespace Hl7.Fhir.WebApi
 
         public static void SaveBody(this HttpRequestMessage request, string contentType, byte[] data)
         {
-            Binary b = new Binary { Content = data, ContentType = contentType };
+            Binary b = new Binary { Data = data, ContentType = contentType };
 
             request.Properties.Add(Const.UNPARSED_BODY, b);
         }

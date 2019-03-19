@@ -44,7 +44,7 @@ namespace Hl7.Fhir.WebApi
             string contentType = xContentHeader.FirstOrDefault();
 
             Binary binary = new Binary();
-            binary.Content = stream.ToArray();
+            binary.Data = stream.ToArray();
             binary.ContentType = contentType;
 
             return InputFormatterResult.Success(binary);
@@ -96,7 +96,7 @@ namespace Hl7.Fhir.WebApi
             {
                 Binary binary = (Binary)context.Object;
 
-                var stream = new MemoryStream(binary.Content);
+                var stream = new MemoryStream(binary.Data);
                 stream.CopyTo(context.HttpContext.Response.Body);
                 stream.FlushAsync();
             }

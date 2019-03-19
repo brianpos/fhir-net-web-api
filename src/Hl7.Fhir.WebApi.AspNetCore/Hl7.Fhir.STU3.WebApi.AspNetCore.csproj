@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
-    <AssemblyName>Hl7.Fhir.STU3.WebApi.AspNetCore</AssemblyName>
-    <PackageId>Hl7.Fhir.STU3.WebApi.AspNetCore</PackageId>
-    <Version>0.96.0</Version>
+    <AssemblyName>Hl7.Fhir.R4.WebApi.AspNetCore</AssemblyName>
+    <PackageId>Hl7.Fhir.R4.WebApi.AspNetCore</PackageId>
+    <Version>1.2.0-alpha1</Version>
     <Title>HL7 Fhir WebApi (AspNetCore) Facade Layer</Title>
     <Summary>AspNetCore based FHIR WebApi Facade layer</Summary>
     <Description>This library Implements a FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
-    <Product>Hl7.Fhir.STU3.WebApi.AspNetCore</Product>
+    <Product>Hl7.Fhir.R4.WebApi.AspNetCore</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
   </PropertyGroup>
 
@@ -18,7 +18,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.STU3" Version="0.96.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="1.2.0-beta2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Buffering" Version="0.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />

@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>net45;netcoreapp2.2</TargetFrameworks>
-    <AssemblyName>Hl7.Fhir.STU3.WebApi.Support</AssemblyName>
-    <PackageId>Hl7.Fhir.STU3.WebApi.Support</PackageId>
-    <Version>0.96.0</Version>
+    <AssemblyName>Hl7.Fhir.R4.WebApi.Support</AssemblyName>
+    <PackageId>Hl7.Fhir.R4.WebApi.Support</PackageId>
+    <Version>1.2.0-alpha1</Version>
     <Title>HL7 Fhir WebApi Interfaces</Title>
     <Summary>Class interfaces for the FHIR WebApi Models</Summary>
     <Description>This library contains the interface definitions that an implementation should use to create the storage layer for a FHIR server using the FHIR WebApi Facade</Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
-    <Product>Hl7.Fhir.STU3.WebApi.Support</Product>
+    <Product>Hl7.Fhir.R4.WebApi.Support</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
   </PropertyGroup>
 
@@ -17,7 +17,7 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.STU3" Version="0.96.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="1.2.0-beta2" />
   </ItemGroup>
 
 </Project>

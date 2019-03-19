@@ -1,5 +1,5 @@
 
-|STU3|
+|R4|
 |---|
 
 ## Introduction ##
@@ -9,7 +9,7 @@ It even supports data compression handling out of the box
 
 This library provides:
 
-* An implementation of an ApiController for the STU3 FHIR specification
+* An implementation of an ApiController for the R4 FHIR specification
 * An interface for the System Service
 * An interface for the Resource Service
 * A partial example implementation of a fhir server CRUD that just writes files to C:\Temp\demoserver
@@ -32,7 +32,7 @@ Once things settle in, the HL7.Fhir.WebApi.STU3 project will be created into a N
 Before installing one of the NuGet packages (or clone the repo) it is important to understand that HL7 has published several updates of the FHIR specification,
 each with breaking changes - so you need to ensure you use the version that is right for you:
 
-* [R4][r4-spec] (published December 2019) latest release, no current support in this library.
+* [R4][r4-spec] (published December 2019) latest release, support in alpha this library.
 * [STU3][stu3-spec] (published March 2017) increasing use, support in alpha by this library.
 * [DSTU2][dstu2-spec] (published October 2015) in widespread use, not planning to supported by this library.
 

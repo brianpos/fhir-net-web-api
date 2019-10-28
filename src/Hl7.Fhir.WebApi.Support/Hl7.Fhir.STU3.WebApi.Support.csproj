@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>net45;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.Support</AssemblyName>
     <PackageId>Hl7.Fhir.R4.WebApi.Support</PackageId>
     <Version>1.2.0-alpha1</Version>

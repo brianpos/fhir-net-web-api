@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
-    public class DirectoryResourceService : Hl7.Fhir.WebApi.IFhirResourceServiceSTU3<IServiceProvider>
+    public class DirectoryResourceService : Hl7.Fhir.WebApi.IFhirResourceServiceR4<IServiceProvider>
     {
         public ModelBaseInputs<IServiceProvider> RequestDetails { get; set; }
 

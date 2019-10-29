@@ -28,7 +28,7 @@ The library depends on several NuGet packages (notably):
 * *Owin*
 
 **IMPORTANT**
-Once things settle in, the HL7.Fhir.WebApi.STU3 project will be created into a NuGet package.
+Once things settle in, the HL7.Fhir.WebApi.R4 project will be created into a NuGet package.
 Before installing one of the NuGet packages (or clone the repo) it is important to understand that HL7 has published several updates of the FHIR specification,
 each with breaking changes - so you need to ensure you use the version that is right for you:
 

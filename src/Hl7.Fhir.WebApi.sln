@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5CE27248-3050-4DA7-967A-A8CD757BBAF5}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,11 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.WebApi.Owin", "Test.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.DemoFileSystemFhirServer.Owin", "Hl7.DemoFileSystemFhirServer.Owin\Hl7.DemoFileSystemFhirServer.Owin.csproj", "{79E3D0DC-BFDF-451E-89DE-52AF77F2F416}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.STU3.WebApi.AspNetCore", "Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.STU3.WebApi.AspNetCore.csproj", "{7825ADC5-51C5-403A-B5D2-FF1E5B69AA77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.AspNetCore", "Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R4.WebApi.AspNetCore.csproj", "{7825ADC5-51C5-403A-B5D2-FF1E5B69AA77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.STU3.WebApi.Owin", "Hl7.Fhir.WebApi.Owin\Hl7.Fhir.STU3.WebApi.Owin.csproj", "{F219EEF4-570C-4DFE-9EE4-D11D5D093D5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.R4.WebApi.Owin", "Hl7.Fhir.WebApi.Owin\Hl7.Fhir.R4.WebApi.Owin.csproj", "{F219EEF4-570C-4DFE-9EE4-D11D5D093D5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.STU3.WebApi.Support", "Hl7.Fhir.WebApi.Support\Hl7.Fhir.STU3.WebApi.Support.csproj", "{1752B9AD-8F42-4A19-88A5-BD1F68C98228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Support", "Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj", "{1752B9AD-8F42-4A19-88A5-BD1F68C98228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

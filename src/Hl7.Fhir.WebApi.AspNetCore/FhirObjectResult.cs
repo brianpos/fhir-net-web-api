@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hl7.Fhir.NetCoreApi.STU3
+namespace Hl7.Fhir.NetCoreApi.R4
 {
     public class FhirObjectResult : ObjectResult
     {

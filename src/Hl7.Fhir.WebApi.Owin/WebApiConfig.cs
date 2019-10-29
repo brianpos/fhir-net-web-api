@@ -17,9 +17,9 @@ namespace Hl7.Fhir.WebApi
 {
 	public static class WebApiConfig
 	{
-        internal static IFhirSystemServiceSTU3<IDependencyScope> _systemService;
+        internal static IFhirSystemServiceR4<IDependencyScope> _systemService;
 
-		public static void Register(HttpConfiguration config, IFhirSystemServiceSTU3<IDependencyScope> systemService)
+		public static void Register(HttpConfiguration config, IFhirSystemServiceR4<IDependencyScope> systemService)
 		{
             _systemService = systemService;
 

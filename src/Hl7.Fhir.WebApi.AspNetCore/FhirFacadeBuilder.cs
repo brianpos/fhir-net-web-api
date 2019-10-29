@@ -12,13 +12,13 @@ using Microsoft.AspNetCore.Mvc.Formatters.Internal;
 using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
-using Hl7.Fhir.NetCoreApi.STU3;
+using Hl7.Fhir.NetCoreApi.R4;
 
 namespace Hl7.Fhir.NetCoreApi
 {
     public static class FhirFacadeBuilder
     {
-        internal static IFhirSystemServiceSTU3<IServiceProvider> _systemService;
+        internal static IFhirSystemServiceR4<IServiceProvider> _systemService;
 
         /// <summary>
         /// Add the facade for the FHIR server using the provided System service model
@@ -26,7 +26,7 @@ namespace Hl7.Fhir.NetCoreApi
         /// <param name="services"></param>
         /// <param name="systemService"></param>
         /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any futher, such as registering other output formatters (e.g. HTML)</param>
-        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceSTU3<IServiceProvider> systemService, Action<MvcOptions> setupAction)
+        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction)
         {
             NetCoreApi.FhirFacadeBuilder._systemService = systemService;
             services.AddMvc(options =>

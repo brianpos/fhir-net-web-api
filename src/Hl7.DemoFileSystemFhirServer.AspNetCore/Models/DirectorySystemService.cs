@@ -10,7 +10,7 @@ namespace Hl7.DemoFileSystemFhirServer
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system
     /// </summary>
-    public class DirectorySystemService : Hl7.Fhir.WebApi.IFhirSystemServiceSTU3<IServiceProvider>
+    public class DirectorySystemService : Hl7.Fhir.WebApi.IFhirSystemServiceR4<IServiceProvider>
     {
         public DirectorySystemService()
         {
@@ -61,7 +61,7 @@ namespace Hl7.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult(con);
         }
 
-        public IFhirResourceServiceSTU3<IServiceProvider> GetResourceService(ModelBaseInputs<IServiceProvider> request, string resourceName)
+        public IFhirResourceServiceR4<IServiceProvider> GetResourceService(ModelBaseInputs<IServiceProvider> request, string resourceName)
         {
             return new DirectoryResourceService() { RequestDetails = request, ResourceName = resourceName };
         }

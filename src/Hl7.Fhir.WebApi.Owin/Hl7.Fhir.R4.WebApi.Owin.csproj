@@ -134,9 +134,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.WebApi.Support\Hl7.Fhir.STU3.WebApi.Support.csproj">
+    <ProjectReference Include="..\Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj">
       <Project>{1752b9ad-8f42-4a19-88a5-bd1f68c98228}</Project>
-      <Name>Hl7.Fhir.STU3.WebApi.Support</Name>
+      <Name>Hl7.Fhir.R4.WebApi.Support</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

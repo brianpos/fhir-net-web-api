@@ -25,7 +25,7 @@ namespace UnitTestWebApi
         [TestInitialize]
         public void PrepareTests()
         {
-            Type myType = typeof(FhirSTU3Controller);
+            Type myType = typeof(FhirR4Controller);
 
             // Ensure that we grab an available IP port on the local workstation
             // http://stackoverflow.com/questions/9895129/how-do-i-find-an-available-port-before-bind-the-socket-with-the-endpoint

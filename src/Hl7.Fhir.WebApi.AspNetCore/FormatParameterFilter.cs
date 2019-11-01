@@ -1,10 +1,15 @@
-﻿using Hl7.Fhir.WebApi;
+﻿/* 
+ * Copyright (c) 2017+ brianpos, Firely and contributors
+ * See the file CONTRIBUTORS for details.
+ * 
+ * This file is licensed under the BSD 3-Clause license
+ * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
+ */
+
+using Hl7.Fhir.WebApi;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Hl7.Fhir.NetCoreApi.R4
 {

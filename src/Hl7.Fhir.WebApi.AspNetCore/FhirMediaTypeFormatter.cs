@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (c) 2017+ brianpos, Furore and contributors
+ * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
  * 
  * This file is licensed under the BSD 3-Clause license
@@ -8,16 +8,9 @@
 
 using Hl7.Fhir.Model;
 using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
-using System.IO;
-using System.Net;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 using Microsoft.Net.Http.Headers;
-using System.Diagnostics;
 
 namespace Hl7.Fhir.WebApi
 {

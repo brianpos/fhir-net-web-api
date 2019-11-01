@@ -15,7 +15,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Web;
 
 namespace Hl7.Fhir.WebApi
 {

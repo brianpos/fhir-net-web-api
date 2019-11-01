@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿/* 
+ * Copyright (c) 2017+ brianpos, Firely and contributors
+ * See the file CONTRIBUTORS for details.
+ * 
+ * This file is licensed under the BSD 3-Clause license
+ * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
+ */
+
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Hl7.Fhir.WebApi;
 using System.Buffers;
-using Microsoft.Extensions.ObjectPool;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Mvc.Formatters.Internal;
 using System;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Net.Http.Headers;
 using Hl7.Fhir.NetCoreApi.R4;
 
 namespace Hl7.Fhir.NetCoreApi

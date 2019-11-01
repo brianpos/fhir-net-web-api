@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (c) 2017+ brianpos, Furore and contributors
+ * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
  * 
  * This file is licensed under the BSD 3-Clause license
@@ -8,10 +8,8 @@
 
 using Hl7.Fhir.Model;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Threading.Tasks;
 using Microsoft.Net.Http.Headers;

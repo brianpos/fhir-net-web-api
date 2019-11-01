@@ -6,12 +6,6 @@
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Hl7.Fhir.WebApi
 {
     public static class Const

@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (c) 2017+ brianpos, Furore and contributors
+ * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
  * 
  * This file is licensed under the BSD 3-Clause license
@@ -22,7 +22,6 @@ using System.Threading;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http.Internal;
-using System.Reflection;
 
 namespace Hl7.Fhir.WebApi
 {

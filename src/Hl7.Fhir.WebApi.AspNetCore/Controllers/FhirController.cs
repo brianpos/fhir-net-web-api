@@ -203,7 +203,7 @@ namespace Hl7.Fhir.WebApi
         }
 
         [HttpGet, Route("{ResourceName}/{id}/${operation}")]
-        public async Task<IActionResult> PerformOperation(string ResourceName, string id, string operation)
+        public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
 
@@ -217,7 +217,7 @@ namespace Hl7.Fhir.WebApi
         }
 
         [HttpPost, Route("{ResourceName}/{id}/${operation}")]
-        public async Task<IActionResult> PerformOperation(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
 
@@ -230,7 +230,7 @@ namespace Hl7.Fhir.WebApi
         }
 
         [HttpGet, Route("{ResourceName}/${operation}")]
-        public async Task<IActionResult> PerformOperation(string ResourceName, string operation)
+        public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
 
@@ -244,7 +244,7 @@ namespace Hl7.Fhir.WebApi
         }
 
         [HttpPost, Route("{ResourceName}/${operation}")]
-        public async Task<IActionResult> PerformOperation(string ResourceName, string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
 
@@ -271,8 +271,22 @@ namespace Hl7.Fhir.WebApi
             return new NotFoundResult();
         }
 
-        [HttpPost, HttpGet, Route("${operation}")]
-        public async Task<IActionResult> PerformOperation(string operation, [FromBody] Parameters operationParameters)
+        [HttpGet, Route("${operation}")]
+        public async Task<IActionResult> PerformOperationSystem(string operation)
+        {
+            var buri = this.CalculateBaseURI("${operation}");
+            Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
+
+            Parameters operationParameters = new Parameters();
+            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
+            var inputs = GetInputs(buri);
+
+            Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
+            return PrepareOperationOutputMessage(buri, resource);
+        }
+
+        [HttpPost, Route("${operation}")]
+        public async Task<IActionResult> PerformOperationSystem(string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("${operation}");
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);

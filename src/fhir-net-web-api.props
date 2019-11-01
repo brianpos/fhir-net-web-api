@@ -3,7 +3,7 @@
   <!-- Solution-wide properties for NuGet packaging -->
   <PropertyGroup>
     <Authors>Brian Postlethwaite (brian_pos@hotmail.com) and contributors</Authors>
-    <Company>Brian Postlethwaite and contributors</Company>
+    <Company>Telstra Health</Company>
     <Copyright>Copyright 2017+ Brian Postlethwaite and contributors  Contains materials (C) HL7 International</Copyright>
     <PackageProjectUrl>https://github.com/brianpos/fhir-net-web-api</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/ewoutkramer/fhir-net-api/master/icon-fhir-32.png</PackageIconUrl>

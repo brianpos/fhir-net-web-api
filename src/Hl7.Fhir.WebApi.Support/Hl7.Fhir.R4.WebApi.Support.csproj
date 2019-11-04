@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>net462;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.Support</AssemblyName>
-    <PackageId>Hl7.Fhir.R4.WebApi.Support</PackageId>
-    <Version>1.2.0-alpha1</Version>
-    <Title>HL7 Fhir WebApi Interfaces</Title>
+    <PackageId>telstrahealth.fhir.webapi.support.R4</PackageId>
+    <Version>1.3.0-alpha1</Version>
+    <Title>Telstra Health Fhir WebApi Interfaces</Title>
     <Summary>Class interfaces for the FHIR WebApi Models</Summary>
-    <Description>This library contains the interface definitions that an implementation should use to create the storage layer for a FHIR server using the FHIR WebApi Facade</Description>
+    <Description>Telstra Health port of the interface definitions that an implementation should use to create the storage layer for a FHIR server using the FHIR WebApi Facade</Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
     <Product>Hl7.Fhir.R4.WebApi.Support</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>

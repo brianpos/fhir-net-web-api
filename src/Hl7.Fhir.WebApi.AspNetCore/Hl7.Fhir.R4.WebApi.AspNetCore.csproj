@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.AspNetCore</AssemblyName>
     <PackageId>telstrahealth.fhir.webapi.aspnetcore.R4</PackageId>
-    <Version>1.3.0-alpha1</Version>
+    <Version>1.3.0-alpha2</Version>
     <Title>Telstra Health Fhir WebApi (AspNetCore) Facade Layer</Title>
     <Summary>AspNetCore based FHIR WebApi Facade layer</Summary>
     <Description>Telstra Health port of the FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>

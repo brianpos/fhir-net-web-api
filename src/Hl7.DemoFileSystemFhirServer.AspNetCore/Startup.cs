@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microsoft.Extensions.Hosting;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
@@ -39,10 +40,14 @@ namespace Hl7.DemoFileSystemFhirServer
             // services.AddScoped<TelstraHealth.FhirHtmlFormatter.RazorViewToStringRenderer>();
 
             // register the Static Content
-            services.Configure<RazorViewEngineOptions>(options =>
+            //services.Configure<RazorViewEngineOptions>(options =>
+            //{
+            //    options.FileProviders.Clear();
+            //    options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+            //});
+            services.AddRazorPages(options =>
             {
-                options.FileProviders.Clear();
-                options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+                options.RootDirectory = "/wwwroot";
             });
 
             // Tell the Net stack to only use TLS
@@ -55,7 +60,7 @@ namespace Hl7.DemoFileSystemFhirServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -72,7 +77,13 @@ namespace Hl7.DemoFileSystemFhirServer
 
             app.UseAuthentication();
 
-            app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
+                endpoints.MapFallbackToFile(System.IO.Path.Combine(env.WebRootPath, "content"));
+            });
         }
     }
 }

@@ -21,7 +21,8 @@ using System.Diagnostics;
 using System.Threading;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -51,7 +52,7 @@ namespace Hl7.Fhir.WebApi
             {
                 // To avoid blocking on the stream, we asynchronously read everything 
                 // into a buffer, and then seek back to the beginning.
-                request.EnableRewind();
+                request.EnableBuffering();
                 Debug.Assert(request.Body.CanSeek);
 
                 // no timeout configuration on this? or does that happen at another layer?
@@ -110,6 +111,13 @@ namespace Hl7.Fhir.WebApi
             };
             using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
             {
+                // netcore default is for async only
+                var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
+                if (syncIOFeature != null)
+                {
+                    syncIOFeature.AllowSynchronousIO = true;
+                }
+
                 SummaryType st = SummaryType.False;
                 if (context.ObjectType == typeof(OperationOutcome))
                 {

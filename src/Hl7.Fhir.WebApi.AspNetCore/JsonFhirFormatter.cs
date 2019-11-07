@@ -18,12 +18,12 @@ using Hl7.Fhir.Utility;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text;
-using Microsoft.AspNetCore.Http.Internal;
 using System.Diagnostics;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Threading;
 using System.Buffers;
-using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -53,7 +53,7 @@ namespace Hl7.Fhir.WebApi
             {
                 // To avoid blocking on the stream, we asynchronously read everything 
                 // into a buffer, and then seek back to the beginning.
-                request.EnableRewind();
+                request.EnableBuffering();
                 Debug.Assert(request.Body.CanSeek);
 
                 // no timeout configuration on this? or does that happen at another layer?
@@ -81,6 +81,25 @@ namespace Hl7.Fhir.WebApi
             }
         }
     }
+
+    class ArrayPool : IArrayPool<char>
+    {
+        internal ArrayPool(ArrayPool<char> pool)
+        {
+            _pool = pool;
+        }
+        ArrayPool<char> _pool;
+
+        public char[] Rent(int minimumLength)
+        {
+            return _pool.Rent(minimumLength);
+        }
+
+        public void Return(char[] array)
+        {
+            _pool.Return(array);
+        }
+    }
     public class JsonFhirOutputFormatter : FhirMediaTypeOutputFormatter
     {
         public JsonFhirOutputFormatter(ArrayPool<char> charPool) : base()
@@ -88,7 +107,7 @@ namespace Hl7.Fhir.WebApi
             if (charPool == null)
                 throw new ArgumentNullException(nameof(charPool));
 
-            _charPool = new JsonArrayPool<char>(charPool);
+            _charPool = new ArrayPool(charPool);
 
             foreach (var mediaType in ContentType.JSON_CONTENT_HEADERS)
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
@@ -114,6 +133,13 @@ namespace Hl7.Fhir.WebApi
 
             using (StreamWriter writer = new StreamWriter(context.HttpContext.Response.Body))
             {
+                // netcore default is for async only
+                var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
+                if (syncIOFeature != null)
+                {
+                    syncIOFeature.AllowSynchronousIO = true;
+                }
+
                 JsonTextWriter jsonwriter = (JsonTextWriter)SerializationUtil.CreateJsonTextWriter(writer); // This will use the BetterJsonWriter which handles precision correctly
                 using (jsonwriter)
                 {

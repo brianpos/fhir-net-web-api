@@ -4,7 +4,7 @@
     <TargetFrameworks>net462;netstandard2.1</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.Support</AssemblyName>
     <PackageId>telstrahealth.fhir.webapi.support.R4</PackageId>
-    <Version>1.3.0-alpha3</Version>
+    <Version>1.3.0-alpha4</Version>
     <Title>Telstra Health Fhir WebApi Interfaces</Title>
     <Summary>Class interfaces for the FHIR WebApi Models</Summary>
     <Description>Telstra Health port of the interface definitions that an implementation should use to create the storage layer for a FHIR server using the FHIR WebApi Facade</Description>

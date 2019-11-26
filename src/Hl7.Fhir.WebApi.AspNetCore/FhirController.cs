@@ -335,7 +335,7 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             string sortby = Request.GetParameter(FhirParameter.SORT);
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
-            var includeParams = Request.TupledParameters(false).Where(i => i.Key == "_include");
+            var includeParams = Request.TupledParameters(false).Where(i => i.Key == "_include" || i.Key == "_revinclude" || i.Key == "_has" || i.Key == "_list");
 
             var buri = this.CalculateBaseURI("{ResourceName");
             parameters = parameters.Union(includeParams);

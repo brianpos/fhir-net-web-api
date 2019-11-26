@@ -49,6 +49,9 @@ namespace Hl7.Fhir.NetCoreApi
                 // https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters
                 options.Filters.Add(new FhirFormatParameterFilter());
 
+                // And our exception handler that processes FhirServerExceptions into appropriate results
+                options.Filters.Add(new FhirExceptionFilter());
+
                 // permit the HTML to be generated for the browser
                 options.RespectBrowserAcceptHeader = true;
 

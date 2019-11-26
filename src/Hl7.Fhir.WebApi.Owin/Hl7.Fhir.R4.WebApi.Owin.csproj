@@ -114,6 +114,7 @@
   <ItemGroup>
     <Compile Include="BinaryFormatter.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="FhirExceptionFilter.cs" />
     <Compile Include="FhirMediaType.cs" />
     <Compile Include="FhirMediaTypeFormatter.cs" />
     <Compile Include="HttpHeadersExtensions.cs" />

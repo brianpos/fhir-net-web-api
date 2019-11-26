@@ -29,6 +29,8 @@ namespace Hl7.Fhir.WebApi
             config.MessageHandlers.Add(new InterceptBodyHandler());
             config.MessageHandlers.Add(new MediaTypeHandler());
 
+            config.Filters.Add(new FhirExceptionFilter());
+
             config.MapHttpAttributeRoutes();
 
             // remove existing formatters

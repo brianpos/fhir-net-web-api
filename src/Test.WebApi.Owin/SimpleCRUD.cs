@@ -142,15 +142,16 @@ namespace UnitTestWebApi
             // Now delete the patient we just created
             clientFhir.Delete(result);
 
-            // and try reading it again
             try
             {
-                result = clientFhir.Refresh<Patient>(result);
-                Assert.Fail("resource should have been deleted");
+                var p4 = clientFhir.Read<Patient>($"Patient/{result.Id}");
+                Assert.Fail("Should have received an exception running this");
             }
-            catch(FhirOperationException ex)
+            catch (Hl7.Fhir.Rest.FhirOperationException ex)
             {
-                Assert.AreEqual(HttpStatusCode.NotFound, ex.Status, "Resource should not be found");
+                Assert.AreEqual(HttpStatusCode.Gone, ex.Status, "Expected the patient to have been deleted");
+                // This was the expected outcome
+                System.Diagnostics.Trace.WriteLine(ex.Message);
             }
         }
 

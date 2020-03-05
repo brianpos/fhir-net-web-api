@@ -98,40 +98,44 @@ namespace Hl7.Fhir.WebApi
             if (selectedEncoding == null)
                 throw new ArgumentNullException(nameof(selectedEncoding));
 
-            XmlWriterSettings settings = new XmlWriterSettings
+            if (context.ObjectType != null)
             {
-                Encoding = new UTF8Encoding(false),
-                OmitXmlDeclaration = true,
-                Async = true,
-                CloseOutput = true,
-                Indent = true,
-                NewLineHandling = NewLineHandling.Entitize,
-                IndentChars = "  "
-            };
-            using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
-            {
-                SummaryType st = SummaryType.False;
-                if (context.ObjectType == typeof(OperationOutcome))
+                XmlWriterSettings settings = new XmlWriterSettings
                 {
-                    // We will only honor the summary type during serialization of the outcome
-                    // if the resource wasn't a stored OpOutcome we are returning
-                    OperationOutcome resource = (OperationOutcome)context.Object;
-                    if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
-                        st = resource.Annotation<SummaryType>();
-                    new FhirXmlSerializer().Serialize(resource, writer, st);
-                }
-                else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
+                    Encoding = new UTF8Encoding(false),
+                    OmitXmlDeclaration = true,
+                    Async = true,
+                    CloseOutput = true,
+                    Indent = true,
+                    NewLineHandling = NewLineHandling.Entitize,
+                    IndentChars = "  "
+                };
+                using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
                 {
-                    if (context.Object != null)
+                    SummaryType st = SummaryType.False;
+                    if (context.ObjectType == typeof(OperationOutcome))
                     {
-                        Resource r = context.Object as Resource;
-                        if (r.HasAnnotation<SummaryType>())
-                            st = r.Annotation<SummaryType>();
-                        new FhirXmlSerializer().Serialize(r, writer, st);
+                        // We will only honor the summary type during serialization of the outcome
+                        // if the resource wasn't a stored OpOutcome we are returning
+                        OperationOutcome resource = (OperationOutcome)context.Object;
+                        if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
+                            st = resource.Annotation<SummaryType>();
+                        new FhirXmlSerializer().Serialize(resource, writer, st);
                     }
+                    else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
+                    {
+                        if (context.Object != null)
+                        {
+                            Resource r = context.Object as Resource;
+                            if (r.HasAnnotation<SummaryType>())
+                                st = r.Annotation<SummaryType>();
+                            new FhirXmlSerializer().Serialize(r, writer, st);
+                        }
+                    }
+                    return writer.FlushAsync();
                 }
-                return writer.FlushAsync();
             }
+            return System.Threading.Tasks.Task.CompletedTask;
         }
     }
 }

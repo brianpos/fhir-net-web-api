@@ -112,37 +112,41 @@ namespace Hl7.Fhir.WebApi
             if (selectedEncoding == null)
                 throw new ArgumentNullException(nameof(selectedEncoding));
 
-            using (StreamWriter writer = new StreamWriter(context.HttpContext.Response.Body))
+            if (context.ObjectType != null)
             {
-                JsonTextWriter jsonwriter = (JsonTextWriter)SerializationUtil.CreateJsonTextWriter(writer); // This will use the BetterJsonWriter which handles precision correctly
-                using (jsonwriter)
+                using (StreamWriter writer = new StreamWriter(context.HttpContext.Response.Body))
                 {
-                    jsonwriter.ArrayPool = _charPool;
-                    jsonwriter.Formatting = Formatting.Indented; // lets make it pretty
+                    JsonTextWriter jsonwriter = (JsonTextWriter)SerializationUtil.CreateJsonTextWriter(writer); // This will use the BetterJsonWriter which handles precision correctly
+                    using (jsonwriter)
+                    {
+                        jsonwriter.ArrayPool = _charPool;
+                        jsonwriter.Formatting = Formatting.Indented; // lets make it pretty
 
-                    SummaryType st = SummaryType.False;
-                    if (context.ObjectType == typeof(OperationOutcome))
-                    {
-                        // We will only honor the summary type during serialization of the outcome
-                        // if the resource wasn't a stored OpOutcome we are returning
-                        OperationOutcome resource = (OperationOutcome)context.Object;
-                        if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
-                            st = resource.Annotation<SummaryType>();
-                        new FhirJsonSerializer().Serialize(resource, jsonwriter, st);
-                    }
-                    else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
-                    {
-                        if (context.Object != null)
+                        SummaryType st = SummaryType.False;
+                        if (context.ObjectType == typeof(OperationOutcome))
                         {
-                            Resource r = context.Object as Resource;
-                            if (r.HasAnnotation<SummaryType>())
-                                st = r.Annotation<SummaryType>();
-                            new FhirJsonSerializer().Serialize(r, jsonwriter, st);
+                            // We will only honor the summary type during serialization of the outcome
+                            // if the resource wasn't a stored OpOutcome we are returning
+                            OperationOutcome resource = (OperationOutcome)context.Object;
+                            if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
+                                st = resource.Annotation<SummaryType>();
+                            new FhirJsonSerializer().Serialize(resource, jsonwriter, st);
                         }
+                        else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
+                        {
+                            if (context.Object != null)
+                            {
+                                Resource r = context.Object as Resource;
+                                if (r.HasAnnotation<SummaryType>())
+                                    st = r.Annotation<SummaryType>();
+                                new FhirJsonSerializer().Serialize(r, jsonwriter, st);
+                            }
+                        }
+                        return writer.FlushAsync();
                     }
-                    return writer.FlushAsync();
                 }
             }
+            return System.Threading.Tasks.Task.CompletedTask;
         }
     }
 }

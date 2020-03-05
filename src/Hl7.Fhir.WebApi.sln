@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.R4.WebApi.Owin", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Support", "Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj", "{1752B9AD-8F42-4A19-88A5-BD1F68C98228}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.DemoAzureStorageFhirServer.AspNetCore", "Hl7.DemoAzureStorageFhirServer.AspNetCore\Hl7.DemoAzureStorageFhirServer.AspNetCore.csproj", "{12D1A350-4643-48D1-8248-888A7E63CC9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{1752B9AD-8F42-4A19-88A5-BD1F68C98228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1752B9AD-8F42-4A19-88A5-BD1F68C98228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1752B9AD-8F42-4A19-88A5-BD1F68C98228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12D1A350-4643-48D1-8248-888A7E63CC9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12D1A350-4643-48D1-8248-888A7E63CC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12D1A350-4643-48D1-8248-888A7E63CC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12D1A350-4643-48D1-8248-888A7E63CC9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

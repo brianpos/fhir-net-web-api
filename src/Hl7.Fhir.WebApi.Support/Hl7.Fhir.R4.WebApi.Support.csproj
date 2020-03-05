@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net45;netcoreapp2.2</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.Support</AssemblyName>
-    <PackageId>Hl7.Fhir.R4.WebApi.Support</PackageId>
-    <Version>1.2.0-alpha1</Version>
+    <PackageId>Hl7.Fhir.R4.WebApi.Support2_2</PackageId>
+    <Version>1.4.0-alpha5</Version>
     <Title>HL7 Fhir WebApi Interfaces</Title>
     <Summary>Class interfaces for the FHIR WebApi Models</Summary>
     <Description>This library contains the interface definitions that an implementation should use to create the storage layer for a FHIR server using the FHIR WebApi Facade</Description>

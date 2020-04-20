@@ -94,7 +94,7 @@ namespace Hl7.Fhir.WebApi
         /// http://hl7-fhir.github.io/http.html#transaction
         /// </summary>
         [HttpPost, Route("")]
-        public async Task<IActionResult> ProcessBatch(Bundle batch)
+        public async Task<IActionResult> ProcessBatch([FromBody]Bundle batch)
         {
             var buri = this.CalculateBaseURI("metadata");
             var Inputs = GetInputs(buri);

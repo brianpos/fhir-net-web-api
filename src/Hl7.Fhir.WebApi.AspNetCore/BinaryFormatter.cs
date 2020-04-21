@@ -63,14 +63,17 @@ namespace Hl7.Fhir.WebApi
             {
                 var contentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
-                    FileName = String.Format("fhir_binary_{0}_{1}.{2}",
+                    FileName = String.Format("fhir_binary_{0}_{1}{2}",
                     binary.Id,
-                    binary.Meta != null ? binary.Meta.VersionId : "0",
-                    GetFileExtensionForMimeType(binary.ContentType))
+                    binary.Meta?.VersionId ?? "0",
+                    GetFileExtensionForMimeType(binary.ContentType)),
+                    Size = binary.Data.Length
                 };
 
                 contentDisposition.SetHttpFileName(contentDisposition.FileName);
                 context.HttpContext.Response.Headers[HeaderNames.ContentDisposition] = contentDisposition.ToString();
+                if (!string.IsNullOrEmpty(binary.SecurityContext?.Reference))
+                    context.HttpContext.Response.Headers["X-Security-Context"] = binary.SecurityContext?.Reference;
             }
         }
 
@@ -82,7 +85,7 @@ namespace Hl7.Fhir.WebApi
             return null;
         }
 
-        public override System.Threading.Tasks.Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+        public override async System.Threading.Tasks.Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -95,10 +98,9 @@ namespace Hl7.Fhir.WebApi
                 Binary binary = (Binary)context.Object;
 
                 var stream = new MemoryStream(binary.Data);
-                stream.CopyTo(context.HttpContext.Response.Body);
-                stream.FlushAsync();
+                await stream.CopyToAsync(context.HttpContext.Response.Body);
+                await stream.FlushAsync();
             }
-            return System.Threading.Tasks.Task.CompletedTask;
         }
     }
 }

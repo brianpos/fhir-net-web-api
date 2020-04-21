@@ -87,9 +87,9 @@ namespace Hl7.Fhir.WebApi
                 if (!string.IsNullOrEmpty(resource.Id))
                     context.HttpContext.Response.Headers.Add(HeaderNames.Location, resource.ResourceIdentity(resource.ResourceBase).OriginalString);
 
-                if (resource is Binary)
+                if (resource is Binary && context.HttpContext.Request.Headers[HeaderNames.Accept] == FhirMediaType.BinaryResource)
                 {
-                    context.HttpContext.Response.Headers.Add(HeaderNames.ContentType, ((Binary)resource).ContentType);
+                    context.HttpContext.Response.Headers[HeaderNames.ContentType] = ((Binary)resource).ContentType;
                     context.ContentType = new Microsoft.Extensions.Primitives.StringSegment(((Binary)resource).ContentType);
                 }
             }

@@ -67,6 +67,7 @@ namespace UnitTestWebApi
 
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.Create<Patient>(p);
+            DebugDumpOutputXml(result);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
@@ -87,6 +88,7 @@ namespace UnitTestWebApi
 
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.Update<Patient>(p);
+            DebugDumpOutputXml(result);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
@@ -109,6 +111,7 @@ namespace UnitTestWebApi
             {
                 // This was the expected outcome
                 System.Diagnostics.Trace.WriteLine(ex.Message);
+                DebugDumpOutputXml(ex.Outcome);
             }
         }
 
@@ -125,6 +128,7 @@ namespace UnitTestWebApi
 
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.Update<Patient>(p);
+            DebugDumpOutputXml(result);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
@@ -144,6 +148,7 @@ namespace UnitTestWebApi
 
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.Create<Patient>(p);
+            DebugDumpOutputXml(result);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
@@ -163,6 +168,7 @@ namespace UnitTestWebApi
                 Assert.AreEqual(HttpStatusCode.Gone, ex.Status, "Expected the patient to have been deleted");
                 // This was the expected outcome
                 System.Diagnostics.Trace.WriteLine(ex.Message);
+                DebugDumpOutputXml(ex.Outcome);
             }
         }
 
@@ -171,6 +177,7 @@ namespace UnitTestWebApi
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.CapabilityStatement();
+            DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");
             Assert.IsNotNull(result.FhirVersion, "Should at least report the version of fhir active");
         }
@@ -213,6 +220,7 @@ namespace UnitTestWebApi
 
             // Load the Organization type history
             var resultOrgs = clientFhir.TypeHistory<Organization>();
+            DebugDumpOutputXml(resultOrgs);
 
             Console.WriteLine($"Total Org Resources: {resultOrgs.Total}");
             foreach (var item in resultOrgs.Entry)
@@ -233,8 +241,7 @@ namespace UnitTestWebApi
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.TypeOperation<Patient>("count-em", null, true) as OperationOutcome;
-            string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
-            System.Diagnostics.Trace.WriteLine(xml);
+            DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");
             Assert.AreEqual(1, result.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
             Console.WriteLine($"{result.Issue[0].Details.Text}");
@@ -246,8 +253,7 @@ namespace UnitTestWebApi
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
             var result = clientFhir.WholeSystemOperation("count-em", null, true) as OperationOutcome;
-            string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
-            System.Diagnostics.Trace.WriteLine(xml);
+            DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");
             Assert.AreEqual(2, result.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
             Console.WriteLine($"{result.Issue[0].Details.Text}");
@@ -268,6 +274,7 @@ namespace UnitTestWebApi
 
         private void ClientFhir_OnBeforeRequest(object sender, BeforeRequestEventArgs e)
         {
+            System.Diagnostics.Trace.WriteLine("---------------------------------------------------");
             Console.WriteLine($"{e.RawRequest.Method}: {e.RawRequest.RequestUri}");
             e.RawRequest.Headers.Add("x-test", "Cleaner");
         }

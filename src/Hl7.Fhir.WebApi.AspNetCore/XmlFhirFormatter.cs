@@ -99,47 +99,51 @@ namespace Hl7.Fhir.WebApi
             if (selectedEncoding == null)
                 throw new ArgumentNullException(nameof(selectedEncoding));
 
-            XmlWriterSettings settings = new XmlWriterSettings
+            if (context.ObjectType != null)
             {
-                Encoding = new UTF8Encoding(false),
-                OmitXmlDeclaration = true,
-                Async = true,
-                CloseOutput = true,
-                Indent = true,
-                NewLineHandling = NewLineHandling.Entitize,
-                IndentChars = "  "
-            };
-            using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
-            {
-                // netcore default is for async only
-                var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
-                if (syncIOFeature != null)
+                XmlWriterSettings settings = new XmlWriterSettings
                 {
-                    syncIOFeature.AllowSynchronousIO = true;
-                }
-
-                SummaryType st = SummaryType.False;
-                if (context.ObjectType == typeof(OperationOutcome))
+                    Encoding = new UTF8Encoding(false),
+                    OmitXmlDeclaration = true,
+                    Async = true,
+                    CloseOutput = true,
+                    Indent = true,
+                    NewLineHandling = NewLineHandling.Entitize,
+                    IndentChars = "  "
+                };
+                using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
                 {
-                    // We will only honor the summary type during serialization of the outcome
-                    // if the resource wasn't a stored OpOutcome we are returning
-                    OperationOutcome resource = (OperationOutcome)context.Object;
-                    if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
-                        st = resource.Annotation<SummaryType>();
-                    new FhirXmlSerializer().Serialize(resource, writer, st);
-                }
-                else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
-                {
-                    if (context.Object != null)
+                    // netcore default is for async only
+                    var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
+                    if (syncIOFeature != null)
                     {
-                        Resource r = context.Object as Resource;
-                        if (r.HasAnnotation<SummaryType>())
-                            st = r.Annotation<SummaryType>();
-                        new FhirXmlSerializer().Serialize(r, writer, st);
+                        syncIOFeature.AllowSynchronousIO = true;
                     }
+
+                    SummaryType st = SummaryType.False;
+                    if (context.ObjectType == typeof(OperationOutcome))
+                    {
+                        // We will only honor the summary type during serialization of the outcome
+                        // if the resource wasn't a stored OpOutcome we are returning
+                        OperationOutcome resource = (OperationOutcome)context.Object;
+                        if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
+                            st = resource.Annotation<SummaryType>();
+                        new FhirXmlSerializer().Serialize(resource, writer, st);
+                    }
+                    else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
+                    {
+                        if (context.Object != null)
+                        {
+                            Resource r = context.Object as Resource;
+                            if (r.HasAnnotation<SummaryType>())
+                                st = r.Annotation<SummaryType>();
+                            new FhirXmlSerializer().Serialize(r, writer, st);
+                        }
+                    }
+                    return writer.FlushAsync();
                 }
-                return writer.FlushAsync();
             }
+            return System.Threading.Tasks.Task.CompletedTask;
         }
     }
 }

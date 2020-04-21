@@ -43,6 +43,7 @@ namespace Hl7.DemoFileSystemFhirServer
             string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
             if (System.IO.File.Exists(path))
                 return System.Threading.Tasks.Task.FromResult(new Fhir.Serialization.FhirXmlParser().Parse<Resource>(System.IO.File.ReadAllText(path)));
+            throw new FhirServerException(System.Net.HttpStatusCode.Gone, "It might have been deleted!");
             return System.Threading.Tasks.Task.FromResult<Resource>(null);
         }
 

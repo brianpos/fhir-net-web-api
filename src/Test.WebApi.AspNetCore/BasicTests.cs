@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.TestHost;
 using System.IO;
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
+using Hl7.Fhir.Serialization;
+using System.Linq;
 
 namespace UnitTestWebApi
 {
@@ -59,6 +61,16 @@ namespace UnitTestWebApi
         {
             if (_fhirServerController != null)
                 _fhirServerController.Dispose();
+        }
+        public static void DebugDumpOutputXml(Base fragment)
+        {
+            if (fragment == null)
+                Console.WriteLine("(null)");
+            else
+            {
+                var doc = System.Xml.Linq.XDocument.Parse(new FhirXmlSerializer().SerializeToString(fragment));
+                Console.WriteLine(doc.ToString(System.Xml.Linq.SaveOptions.None));
+            }
         }
         #endregion
 
@@ -185,6 +197,18 @@ namespace UnitTestWebApi
 
             // Now delete the patient we just created
             clientFhir.Delete(result);
+
+            try
+            {
+                var p4 = clientFhir.Read<Patient>($"Patient/{result.Id}");
+                Assert.Fail("Should have received an exception running this");
+            }
+            catch (Hl7.Fhir.Rest.FhirOperationException ex)
+            {
+                Assert.AreEqual(HttpStatusCode.Gone, ex.Status, "Expected the patient to have been deleted");
+                // This was the expected outcome
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
         }
 
         [TestMethod]
@@ -266,9 +290,137 @@ namespace UnitTestWebApi
             Assert.IsTrue(result.Issue[1].Details.Text.Contains("x-test: Cleaner"), "Missing the custom header added to the request");
         }
 
+        [TestMethod]
+        public async System.Threading.Tasks.Task ReadBinary()
+        {
+            var b = new Binary();
+            b.Id = "bin1"; // if you support this format for the IDs (client allocated ID)
+            b.SecurityContext = new ResourceReference("Organization/2", "Other Org");
+            b.ContentType = "image/gif";
+            b.Data = System.IO.File.ReadAllBytes(@"C:\git\fhir-net-web-api\src\Hl7.DemoFileSystemFhirServer.AspNetCore\wwwroot\content\icon_choice.gif");
+            int dataLen = b.Data.Length;
+            Console.WriteLine("Updating this resource content:");
+            DebugDumpOutputXml(b);
+
+            // Do a custom write of the Binary resource as the FHIR client forces it into a stream, rather than
+            // just pushing the byte-stream, and ignoring the security context
+            // PUT ContentType: XML, Accept: Binary 
+            HttpClient rawWriter = new HttpClient();
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/gif"));
+            HttpContent content = new System.Net.Http.StringContent(new FhirXmlSerializer().SerializeToString(b), System.Text.Encoding.UTF8, "application/fhir+xml");
+            var resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", content);
+            Console.WriteLine("Raw Result:");
+            Console.WriteLine(System.Convert.ToBase64String(await resRaw.Content.ReadAsByteArrayAsync()));
+            Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
+            Assert.AreEqual("image/gif", resRaw.Content.Headers.ContentType.MediaType);
+            Assert.AreEqual("Organization/2", resRaw.Headers.Value("X-Security-Context"));
+
+            // PUT ContentType: XML, Accept: XML
+            rawWriter.DefaultRequestHeaders.Accept.Clear();
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+xml"));
+            resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", content);
+            var result = new FhirXmlParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
+            Console.WriteLine("Xml Result:");
+            DebugDumpOutputXml(result);
+            Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
+            Assert.AreEqual("application/fhir+xml", resRaw.Content.Headers.ContentType.MediaType);
+
+            Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
+            Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
+
+            // Now Create it using the Binary input formatter
+            rawWriter.DefaultRequestHeaders.Accept.Clear();
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+xml"));
+            HttpContent binaryContent = new System.Net.Http.ByteArrayContent(b.Data);
+            binaryContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/gif");
+            binaryContent.Headers.Add("X-Security-Context", "Organization/3");
+            resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", binaryContent);
+            result = new FhirXmlParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
+            Console.WriteLine("Xml Result:");
+            DebugDumpOutputXml(result);
+            Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
+            Assert.AreEqual("application/fhir+xml", resRaw.Content.Headers.ContentType.MediaType);
+
+            Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
+            Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
+
+            try
+            {
+                Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+                clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
+                clientFhir.Timeout = 50000;
+                // This method uses the BINARY stream approach (which has issues - no security context passed through)
+                clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_SecurityContectHeader;
+                result = clientFhir.Update(b);
+                clientFhir.OnBeforeRequest -= ClientFhir_OnBeforeRequest_SecurityContectHeader;
+                DebugDumpOutputXml(result);
+
+                Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
+                Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
+                Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
+                Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
+                Assert.AreEqual("Organization/4", result.SecurityContext?.Reference);
+
+                // read the record to check that it can be loaded with the regular FHIR client
+                clientFhir.PreferredFormat = ResourceFormat.Xml;
+                result = clientFhir.Read<Binary>("Binary/bin1");
+                Assert.AreEqual(b.Id, result.Id, "Newly created binary should have an ID");
+                Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
+                Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
+                Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
+
+                // And also check with json
+                clientFhir.PreferredFormat = ResourceFormat.Json;
+                result = clientFhir.Read<Binary>("Binary/bin1");
+                Assert.AreEqual(b.Id, result.Id, "Newly created binary should have an ID");
+                Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
+                Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
+                Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
+                clientFhir.PreferredFormat = ResourceFormat.Xml;
+
+                try
+                {
+                    var b4 = clientFhir.Read<Binary>("Binary/missing-client-id");
+                    Assert.Fail("Should have received an exception running this");
+                }
+                catch (Hl7.Fhir.Rest.FhirOperationException ex)
+                {
+                    // This was the expected outcome
+                    System.Diagnostics.Trace.WriteLine(ex.Message);
+                    DebugDumpOutputXml(ex.Outcome);
+                }
+
+                // read the file as a binary gif (using it's content type)
+                HttpClient rawClient = new HttpClient();
+                rawClient.DefaultRequestHeaders.Accept.Clear();
+                rawClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/gif"));
+                 resRaw = await rawClient.GetAsync($"{_baseAddress}Binary/bin1");
+                Assert.AreEqual("image/gif", resRaw.Content.Headers.ContentType.MediaType);
+                Console.WriteLine(System.Convert.ToBase64String(await resRaw.Content.ReadAsByteArrayAsync()));
+
+                // read the file using another type that it isn't
+            }
+            catch (FhirOperationException ex)
+            {
+                DebugDumpOutputXml(ex.Outcome);
+                throw;
+            }
+
+        }
+
         private void ClientFhir_OnBeforeRequest(object sender, BeforeRequestEventArgs e)
         {
+            System.Diagnostics.Trace.WriteLine("---------------------------------------------------");
+            System.Diagnostics.Trace.WriteLine(e.RawRequest.RequestUri);
             e.RawRequest.Headers.Add("x-test", "Cleaner");
+        }
+        private void ClientFhir_OnBeforeRequest_SecurityContectHeader(object sender, BeforeRequestEventArgs e)
+        {
+            e.RawRequest.Headers.Add("X-Security-Context", "Organization/4");
         }
     }
 }

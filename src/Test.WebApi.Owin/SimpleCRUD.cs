@@ -141,6 +141,18 @@ namespace UnitTestWebApi
 
             // Now delete the patient we just created
             clientFhir.Delete(result);
+
+            try
+            {
+                var p4 = clientFhir.Read<Patient>($"Patient/{result.Id}");
+                Assert.Fail("Should have received an exception running this");
+            }
+            catch (Hl7.Fhir.Rest.FhirOperationException ex)
+            {
+                Assert.AreEqual(HttpStatusCode.Gone, ex.Status, "Expected the patient to have been deleted");
+                // This was the expected outcome
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+            }
         }
 
         [TestMethod]

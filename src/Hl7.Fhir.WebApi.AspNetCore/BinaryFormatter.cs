@@ -18,14 +18,22 @@ using System.Text;
 
 namespace Hl7.Fhir.WebApi
 {
-    public class BinaryFhirInputFormatter : FhirMediaTypeInputFormatter
+    public class BinaryFhirInputFormatter : InputFormatter
     {
         public BinaryFhirInputFormatter() : base()
         {
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue(FhirMediaType.BinaryResource));
+            // The binary handler can do anything!
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue("*/*"));
         }
 
-        public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
+        protected override bool CanReadType(Type type)
+        {
+            if (typeof(Resource).IsAssignableFrom(type))
+                return true;
+            return false;
+        }
+
+        public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -34,7 +42,7 @@ namespace Hl7.Fhir.WebApi
             await context.HttpContext.Request.Body.CopyToAsync(stream);
 
             StringValues xContentHeader;
-            var success = context.HttpContext.Request.Headers.TryGetValue("X-Content-Type", out xContentHeader);
+            var success = context.HttpContext.Request.Headers.TryGetValue("Content-Type", out xContentHeader);
 
             if (!success)
                 throw new FhirServerException(System.Net.HttpStatusCode.BadRequest, "POST to binary must provide a Content-Type header");
@@ -44,6 +52,17 @@ namespace Hl7.Fhir.WebApi
             Binary binary = new Binary();
             binary.Data = stream.ToArray();
             binary.ContentType = contentType;
+
+            string securityContext = context.HttpContext.Request.Headers["X-Security-Context"];
+            if (!string.IsNullOrEmpty(securityContext))
+                binary.SecurityContext = new ResourceReference(securityContext);
+
+            // Check the Path for the Identity
+            if (context.HttpContext.Request.Path.StartsWithSegments(new Microsoft.AspNetCore.Http.PathString("/Binary")))
+            {
+                var ri = new Rest.ResourceIdentity(context.HttpContext.Request.Path);
+                binary.Id = ri.Id;
+            }
 
             return InputFormatterResult.Success(binary);
         }
@@ -63,14 +82,17 @@ namespace Hl7.Fhir.WebApi
             {
                 var contentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
-                    FileName = String.Format("fhir_binary_{0}_{1}.{2}",
+                    FileName = String.Format("fhir_binary_{0}_{1}{2}",
                     binary.Id,
-                    binary.Meta != null ? binary.Meta.VersionId : "0",
-                    GetFileExtensionForMimeType(binary.ContentType))
+                    binary.Meta?.VersionId ?? "0",
+                    GetFileExtensionForMimeType(binary.ContentType)),
+                    Size = binary.Data.Length
                 };
 
                 contentDisposition.SetHttpFileName(contentDisposition.FileName);
                 context.HttpContext.Response.Headers[HeaderNames.ContentDisposition] = contentDisposition.ToString();
+                if (!string.IsNullOrEmpty(binary.SecurityContext?.Reference))
+                    context.HttpContext.Response.Headers["X-Security-Context"] = binary.SecurityContext?.Reference;
             }
         }
 
@@ -82,23 +104,19 @@ namespace Hl7.Fhir.WebApi
             return null;
         }
 
-        public override System.Threading.Tasks.Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+        public override async System.Threading.Tasks.Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
-
-            if (selectedEncoding == null)
-                throw new ArgumentNullException(nameof(selectedEncoding));
 
             if (context.ObjectType == typeof(Binary))
             {
                 Binary binary = (Binary)context.Object;
 
                 var stream = new MemoryStream(binary.Data);
-                stream.CopyTo(context.HttpContext.Response.Body);
-                stream.FlushAsync();
+                await stream.CopyToAsync(context.HttpContext.Response.Body);
+                await stream.FlushAsync();
             }
-            return System.Threading.Tasks.Task.CompletedTask;
         }
     }
 }

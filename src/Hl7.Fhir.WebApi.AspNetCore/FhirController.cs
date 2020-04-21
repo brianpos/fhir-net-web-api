@@ -94,7 +94,7 @@ namespace Hl7.Fhir.WebApi
         /// http://hl7-fhir.github.io/http.html#transaction
         /// </summary>
         [HttpPost, Route("")]
-        public async Task<IActionResult> ProcessBatch(Bundle batch)
+        public async Task<IActionResult> ProcessBatch([FromBody]Bundle batch)
         {
             var buri = this.CalculateBaseURI("metadata");
             var Inputs = GetInputs(buri);
@@ -103,7 +103,10 @@ namespace Hl7.Fhir.WebApi
             outcome.ResourceBase = new Uri(buri);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             outcome.SetAnnotation<SummaryType>(summary);
-            return new ObjectResult(outcome) { StatusCode = (int)HttpStatusCode.OK };
+            var resultCode = HttpStatusCode.OK;
+            if (outcome.HasAnnotation<HttpStatusCode>())
+                resultCode = outcome.Annotation<HttpStatusCode>();
+            return new FhirObjectResult(resultCode, outcome);
         }
 
         // GET fhir/values
@@ -182,20 +185,9 @@ namespace Hl7.Fhir.WebApi
                     }
                 }
 
-                if (ResourceName == "Binary")
-                {
-                    // We need to reset the accepts type so that the correct formatter is used on the way out.
-                    string formatParam = this.Request.GetParameter("_format");
-                    if (string.IsNullOrEmpty(formatParam))
-                    {
-                        this.Request.GetTypedHeaders().Accept.Clear();
-                        this.Request.GetTypedHeaders().Accept.Add(new MediaTypeHeaderValue((resource as Binary).ContentType));
-                    }
-                }
-
                 if (resource.HasAnnotation<HttpStatusCode>())
                     return new FhirObjectResult(resource.Annotation<HttpStatusCode>(), resource);
-                return new ObjectResult(resource);
+                return new FhirObjectResult(HttpStatusCode.OK, resource);
             }
 
             // this request is a "you wanted what?"
@@ -335,7 +327,7 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             string sortby = Request.GetParameter(FhirParameter.SORT);
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
-            var includeParams = Request.TupledParameters(false).Where(i => i.Key == "_include");
+            var includeParams = Request.TupledParameters(false).Where(i => i.Key == "_include" || i.Key == "_revinclude" || i.Key == "_has" || i.Key == "_list");
 
             var buri = this.CalculateBaseURI("{ResourceName");
             parameters = parameters.Union(includeParams);
@@ -629,8 +621,6 @@ namespace Hl7.Fhir.WebApi
             }
 
             var result = await model.Create(bodyResource, ifMatch, null, null);
-            // if (bodyResource is Binary)
-            // this.Request.SaveEntry(bodyResource);
             result.ResourceBase = new Uri(buri);
             var actualResource = result;
 

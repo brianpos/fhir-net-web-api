@@ -33,20 +33,6 @@ namespace Hl7.Fhir.WebApi
                 return true;
             return false;
         }
-
-        // Don't want to spool through the stream here, just pass the stream onto the next level so that it can spool 
-        // rather than be complete in a single string to then process
-        //protected string ReadBodyFromStream(Stream readStream, HttpContent content)
-        //{
-        //    var charset = content.Headers.ContentType.CharSet ?? Encoding.UTF8.WebName; // this was headername in WebApi
-        //    var encoding = Encoding.GetEncoding(charset);
-
-        //    if (encoding != Encoding.UTF8)
-        //        throw new FhirServerException(HttpStatusCode.BadRequest, "FHIR supports UTF-8 encoding exclusively, not " + encoding.WebName);
-
-        //    StreamReader sr = new StreamReader(readStream, Encoding.UTF8, true);
-        //    return sr.ReadToEnd();
-        //}
     }
 
     public abstract class FhirMediaTypeOutputFormatter : TextOutputFormatter
@@ -87,9 +73,9 @@ namespace Hl7.Fhir.WebApi
                 if (!string.IsNullOrEmpty(resource.Id))
                     context.HttpContext.Response.Headers.Add(HeaderNames.Location, resource.ResourceIdentity(resource.ResourceBase).OriginalString);
 
-                if (resource is Binary)
+                if (resource is Binary && context.HttpContext.Request.Headers[HeaderNames.Accept] == FhirMediaType.BinaryResource)
                 {
-                    context.HttpContext.Response.Headers.Add(HeaderNames.ContentType, ((Binary)resource).ContentType);
+                    context.HttpContext.Response.Headers[HeaderNames.ContentType] = ((Binary)resource).ContentType;
                     context.ContentType = new Microsoft.Extensions.Primitives.StringSegment(((Binary)resource).ContentType);
                 }
             }

@@ -330,16 +330,40 @@ namespace UnitTestWebApi
             Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
             Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
 
+            // Now Create it using the Binary input formatter
+            rawWriter.DefaultRequestHeaders.Accept.Clear();
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+xml"));
+            HttpContent binaryContent = new System.Net.Http.ByteArrayContent(b.Data);
+            binaryContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/gif");
+            binaryContent.Headers.Add("X-Security-Context", "Organization/3");
+            resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", binaryContent);
+            result = new FhirXmlParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
+            Console.WriteLine("Xml Result:");
+            DebugDumpOutputXml(result);
+            Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
+            Assert.AreEqual("application/fhir+xml", resRaw.Content.Headers.ContentType.MediaType);
+
+            Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
+            Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
+
             try
             {
                 Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
                 clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
                 clientFhir.Timeout = 50000;
-                // This method uses the BINARY stream approach (which has issues)
-                //clientFhir.PreferredFormat = ResourceFormat.Xml;
-                //result = clientFhir.Update(b);
-                //DebugDumpOutputXml(result);
+                // This method uses the BINARY stream approach (which has issues - no security context passed through)
+                clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_SecurityContectHeader;
+                result = clientFhir.Update(b);
+                clientFhir.OnBeforeRequest -= ClientFhir_OnBeforeRequest_SecurityContectHeader;
+                DebugDumpOutputXml(result);
 
+                Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
+                Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
+                Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
+                Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
+                Assert.AreEqual("Organization/4", result.SecurityContext?.Reference);
 
                 // read the record to check that it can be loaded with the regular FHIR client
                 clientFhir.PreferredFormat = ResourceFormat.Xml;
@@ -393,6 +417,10 @@ namespace UnitTestWebApi
             System.Diagnostics.Trace.WriteLine("---------------------------------------------------");
             System.Diagnostics.Trace.WriteLine(e.RawRequest.RequestUri);
             e.RawRequest.Headers.Add("x-test", "Cleaner");
+        }
+        private void ClientFhir_OnBeforeRequest_SecurityContectHeader(object sender, BeforeRequestEventArgs e)
+        {
+            e.RawRequest.Headers.Add("X-Security-Context", "Organization/4");
         }
     }
 }

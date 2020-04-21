@@ -1,0 +1,1404 @@
+<Bundle xmlns="http://hl7.org/fhir">
+  <id value="batch-connectathon" />
+  <type value="batch" />
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/23734d429d134730b581d6f0e9fce9d2" />
+    <resource>
+      <Patient>
+        <id value="23734d429d134730b581d6f0e9fce9d2" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Brian Jonas</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2806546876" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Jonas" />
+          <given value="Brian" />
+          <prefix value="Mr" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="male" />
+        <birthDate value="1950-06-30" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/23734d429d134730b581d6f0e9fce9d2" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/3d03619fefa74dae93ce0d93c65b2803" />
+    <resource>
+      <Patient>
+        <id value="3d03619fefa74dae93ce0d93c65b2803" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Jonathan Curt</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2806546672" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Curt" />
+          <given value="Jonathan" />
+          <prefix value="Mr" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="male" />
+        <birthDate value="1982-05-09" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/3d03619fefa74dae93ce0d93c65b2803" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/8f1da895c4944f21876633ea38d2681e" />
+    <resource>
+      <Patient>
+        <id value="8f1da895c4944f21876633ea38d2681e" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Omari Hannah</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2906549876" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Hannah" />
+          <given value="Omari" />
+          <prefix value="Miss" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="female" />
+        <birthDate value="1970-10-03" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/8f1da895c4944f21876633ea38d2681e" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/ad0108a6c33748cf8469c4716e81b102" />
+    <resource>
+      <Patient>
+        <id value="ad0108a6c33748cf8469c4716e81b102" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Preet Kaur</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2806534878" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Kaur" />
+          <given value="Preet" />
+          <prefix value="Miss" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="female" />
+        <birthDate value="1983-12-12" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/ad0108a6c33748cf8469c4716e81b102" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/9a6acda5eddb4098b15420ac1316f0f3" />
+    <resource>
+      <Patient>
+        <id value="9a6acda5eddb4098b15420ac1316f0f3" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Christina Click</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2856538787" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Click" />
+          <given value="Christina" />
+          <prefix value="Miss" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="female" />
+        <birthDate value="1974-12-05" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/9a6acda5eddb4098b15420ac1316f0f3" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/8de4a52570b640d8bab66d0a676dd4ec" />
+    <resource>
+      <Patient>
+        <id value="8de4a52570b640d8bab66d0a676dd4ec" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Matthew Dunk</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2812530987" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Dunk" />
+          <given value="Matthew" />
+          <prefix value="Mr" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="male" />
+        <birthDate value="1984-02-11" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/8de4a52570b640d8bab66d0a676dd4ec" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/226fd25a4d0e4668802c66c8959c70ac" />
+    <resource>
+      <Patient>
+        <id value="226fd25a4d0e4668802c66c8959c70ac" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>John Alani</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2812780123" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Alani" />
+          <given value="John" />
+          <prefix value="Mr" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="male" />
+        <birthDate value="1960-01-01" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/226fd25a4d0e4668802c66c8959c70ac" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Patient/226a522db30f4468867be2223c60169f" />
+    <resource>
+      <Patient>
+        <id value="226a522db30f4468867be2223c60169f" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-patient" />
+        </meta>
+        <text>
+          <status value="generated" />
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Rosie Antonio</p>
+          </div>
+        </text>
+        <identifier>
+          <use value="usual" />
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="MC" />
+              <display value="Patient's Medicare Number" />
+            </coding>
+            <text value="Medicare Number" />
+          </type>
+          <system value="http://ns.electronichealth.net.au/id/medicare-number" />
+          <value value="2910080326" />
+        </identifier>
+        <active value="true" />
+        <name>
+          <use value="usual" />
+          <family value="Antonio" />
+          <given value="Rosie" />
+          <prefix value="Miss" />
+        </name>
+        <telecom>
+          <use value="home" />
+        </telecom>
+        <telecom>
+          <system value="phone" />
+          <value value="0423547793" />
+          <use value="mobile" />
+          <rank value="2" />
+        </telecom>
+        <gender value="female" />
+        <birthDate value="1985-02-09" />
+      </Patient>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Patient/226a522db30f4468867be2223c60169f" />
+    </request>
+  </entry>
+
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Organization/ab3d2dd196e64f5aab2fd4dff909350e" />
+    <resource>
+      <Organization xmlns="http://hl7.org/fhir">
+        <id value="ab3d2dd196e64f5aab2fd4dff909350e"/>
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-organization"/>
+        </meta>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Alltime Pharmacy</p>
+          </div>
+        </text>
+        <active value="true"/>
+        <name value="Alltime Pharmacy"/>
+      </Organization>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Organization/ab3d2dd196e64f5aab2fd4dff909350e" />
+    </request>
+  </entry>
+
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Organization/a61c35093a7b4410806427bb413a8bb7" />
+    <resource>
+      <Organization xmlns="http://hl7.org/fhir">
+        <id value="a61c35093a7b4410806427bb413a8bb7"/>
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-organization"/>
+        </meta>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Clear Chemist</p>
+          </div>
+        </text>
+        <active value="true"/>
+        <name value="Clear Chemist"/>
+      </Organization>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Organization/a61c35093a7b4410806427bb413a8bb7" />
+    </request>
+  </entry>
+
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Organization/2bfe6cfc38e54b84a4d9efaebabe110b" />
+    <resource>
+      <Organization xmlns="http://hl7.org/fhir">
+        <id value="2bfe6cfc38e54b84a4d9efaebabe110b"/>
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-organization"/>
+        </meta>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>Generic Medicines</p>
+          </div>
+        </text>
+        <active value="true"/>
+        <name value="Generic Medicines"/>
+      </Organization>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Organization/2bfe6cfc38e54b84a4d9efaebabe110b" />
+    </request>
+  </entry>
+
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Organization/667793cedff94cbeb71cf63c9b665037" />
+    <resource>
+      <Organization xmlns="http://hl7.org/fhir">
+        <id value="667793cedff94cbeb71cf63c9b665037"/>
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-organization"/>
+        </meta>
+        <text>
+          <status value="generated"/>
+          <div xmlns="http://www.w3.org/1999/xhtml">
+            <p>The Drug Store</p>
+          </div>
+        </text>
+        <active value="true"/>
+        <name value="The Drug Store"/>
+      </Organization>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Organization/667793cedff94cbeb71cf63c9b665037" />
+    </request>
+  </entry>
+
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/3f2f5f0ac0f14b2db73a73cd9cea03f9" />
+    <resource>
+      <Consent>
+        <id value="3f2f5f0ac0f14b2db73a73cd9cea03f9" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="rejected" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Permit Practitioner to access to My ScriptList" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+        </category>
+        <patient>
+          <reference value="Patient/8f1da895c4944f21876633ea38d2681e" />
+          <display value="Omari Hannah" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <performer>
+          <reference value="Patient/8f1da895c4944f21876633ea38d2681e" />
+          <display value="Omari Hannah" />
+        </performer>
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <period>
+            <start value="2020-02-01T16:16:00+11:00" />
+            <end value="2020-02-02T16:16:00+11:00" />
+          </period>
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/2bfe6cfc38e54b84a4d9efaebabe110b" />
+              <display value="Generic Medicines" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/3f2f5f0ac0f14b2db73a73cd9cea03f9" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/8da6ed6ad6444e598a3f595b3bcbed9b" />
+    <resource>
+      <Consent>
+        <id value="8da6ed6ad6444e598a3f595b3bcbed9b" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="rejected" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Permit Practitioner to access to My ScriptList" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+        </category>
+        <patient>
+          <reference value="Patient/8de4a52570b640d8bab66d0a676dd4ec" />
+          <display value="Matthew Dunk" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <performer>
+          <reference value="Patient/8de4a52570b640d8bab66d0a676dd4ec" />
+          <display value="Matthew Dunk" />
+        </performer>
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <period>
+            <start value="2020-02-01T16:16:00+11:00" />
+            <end value="2020-02-02T16:16:00+11:00" />
+          </period>
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/a61c35093a7b4410806427bb413a8bb7" />
+              <display value="Clear Chemist" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/8da6ed6ad6444e598a3f595b3bcbed9b" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/2c751767ad40433e8008e05547c2e010" />
+    <resource>
+      <Consent>
+        <id value="2c751767ad40433e8008e05547c2e010" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="active" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Privacy Consent" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+          <text value="information access" />
+        </category>
+        <patient>
+          <reference value="Patient/3d03619fefa74dae93ce0d93c65b2803" />
+          <display value="Jonathan Curt" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <performer>
+          <reference value="Patient/3d03619fefa74dae93ce0d93c65b2803" />
+          <display value="Jonathan Curt" />
+        </performer>
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <period>
+            <start value="2020-02-03T16:16:00+11:00" />
+            <end value="2020-02-04T16:16:00+11:00" />
+          </period>
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/a61c35093a7b4410806427bb413a8bb7" />
+              <display value="Clear Chemist" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/2c751767ad40433e8008e05547c2e010" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/b42c8badc1cc486daa8e8823f57e540e" />
+    <resource>
+      <Consent>
+        <id value="b42c8badc1cc486daa8e8823f57e540e" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="active" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Privacy Consent" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+          <text value="information access" />
+        </category>
+        <patient>
+          <reference value="Patient/9a6acda5eddb4098b15420ac1316f0f3" />
+          <display value="Christina Click" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <performer>
+          <reference value="Patient/9a6acda5eddb4098b15420ac1316f0f3" />
+          <display value="Christina Click" />
+        </performer>
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <period>
+            <start value="2020-02-01T16:16:00+11:00" />
+            <end value="2020-02-02T16:16:00+11:00" />
+          </period>
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/ab3d2dd196e64f5aab2fd4dff909350e" />
+              <display value="Alltime Pharmacy" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/b42c8badc1cc486daa8e8823f57e540e" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/a7a4df0093a6497595549fe9e2a7d258" />
+    <resource>
+      <Consent>
+        <id value="a7a4df0093a6497595549fe9e2a7d258" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="active" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Privacy Consent" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+          <text value="information access" />
+        </category>
+        <patient>
+          <reference value="Patient/226a522db30f4468867be2223c60169f" />
+          <display value="Rosie Antonio" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <performer>
+          <reference value="Patient/226a522db30f4468867be2223c60169f" />
+          <display value="Rosie Antonio" />
+        </performer>
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <period>
+            <start value="2020-02-01T16:16:00+11:00" />
+            <end value="2020-02-02T16:16:00+11:00" />
+          </period>
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/667793cedff94cbeb71cf63c9b665037" />
+              <display value="The Drug Store" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/a7a4df0093a6497595549fe9e2a7d258" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/9faa57e285a542e695113b65e25b6e8a" />
+    <resource>
+      <Consent>
+        <id value="9faa57e285a542e695113b65e25b6e8a" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="proposed" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Permit Practitioner to access to My ScriptList" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+        </category>
+        <patient>
+          <reference value="Patient/23734d429d134730b581d6f0e9fce9d2" />
+          <display value="Brian Jonas" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/ab3d2dd196e64f5aab2fd4dff909350e" />
+              <display value="Alltime Pharmacy" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/9faa57e285a542e695113b65e25b6e8a" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/fa359351e02b492fafdfcbd8605fa9d2" />
+    <resource>
+      <Consent>
+        <id value="fa359351e02b492fafdfcbd8605fa9d2" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="proposed" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Permit Practitioner to access to My ScriptList" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+        </category>
+        <patient>
+          <reference value="Patient/ad0108a6c33748cf8469c4716e81b102" />
+          <display value="Preet Kaur" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/667793cedff94cbeb71cf63c9b665037" />
+              <display value="The Drug Store" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/fa359351e02b492fafdfcbd8605fa9d2" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/Consent/c29e755fd623445fb52b1b314f031255" />
+    <resource>
+      <Consent>
+        <id value="c29e755fd623445fb52b1b314f031255" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-consent" />
+        </meta>
+        <status value="proposed" />
+        <scope>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/consentscope" />
+            <code value="patient-privacy" />
+            <display value="Privacy Consent" />
+          </coding>
+          <text value="Permit Practitioner to access to My ScriptList" />
+        </scope>
+        <category>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode" />
+            <code value="INFA" />
+            <display value="information access" />
+          </coding>
+        </category>
+        <patient>
+          <reference value="Patient/226fd25a4d0e4668802c66c8959c70ac" />
+          <display value="John Alani" />
+        </patient>
+        <dateTime value="2019-11-15T16:16:00+11:00" />
+        <policy>
+          <uri value="http://example.org/mysciptlist/consent-access-guidelines-v1.html" />
+        </policy>
+        <provision>
+          <type value="permit" />
+          <actor>
+            <role>
+              <text value="Pharmacist" />
+            </role>
+            <reference>
+              <reference value="Organization/2bfe6cfc38e54b84a4d9efaebabe110b" />
+              <display value="Generic Medicines" />
+            </reference>
+          </actor>
+          <action>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/consentaction" />
+              <code value="use" />
+              <display value="Use" />
+            </coding>
+          </action>
+        </provision>
+      </Consent>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="Consent/c29e755fd623445fb52b1b314f031255" />
+    </request>
+  </entry>
+
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/d5f44a8ad9f640c3a5c2931ed9c8e766" />
+    <resource>
+      <MedicationRequest>
+        <id value="d5f44a8ad9f640c3a5c2931ed9c8e766" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="19WC94RKWRX54QX1D4" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/23734d429d134730b581d6f0e9fce9d2" />
+          <display value="Brian Jonas" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Maek Meebetta" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/d5f44a8ad9f640c3a5c2931ed9c8e766" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/53351489f8a244cc930a622eec32891d" />
+    <resource>
+      <MedicationRequest>
+        <id value="53351489f8a244cc930a622eec32891d" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="29WC94RKWRX54QX1D4" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/3d03619fefa74dae93ce0d93c65b2803" />
+          <display value="Jonathan Curt" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Sai Gopal" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/53351489f8a244cc930a622eec32891d" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/8d39005cd8a146eea031695f7afc6dcf" />
+    <resource>
+      <MedicationRequest>
+        <id value="8d39005cd8a146eea031695f7afc6dcf" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="19WC94RKWRX54QX1D5" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/8f1da895c4944f21876633ea38d2681e" />
+          <display value="Omari Hannah" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Paumil Aman" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/8d39005cd8a146eea031695f7afc6dcf" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/7f2cb21b0e5248ed86279edf73917265" />
+    <resource>
+      <MedicationRequest>
+        <id value="7f2cb21b0e5248ed86279edf73917265" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="19WC94RKWRX54QX1F4" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/ad0108a6c33748cf8469c4716e81b102" />
+          <display value="Preet Kaur" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Maek Meebetta" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/7f2cb21b0e5248ed86279edf73917265" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/c963958935e64741a817d846fd14165c" />
+    <resource>
+      <MedicationRequest>
+        <id value="c963958935e64741a817d846fd14165c" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="19WC94RKWRX54QX2D4" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/9a6acda5eddb4098b15420ac1316f0f3" />
+          <display value="Christina Click" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Gopi Kol" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/c963958935e64741a817d846fd14165c" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/227bd30b0efe413aa417fd9be0d1c3af" />
+    <resource>
+      <MedicationRequest>
+        <id value="227bd30b0efe413aa417fd9be0d1c3af" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="19WC94RKWRX54QX1D4" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/8de4a52570b640d8bab66d0a676dd4ec" />
+          <display value="Matthew Dunk" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Gopi Kol" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/227bd30b0efe413aa417fd9be0d1c3af" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/0023ac9b969e46b3937c759eb989441e" />
+    <resource>
+      <MedicationRequest>
+        <id value="0023ac9b969e46b3937c759eb989441e" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="19WC94RKWRX54QX2D4" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/226fd25a4d0e4668802c66c8959c70ac" />
+          <display value="John Alani" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Tag Sing" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/0023ac9b969e46b3937c759eb989441e" />
+    </request>
+  </entry>
+  <entry>
+    <fullUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir/MedicationRequest/570fd89c33064915964ec12b45334142" />
+    <resource>
+      <MedicationRequest>
+        <id value="570fd89c33064915964ec12b45334142" />
+        <meta>
+          <profile value="http://fhir.fred.com.au/my-sl/StructureDefinition/mysl-medicationrequest" />
+        </meta>
+        <identifier>
+          <use value="official" />
+          <type>
+            <coding>
+              <system value="http://hl7.org.au/fhir/v2/0203" />
+              <code value="ETP" />
+              <display value="ETP Identifier" />
+            </coding>
+          </type>
+          <system value="http://fhir.erx.com.au/NamingSystem/identifiers#scid" />
+          <value value="19WC94RKWRX54RX1D4" />
+          <assigner>
+            <display value="eRX" />
+          </assigner>
+        </identifier>
+        <status value="active" />
+        <intent value="order" />
+        <medicationCodeableConcept>
+          <text value="Imuran 1mg" />
+        </medicationCodeableConcept>
+        <subject>
+          <reference value="Patient/226a522db30f4468867be2223c60169f" />
+          <display value="Rosie Antonio" />
+        </subject>
+        <authoredOn value="2020-01-01" />
+        <requester>
+          <display value="Dr Tag Sing" />
+        </requester>
+        <dosageInstruction>
+          <sequence value="1" />
+          <text value="Take one tablet daily as directed" />
+        </dosageInstruction>
+      </MedicationRequest>
+    </resource>
+    <request>
+      <method value="PUT" />
+      <url value="MedicationRequest/570fd89c33064915964ec12b45334142" />
+    </request>
+  </entry>
+
+
+
+</Bundle>

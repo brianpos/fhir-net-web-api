@@ -212,6 +212,28 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public async System.Threading.Tasks.Task LoadConnectathonUsingTransaction()
+        {
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
+
+            // Create the 2 MedicationRequests
+            var stream = this.GetType().Assembly.GetManifestResourceStream("Test.WebApi.AspNetCore.TestData.batch-connectathon.xml");
+            System.IO.StreamReader sr = new System.IO.StreamReader(stream);
+            String content = sr.ReadToEnd();
+            var r = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Bundle>(content);
+            var created = await clientFhir.TransactionAsync(r);
+            DebugDumpOutputXml(created);
+            Assert.AreEqual(r.Entry.Count, created.Entry.Count);
+            foreach (var entry in created.Entry)
+            {
+                Assert.IsNotNull(entry.Resource?.Meta?.LastUpdated);
+                Assert.AreEqual("201", entry.Response.Status);
+                Assert.AreEqual(entry.Request.Url, entry.Response.Location);
+            }
+        }
+
+        [TestMethod]
         public void WholeSystemHistory()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);

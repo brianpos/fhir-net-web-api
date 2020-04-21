@@ -92,7 +92,7 @@ namespace Hl7.Fhir.WebApi
         /// <http://hl7-fhir.github.io/http.html#transaction>
         /// </summary>
         [HttpPost, Route("")]
-        public HttpResponseMessage ProcessBatch(Bundle batch)
+        public HttpResponseMessage ProcessBatch([FromBody] Bundle batch)
         {
             var buri = this.CalculateBaseURI("metadata");
             var Inputs = GetInputs(buri);

@@ -42,11 +42,5 @@ namespace Hl7.Fhir.NetCoreApi.R4
         private Resource _result;
         public Resource Result { get { return _result; } }
         public string DeletedVersionId { get { return _deletedVersionId; } }
-
-        public override void OnFormatting(ActionContext context)
-        {
-            // we can control the formatter to be selected here!
-            base.OnFormatting(context);
-        }
     }
 }

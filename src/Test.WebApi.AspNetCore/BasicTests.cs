@@ -111,12 +111,24 @@ namespace UnitTestWebApi
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
+            clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             var result = clientFhir.Create<Patient>(p);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
             Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
             Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+        }
+
+        private void ClientFhir_OnBeforeRequestCorrlationTest(object sender, BeforeRequestEventArgs e)
+        {
+            e.RawRequest.Headers.Add("X-Correlation-Id", "TestMe");
+        }
+
+        private void ClientFhir_OnAfterResponseCorrlationTest(object sender, AfterResponseEventArgs e)
+        {
+            Assert.AreEqual("TestMe", e.RawResponse.Headers.Get("X-Correlation-Id"));
         }
 
         [TestMethod]

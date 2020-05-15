@@ -57,8 +57,8 @@ namespace Hl7.Fhir.WebApi
         }
 
         // Query Parameter names that are processed by the various HTTP actions
-        readonly string[] SearchQueryParameterNames = { "_summary", "_sort", "_count" };
-        readonly string[] OperationQueryParameterNames = { "_summary" };
+        readonly string[] SearchQueryParameterNames = { "_summary", "_sort", "_count", "_format" };
+        readonly string[] OperationQueryParameterNames = { "_summary", "_format" };
 
         internal static IFhirSystemServiceR4<IDependencyScope> GetSystemModel(ModelBaseInputs<IDependencyScope> inputs)
         {
@@ -383,6 +383,7 @@ namespace Hl7.Fhir.WebApi
             result.ResourceBase = new Uri(buri);
 
             this.ControllerContext.Request.SaveEntry(result);
+            result.SetAnnotation<SummaryType>(summary);
             return result;
         }
 
@@ -416,6 +417,7 @@ namespace Hl7.Fhir.WebApi
             result.ResourceBase = new Uri(buri);
 
             this.ControllerContext.Request.SaveEntry(result);
+            result.SetAnnotation<SummaryType>(summary);
             return result;
         }
 
@@ -451,7 +453,6 @@ namespace Hl7.Fhir.WebApi
             DateTimeOffset? since = Request.GetDateParameter("_since");
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
-            string sortby = Request.GetParameter(FhirParameter.SORT);
 
             var buri = this.CalculateBaseURI("{ResourceName}");
 

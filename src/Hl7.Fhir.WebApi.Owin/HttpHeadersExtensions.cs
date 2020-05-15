@@ -64,15 +64,13 @@ namespace Hl7.Fhir.WebApi
             return null;
         }
 
-        static List<String> reservedSearchParams = new List<string>() { "_id", "_language", "_lastUpdated", "_profile", "_security", "_tag" };
-
         /// <summary>
         /// Retrieve all the parameters from the Request
         /// </summary>
         /// <param name="request"></param>
         /// <param name="filterReservedParameters">Do not include any parameters that start with "_" (such as _since)</param>
         /// <returns></returns>
-        public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this HttpRequestMessage request, bool filterReservedParameters)
+        public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this HttpRequestMessage request, string[] excludeParameters = null)
         {
             var list = new List<KeyValuePair<string, string>>();
 
@@ -80,13 +78,13 @@ namespace Hl7.Fhir.WebApi
             
             foreach (var pair in query)
             {
-                if (!filterReservedParameters || !pair.Key.StartsWith("_") || reservedSearchParams.Contains(pair.Key))
+                if (excludeParameters == null || !excludeParameters.Contains(pair.Key))
                     list.Add(new KeyValuePair<string, string>(pair.Key, pair.Value));
             }
             return list;
         }
 
-        public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this System.Collections.Specialized.NameValueCollection query, bool filterReservedParameters)
+        public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this System.Collections.Specialized.NameValueCollection query, string[] excludeParameters = null)
         {
             var list = new List<KeyValuePair<string, string>>();
 
@@ -94,7 +92,7 @@ namespace Hl7.Fhir.WebApi
             {
                 foreach (string key in query.Keys)
                 {
-                    if (!filterReservedParameters || !key.StartsWith("_") || reservedSearchParams.Contains(key))
+                    if (excludeParameters == null || !excludeParameters.Contains(key))
                         list.Add(new KeyValuePair<string, string>(key, query[key]));
                 }
             }

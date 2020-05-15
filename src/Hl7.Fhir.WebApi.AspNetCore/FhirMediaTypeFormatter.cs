@@ -57,6 +57,7 @@ namespace Hl7.Fhir.WebApi
             return false;
         }
 
+        const string x_correlation_id = "X-Correlation-Id";
         public override void WriteResponseHeaders(OutputFormatterWriteContext context)
         {
             base.WriteResponseHeaders(context);
@@ -78,6 +79,15 @@ namespace Hl7.Fhir.WebApi
                     context.HttpContext.Response.Headers[HeaderNames.ContentType] = ((Binary)resource).ContentType;
                     context.ContentType = new Microsoft.Extensions.Primitives.StringSegment(((Binary)resource).ContentType);
                 }
+            }
+
+            // echo any X-Correlation-Id Headers if encountered
+            if (context.HttpContext.Request.Headers.ContainsKey(x_correlation_id))
+            {
+                if (!context.HttpContext.Response.Headers.ContainsKey(x_correlation_id))
+                    context.HttpContext.Response.Headers.Add(x_correlation_id, context.HttpContext.Request.Headers[x_correlation_id]);
+                if (context.HttpContext.Request.Headers[x_correlation_id] != context.HttpContext.Response.Headers[x_correlation_id])
+                    System.Diagnostics.Trace.WriteLine($"Hl7.Fhir.WebApi.FhirMediaTypeOutputFormatter: X-Correlation-Id headers didn't match request vs response");
             }
         }
     }

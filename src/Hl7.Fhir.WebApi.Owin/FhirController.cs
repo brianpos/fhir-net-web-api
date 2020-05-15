@@ -56,6 +56,10 @@ namespace Hl7.Fhir.WebApi
             return inputs;
         }
 
+        // Query Parameter names that are processed by the various HTTP actions
+        readonly string[] SearchQueryParameterNames = { "_summary", "_sort", "_count", "_format" };
+        readonly string[] OperationQueryParameterNames = { "_summary", "_format" };
+
         internal static IFhirSystemServiceR4<IDependencyScope> GetSystemModel(ModelBaseInputs<IDependencyScope> inputs)
         {
             return WebApiConfig._systemService;
@@ -224,7 +228,7 @@ namespace Hl7.Fhir.WebApi
             var buri = this.CalculateBaseURI("{ResourceName}");
             
             Parameters operationParameters = new Parameters();
-            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
+            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, GetInputs(buri));
@@ -236,8 +240,8 @@ namespace Hl7.Fhir.WebApi
         public HttpResponseMessage PerformOperation(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
-            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
+
+            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, GetInputs(buri));
@@ -251,7 +255,7 @@ namespace Hl7.Fhir.WebApi
             var buri = this.CalculateBaseURI("{ResourceName}");
             
             Parameters operationParameters = new Parameters();
-            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
+            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, GetInputs(buri));
@@ -264,7 +268,7 @@ namespace Hl7.Fhir.WebApi
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
             
-            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
+            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, GetInputs(buri));
@@ -326,7 +330,7 @@ namespace Hl7.Fhir.WebApi
             var buri = this.CalculateBaseURI("${operation}");
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(false));
+            ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             var inputs = GetInputs(buri);
 
             Resource resource = GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary).Result;
@@ -337,7 +341,7 @@ namespace Hl7.Fhir.WebApi
         {
             if (operationParameters == null)
                 operationParameters = new Parameters();
-            foreach (var item in Request.TupledParameters(false))
+            foreach (var item in Request.TupledParameters())
             {
                 operationParameters.Add(item.Key, new FhirString(item.Value));
             }
@@ -366,14 +370,12 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Trace.WriteLine("GET: " + this.ControllerContext.Request.RequestUri.OriginalString);
 
-            var parameters = Request.TupledParameters(true);
+            var parameters = Request.TupledParameters(SearchQueryParameterNames);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             string sortby = Request.GetParameter(FhirParameter.SORT);
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
-            var includeParams = Request.TupledParameters(false).Where(i => i.Key == "_include");
 
             var buri = this.CalculateBaseURI("{ResourceName}");
-            parameters = parameters.Union(includeParams);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, GetInputs(buri));
 
@@ -381,6 +383,7 @@ namespace Hl7.Fhir.WebApi
             result.ResourceBase = new Uri(buri);
 
             this.ControllerContext.Request.SaveEntry(result);
+            result.SetAnnotation<SummaryType>(summary);
             return result;
         }
 
@@ -390,7 +393,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Trace.WriteLine("GET: " + this.ControllerContext.Request.RequestUri.OriginalString);
 
-            var parameters = Request.TupledParameters(true).ToList();
+            var parameters = Request.TupledParameters(SearchQueryParameterNames).ToList();
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             string sortby = Request.GetParameter(FhirParameter.SORT);
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
@@ -414,6 +417,7 @@ namespace Hl7.Fhir.WebApi
             result.ResourceBase = new Uri(buri);
 
             this.ControllerContext.Request.SaveEntry(result);
+            result.SetAnnotation<SummaryType>(summary);
             return result;
         }
 
@@ -449,7 +453,6 @@ namespace Hl7.Fhir.WebApi
             DateTimeOffset? since = Request.GetDateParameter("_since");
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
-            string sortby = Request.GetParameter(FhirParameter.SORT);
 
             var buri = this.CalculateBaseURI("{ResourceName}");
 
@@ -675,7 +678,7 @@ namespace Hl7.Fhir.WebApi
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, GetInputs(buri));
 
             string ifMatch = null;
-            var conditionalSearchParams = this.ControllerContext.Request.RequestUri.ParseQueryString().TupledParameters(false);
+            var conditionalSearchParams = this.ControllerContext.Request.RequestUri.ParseQueryString().TupledParameters();
             if (conditionalSearchParams.Count() > 0)
             {
                 ifMatch = this.ControllerContext.Request.RequestUri.Query;
@@ -897,7 +900,7 @@ namespace Hl7.Fhir.WebApi
 
             var Inputs = GetInputs(buri);
 
-            if (Request.TupledParameters(false).Count() == 0)
+            if (Request.TupledParameters().Count() == 0)
             {
                 var oo = new OperationOutcome()
                 {

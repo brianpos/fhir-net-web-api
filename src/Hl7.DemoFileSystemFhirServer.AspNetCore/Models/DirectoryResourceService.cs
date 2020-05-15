@@ -81,16 +81,70 @@ namespace Hl7.DemoFileSystemFhirServer
 
         public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
         {
-            throw new NotImplementedException();
-            //Bundle result = new Bundle();
-            //result.Meta = new Meta();
-            //result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
-            //result.Type = Bundle.BundleType.Searchset;
-            //result.ResourceBase = RequestDetails.BaseUri;
+            // This is a Brute force search implementation - just scan all the files
+            Bundle resource = new Bundle();
+            if (resource.Meta == null)
+                resource.Meta = new Meta();
+            resource.Meta.LastUpdated = DateTime.Now;
+            resource.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToFhirId()).OriginalString;
+            resource.Type = Bundle.BundleType.Searchset;
+            resource.ResourceBase = RequestDetails.BaseUri;
 
-            // Check that the Last Update value is correctly entered and that the count is at least as big as the data included
-            // and update the links
-            // result.ProcessLastModifiedFromEntriesAndLinks(Request.RequestUri, pagesize, pagenumber, snapshotID);
+            Dictionary<string, Resource> entries = new Dictionary<string, Resource>();
+            var parser = new Hl7.Fhir.Serialization.FhirXmlParser();
+            string filter = $"{ResourceName}.*.*.xml";
+            var idparam = parameters.Where(kp => kp.Key == "_id");
+            if (idparam.Any())
+            {
+                // Even though this is a trashy demo app, don't permit walking the file system
+                filter = $"{ResourceName}.{idparam.First().Value.Replace("/", "")}.*.xml";
+            }
+            foreach (var filename in System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, filter))
+            {
+                using (System.IO.FileStream stream = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
+                {
+                    var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+                    var resourceEntry = parser.Parse<Resource>(xr);
+                    if (entries.ContainsKey(resourceEntry.Id))
+                    {
+                        if (String.Compare(entries[resourceEntry.Id].Meta.VersionId, resourceEntry.Meta.VersionId) < 0)
+                            entries[resource.Id] = resourceEntry;
+                    }
+                    else
+                        entries.Add(resourceEntry.Id, resourceEntry);
+                }
+            }
+            foreach (var item in entries.Values)
+            {
+                resource.AddResourceEntry(item,
+                    ResourceIdentity.Build(RequestDetails.BaseUri,
+                        item.ResourceType.ToString(),
+                        item.Id,
+                        item.Meta.VersionId).OriginalString).Search = new Bundle.SearchComponent()
+                        {
+                            Mode = Bundle.SearchEntryMode.Include
+                        };
+            }
+            resource.Total = resource.Entry.Count(e => e.Search.Mode == Bundle.SearchEntryMode.Include);
+            if (Count.HasValue)
+                resource.Entry = resource.Entry.Take(Count.Value).ToList();
+            if (parameters.Count(p => p.Key != "_id") > 0)
+            {
+                var outcome = new OperationOutcome();
+                outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Severity = OperationOutcome.IssueSeverity.Warning,
+                    Code = OperationOutcome.IssueType.NotSupported,
+                    Details = new CodeableConcept() { Text = $"Unsupported search parameters used: {String.Join("&", parameters.Where(p => p.Key != "_id").Select(k => k.Key + "=" + k.Value))}" }
+                });
+                resource.AddResourceEntry(outcome,
+                    new Uri("urn:uuid:" + Guid.NewGuid().ToFhirId()).OriginalString).Search = new Bundle.SearchComponent()
+                    {
+                        Mode = Bundle.SearchEntryMode.Outcome
+                    };
+            }
+
+            return System.Threading.Tasks.Task.FromResult(resource);
         }
 
         public Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)

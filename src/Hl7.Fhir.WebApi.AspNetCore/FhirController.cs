@@ -39,6 +39,40 @@ namespace Hl7.Fhir.WebApi
 
         internal static ModelBaseInputs<IServiceProvider> GetInputs(HttpRequest Request, System.Security.Principal.IPrincipal User, Uri baseUrl)
         {
+            // If the headers indicate that this was through a proxy, update the baseurl to come from that location
+            if (NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems?.Count > 0)
+            {
+                if (Request.Headers.ContainsKey("Forwarded"))
+                {
+                    // TODO: https://tools.ietf.org/html/rfc7239
+                    //var forwarded = Request.Headers["Forwarded"].FirstOrDefault(s => !string.IsNullOrEmpty(s) && !s.StartsWith("_"));
+                    //var
+                    //string virtualPath = Request.PathBase.Value?.TrimEnd('/');
+                    //string proxyUrl = baseUrl.OriginalString;
+                    //if (NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems.ContainsKey(proxyUrl))
+                    //    baseUrl = NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems[proxyUrl];
+                    //else
+                    //    baseUrl = new Uri(proxyUrl);
+                }
+                if (Request.Headers.ContainsKey("X-Forwarded-Proto") && Request.Headers.ContainsKey("X-Forwarded-Host") && Request.Headers.ContainsKey("X-Forwarded-Port"))
+                {
+                    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host
+                    // X-Forwarded-For=30.10.0.2;X-Forwarded-Proto=https;X-Forwarded-Host=fhirtest.emerging.com.au;X-Forwarded-Port=443;
+                    string proto = Request.Headers["X-Forwarded-Proto"];
+                    string host = Request.Headers["X-Forwarded-Host"];
+                    string port = Request.Headers["X-Forwarded-Port"];
+                    if (port == "443")
+                        port = null;
+                    else
+                        port = ":" + port;
+                    string proxyUrl = $"{proto}://{host}{port}";
+                    if (NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems.ContainsKey(proxyUrl))
+                        baseUrl = NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems[proxyUrl];
+                    else
+                        baseUrl = new Uri(proxyUrl);
+                }
+            }
+
             var cert = Request.HttpContext.Connection.ClientCertificate;
             var inputs = new ModelBaseInputs<IServiceProvider>(
                 User,
@@ -57,6 +91,7 @@ namespace Hl7.Fhir.WebApi
             {
                 inputs.X_CorelationId = Guid.NewGuid().ToFhirId();
             }
+
             return inputs;
         }
 

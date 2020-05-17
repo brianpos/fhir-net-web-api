@@ -28,12 +28,22 @@ namespace Hl7.Fhir.NetCoreApi
         public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction)
         {
             NetCoreApi.FhirFacadeBuilder._systemService = systemService;
+#if NETCOREAPP2_2
+            services.AddMvc(options =>
+            {
+                // remove the default formatters
+                options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonInputFormatter>();
+                // Note there is a default implementation of the json patch in here, need to know how to hook into that
+                options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
+#endif
+#if NETCOREAPP3_0
             services.AddControllers(options =>
             {
                 // remove the default formatters
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>();
                 // Note there is a default implementation of the json patch in here, need to know how to hook into that
                 // options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
+#endif
 
                 options.InputFormatters.Add(new XmlFhirInputFormatter());
                 options.InputFormatters.Add(new JsonFhirInputFormatter());
@@ -57,7 +67,12 @@ namespace Hl7.Fhir.NetCoreApi
 
                 // give caller opportunity to modify the mvc options
                 setupAction(options);
+#if NETCOREAPP2_2
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+#endif
+#if NETCOREAPP3_0
             });
+#endif
         }
     }
 }

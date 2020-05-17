@@ -23,6 +23,9 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+#if NETCOREAPP2_2
+using Microsoft.AspNetCore.Http.Internal;
+#endif
 
 namespace Hl7.Fhir.WebApi
 {

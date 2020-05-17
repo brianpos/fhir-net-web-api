@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+#if NETCOREAPP3_0
 using Microsoft.Extensions.Hosting;
+#endif
 
 namespace Hl7.DemoFileSystemFhirServer
 {
@@ -40,15 +42,19 @@ namespace Hl7.DemoFileSystemFhirServer
             // services.AddScoped<TelstraHealth.FhirHtmlFormatter.RazorViewToStringRenderer>();
 
             // register the Static Content
-            //services.Configure<RazorViewEngineOptions>(options =>
-            //{
-            //    options.FileProviders.Clear();
-            //    options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-            //});
+#if NETCOREAPP2_2
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.FileProviders.Clear();
+                options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+            });
+#endif
+#if NETCOREAPP3_0
             services.AddRazorPages(options =>
             {
                 options.RootDirectory = "/wwwroot";
             });
+#endif
 
             // Tell the Net stack to only use TLS
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
@@ -60,7 +66,12 @@ namespace Hl7.DemoFileSystemFhirServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#if NETCOREAPP2_2
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+#endif
+#if NETCOREAPP3_0
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+#endif
         {
             if (env.IsDevelopment())
             {
@@ -77,6 +88,10 @@ namespace Hl7.DemoFileSystemFhirServer
 
             app.UseAuthentication();
 
+#if NETCOREAPP2_2
+            app.UseMvc();
+#endif
+#if NETCOREAPP3_0
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
@@ -84,6 +99,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 endpoints.MapRazorPages();
                 endpoints.MapFallbackToFile(System.IO.Path.Combine(env.WebRootPath, "content"));
             });
+#endif
         }
     }
 }

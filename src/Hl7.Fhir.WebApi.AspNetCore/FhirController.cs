@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-using Microsoft.Net.Http.Headers;
 using Hl7.Fhir.NetCoreApi.R4;
 
 namespace Hl7.Fhir.WebApi
@@ -488,7 +487,7 @@ namespace Hl7.Fhir.WebApi
                         Severity = OperationOutcome.IssueSeverity.Fatal
                     }
                 };
-                return new BadRequestObjectResult(oo) { StatusCode = (int)HttpStatusCode.BadRequest };
+            return new BadRequestObjectResult(oo) { StatusCode = (int)HttpStatusCode.BadRequest };
             }
 
             if (!String.IsNullOrEmpty(bodyResource.Id))

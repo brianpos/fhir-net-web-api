@@ -22,8 +22,15 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Threading;
 using System.Buffers;
+
+#if NETCOREAPP2_2
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
+#endif
+#if NETCOREAPP3_0
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+#endif
 
 namespace Hl7.Fhir.WebApi
 {
@@ -53,7 +60,12 @@ namespace Hl7.Fhir.WebApi
             {
                 // To avoid blocking on the stream, we asynchronously read everything 
                 // into a buffer, and then seek back to the beginning.
+#if NETCOREAPP2_2
+                request.EnableRewind();
+#endif
+#if NETCOREAPP3_0
                 request.EnableBuffering();
+#endif
                 Debug.Assert(request.Body.CanSeek);
 
                 // no timeout configuration on this? or does that happen at another layer?
@@ -82,6 +94,7 @@ namespace Hl7.Fhir.WebApi
         }
     }
 
+#if NETCOREAPP3_0
     class ArrayPool : IArrayPool<char>
     {
         internal ArrayPool(ArrayPool<char> pool)
@@ -100,6 +113,8 @@ namespace Hl7.Fhir.WebApi
             _pool.Return(array);
         }
     }
+#endif
+
     public class JsonFhirOutputFormatter : FhirMediaTypeOutputFormatter
     {
         public JsonFhirOutputFormatter(ArrayPool<char> charPool) : base()
@@ -107,7 +122,12 @@ namespace Hl7.Fhir.WebApi
             if (charPool == null)
                 throw new ArgumentNullException(nameof(charPool));
 
+#if NETCOREAPP2_2
+            _charPool = new JsonArrayPool<char>(charPool);
+#endif
+#if NETCOREAPP3_0
             _charPool = new ArrayPool(charPool);
+#endif
 
             foreach (var mediaType in ContentType.JSON_CONTENT_HEADERS)
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
@@ -135,12 +155,14 @@ namespace Hl7.Fhir.WebApi
             {
                 using (StreamWriter writer = new StreamWriter(context.HttpContext.Response.Body))
                 {
+#if NETCOREAPP3_0
                     // netcore default is for async only
                     var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
                     if (syncIOFeature != null)
                     {
                         syncIOFeature.AllowSynchronousIO = true;
                     }
+#endif
 
                     JsonTextWriter jsonwriter = (JsonTextWriter)SerializationUtil.CreateJsonTextWriter(writer); // This will use the BetterJsonWriter which handles precision correctly
                     using (jsonwriter)

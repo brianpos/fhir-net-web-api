@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
 using Microsoft.Extensions.Hosting;
 #endif
 
@@ -49,7 +49,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
             });
 #endif
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
             services.AddRazorPages(options =>
             {
                 options.RootDirectory = "/wwwroot";
@@ -69,7 +69,7 @@ namespace Hl7.DemoFileSystemFhirServer
 #if NETCOREAPP2_2
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 #endif
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 #endif
         {
@@ -91,7 +91,7 @@ namespace Hl7.DemoFileSystemFhirServer
 #if NETCOREAPP2_2
             app.UseMvc();
 #endif
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

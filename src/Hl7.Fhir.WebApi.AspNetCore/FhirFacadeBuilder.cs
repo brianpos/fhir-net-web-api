@@ -36,7 +36,7 @@ namespace Hl7.Fhir.NetCoreApi
                 // Note there is a default implementation of the json patch in here, need to know how to hook into that
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
 #endif
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
             services.AddControllers(options =>
             {
                 // remove the default formatters
@@ -70,7 +70,7 @@ namespace Hl7.Fhir.NetCoreApi
 #if NETCOREAPP2_2
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 #endif
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NETCOREAPP3_1
             });
 #endif
         }

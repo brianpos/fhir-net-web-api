@@ -59,7 +59,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
         public Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
         {
-            if (operation == "count-em")
+             if (operation == "count-em")
             {
                 var result = new OperationOutcome();
                 result.Issue.Add(new OperationOutcome.IssueComponent()
@@ -69,6 +69,12 @@ namespace Hl7.DemoFileSystemFhirServer
                     Details = new CodeableConcept(null, null, $"{ResourceName} resource instances: {System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"{ResourceName}.*.xml").Count()}")
                 });
                 return System.Threading.Tasks.Task.FromResult<Resource>(result);
+            }
+            if (operation == "preferred-id")
+            {
+                // Test operation that isn't really anything just for a specific unit test
+                NamingSystem ns = new NamingSystem() { Id = operationParameters.GetString("id") };
+                return System.Threading.Tasks.Task.FromResult<Resource>(ns);
             }
 
             throw new NotImplementedException();

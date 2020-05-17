@@ -303,6 +303,18 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public void PerformCustomOperationWithIdParameter()
+        {
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
+            string exampleQuery = $"{_baseAddress}NamingSystem/$preferred-id?id=45&type=uri";
+            var result = clientFhir.Get(exampleQuery) as NamingSystem;
+            DebugDumpOutputXml(result);
+            Assert.IsNotNull(result, "Should be a NamingSystem returned");
+            Assert.AreEqual("45", result.Id);
+        }
+
+        [TestMethod]
         public async System.Threading.Tasks.Task ReadBinary()
         {
             var b = new Binary();

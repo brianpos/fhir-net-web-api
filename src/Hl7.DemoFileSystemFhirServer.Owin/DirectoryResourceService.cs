@@ -71,6 +71,12 @@ namespace Hl7.DemoFileSystemFhirServer
                 });
                 return System.Threading.Tasks.Task.FromResult<Resource>(result);
             }
+            if (operation == "preferred-id")
+            {
+                // Test operation that isn't really anything just for a specific unit test
+                NamingSystem ns = new NamingSystem() { Id = operationParameters.GetString("id") };
+                return System.Threading.Tasks.Task.FromResult<Resource>(ns);
+            }
 
             throw new NotImplementedException();
         }

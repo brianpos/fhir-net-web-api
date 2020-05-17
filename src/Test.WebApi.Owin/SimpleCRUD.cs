@@ -7,6 +7,7 @@ using System.Web.Http;
 using Hl7.Fhir.WebApi;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Serialization;
 
 namespace UnitTestWebApi
 {
@@ -41,6 +42,16 @@ namespace UnitTestWebApi
         {
             if (_fhirServerController != null)
                 _fhirServerController.Dispose();
+        }
+        public static void DebugDumpOutputXml(Base fragment)
+        {
+            if (fragment == null)
+                Console.WriteLine("(null)");
+            else
+            {
+                var doc = System.Xml.Linq.XDocument.Parse(new FhirXmlSerializer().SerializeToString(fragment));
+                Console.WriteLine(doc.ToString(System.Xml.Linq.SaveOptions.None));
+            }
         }
         #endregion
 
@@ -242,8 +253,22 @@ namespace UnitTestWebApi
             Console.WriteLine($"{result.Issue[0].Details.Text}");
             Assert.IsTrue(result.Issue[1].Details.Text.Contains("x-test: Cleaner"), "Missing the custom header added to the request");
         }
+
+        [TestMethod]
+        public void PerformCustomOperationWithIdParameter()
+        {
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
+            string exampleQuery = $"{_baseAddress}NamingSystem/$preferred-id?id=45&type=uri";
+            var result = clientFhir.Get(exampleQuery) as NamingSystem;
+            DebugDumpOutputXml(result);
+            Assert.IsNotNull(result, "Should be a NamingSystem returned");
+            Assert.AreEqual("45", result.Id);
+        }
+
         private void ClientFhir_OnBeforeRequest(object sender, BeforeRequestEventArgs e)
         {
+            Console.WriteLine($"{e.RawRequest.Method}: {e.RawRequest.RequestUri}");
             e.RawRequest.Headers.Add("x-test", "Cleaner");
         }
     }

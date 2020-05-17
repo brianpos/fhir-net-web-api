@@ -105,7 +105,7 @@ namespace Hl7.Fhir.WebApi
             return list;
         }
 
-        public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this System.Collections.Specialized.NameValueCollection query, bool filterReservedParameters)
+        public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this System.Collections.Specialized.NameValueCollection query, string[] excludeParameters = null)
         {
             var list = new List<KeyValuePair<string, string>>();
 
@@ -113,7 +113,7 @@ namespace Hl7.Fhir.WebApi
             {
                 foreach (string key in query.Keys)
                 {
-                    if (!filterReservedParameters || !key.StartsWith("_") || reservedSearchParams.Contains(key))
+                    if (excludeParameters == null || !excludeParameters.Contains(key))
                         list.Add(new KeyValuePair<string, string>(key, query[key]));
                 }
             }

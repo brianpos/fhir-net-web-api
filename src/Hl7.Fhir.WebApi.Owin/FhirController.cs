@@ -641,10 +641,9 @@ namespace Hl7.Fhir.WebApi
 
         /// <summary>
         /// Support for Conditional Updates
-        /// eg. PUT fhir/Patient?identifier=http://temp|43&birthDate=1973-10
+        /// eg. PUT fhir/Patient?identifier=http://temp|43&amp;birthDate=1973-10
         /// </summary>
         /// <param name="ResourceName"></param>
-        /// <param name="id"></param>
         /// <param name="bodyResource"></param>
         /// <returns></returns>
         [HttpPut, Route("{ResourceName}")]

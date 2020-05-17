@@ -68,7 +68,7 @@ namespace Hl7.Fhir.WebApi
         /// Retrieve all the parameters from the Request
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="filterReservedParameters">Do not include any parameters that start with "_" (such as _since)</param>
+        /// <param name="excludeParameters">Do not include any parameters that start with "_" (such as _since)</param>
         /// <returns></returns>
         public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this HttpRequestMessage request, string[] excludeParameters = null)
         {

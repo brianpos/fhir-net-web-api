@@ -67,6 +67,7 @@ namespace Hl7.Fhir.WebApi
         /// Temporary hack!
         /// Adds a resourceEntry to the request property bag. To be picked up by the MediaTypeFormatters for adding http headers.
         /// </summary>
+        /// <param name="request"></param>
         /// <param name="entry">The resource entry with information to generate headers</param>
         /// <remarks> 
         /// The SendAsync is called after the headers are set. The SetDefaultHeaders have no access to the content object.

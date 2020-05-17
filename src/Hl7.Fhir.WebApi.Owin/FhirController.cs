@@ -93,7 +93,7 @@ namespace Hl7.Fhir.WebApi
         }
 
         /// <summary>
-        /// <http://hl7-fhir.github.io/http.html#transaction>
+        /// http://hl7-fhir.github.io/http.html#transaction
         /// </summary>
         [HttpPost, Route("")]
         public HttpResponseMessage ProcessBatch([FromBody] Bundle batch)
@@ -507,6 +507,7 @@ namespace Hl7.Fhir.WebApi
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="ResourceName">The FHIR Resource name e.g. `Patient`</param>
         /// <param name="bodyResource"></param>
         /// <returns></returns>
         /// <remarks>

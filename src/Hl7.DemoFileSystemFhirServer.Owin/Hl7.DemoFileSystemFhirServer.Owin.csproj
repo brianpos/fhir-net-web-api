@@ -7,8 +7,8 @@
     <ProjectGuid>{79E3D0DC-BFDF-451E-89DE-52AF77F2F416}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hl7.DemoFileSystemFhirServer</RootNamespace>
-    <AssemblyName>Hl7.DemoFileSystemFhirServer</AssemblyName>
+    <RootNamespace>Hl7.DemoFileSystemFhirServer.Owin</RootNamespace>
+    <AssemblyName>Hl7.DemoFileSystemFhirServer.Owin</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

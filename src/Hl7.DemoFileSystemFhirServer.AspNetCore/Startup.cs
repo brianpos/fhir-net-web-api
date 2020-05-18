@@ -38,8 +38,11 @@ namespace Hl7.DemoFileSystemFhirServer
 
             var systemService = new DirectorySystemService();
 
-            services.UseFhirServerController(systemService, options => { /* options.OutputFormatters.Add(new TelstraHealth.FhirHtmlFormatter.FhirHtmlOutputFormatter()); */ });
-            // services.AddScoped<TelstraHealth.FhirHtmlFormatter.RazorViewToStringRenderer>();
+            services.UseFhirServerController(systemService, options => 
+            {
+                // An example HTML formatter that puts the raw XML on the output
+                options.OutputFormatters.Add(new Fhir.WebApi.SimpleHtmlFhirOutputFormatter());
+            });
 
             // register the Static Content
 #if NETCOREAPP2_2

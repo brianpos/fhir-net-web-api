@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Hl7.Fhir.NetCoreApi.R4;
+using Hl7.FhirPath.Sprache;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -134,10 +135,10 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> ProcessBatch([FromBody]Bundle batch)
         {
             var buri = this.CalculateBaseURI("metadata");
-            var Inputs = GetInputs(buri);
+            var inputs = GetInputs(buri);
 
-            Bundle outcome = await GetSystemModel(Inputs).ProcessBatch(Inputs, batch);
-            outcome.ResourceBase = new Uri(buri);
+            Bundle outcome = await GetSystemModel(inputs).ProcessBatch(inputs, batch);
+            outcome.ResourceBase = inputs.BaseUri;
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             outcome.SetAnnotation<SummaryType>(summary);
             var resultCode = HttpStatusCode.OK;
@@ -153,10 +154,11 @@ namespace Hl7.Fhir.WebApi
         public async Task<Hl7.Fhir.Model.CapabilityStatement> GetConformance()
         {
             var buri = this.CalculateBaseURI("metadata");
+            var inputs = GetInputs(buri);
+
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
-            var Inputs = GetInputs(buri);
-            var con = await GetSystemModel(Inputs).GetConformance(Inputs, summary);
-            con.ResourceBase = new Uri(buri, UriKind.RelativeOrAbsolute);
+            var con = await GetSystemModel(inputs).GetConformance(inputs, summary);
+            con.ResourceBase = inputs.BaseUri;
             con.SetAnnotation<SummaryType>(summary);
             return con;
         }
@@ -173,20 +175,20 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> Get(string ResourceName, string id, string vid)
         {
             var buri = this.CalculateBaseURI("{ResourceName");
+            var inputs = GetInputs(buri);
 
             if (!Id.IsValidValue(id))
             {
                 throw new FhirServerException(HttpStatusCode.BadRequest, "ID [" + id + "] is not a valid FHIR Resource ID");
             }
 
-            var Inputs = GetInputs(buri);
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, Inputs);
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             Resource resource = await model.Get(id, vid, summary);
             if (resource != null)
             {
-                resource.ResourceBase = new Hl7.Fhir.Rest.ResourceIdentity(Request.RequestUri()).BaseUri;
+                resource.ResourceBase = inputs.BaseUri;
 
                 if (resource is DomainResource)
                 {
@@ -235,61 +237,65 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
             Parameters operationParameters = new Parameters();
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(id, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(buri, resource);
+            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
         [HttpPost, Route("{ResourceName}/{id}/${operation}")]
         public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(id, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(buri, resource);
+            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
         [HttpGet, Route("{ResourceName}/${operation}")]
         public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
             Parameters operationParameters = new Parameters();
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(buri, resource);
+            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
         [HttpPost, Route("{ResourceName}/${operation}")]
         public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(buri, resource);
+            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
-        private IActionResult PrepareOperationOutputMessage(string buri, Resource resource)
+        private IActionResult PrepareOperationOutputMessage(Uri baseUri, Resource resource)
         {
             if (resource != null)
             {
-                resource.ResourceBase = new Uri(buri);
+                resource.ResourceBase = baseUri;
                 HttpStatusCode resultCode = HttpStatusCode.OK;
                 if (resource.HasAnnotation<HttpStatusCode>())
                     resultCode = resource.Annotation<HttpStatusCode>();
@@ -304,27 +310,27 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> PerformOperationSystem(string operation)
         {
             var buri = this.CalculateBaseURI("${operation}");
+            var inputs = GetInputs(buri);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             Parameters operationParameters = new Parameters();
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
-            var inputs = GetInputs(buri);
 
             Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(buri, resource);
+            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
         [HttpPost, Route("${operation}")]
         public async Task<IActionResult> PerformOperationSystem(string operation, [FromBody] Parameters operationParameters)
         {
             var buri = this.CalculateBaseURI("${operation}");
+            var inputs = GetInputs(buri);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
-            var inputs = GetInputs(buri);
 
             Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(buri, resource);
+            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
         private void ExtractParametersFromUrl(ref Parameters operationParameters, IEnumerable<KeyValuePair<string, string>> enumerable)
@@ -366,11 +372,12 @@ namespace Hl7.Fhir.WebApi
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
 
             var buri = this.CalculateBaseURI("{ResourceName");
+            var inputs = GetInputs(buri);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             Bundle result = await model.Search(parameters, pagesize, summary);
-            result.ResourceBase = new Uri(buri);
+            result.ResourceBase = inputs.BaseUri;
 
             result.SetAnnotation<SummaryType>(summary);
             return result;
@@ -388,8 +395,9 @@ namespace Hl7.Fhir.WebApi
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
 
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             // Also grab the application/x-www-form-urlencoded content body
             if (Request.HasFormContentType)
@@ -402,7 +410,7 @@ namespace Hl7.Fhir.WebApi
             }
 
             Bundle result = await model.Search(parameters, pagesize, summary);
-            result.ResourceBase = new Uri(buri);
+            result.ResourceBase = inputs.BaseUri;
 
             result.SetAnnotation<SummaryType>(summary);
             return result;
@@ -419,14 +427,13 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
-            // TODO: Locate the till parameter in the history
             Bundle result = await model.TypeHistory(since, null, pagesize, summary);
-            result.ResourceBase = new Uri(buri);
+            result.ResourceBase = inputs.BaseUri;
 
-            // this.Request.SaveEntry(result);
             return result;
         }
 
@@ -442,11 +449,12 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             Bundle result = await model.InstanceHistory(id, since, null, pagesize, summary);
-            result.ResourceBase = new Uri(buri);
+            result.ResourceBase = inputs.BaseUri;
             if (result.Total == 0)
             {
                 try
@@ -474,18 +482,17 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Debug.WriteLine("GET: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("_history");
+            var inputs = GetInputs(buri);
 
             DateTimeOffset? since = Request.GetDateParameter("_since");
             int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            var Inputs = GetInputs(buri);
-            var model = GetSystemModel(Inputs);
+            var model = GetSystemModel(inputs);
 
-            Bundle result = await model.SystemHistory(Inputs, since, null, pagesize, summary);
-            result.ResourceBase = new Uri(buri);
+            Bundle result = await model.SystemHistory(inputs, since, null, pagesize, summary);
+            result.ResourceBase = inputs.BaseUri;
 
-            // this.Request.SaveEntry(result);
             return result;
         }
 
@@ -506,6 +513,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Debug.WriteLine("POST: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
             if (bodyResource == null)
             {
@@ -543,12 +551,10 @@ namespace Hl7.Fhir.WebApi
                 return new BadRequestObjectResult(oo) { StatusCode = (int)HttpStatusCode.BadRequest };
             }
 
-            var Inputs = GetInputs(buri);
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             var result = await model.Create(bodyResource, null, null, null);
-            // this.Request.SaveEntry(bodyResource);
-            result.ResourceBase = new Uri(buri);
+            result.ResourceBase = inputs.BaseUri;
             var actualResource = result;
 
             ResourceIdentity ri = null;
@@ -622,6 +628,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Debug.WriteLine("PUT: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("{ResourceName}");
+            var inputs = GetInputs(buri);
 
             if (String.IsNullOrEmpty(this.Request.RequestUri().Query))
             {
@@ -635,7 +642,6 @@ namespace Hl7.Fhir.WebApi
                 bodyResource.Id = null;
             }
 
-            var Inputs = GetInputs(buri);
             OperationOutcome so = new OperationOutcome();
             if (ResourceName == "AuditEvent")
             {
@@ -645,7 +651,7 @@ namespace Hl7.Fhir.WebApi
             }
 
             // so.Success();
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             string ifMatch = null;
             var conditionalSearchParams = this.Request.TupledParameters();
@@ -655,7 +661,7 @@ namespace Hl7.Fhir.WebApi
             }
 
             var result = await model.Create(bodyResource, ifMatch, null, null);
-            result.ResourceBase = new Uri(buri);
+            result.ResourceBase = inputs.BaseUri;
             var actualResource = result;
 
             // Check the prefer header
@@ -713,14 +719,13 @@ namespace Hl7.Fhir.WebApi
         public async Task<IActionResult> Put(string ResourceName, string id, [FromBody]Resource bodyResource)
         {
             System.Diagnostics.Debug.WriteLine("PUT: " + this.Request.GetDisplayUrl());
-            var buri = this.CalculateBaseURI("{ResourceName}");
 
             if (!Id.IsValidValue(id))
             {
                 throw new FhirServerException(HttpStatusCode.BadRequest, "ID [" + id + "] is not a valid FHIR Resource ID");
             }
 
-            var Inputs = GetInputs(buri);
+            var inputs = GetInputs(this.CalculateBaseURI("{ResourceName}"));
 
             bodyResource.Id = id;
             if (ResourceName == "AuditEvent")
@@ -730,11 +735,10 @@ namespace Hl7.Fhir.WebApi
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot PUT a AuditEvent, you must POST them");
             }
 
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             var result = await model.Create(bodyResource, null, null, null);
-            // this.Request.SaveEntry(bodyResource);
-            result.ResourceBase = new Uri(buri);
+            result.ResourceBase = inputs.BaseUri;
             var actualResource = result;
 
             ResourceIdentity ri = null;
@@ -802,9 +806,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Debug.WriteLine("DELETE: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("{ResourceName}");
-
-
-            var Inputs = GetInputs(buri);
+            var inputs = GetInputs(buri);
 
             if (ResourceName == "AuditEvent")
             {
@@ -812,7 +814,7 @@ namespace Hl7.Fhir.WebApi
                 // otherwise externally reported events can be updated!
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot DELETE a AuditEvent");
             }
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             string deletedIdentity = await model.Delete(id, null);
             // Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
@@ -832,8 +834,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Debug.WriteLine("DELETE: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("{ResourceName}");
-
-            var Inputs = GetInputs(buri);
+            var inputs = GetInputs(buri);
 
             if (Request.TupledParameters().Count() == 0)
             {

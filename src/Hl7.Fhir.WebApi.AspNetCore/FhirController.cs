@@ -595,10 +595,19 @@ namespace Hl7.Fhir.WebApi
             }
 
             FhirObjectResult returnMessage;
-            if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+            if (actualResource.HasAnnotation<CreateOrUpate>())
+            {
+                if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                    returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+                else
+                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+            }
             else
-                returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+            {
+                // The model didn't set the annotation, so we will just assume created is the appropriate call
+                System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
+                returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+            }
 
             // Check the prefer header
             if (Request.Headers.ContainsKey("Prefer"))
@@ -612,6 +621,8 @@ namespace Hl7.Fhir.WebApi
 
             if (bodyResource.HasAnnotation<HttpStatusCode>())
                 returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+            if (actualResource.HasAnnotation<HttpStatusCode>())
+                returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
 
             return returnMessage;
         }
@@ -692,10 +703,19 @@ namespace Hl7.Fhir.WebApi
             }
 
             FhirObjectResult returnMessage;
-            if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+            if (actualResource.HasAnnotation<CreateOrUpate>())
+            {
+                if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                    returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+                else
+                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+            }
             else
+            {
+                // The model didn't decide, so we'll just indicate that it was ok.
+                System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
                 returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+            }
 
             // Check the prefer header
             if (Request.Headers.ContainsKey("Prefer"))
@@ -709,6 +729,8 @@ namespace Hl7.Fhir.WebApi
 
             if (bodyResource.HasAnnotation<HttpStatusCode>())
                 returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+            if (actualResource.HasAnnotation<HttpStatusCode>())
+                returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
 
             return returnMessage;
         }
@@ -779,10 +801,19 @@ namespace Hl7.Fhir.WebApi
             }
 
             FhirObjectResult returnMessage;
-            if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+            if (actualResource.HasAnnotation<CreateOrUpate>())
+            {
+                if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                    returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+                else
+                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+            }
             else
+            {
+                // The model didn't decide, so we'll just indicate that it was ok.
+                System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
                 returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+            }
 
             // Check the prefer header
             if (Request.Headers.ContainsKey("Prefer"))
@@ -796,6 +827,8 @@ namespace Hl7.Fhir.WebApi
 
             if (bodyResource.HasAnnotation<HttpStatusCode>())
                 returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+            if (actualResource.HasAnnotation<HttpStatusCode>())
+                returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
 
             return returnMessage;
         }

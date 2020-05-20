@@ -25,7 +25,11 @@ namespace Hl7.DemoFileSystemFhirServer
 
             // Configure Web API for self-host.
             HttpConfiguration config = new HttpConfiguration();
-            WebApiConfig.Register(config, new DirectorySystemService()); // this is from the actual WebAPI Project
+            var reverseProxyAddresses = new System.Collections.Generic.Dictionary<string, System.Uri>();
+            reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
+            reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
+
+            WebApiConfig.Register(config, new DirectorySystemService(), reverseProxyAddresses); // this is from the actual WebAPI Project
             config.Formatters.Add(new SimpleHtmlFhirOutputFormatter());
             appBuilder.UseWebApi(config);
         }

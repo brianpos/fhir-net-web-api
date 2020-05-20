@@ -34,6 +34,40 @@ namespace Hl7.Fhir.WebApi
 
         internal static ModelBaseInputs<IDependencyScope> GetInputs(HttpRequestMessage Request, System.Security.Principal.IPrincipal User, Uri baseUrl)
         {
+            // If the headers indicate that this was through a proxy, update the baseurl to come from that location
+            if (WebApiConfig._supportedForwardedForSystems?.Count > 0)
+            {
+                if (Request.Headers.Contains("Forwarded"))
+                {
+                    // TODO: https://tools.ietf.org/html/rfc7239
+                    //var forwarded = Request.Headers["Forwarded"].FirstOrDefault(s => !string.IsNullOrEmpty(s) && !s.StartsWith("_"));
+                    //var
+                    //string virtualPath = Request.PathBase.Value?.TrimEnd('/');
+                    //string proxyUrl = baseUrl.OriginalString;
+                    //if (NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems.ContainsKey(proxyUrl))
+                    //    baseUrl = NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems[proxyUrl];
+                    //else
+                    //    baseUrl = new Uri(proxyUrl);
+                }
+                if (Request.Headers.Contains("X-Forwarded-Proto") && Request.Headers.Contains("X-Forwarded-Host") && Request.Headers.Contains("X-Forwarded-Port"))
+                {
+                    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Host
+                    // X-Forwarded-For=30.10.0.2;X-Forwarded-Proto=https;X-Forwarded-Host=fhirtest.emerging.com.au;X-Forwarded-Port=443;
+                    string proto = Request.Headers.GetValues("X-Forwarded-Proto").FirstOrDefault();
+                    string host = Request.Headers.GetValues("X-Forwarded-Host").FirstOrDefault();
+                    string port = Request.Headers.GetValues("X-Forwarded-Port").FirstOrDefault();
+                    if (port == "443")
+                        port = null;
+                    else
+                        port = ":" + port;
+                    string proxyUrl = $"{proto}://{host}{port}";
+                    if (WebApiConfig._supportedForwardedForSystems.ContainsKey(proxyUrl))
+                        baseUrl = WebApiConfig._supportedForwardedForSystems[proxyUrl];
+                    else
+                        baseUrl = new Uri(proxyUrl);
+                }
+            }
+
             var cert = Request.GetClientCertificate();
             var inputs = new ModelBaseInputs<IDependencyScope>(
                 User,

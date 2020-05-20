@@ -237,6 +237,61 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public void WholeSystemHistoryAlternateHost()
+        {
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_AlternateHost;
+
+            // Create a Patient
+            Patient p = new Patient();
+            p.Id = "pat1"; // if you support this format for the IDs (client allocated ID)
+            p.Name = new System.Collections.Generic.List<HumanName>();
+            p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
+            p.BirthDate = new DateTime(1970, 3, 1).ToFhirDate(); // yes there are extensions to convert to FHIR format
+            p.Active = true;
+            p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
+            clientFhir.Update(p);
+
+            // Create an Organization
+            Organization org = new Organization();
+            org.Id = "2";
+            org.Name = "Other Org";
+            clientFhir.Update(org);
+
+            // Load the whole history
+            var result = clientFhir.WholeSystemHistory();
+
+            Console.WriteLine($"Total All Resources: {result.Total}");
+            foreach (var item in result.Entry)
+            {
+                Console.WriteLine($"{item.FullUrl}");
+            }
+
+            Assert.IsNotNull(result.Total, "There should be a total count");
+            Assert.IsNotNull(result.Meta, "History Bundle should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "History Bundle should have the creation date populated");
+            Assert.IsTrue(result.Total.Value > 0, "Should be at least 1 item in the history");
+            Assert.AreEqual(result.Total.Value, result.Entry.Count, "Should be matching total and entry counts");
+
+            // Load the Organization type history
+            var resultOrgs = clientFhir.TypeHistory<Organization>();
+            DebugDumpOutputXml(resultOrgs);
+
+            Console.WriteLine($"Total Org Resources: {resultOrgs.Total}");
+            foreach (var item in resultOrgs.Entry)
+            {
+                Console.WriteLine($"{item.FullUrl}");
+            }
+
+            Assert.IsNotNull(resultOrgs.Total, "There should be a total count");
+            Assert.IsNotNull(resultOrgs.Meta, "History Bundle should have an Meta created");
+            Assert.IsNotNull(resultOrgs.Meta.LastUpdated, "History Bundle should have the creation date populated");
+            Assert.IsTrue(resultOrgs.Total.Value > 0, "Should be at least 1 item in the history");
+            Assert.AreEqual(resultOrgs.Total.Value, resultOrgs.Entry.Count, "Should be matching total and entry counts");
+            Assert.IsTrue(resultOrgs.Total.Value < result.Total.Value, "Should be less orgs than the whole system entry count");
+        }
+
+        [TestMethod]
         public void PerformCustomOperationCountResourceTypeInstances()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
@@ -277,6 +332,13 @@ namespace UnitTestWebApi
             System.Diagnostics.Trace.WriteLine("---------------------------------------------------");
             Console.WriteLine($"{e.RawRequest.Method}: {e.RawRequest.RequestUri}");
             e.RawRequest.Headers.Add("x-test", "Cleaner");
+        }
+
+        private void ClientFhir_OnBeforeRequest_AlternateHost(object sender, BeforeRequestEventArgs e)
+        {
+            e.RawRequest.Headers.Add("X-Forwarded-Proto", "https");
+            e.RawRequest.Headers.Add("X-Forwarded-Host", "demo.org");
+            e.RawRequest.Headers.Add("X-Forwarded-Port", "443");
         }
     }
 }

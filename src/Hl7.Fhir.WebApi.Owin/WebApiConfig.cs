@@ -7,6 +7,8 @@
  */
 
 using Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin;
+using System;
+using System.Collections.Generic;
 using System.Net.Http.Extensions.Compression.Core.Compressors;
 using System.Net.Http.Formatting;
 using System.Web.Http;
@@ -18,10 +20,12 @@ namespace Hl7.Fhir.WebApi
 	public static class WebApiConfig
 	{
         internal static IFhirSystemServiceR4<IDependencyScope> _systemService;
+        internal static Dictionary<string, Uri> _supportedForwardedForSystems;
 
-		public static void Register(HttpConfiguration config, IFhirSystemServiceR4<IDependencyScope> systemService)
+        public static void Register(HttpConfiguration config, IFhirSystemServiceR4<IDependencyScope> systemService, Dictionary<string, Uri> supportedForwardedForSystems = null)
 		{
             _systemService = systemService;
+            _supportedForwardedForSystems = supportedForwardedForSystems;
 
             // https://github.com/azzlack/Microsoft.AspNet.WebApi.MessageHandlers.Compression
             config.MessageHandlers.Insert(0, new OwinServerCompressionHandler(4096, new GZipCompressor(), new DeflateCompressor()));

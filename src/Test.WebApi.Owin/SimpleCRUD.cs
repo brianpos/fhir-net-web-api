@@ -237,10 +237,19 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
-        public void WholeSystemHistoryAlternateHost()
+        public void AlternateHostOperations()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_AlternateHost;
+            clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
+            {
+                string location = args.RawResponse.GetResponseHeader("Location");
+                if (!string.IsNullOrEmpty(location))
+                {
+                    System.Diagnostics.Trace.WriteLine($">> {args.RawResponse.StatusCode} {args.RawResponse.Method}: {location}");
+                    Assert.IsTrue(location.StartsWith("https://demo.org/testme/"), "proxy redirect not detected");
+                }
+            };
 
             // Create a Patient
             Patient p = new Patient();
@@ -289,6 +298,29 @@ namespace UnitTestWebApi
             Assert.IsTrue(resultOrgs.Total.Value > 0, "Should be at least 1 item in the history");
             Assert.AreEqual(resultOrgs.Total.Value, resultOrgs.Entry.Count, "Should be matching total and entry counts");
             Assert.IsTrue(resultOrgs.Total.Value < result.Total.Value, "Should be less orgs than the whole system entry count");
+
+            // Test create
+            org.Id = null;
+            org = clientFhir.Create(org);
+
+            // Test Delete
+            clientFhir.Delete(org);
+
+            // Test Search
+            var searchOrg = clientFhir.Search<Organization>(new[] { "name=Other" });
+            DebugDumpOutputXml(searchOrg);
+            // Assert.IsTrue(searchOrg.SelfLink.OriginalString.StartsWith("https://demo.org/testme/"));
+            foreach (var entry in searchOrg.Entry)
+            {
+                Assert.IsTrue(entry.FullUrl.StartsWith("urn:uuid:") || entry.FullUrl.StartsWith("https://demo.org/testme/"), $"Search Entry fullurl: {entry.FullUrl}");
+            }
+
+            // Custom operation
+            var resultOp = clientFhir.WholeSystemOperation("count-em", null, true) as OperationOutcome;
+            DebugDumpOutputXml(resultOp);
+            Assert.IsNotNull(resultOp, "Should be a capability statement returned");
+            Assert.AreEqual(2, resultOp.Issue.Count, "Should contain the issue that has the count of the number of resources in there");
+            Console.WriteLine($"{resultOp.Issue[0].Details.Text}");
         }
 
         [TestMethod]

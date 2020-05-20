@@ -287,7 +287,10 @@ namespace UnitTestWebApi
             {
                 string location = args.RawResponse.GetResponseHeader("Location");
                 if (!string.IsNullOrEmpty(location))
+                {
+                    System.Diagnostics.Trace.WriteLine($">> {args.RawResponse.StatusCode} {args.RawResponse.Method}: {location}");
                     Assert.IsTrue(location.StartsWith("https://demo.org/testme/"), "proxy redirect not detected");
+                }
             };
 
             // Create a Patient
@@ -525,7 +528,7 @@ namespace UnitTestWebApi
         private void ClientFhir_OnBeforeRequest(object sender, BeforeRequestEventArgs e)
         {
             System.Diagnostics.Trace.WriteLine("---------------------------------------------------");
-            System.Diagnostics.Trace.WriteLine(e.RawRequest.RequestUri);
+            System.Diagnostics.Trace.WriteLine($"{e.RawRequest.Method}: {e.RawRequest.RequestUri}");
             e.RawRequest.Headers.Add("x-test", "Cleaner");
         }
         private void ClientFhir_OnBeforeRequest_SecurityContectHeader(object sender, BeforeRequestEventArgs e)

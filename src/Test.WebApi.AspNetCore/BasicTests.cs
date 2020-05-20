@@ -113,6 +113,16 @@ namespace UnitTestWebApi
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
+            clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
+            {
+                string location = args.RawResponse.GetResponseHeader("Location");
+                if (!string.IsNullOrEmpty(location))
+                {
+                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
+                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/"), "proxy redirect detected");
+                }
+            };
+
             var result = clientFhir.Create<Patient>(p);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
@@ -288,7 +298,7 @@ namespace UnitTestWebApi
                 string location = args.RawResponse.GetResponseHeader("Location");
                 if (!string.IsNullOrEmpty(location))
                 {
-                    System.Diagnostics.Trace.WriteLine($">> {args.RawResponse.StatusCode} {args.RawResponse.Method}: {location}");
+                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
                     Assert.IsTrue(location.StartsWith("https://demo.org/testme/"), "proxy redirect not detected");
                 }
             };

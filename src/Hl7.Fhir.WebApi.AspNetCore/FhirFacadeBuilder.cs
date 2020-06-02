@@ -12,22 +12,26 @@ using System.Buffers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Hl7.Fhir.NetCoreApi.R4;
+using System.Collections.Generic;
 
 namespace Hl7.Fhir.NetCoreApi
 {
     public static class FhirFacadeBuilder
     {
         internal static IFhirSystemServiceR4<IServiceProvider> _systemService;
+        internal static Dictionary<string, Uri> _supportedForwardedForSystems;
 
         /// <summary>
         /// Add the facade for the FHIR server using the provided System service model
         /// </summary>
         /// <param name="services"></param>
         /// <param name="systemService"></param>
-        /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any futher, such as registering other output formatters (e.g. HTML)</param>
-        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction)
+        /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any further, such as registering other output formatters (e.g. HTML)</param>
+        /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
+        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
         {
             NetCoreApi.FhirFacadeBuilder._systemService = systemService;
+            _supportedForwardedForSystems = supportedForwardedForSystems;
 #if NETCOREAPP2_2
             services.AddMvc(options =>
             {

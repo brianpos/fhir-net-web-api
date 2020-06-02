@@ -37,9 +37,15 @@ namespace Hl7.DemoFileSystemFhirServer
                 System.IO.Directory.CreateDirectory(DirectorySystemService.Directory);
 
             var systemService = new DirectorySystemService();
+            var reverseProxyAddresses = new System.Collections.Generic.Dictionary<string, System.Uri>();
+            reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
+            reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
 
-            services.UseFhirServerController(systemService, options => { /* options.OutputFormatters.Add(new TelstraHealth.FhirHtmlFormatter.FhirHtmlOutputFormatter()); */ });
-            // services.AddScoped<TelstraHealth.FhirHtmlFormatter.RazorViewToStringRenderer>();
+            services.UseFhirServerController(systemService, options => 
+            {
+                // An example HTML formatter that puts the raw XML on the output
+                options.OutputFormatters.Add(new Fhir.WebApi.SimpleHtmlFhirOutputFormatter());
+            }, reverseProxyAddresses);
 
             // register the Static Content
 #if NETCOREAPP2_2

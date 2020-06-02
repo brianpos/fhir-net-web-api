@@ -6,14 +6,16 @@
     <Company>Brian Postlethwaite and contributors</Company>
     <Copyright>Copyright 2017+ Brian Postlethwaite and contributors  Contains materials (C) HL7 International</Copyright>
     <PackageProjectUrl>https://github.com/brianpos/fhir-net-web-api</PackageProjectUrl>
-    <PackageIcon>images\icon-fhir-32.png</PackageIcon>
+    <PackageIcon>icon-fhir-32.png</PackageIcon>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReleaseNotes>See http://brianpos.github.io/fhir-net-web-api/whats-new.html</PackageReleaseNotes>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
-    <None Include="..\..\icon-fhir-32.png" Pack="true" PackagePath="\images"/>
+    <None Include="..\..\icon-fhir-32.png" Pack="true" PackagePath="\"/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">

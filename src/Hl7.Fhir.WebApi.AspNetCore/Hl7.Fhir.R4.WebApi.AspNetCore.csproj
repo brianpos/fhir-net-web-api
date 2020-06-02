@@ -3,14 +3,18 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netcoreapp2.2</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.AspNetCore</AssemblyName>
-    <PackageId>Hl7.Fhir.R4.WebApi.AspNetCore</PackageId>
-    <Version>1.4.2-alpha2</Version>
+    <PackageId>brianpos.Fhir.R4.WebApi.AspNetCore</PackageId>
+    <Version>1.4.3-alpha1</Version>
     <Title>HL7 Fhir WebApi (AspNetCore) Facade Layer</Title>
     <Summary>AspNetCore based FHIR WebApi Facade layer</Summary>
     <Description>This library Implements a FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
     <Product>Hl7.Fhir.R4.WebApi.AspNetCore</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
+    
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <Import Project="..\platforms.props" />

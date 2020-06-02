@@ -1,24 +1,37 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  
+
   <!-- Solution-wide properties for NuGet packaging -->
   <PropertyGroup>
     <Authors>Brian Postlethwaite (brian_pos@hotmail.com) and contributors</Authors>
     <Company>Brian Postlethwaite and contributors</Company>
     <Copyright>Copyright 2017+ Brian Postlethwaite and contributors  Contains materials (C) HL7 International</Copyright>
     <PackageProjectUrl>https://github.com/brianpos/fhir-net-web-api</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/ewoutkramer/fhir-net-api/master/icon-fhir-32.png</PackageIconUrl>
+    <PackageIcon>images\icon-fhir-32.png</PackageIcon>
     <PackageReleaseNotes>See http://brianpos.github.io/fhir-net-web-api/whats-new.html</PackageReleaseNotes>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+    <None Include="..\..\icon-fhir-32.png" Pack="true" PackagePath="\images"/>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  
   <!-- Compiler settings -->
   <PropertyGroup>
     <LangVersion>7</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-     <DebugType>full</DebugType>
-     <DebugSymbols>True</DebugSymbols>
-     <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <NoWarn>1591</NoWarn>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
@@ -33,7 +46,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-      <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 </Project>
 

@@ -18,12 +18,12 @@ namespace Hl7.Fhir.WebApi
         {
             if (request.Content != null)
             {
-                var data = await request.Content.ReadAsByteArrayAsync();
+                var data = await request.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
 
                 if (data != null && data.Length > 0 && request.Content.Headers.ContentType != null)
                     request.SaveBody(request.Content.Headers.ContentType.MediaType, data);
             }
-            return await base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
     }
 }

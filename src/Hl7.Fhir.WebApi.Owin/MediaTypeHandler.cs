@@ -69,7 +69,7 @@ namespace Hl7.Fhir.WebApi
                     }
                 }
             }
-            return await base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
         

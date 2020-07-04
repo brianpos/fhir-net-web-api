@@ -608,7 +608,7 @@ namespace Hl7.Fhir.WebApi
             var inputs = GetInputs(buri);
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            var result = await model.Create(bodyResource, null, null, null);
+            var result = await model.Create(bodyResource, null, null, null).ConfigureAwait(false);
             this.ControllerContext.Request.SaveEntry(bodyResource);
             result.ResourceBase = inputs.BaseUri;
             var actualResource = result;

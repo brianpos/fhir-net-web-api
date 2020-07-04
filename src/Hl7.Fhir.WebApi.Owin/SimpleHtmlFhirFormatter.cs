@@ -62,8 +62,8 @@ namespace Hl7.Fhir.WebApi
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             StreamWriter writer = new StreamWriter(writeStream, System.Text.Encoding.UTF8);
-            await writer.WriteAsync(sb.ToString());
-            await writer.FlushAsync();
+            await writer.WriteAsync(sb.ToString()).ConfigureAwait(false);
+            await writer.FlushAsync().ConfigureAwait(false);
         }
     }
 }

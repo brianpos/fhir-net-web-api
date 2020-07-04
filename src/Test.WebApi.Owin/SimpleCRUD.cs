@@ -67,6 +67,8 @@ namespace UnitTestWebApi
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
+            clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
             {
                 string location = args.RawResponse.GetResponseHeader("Location");
@@ -394,6 +396,16 @@ namespace UnitTestWebApi
             Console.WriteLine($"{e.RawRequest.Method}: {e.RawRequest.RequestUri}");
             e.RawRequest.Headers.Add("x-test", "Cleaner");
         }
+        private void ClientFhir_OnBeforeRequestCorrlationTest(object sender, BeforeRequestEventArgs e)
+        {
+            e.RawRequest.Headers.Add("X-Correlation-Id", "TestMe");
+        }
+
+        private void ClientFhir_OnAfterResponseCorrlationTest(object sender, AfterResponseEventArgs e)
+        {
+            Assert.AreEqual("TestMe", e.RawResponse.Headers.Get("X-Correlation-Id"));
+        }
+
 
         private void ClientFhir_OnBeforeRequest_AlternateHost(object sender, BeforeRequestEventArgs e)
         {

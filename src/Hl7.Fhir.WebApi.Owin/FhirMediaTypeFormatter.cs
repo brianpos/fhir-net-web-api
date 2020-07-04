@@ -34,6 +34,13 @@ namespace Hl7.Fhir.WebApi
             {
                 headers.Add(header.Key, header.Value);
             }
+            if (!string.IsNullOrEmpty(_inputs.X_CorelationId))
+            {
+                if (headers.Contains("X-Correlation-Id"))
+                    headers.Remove("X-Correlation-Id");
+                headers.Add("X-Correlation-Id", _inputs.X_CorelationId);
+            }
+
             if (entry != null)
             {
                 if (entry.Meta != null && entry.Meta.LastUpdated.HasValue)

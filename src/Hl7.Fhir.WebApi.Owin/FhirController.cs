@@ -83,7 +83,7 @@ namespace Hl7.Fhir.WebApi
 
             if (Request.Headers.Contains("X-Correlation-Id"))
             {
-                inputs.X_CorelationId = Request.Header("X-Correlation-Id");
+                inputs.X_CorelationId = Request.Headers.GetValues("X-Correlation-Id").FirstOrDefault();
             }
             else
             {

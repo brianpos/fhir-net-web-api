@@ -128,12 +128,12 @@ namespace Hl7.Fhir.WebApi
             Uri ri = me.Request.RequestUri();
             if (resourceName == "metadata" || resourceName == "${operation}")
             {
-                return String.Format("{0}://{1}{2}{3}{4}/",
+                return String.Format("{0}://{1}{2}{3}{4}",
                     ri.Scheme,
                     ri.Host,
                     ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
                     me.Request.PathBase.Value.TrimEnd('/') + '/',
-                    me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Replace("/metadata", "").Replace("/${operation}", ""));
+                    me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Replace("metadata", "").Replace("/${operation}", ""));
             }
             if (me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Contains("{ResourceName"))
                 resourceName = "{ResourceName";

@@ -8,6 +8,7 @@ using Hl7.Fhir.WebApi;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
+using System.Net.Http;
 
 namespace UnitTestWebApi
 {
@@ -184,13 +185,30 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
-        public void GetCapabilityStatement()
+        public async System.Threading.Tasks.Task GetCapabilityStatement()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
             var result = clientFhir.CapabilityStatement();
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");
             Assert.IsNotNull(result.FhirVersion, "Should at least report the version of fhir active");
+
+            HttpClient client = new HttpClient();
+            var rawResult = await client.GetAsync($"{_baseAddress}");
+            var cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
+            System.Diagnostics.Trace.WriteLine($"{cs.Url}");
+            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
+
+            rawResult = await client.GetAsync($"{_baseAddress}metadata");
+            cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
+            System.Diagnostics.Trace.WriteLine($"{cs.Url}");
+            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
+
+            HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Options, $"{_baseAddress}");
+            rawResult = await client.SendAsync(msg);
+            cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
+            System.Diagnostics.Trace.WriteLine($"{cs.Url}");
+            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
         }
 
         [TestMethod]

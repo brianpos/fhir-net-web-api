@@ -14,6 +14,8 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Hl7.Fhir.Serialization;
 using System.Linq;
+using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace UnitTestWebApi
 {
@@ -88,7 +90,7 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
-        public void GetCapabilityStatement()
+        public async Task GetCapabilityStatement()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
 
@@ -98,6 +100,23 @@ namespace UnitTestWebApi
 
             Assert.IsNotNull(result, "Should be a capability statement returned");
             Assert.IsNotNull(result.FhirVersion, "Should at least report the version of fhir active");
+
+            HttpClient client = new HttpClient();
+            var rawResult = await client.GetAsync($"{_baseAddress}");
+            var cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
+            System.Diagnostics.Trace.WriteLine($"{cs.Url}");
+            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
+
+            rawResult = await client.GetAsync($"{_baseAddress}metadata");
+            cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
+            System.Diagnostics.Trace.WriteLine($"{cs.Url}");
+            Assert.AreEqual(_baseAddress+"metadata", cs.Url);
+
+            HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Options, $"{_baseAddress}");
+            rawResult = await client.SendAsync(msg);
+            cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
+            System.Diagnostics.Trace.WriteLine($"{cs.Url}");
+            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
         }
 
         [TestMethod]
@@ -522,7 +541,7 @@ namespace UnitTestWebApi
                 HttpClient rawClient = new HttpClient();
                 rawClient.DefaultRequestHeaders.Accept.Clear();
                 rawClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/gif"));
-                 resRaw = await rawClient.GetAsync($"{_baseAddress}Binary/bin1");
+                resRaw = await rawClient.GetAsync($"{_baseAddress}Binary/bin1");
                 Assert.AreEqual("image/gif", resRaw.Content.Headers.ContentType.MediaType);
                 Console.WriteLine(System.Convert.ToBase64String(await resRaw.Content.ReadAsByteArrayAsync()));
 

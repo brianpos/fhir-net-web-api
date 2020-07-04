@@ -26,9 +26,14 @@ namespace Hl7.Fhir.WebApi
         }
 
         protected Resource entry = null;
+        internal ModelBaseInputs _inputs = null;
 
         private void setEntryHeaders(HttpContentHeaders headers)
         {
+            foreach (var header in _inputs.ResponseHeaders)
+            {
+                headers.Add(header.Key, header.Value);
+            }
             if (entry != null)
             {
                 if (entry.Meta != null && entry.Meta.LastUpdated.HasValue)
@@ -68,6 +73,7 @@ namespace Hl7.Fhir.WebApi
         public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request, MediaTypeHeaderValue mediaType)
         {
             this.entry = request.GetEntry();
+            _inputs = request.Properties["fhir-inputs"] as ModelBaseInputs;
             return base.GetPerRequestFormatterInstance(type, request, mediaType);
         }
 

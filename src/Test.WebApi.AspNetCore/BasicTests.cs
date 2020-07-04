@@ -121,6 +121,7 @@ namespace UnitTestWebApi
                     System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
                     Assert.IsTrue(!location.StartsWith("https://demo.org/testme/"), "proxy redirect detected");
                 }
+                Assert.AreEqual("wild-turkey-create", args.RawResponse.GetResponseHeader("test"), "Custom Response header missing");
             };
 
             var result = clientFhir.Create<Patient>(p);

@@ -11,6 +11,7 @@ using System;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Builder;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -79,6 +80,12 @@ namespace Hl7.Fhir.WebApi
                     context.HttpContext.Response.Headers[HeaderNames.ContentType] = ((Binary)resource).ContentType;
                     context.ContentType = new Microsoft.Extensions.Primitives.StringSegment(((Binary)resource).ContentType);
                 }
+            }
+
+            ModelBaseInputs inputs = context.HttpContext.Items["fhir-inputs"] as ModelBaseInputs;
+            foreach (var header in inputs.ResponseHeaders)
+            {
+                context.HttpContext.Response.Headers.Add(header.Key, new Microsoft.Extensions.Primitives.StringValues(header.Value.ToArray()));
             }
 
             // echo any X-Correlation-Id Headers if encountered

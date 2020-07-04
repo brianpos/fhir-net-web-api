@@ -10,6 +10,7 @@ using System;
 using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections.Generic;
+using Hl7.Fhir.Model;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -30,7 +31,7 @@ namespace Hl7.Fhir.WebApi
         }
     }
 
-    public class ModelBaseInputs<TSP>
+    public class ModelBaseInputs<TSP> : ModelBaseInputs
     {
         /// <summary>
         /// Constructor to create the Model inputs and set all the properties
@@ -50,10 +51,43 @@ namespace Hl7.Fhir.WebApi
             X509Certificate2 clientCertificate,
             string httpMethod,
             Uri requestUri,
-            Uri baseUri, 
+            Uri baseUri,
             string x_api_key,
             IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers,
             TSP serviceProvider)
+            : base (user, clientCertificate,httpMethod, requestUri, baseUri, x_api_key, headers)
+        {
+            this.ServiceProvider = serviceProvider;
+        }
+        /// <summary>
+        /// Access to the Dependency Injector
+        /// </summary>
+        public TSP ServiceProvider { get; private set; }
+
+    }
+
+    public class ModelBaseInputs
+    {
+        /// <summary>
+        /// Constructor to create the Model inputs and set all the properties
+        /// (Done as constructor with private setters so that when a new property 
+        /// is added we don't miss places that need to populate it)
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="clientCertificate"></param>
+        /// <param name="httpMethod"></param>
+        /// <param name="requestUri"></param>
+        /// <param name="baseUri">The Base URI is the actual FHIR url used for this request, will end with /fhir/</param>
+        /// <param name="x_api_key"></param>
+        /// <param name="headers"></param>
+        internal ModelBaseInputs(
+            IPrincipal user,
+            X509Certificate2 clientCertificate,
+            string httpMethod,
+            Uri requestUri,
+            Uri baseUri,
+            string x_api_key,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
         {
             this.User = user;
             this.ClientCertificate = clientCertificate;
@@ -62,7 +96,6 @@ namespace Hl7.Fhir.WebApi
             this.BaseUri = baseUri;
             this.X_Api_Key = x_api_key;
             this.Headers = headers;
-            this.ServiceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -111,10 +144,49 @@ namespace Hl7.Fhir.WebApi
 
         public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; private set; }
 
+        public Dictionary<string, List<string>> ResponseHeaders { get; private set; } = new Dictionary<string, List<string>>(StringComparer.CurrentCultureIgnoreCase);
+
         /// <summary>
-        /// Access to the Dependency Injector
+        /// Appends a new value to the specific key (ensuring no duplicates are created)
         /// </summary>
-        public TSP ServiceProvider { get; private set; }
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void AddResponseHeaderValue(string key, string value)
+        {
+            List<string> headervalues;
+            if (ResponseHeaders.ContainsKey(key))
+            {
+                headervalues = ResponseHeaders[key];
+            }
+            else
+            {
+                headervalues = new List<string>();
+                ResponseHeaders.Add(key, headervalues);
+            }
+            if (!headervalues.Contains(value))
+                headervalues.Add(value);
+        }
+
+        /// <summary>
+        /// Sets the value of a specific header key - resetting an existing value if was set
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void SetResponseHeaderValue(string key, string value)
+        {
+            List<string> headervalues;
+            if (ResponseHeaders.ContainsKey(key))
+            {
+                headervalues = ResponseHeaders[key];
+            }
+            else
+            {
+                headervalues = new List<string>();
+                ResponseHeaders.Add(key, headervalues);
+            }
+            headervalues.Clear();
+            headervalues.Add(value);
+        }
 
         private static IPrincipal _systemPrincipal;
         /// <summary>

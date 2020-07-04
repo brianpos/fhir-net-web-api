@@ -92,7 +92,7 @@ namespace Hl7.Fhir.WebApi
             {
                 inputs.X_CorelationId = Guid.NewGuid().ToFhirId();
             }
-
+            Request.HttpContext.Items.Add("fhir-inputs", inputs);
             return inputs;
         }
 
@@ -892,7 +892,7 @@ namespace Hl7.Fhir.WebApi
                 // otherwise externally reported events can be updated!
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot DELETE a AuditEvent");
             }
-            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, GetInputs(buri));
+            IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
             string ifMatch = Request.RequestUri().Query;
             if (ifMatch.StartsWith("?"))

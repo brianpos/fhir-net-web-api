@@ -18,6 +18,8 @@ namespace Hl7.DemoFileSystemFhirServer
 
         public Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
+            RequestDetails.SetResponseHeaderValue("test", "wild-turkey-create");
+
             if (String.IsNullOrEmpty(resource.Id))
                 resource.Id = Guid.NewGuid().ToFhirId();
             if (resource.Meta == null)
@@ -41,6 +43,8 @@ namespace Hl7.DemoFileSystemFhirServer
 
         public Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
         {
+            RequestDetails.SetResponseHeaderValue("test", "wild-turkey-get");
+
             string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
             if (System.IO.File.Exists(path))
                 return System.Threading.Tasks.Task.FromResult(new Fhir.Serialization.FhirXmlParser().Parse<Resource>(System.IO.File.ReadAllText(path)));

@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;netstandard2.1;netstandard2.0</TargetFrameworks>
+    <AssemblyName>Hl7.Fhir.R4.Custom.Serializers</AssemblyName>
+    <PackageId>Hl7.Fhir.R4.Custom.Serializers</PackageId>
+    <Version>1.9.0-beta1</Version>
+    <Title>HL7 Fhir Custom Serializers</Title>
+    <Summary>A code generated set of serializers tuned for performance</Summary>
+    <Description>
+      The standard FHIR Serializers use either reflection on the class models or a custom provider to feed serialization information into generic parser/serializer.
+      The reflection getter/setter approach has overheads on initial call (preparing all this processing data).
+      This library sacrifices this approach with explicit functions for each type.
+    </Description>
+    <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
+    <Product>Hl7.Fhir.R4.WebApi.Support</Product>
+    <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\platforms.props" />
+  <Import Project="..\fhir-net-web-api.props" />
+  <ItemGroup>
+    <None Include="XmlSerializer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>XmlSerializer.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hl7.Fhir.R4" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="XmlSerializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>XmlSerializer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="XmlSerializer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>XmlSerializer.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,338 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="$(SolutionDir)\packages\telstrahealth.fhir.core.r4.1.3.5\lib\net462\Hl7.Fhir.ElementModel.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\telstrahealth.fhir.core.r4.1.3.5\lib\net462\Hl7.FhirPath.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\telstrahealth.fhir.core.r4.1.3.5\lib\net462\Hl7.Fhir.Serialization.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\telstrahealth.fhir.core.r4.1.3.5\lib\net462\Hl7.Fhir.Support.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\telstrahealth.fhir.core.r4.1.3.5\lib\net462\Hl7.Fhir.R4.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Hl7.Fhir.Introspection" #>
+<#@ output extension=".cs" encoding="utf-8" #>
+// -----------------------------------------------------------------------------
+// GENERATED CODE - DO NOT EDIT
+// Generated: <#= DateTime.Now #>
+// -----------------------------------------------------------------------------
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
+using System.Threading;
+
+namespace Hl7.Fhir.CustomSerializer
+{
+    public partial class CustomFhirXmlSerializer : XmlSerializer
+    {
+<#
+	Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
+    foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
+    {
+        if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v))
+        {
+            var dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
+			if (dtt != null)
+			{
+				if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
+					continue;
+				generateTypes.Add("Hl7.Fhir.Model."+ dtt.Name, dtt);
+			}
+			else
+			{
+				WriteLine($"// Type {v} not found");
+			}
+        }
+    }
+	generateTypes.Add("Hl7.Fhir.Model.ImplementationGuide.PageComponent", typeof(Hl7.Fhir.Model.ImplementationGuide.PageComponent));
+	generateTypes.Add("Hl7.Fhir.Model.MedicationRequest.InitialFillComponent", typeof(Hl7.Fhir.Model.MedicationRequest.InitialFillComponent));
+	generateTypes.Add("Hl7.Fhir.Model.SubstanceSourceMaterial.HybridComponent", typeof(Hl7.Fhir.Model.SubstanceSourceMaterial.HybridComponent));
+	generateTypes.Add("Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismGeneralComponent", typeof(Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismGeneralComponent));
+	generateTypes.Add("Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent", typeof(Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent));
+	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.SlicingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.SlicingComponent));
+	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.BaseComponent", typeof(Hl7.Fhir.Model.ElementDefinition.BaseComponent));
+	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent));
+	generateTypes.Add("Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent", typeof(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent));
+	generateTypes.Add("Hl7.Fhir.Model.Timing.RepeatComponent", typeof(Hl7.Fhir.Model.Timing.RepeatComponent));
+
+	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
+    {
+		Type tr = typeof(Hl7.Fhir.Model.ModelInfo).Assembly.GetType("Hl7.Fhir.Model." + ResourceName);
+        if (tr.BaseType.Name != "DomainResource" && tr.BaseType.Name != "Resource")
+		{
+			// WriteLine("Resourcename: " + ResourceName + " : " + tr.BaseType.Name);
+			continue;
+        }
+        if (Hl7.Fhir.Model.ModelInfo.IsCoreSuperType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
+            continue;
+
+		PushIndent("\t");
+		PushIndent("\t");
+        WriteLine($"public static void Serialize({tr.Name} name, XmlWriter writer, CancellationToken cancellationToken)");
+        WriteLine("{");
+        WriteLine("\tif (cancellationToken.IsCancellationRequested) return;");
+        WriteLine("\tif (name == null) return;");
+        WriteLine($"\twriter.WriteStartElement(\"{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)}\", XmlNs.FHIR);");
+		if (GetTypeName(tr.BaseType) == "Hl7.Fhir.Model.DomainResource")
+			WriteLine($"\tSerializeDomainResource(name, writer, cancellationToken);");
+		else if (GetTypeName(tr.BaseType) == "Hl7.Fhir.Model.Resource")
+			WriteLine($"\tSerializeResource(name, writer, cancellationToken);");
+
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+		WriteResourceProperties(tr, generateTypes);
+
+        WriteLine($"\twriter.WriteEndElement();");
+        WriteLine("}");
+        WriteLine("");
+
+		PopIndent();
+		PopIndent();
+    }
+
+    WriteLine("// ---------------------------");
+	foreach (Type tr in generateTypes.Values)
+	{
+        // if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
+        //    continue;
+		string typeName = GetTypeName(tr);
+		if (typeName.StartsWith("System.Collections.Generic.List"))
+			continue;
+		if (typeName.StartsWith("Hl7.Fhir.Model.Code<"))
+			continue;
+		if (typeName == "Hl7.Fhir.Model.Element" || typeName == "Hl7.Fhir.Model.Duration")
+			continue;
+		PushIndent("\t");
+		PushIndent("\t");
+	    WriteLine($"// {typeName}");
+
+		if (typeName == "Hl7.Fhir.Model.DomainResource")
+			WriteLine($"public static void SerializeDomainResource({typeName} name, XmlWriter writer, CancellationToken cancellationToken)");
+		else if (typeName == "Hl7.Fhir.Model.Resource")
+			WriteLine($"public static void SerializeResource({typeName} name, XmlWriter writer, CancellationToken cancellationToken)");
+		else
+			WriteLine($"public static void Serialize({typeName} name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)");
+        WriteLine("{");
+        WriteLine("\tif (cancellationToken.IsCancellationRequested) return;");
+        WriteLine("\tif (name == null) return;");
+		if (GetTypeName(tr.BaseType) == "Hl7.Fhir.Model.DomainResource")
+			WriteLine($"\tSerializeDomainResource(name, writer, cancellationToken);");
+		else if (GetTypeName(tr.BaseType) == "Hl7.Fhir.Model.Resource")
+			WriteLine($"\tSerializeResource(name, writer, cancellationToken);");
+		else if (GetTypeName(tr) != "Hl7.Fhir.Model.Resource")
+			WriteLine($"\twriter.WriteStartElement(propertyName, XmlNs.FHIR);");
+		if (GetTypeName(tr) == "Hl7.Fhir.Model.DomainResource")
+			WriteResourceProperties(tr, null);
+		else
+			WriteElementProperties(tr);
+		if (GetTypeName(tr.BaseType) != "Hl7.Fhir.Model.DomainResource" && GetTypeName(tr.BaseType) != "Hl7.Fhir.Model.Resource" && GetTypeName(tr) != "Hl7.Fhir.Model.Resource")
+	        WriteLine($"\twriter.WriteEndElement();");
+        WriteLine("}");
+        WriteLine("");
+
+		PopIndent();
+		PopIndent();
+	}
+
+	PushIndent("\t");
+	PushIndent("\t");
+    WriteLine("// ---------------------------");
+    WriteLine($"public static void SerializeBase(Base value, XmlWriter writer, string propertyName, CancellationToken cancellationToken)");
+    WriteLine("{");
+    WriteLine("\tif (cancellationToken.IsCancellationRequested) return;");
+	PushIndent("\t");
+    WriteLine("switch(value)");
+    WriteLine("{");
+	string genList = "System.Collections.Generic.List<";
+	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
+    {
+		Type tr = typeof(Hl7.Fhir.Model.ModelInfo).Assembly.GetType("Hl7.Fhir.Model." + ResourceName);
+        if (tr.BaseType.Name != "DomainResource" && tr.BaseType.Name != "Resource")
+		{
+			// WriteLine("Resourcename: " + ResourceName + " : " + tr.BaseType.Name);
+			continue;
+        }
+		string typeName = GetTypeName(tr);
+	    // WriteLine($"\t// {typeName}");
+		string varName = typeName.Replace(".", "_").Replace("Hl7_Fhir_Model_", "").Replace("<", "_").Replace(">","").ToLower();
+	    WriteLine($"\tcase {typeName} {varName}:");
+                WriteLine($"\t\t\t\tSerialize({varName}, writer, cancellationToken);");
+	    WriteLine($"\t\t\t\tbreak;");
+	}
+    WriteLine("// ---------------------------");
+	foreach (Type tr in generateTypes.Values)
+	{
+		if (GetTypeName(tr.BaseType) == "Hl7.Fhir.Model.Quantity")
+			continue;
+		string typeName = GetTypeName(tr);
+		if (typeName.StartsWith(genList))
+			continue;
+			// typeName = typeName.Substring(genList.Length, typeName.Length - genList.Length - 1);
+	    // WriteLine($"\t// {typeName}");
+		if (typeName == "Hl7.Fhir.Model.Element" || typeName == "Hl7.Fhir.Model.BackboneElement" || typeName == "Hl7.Fhir.Model.DomainResource" || typeName == "Hl7.Fhir.Model.Resource")
+			continue;
+		string varName = typeName.Replace(".", "_").Replace("Hl7_Fhir_Model_", "").Replace("<", "_").Replace(">","").ToLower();
+	    WriteLine($"\tcase {typeName} {varName}:");
+                WriteLine($"\t\t\t\tSerialize({varName}, writer, propertyName, cancellationToken);");
+	    WriteLine($"\t\t\t\tbreak;");
+	}
+	WriteLine("\tdefault:\tSystem.Diagnostics.Trace.WriteLine($\"No Serialization defined for {value?.TypeName}\");");
+	WriteLine("\t\t\t\tbreak;");
+    WriteLine("}");
+	PopIndent();
+    WriteLine("}");
+	PopIndent();
+	PopIndent();
+#>
+	}
+}
+<#+ 
+
+	public void WriteResourceProperties(System.Type tr, Dictionary<string, Type> generateTypes)
+	{
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+		foreach (var prop in props)
+		{
+			if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+				continue;
+			FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea != null)
+			{
+				WriteProperty(tr, prop, fea, generateTypes);
+			}
+		}
+	}
+
+	public void WriteElementProperties(System.Type tr)
+	{
+		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.Primitive)))
+		{
+			WritePrimitiveElementProperties(tr);
+			return;
+		}
+
+		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.Base)))
+			WriteElementProperties(tr.BaseType);
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+        foreach (var prop in props)
+        {
+            if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+                continue;
+            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea == null)
+				continue;
+			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+				continue;
+			WriteProperty(tr, prop, fea, null);
+		}
+        foreach (var prop in props)
+        {
+            if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+                continue;
+            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea == null)
+				continue;
+			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+				continue;
+			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.None)
+				WriteLine($"\t// Xml Serialization: {fea.XmlSerialization}");
+			WriteProperty(tr, prop, fea, null);
+		}
+	}
+
+	public void WritePrimitiveElementProperties(System.Type tr)
+	{
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
+        foreach (var prop in props)
+        {
+            if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+                continue;
+            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea == null)
+				continue;
+			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+				continue;
+			WriteProperty(tr, prop, fea, null);
+		}
+        foreach (var prop in props)
+        {
+            if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+                continue;
+            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea == null)
+				continue;
+			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+				continue;
+			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.None)
+				WriteLine($"\t// Xml Serialization: {fea.XmlSerialization}");
+			WriteProperty(tr, prop, fea, null);
+		}
+	}
+
+	public void WriteProperty(System.Type tr, PropertyInfo prop, FhirElementAttribute fea, Dictionary<string, Type> generateTypes)
+	{
+		if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XHtml)
+		{
+			WriteLine($"\tXElement.Parse(name.{prop.Name}).WriteTo(writer); // {fea.Order}");
+			return;
+		}
+		var vat = prop.GetCustomAttribute(typeof(Hl7.Fhir.Validation.AllowedTypesAttribute)) as Hl7.Fhir.Validation.AllowedTypesAttribute;
+		if (vat != null)
+		{
+			// If there is an allowed types, then there could be other values
+			foreach (var t in vat.Types)
+			{
+				var pta = t.GetCustomAttribute(typeof(FhirTypeAttribute)) as FhirTypeAttribute;
+				if (pta.Name == "Resource")
+					WriteLine($"\tSerialize(name.{prop.Name}, writer, \"{fea.Name}\", cancellationToken); // {fea.Order}");
+				else
+					WriteLine($"\tSerialize(name.{prop.Name} as {GetTypeName(t)}, writer, \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\", cancellationToken); // {fea.Order}");
+			}
+		}
+		else
+		{
+			WriteLine($"\tSerialize(name.{prop.Name}, writer, \"{fea.Name}\", cancellationToken); // {fea.Order}");
+		}
+		if (generateTypes != null && !generateTypes.ContainsKey(prop.PropertyType.FullName))
+		{
+			generateTypes.Add(prop.PropertyType.FullName, prop.PropertyType);
+			if (tr.GenericTypeArguments.Count() > 0)
+			{
+				generateTypes.Add(tr.GenericTypeArguments[0].FullName, tr.GenericTypeArguments[0]);
+			}
+		}
+	}
+
+	public static string GetTypeName(System.Type tr)
+	{
+		if (tr.Name.EndsWith("Component"))
+			Console.Write("{tr}");
+		string typeName = $"{tr.Namespace}.{tr.Name}";
+		if (tr.IsNested)
+			typeName = $"{GetTypeName(tr.DeclaringType)}.{tr.Name}";
+		if (tr.GenericTypeArguments.Count() > 0)
+		{
+			if (tr.IsNested)
+				typeName = $"{GetTypeName(tr.DeclaringType)}.{tr.Name}";
+			else
+				typeName = $"{tr.Namespace}.{tr.Name.Substring(0, tr.Name.Length-2)}<{GetTypeName(tr.GenericTypeArguments[0])}>";
+		}
+		return typeName;
+	}
+
+#>

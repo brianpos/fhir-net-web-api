@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hl7.Fhir.Rest
 {
-    public class FhirHttpClient : IFhirHttpClient
+    public class FhirHttpClient : IDisposable, IFhirHttpClient
     {
         System.Net.Http.HttpClient _httpClient;
         Hl7.Fhir.Serialization.FhirXmlParser _xmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
@@ -85,6 +85,33 @@ namespace Hl7.Fhir.Rest
             }
         }
 
+        #region IDisposable Support
+        protected bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_httpClient != null)
+                    {
+                        _httpClient.Dispose();
+                        _httpClient = null;
+                    }
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
+
         public async Task<TResource> ReadAsync<TResource>(string resourceId)
             where TResource : Resource
         {
@@ -140,44 +167,5 @@ namespace Hl7.Fhir.Rest
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
             throw buildFhirOperationException("Update", response.StatusCode, outcome);
         }
-
-        //internal T Create<T>(T p)
-        //    where T : Resource
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal T Update<T>(T resource)
-        //    where T : Resource
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal T Read<T>(string resourceId)
-        //    where T : Resource
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal void Delete(object result)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal CapabilityStatement CapabilityStatement()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal Resource Get(string exampleQuery)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //internal Bundle Search<T>(string[] vs)
-        //    where T : Resource
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

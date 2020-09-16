@@ -22,6 +22,7 @@ namespace Hl7.Fhir.Rest
         /// <summary>
         /// This is extracted from the regular FhirClient (v1.9.0) Requester.cs
         /// </summary>
+        /// <param name="operationName"></param>
         /// <param name="status"></param>
         /// <param name="body"></param>
         /// <returns></returns>
@@ -45,7 +46,6 @@ namespace Hl7.Fhir.Rest
             else
                 return new FhirOperationException($"{message}. Body has no content.", status);
         }
-
 
         public async Task<TResource> CreateAsync<TResource>(TResource resource) 
             where TResource : Resource

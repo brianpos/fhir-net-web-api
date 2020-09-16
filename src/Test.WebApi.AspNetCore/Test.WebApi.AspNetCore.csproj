@@ -31,6 +31,7 @@
       <PrivateAssets>contentFiles</PrivateAssets>
       <Private>true</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Hl7.Fhir.HttpClient\Hl7.Fhir.R4.HttpClient.csproj" />
   </ItemGroup>
 
 </Project>

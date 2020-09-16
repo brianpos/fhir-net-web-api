@@ -75,7 +75,7 @@ namespace Hl7.Fhir.NetCoreApi
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 #endif
 #if NETCOREAPP3_0 || NETCOREAPP3_1
-            });
+            }).AddApplicationPart(typeof(FhirR4Controller).Assembly);
 #endif
         }
     }

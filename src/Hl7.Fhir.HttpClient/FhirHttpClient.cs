@@ -47,7 +47,7 @@ namespace Hl7.Fhir.Rest
                 return new FhirOperationException($"{message}. Body has no content.", status);
         }
 
-        public async Task<TResource> CreateAsync<TResource>(TResource resource) 
+        public async Task<TResource> CreateAsync<TResource>(TResource resource)
             where TResource : Resource
         {
             string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}";
@@ -86,11 +86,11 @@ namespace Hl7.Fhir.Rest
         }
 
         #region IDisposable Support
-        protected bool disposedValue = false; // To detect redundant calls
+        protected bool _disposed = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposed)
             {
                 if (disposing)
                 {
@@ -101,13 +101,14 @@ namespace Hl7.Fhir.Rest
                     }
                 }
 
-                disposedValue = true;
+                _disposed = true;
             }
         }
 
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
         #endregion
 

@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="FhirXmlSerializationReader.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FhirXmlSerializationReader.cs</LastGenOutput>
+    </None>
     <None Update="XmlSerializer.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>XmlSerializer.cs</LastGenOutput>
@@ -39,10 +43,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="XmlDeSerializer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>XmlDeSerializer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="FhirXmlSerializationReader.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FhirXmlSerializationReader.tt</DependentUpon>
+    </Compile>
+    <Compile Update="XmlDeSerializer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>XmlDeSerializer.tt</DependentUpon>
+    </Compile>
     <Compile Update="XmlSerializer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

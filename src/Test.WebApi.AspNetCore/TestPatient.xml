@@ -1,0 +1,53 @@
+﻿<Patient xmlns="http://hl7.org/fhir">
+  <id value="5" />
+  <text>
+    <status value="generated" />
+    <div xmlns="http://www.w3.org/1999/xhtml">some content</div>
+  </text>
+  <contained>
+    <Organization>
+      <id value="43" />
+      <name value="Brian's porgs" />
+      <telecom>
+        <system value="phone" />
+        <value value="0121 222342" />
+      </telecom>
+    </Organization>
+  </contained>
+  <extension url="http://example.org/ext2">
+    <valueCoding>
+      <system value="http://example.org/cs/231" />
+      <code value="C123" />
+      <display value="Display val" />
+    </valueCoding>
+  </extension>
+  <active value="true" id="1">
+    <extension url="http://example.org/test">
+      <valueString value="testvalue" />
+    </extension>
+  </active>
+  <name>
+    <extension url="http://example.org/3rd">
+      <valueCoding>
+        <system value="system" />
+        <code value="43" />
+      </valueCoding>
+    </extension>
+    <family value="Pos" />
+    <given value="Brian" />
+    <given value="Richard" />
+  </name>
+  <telecom>
+    <system value="phone" />
+    <value value="0" />
+  </telecom>
+  <telecom>
+    <system value="phone" />
+    <value value="1" />
+  </telecom>
+  <birthDate value="1973-01-17" />
+  <managingOrganization>
+    <reference value="#43" />
+    <display value="Brian's porgs" />
+  </managingOrganization>
+</Patient>

@@ -114,6 +114,17 @@ namespace Hl7.Fhir.CustomSerializer
                 // writer.WriteEndElement();
             }
         }
+
+        protected override object Deserialize(XmlSerializationReader reader)
+        {
+            var fr = reader as Hl7.Fhir.CustomSerializer.FhirXmlSerializationReader;
+            return fr.Parse();
+        }
+
+        protected override XmlSerializationReader CreateReader()
+        {
+            return new Hl7.Fhir.CustomSerializer.FhirXmlSerializationReader();
+        }
     }
 }
 

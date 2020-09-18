@@ -4,7 +4,7 @@
     <TargetFrameworks>net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.Custom.Serializers</AssemblyName>
     <PackageId>Hl7.Fhir.R4.Custom.Serializers</PackageId>
-    <Version>1.9.0-beta1</Version>
+    <Version>1.9.0-beta2</Version>
     <Title>HL7 Fhir Custom Serializers</Title>
     <Summary>A code generated set of serializers tuned for performance</Summary>
     <Description>

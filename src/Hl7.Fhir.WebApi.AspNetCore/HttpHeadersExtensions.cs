@@ -12,6 +12,7 @@ using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 
 namespace Hl7.Fhir.WebApi
@@ -82,10 +83,15 @@ namespace Hl7.Fhir.WebApi
         {
             var list = new List<KeyValuePair<string, string>>();
 
-            foreach (var pair in request.Query)
+            var nvp = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(request.RequestUri().Query);
+
+            foreach (var pair in nvp)
             {
                 if (excludeParameters == null || !excludeParameters.Contains(pair.Key))
-                    list.Add(new KeyValuePair<string, string>(pair.Key, pair.Value));
+                {
+                    foreach (string val in pair.Value)
+                        list.Add(new KeyValuePair<string, string>(pair.Key, val));
+                }
             }
             return list;
         }
@@ -99,7 +105,10 @@ namespace Hl7.Fhir.WebApi
                 foreach (string key in query.Keys)
                 {
                     if (excludeParameters == null || !excludeParameters.Contains(key))
-                        list.Add(new KeyValuePair<string, string>(key, query[key]));
+                    {
+                        foreach (string val in query[key])
+                            list.Add(new KeyValuePair<string, string>(key, val));
+                    }
                 }
             }
             return list;
@@ -114,7 +123,10 @@ namespace Hl7.Fhir.WebApi
                 foreach (string key in query.Keys)
                 {
                     if (excludeParameters == null || !excludeParameters.Contains(key))
-                        list.Add(new KeyValuePair<string, string>(key, query[key]));
+                    {
+                        foreach (string val in query.GetValues(key))
+                            list.Add(new KeyValuePair<string, string>(key, val));
+                    }
                 }
             }
             return list;

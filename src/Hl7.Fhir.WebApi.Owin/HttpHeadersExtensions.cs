@@ -93,7 +93,10 @@ namespace Hl7.Fhir.WebApi
                 foreach (string key in query.Keys)
                 {
                     if (excludeParameters == null || !excludeParameters.Contains(key))
-                        list.Add(new KeyValuePair<string, string>(key, query[key]));
+                    {
+                        foreach (string val in query.GetValues(key))
+                            list.Add(new KeyValuePair<string, string>(key, val));
+                    }
                 }
             }
             return list;

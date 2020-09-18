@@ -19,6 +19,12 @@ namespace Hl7.Fhir.Rest
             _baseAddress = baseAddress.TrimEnd('/');
         }
 
+        public FhirHttpClient(string baseAddress, HttpMessageHandler innerHandler, params DelegatingHandler[] handlers)
+        {
+            _httpClient = HttpClientFactory.Create(innerHandler, handlers);
+            _baseAddress = baseAddress.TrimEnd('/');
+        }
+
         /// <summary>
         /// This is extracted from the regular FhirClient (v1.9.0) Requester.cs
         /// </summary>

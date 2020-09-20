@@ -44,10 +44,14 @@ namespace Hl7.Fhir.CustomSerializer
         public Resource Parse()
         {
             var doc = this.ReadXmlDocument(false);
+			if (doc.DocumentElement == null && doc.FirstChild?.NodeType == XmlNodeType.XmlDeclaration)
+				doc = this.ReadXmlDocument(false); // skip to the document itself
 			return Parse(doc.DocumentElement);
 		}
         public Resource Parse(XmlElement element)
         {
+			if (element == null)
+				return;
             Resource result;
             switch(element.Name)
             {
@@ -93,8 +97,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 				}
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -163,10 +168,11 @@ namespace Hl7.Fhir.CustomSerializer
         WriteLine("{");
 
 		PushIndent("\t");
-	    WriteLine("foreach (XmlElement child in document.ChildNodes)");
+	    WriteLine("foreach (XmlNode childNode in document.ChildNodes)");
 	    WriteLine("{");
 		PushIndent("\t");
-	    WriteLine("switch (child.Name)");
+	    WriteLine("if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;");
+		WriteLine("switch (child.Name)");
 	    WriteLine("{");
 		WriteResourceProperties(tr, generateTypes);
 
@@ -226,9 +232,10 @@ namespace Hl7.Fhir.CustomSerializer
 			WriteLine("}");
 		}
 
-	    WriteLine("foreach (XmlElement child in doc.ChildNodes)");
+	    WriteLine("foreach (XmlNode childNode in doc.ChildNodes)");
 	    WriteLine("{");
 		PushIndent("\t");
+	    WriteLine("if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;");
 	    WriteLine("switch (child.Name)");
 	    WriteLine("{");
 

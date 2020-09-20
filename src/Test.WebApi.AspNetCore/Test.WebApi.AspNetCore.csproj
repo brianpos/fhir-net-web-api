@@ -36,6 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TestData\examples.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestPatient.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

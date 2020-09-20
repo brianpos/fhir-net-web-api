@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
-// Generated: 09/17/2020 09:24:14
+// Generated: 09/20/2020 20:55:39
 // -----------------------------------------------------------------------------
 using System;
 using System.Linq;
@@ -4271,6 +4271,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Serialize(name.DefaultValue as Hl7.Fhir.Model.TriggerDefinition, writer, "defaultValueTriggerDefinition", cancellationToken); // 260
 			Serialize(name.DefaultValue as Hl7.Fhir.Model.UsageContext, writer, "defaultValueUsageContext", cancellationToken); // 260
 			Serialize(name.DefaultValue as Hl7.Fhir.Model.Dosage, writer, "defaultValueDosage", cancellationToken); // 260
+			Serialize(name.DefaultValue as Hl7.Fhir.Model.Meta, writer, "defaultValueMeta", cancellationToken); // 260
 			Serialize(name.MeaningWhenMissing, writer, "meaningWhenMissing", cancellationToken); // 270
 			Serialize(name.OrderMeaningElement, writer, "orderMeaning", cancellationToken); // 280
 			Serialize(name.Fixed as Hl7.Fhir.Model.Base64Binary, writer, "fixedBase64Binary", cancellationToken); // 290
@@ -4322,6 +4323,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Serialize(name.Fixed as Hl7.Fhir.Model.TriggerDefinition, writer, "fixedTriggerDefinition", cancellationToken); // 290
 			Serialize(name.Fixed as Hl7.Fhir.Model.UsageContext, writer, "fixedUsageContext", cancellationToken); // 290
 			Serialize(name.Fixed as Hl7.Fhir.Model.Dosage, writer, "fixedDosage", cancellationToken); // 290
+			Serialize(name.Fixed as Hl7.Fhir.Model.Meta, writer, "fixedMeta", cancellationToken); // 290
 			Serialize(name.Pattern as Hl7.Fhir.Model.Base64Binary, writer, "patternBase64Binary", cancellationToken); // 300
 			Serialize(name.Pattern as Hl7.Fhir.Model.FhirBoolean, writer, "patternBoolean", cancellationToken); // 300
 			Serialize(name.Pattern as Hl7.Fhir.Model.Canonical, writer, "patternCanonical", cancellationToken); // 300
@@ -4371,6 +4373,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Serialize(name.Pattern as Hl7.Fhir.Model.TriggerDefinition, writer, "patternTriggerDefinition", cancellationToken); // 300
 			Serialize(name.Pattern as Hl7.Fhir.Model.UsageContext, writer, "patternUsageContext", cancellationToken); // 300
 			Serialize(name.Pattern as Hl7.Fhir.Model.Dosage, writer, "patternDosage", cancellationToken); // 300
+			Serialize(name.Pattern as Hl7.Fhir.Model.Meta, writer, "patternMeta", cancellationToken); // 300
 			Serialize(name.Example, writer, "example", cancellationToken); // 310
 			Serialize(name.MinValue as Hl7.Fhir.Model.Date, writer, "minValueDate", cancellationToken); // 320
 			Serialize(name.MinValue as Hl7.Fhir.Model.FhirDateTime, writer, "minValueDateTime", cancellationToken); // 320
@@ -5545,7 +5548,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Serialize(name.Method, writer, "method", cancellationToken); // 70
 			Serialize(name.Dose, writer, "dose", cancellationToken); // 80
 			Serialize(name.Rate as Hl7.Fhir.Model.Ratio, writer, "rateRatio", cancellationToken); // 90
-			Serialize(name.Rate as Hl7.Fhir.Model.SimpleQuantity, writer, "rateQuantity", cancellationToken); // 90
+			Serialize(name.Rate as Hl7.Fhir.Model.Quantity, writer, "rateQuantity", cancellationToken); // 90
 			writer.WriteEndElement();
 		}
 

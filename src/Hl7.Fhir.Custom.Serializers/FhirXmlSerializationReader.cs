@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
-// Generated: 09/18/2020 07:27:50
+// Generated: 09/20/2020 20:59:48
 // -----------------------------------------------------------------------------
 using System;
 using System.Linq;
@@ -19,10 +19,14 @@ namespace Hl7.Fhir.CustomSerializer
         public Resource Parse()
         {
             var doc = this.ReadXmlDocument(false);
+			if (doc.DocumentElement == null && doc.FirstChild?.NodeType == XmlNodeType.XmlDeclaration)
+				doc = this.ReadXmlDocument(false); // skip to the document itself
 			return Parse(doc.DocumentElement);
 		}
         public Resource Parse(XmlElement element)
         {
+			if (element == null)
+				return null;
             Resource result;
             switch(element.Name)
             {
@@ -644,8 +648,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 				}
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -664,8 +669,9 @@ namespace Hl7.Fhir.CustomSerializer
 		#region << Resource Parse >>
 		private void Parse(Account result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -762,8 +768,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ActivityDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1042,8 +1049,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(AdverseEvent result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1179,8 +1187,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(AllergyIntolerance result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1308,8 +1317,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Appointment result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1457,8 +1467,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(AppointmentResponse result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1541,8 +1552,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(AuditEvent result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1639,8 +1651,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Basic result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1710,8 +1723,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Binary result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1753,8 +1767,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(BiologicallyDerivedProduct result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1852,8 +1867,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(BodyStructure result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1937,8 +1953,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Bundle result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -1998,8 +2015,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CapabilityStatement result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -2163,8 +2181,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CarePlan result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -2319,8 +2338,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CareTeam result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -2429,8 +2449,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CatalogEntry result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -2537,8 +2558,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ChargeItem result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -2714,8 +2736,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ChargeItemDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -2866,8 +2889,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Claim result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -3032,8 +3056,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ClaimResponse result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -3199,8 +3224,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ClinicalImpression result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -3342,8 +3368,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CodeSystem result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -3503,8 +3530,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Communication result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -3659,8 +3687,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CommunicationRequest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -3812,8 +3841,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CompartmentDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -3921,8 +3951,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Composition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4037,8 +4068,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ConceptMap result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4171,8 +4203,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Condition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4327,8 +4360,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Consent result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4439,8 +4473,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Contract result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4643,8 +4678,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Coverage result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4766,8 +4802,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CoverageEligibilityRequest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4876,8 +4913,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(CoverageEligibilityResponse result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -4989,8 +5027,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DetectedIssue result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -5095,8 +5134,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Device result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -5259,8 +5299,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DeviceDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -5414,8 +5455,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DeviceMetric result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -5506,8 +5548,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DeviceRequest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -5676,8 +5719,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DeviceUseStatement result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -5792,8 +5836,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DiagnosticReport result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -5929,8 +5974,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DocumentManifest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6032,8 +6078,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(DocumentReference result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6152,8 +6199,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(EffectEvidenceSynthesis result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6348,8 +6396,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Encounter result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6503,8 +6552,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Endpoint result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6602,8 +6652,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(EnrollmentRequest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6681,8 +6732,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(EnrollmentResponse result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6764,8 +6816,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(EpisodeOfCare result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -6869,8 +6922,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(EventDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -7046,8 +7100,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Evidence result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -7221,8 +7276,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(EvidenceVariable result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -7391,8 +7447,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ExampleScenario result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -7517,8 +7574,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ExplanationOfBenefit result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -7754,8 +7812,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(FamilyMemberHistory result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -7915,8 +7974,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Flag result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -7999,8 +8059,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Goal result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -8124,8 +8185,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(GraphDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -8238,8 +8300,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Group result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -8331,8 +8394,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(GuidanceResponse result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -8455,8 +8519,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(HealthcareService result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -8617,8 +8682,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ImagingStudy result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -8757,8 +8823,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Immunization result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -8933,8 +9000,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ImmunizationEvaluation result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9045,8 +9113,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ImmunizationRecommendation result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9117,8 +9186,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ImplementationGuide result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9248,8 +9318,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(InsurancePlan result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9363,8 +9434,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Invoice result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9482,8 +9554,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Library result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9673,8 +9746,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Linkage result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9736,8 +9810,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(List result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9841,8 +9916,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Location result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -9965,8 +10041,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Measure result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -10198,8 +10275,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MeasureReport result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -10295,8 +10373,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Media result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -10442,8 +10521,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Medication result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -10526,8 +10606,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicationAdministration result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -10671,8 +10752,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicationDispense result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -10835,8 +10917,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicationKnowledge result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -10988,8 +11071,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicationRequest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11187,8 +11271,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicationStatement result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11322,8 +11407,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProduct result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11466,8 +11552,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductAuthorization result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11584,8 +11671,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductContraindication result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11667,8 +11755,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductIndication result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11758,8 +11847,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductIngredient result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11834,8 +11924,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductInteraction result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11914,8 +12005,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductManufactured result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -11995,8 +12087,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductPackaged result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12087,8 +12180,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductPharmaceutical result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12170,8 +12264,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MedicinalProductUndesirableEffect result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12242,8 +12337,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MessageDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12401,8 +12497,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MessageHeader result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12501,8 +12598,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(MolecularSequence result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12621,8 +12719,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(NamingSystem result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12727,8 +12826,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(NutritionOrder result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -12854,8 +12954,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Observation result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13064,8 +13165,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ObservationDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13165,8 +13267,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(OperationDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13320,8 +13423,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(OperationOutcome result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13375,8 +13479,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Organization result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13472,8 +13577,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(OrganizationAffiliation result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13578,8 +13684,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Parameters result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13614,8 +13721,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Patient result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13745,8 +13853,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(PaymentNotice result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13844,8 +13953,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(PaymentReconciliation result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -13957,8 +14067,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Person result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14052,8 +14163,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(PlanDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14243,8 +14355,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Practitioner result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14340,8 +14453,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(PractitionerRole result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14455,8 +14569,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Procedure result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14650,8 +14765,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Provenance result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14750,8 +14866,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Questionnaire result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14891,8 +15008,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(QuestionnaireResponse result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -14988,8 +15106,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(RelatedPerson result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -15093,8 +15212,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(RequestGroup result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -15224,8 +15344,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ResearchDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -15426,8 +15547,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ResearchElementDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -15625,8 +15747,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ResearchStudy result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -15786,8 +15909,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ResearchSubject result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -15869,8 +15993,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(RiskAssessment result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -15997,8 +16122,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(RiskEvidenceSynthesis result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -16183,8 +16309,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Schedule result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -16270,8 +16397,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SearchParameter result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -16413,8 +16541,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ServiceRequest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -16633,8 +16762,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Slot result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -16731,8 +16861,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Specimen result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -16840,8 +16971,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SpecimenDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -16917,8 +17049,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(StructureDefinition result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17083,8 +17216,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(StructureMap result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17212,8 +17346,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Subscription result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17291,8 +17426,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Substance result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17373,8 +17509,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SubstanceNucleicAcid result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17444,8 +17581,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SubstancePolymer result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17522,8 +17660,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SubstanceProtein result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17590,8 +17729,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SubstanceReferenceInformation result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17664,8 +17804,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SubstanceSourceMaterial result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17772,8 +17913,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SubstanceSpecification result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -17905,8 +18047,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SupplyDelivery result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18011,8 +18154,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(SupplyRequest result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18138,8 +18282,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(Task result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18321,8 +18466,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(TerminologyCapabilities result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18471,8 +18617,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(TestReport result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18571,8 +18718,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(TestScript result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18726,8 +18874,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(ValueSet result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18852,8 +19001,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(VerificationResult result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -18963,8 +19113,9 @@ namespace Hl7.Fhir.CustomSerializer
 
 		private void Parse(VisionPrescription result, XmlElement document)
 		{
-			foreach (XmlElement child in document.ChildNodes)
+			foreach (XmlNode childNode in document.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "id":
@@ -19059,8 +19210,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19129,8 +19281,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19178,8 +19331,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19223,8 +19377,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19284,8 +19439,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19321,8 +19477,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19353,8 +19510,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19385,8 +19543,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19417,8 +19576,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19446,8 +19606,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19484,8 +19645,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19533,8 +19695,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19571,8 +19734,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19620,8 +19784,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19662,8 +19827,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19711,8 +19877,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19784,8 +19951,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19816,8 +19984,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19848,8 +20017,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19877,8 +20047,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -19926,8 +20097,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -20018,8 +20190,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -20295,6 +20468,10 @@ namespace Hl7.Fhir.CustomSerializer
 						result.DefaultValue = new Hl7.Fhir.Model.Dosage();
 						Parse(result.DefaultValue as Hl7.Fhir.Model.Dosage, child); // 260
 						break;
+					case "defaultValueMeta":
+						result.DefaultValue = new Hl7.Fhir.Model.Meta();
+						Parse(result.DefaultValue as Hl7.Fhir.Model.Meta, child); // 260
+						break;
 					case "meaningWhenMissing":
 						result.MeaningWhenMissing = new Hl7.Fhir.Model.Markdown();
 						Parse(result.MeaningWhenMissing as Hl7.Fhir.Model.Markdown, child); // 270
@@ -20499,6 +20676,10 @@ namespace Hl7.Fhir.CustomSerializer
 						result.Fixed = new Hl7.Fhir.Model.Dosage();
 						Parse(result.Fixed as Hl7.Fhir.Model.Dosage, child); // 290
 						break;
+					case "fixedMeta":
+						result.Fixed = new Hl7.Fhir.Model.Meta();
+						Parse(result.Fixed as Hl7.Fhir.Model.Meta, child); // 290
+						break;
 					case "patternBase64Binary":
 						result.Pattern = new Hl7.Fhir.Model.Base64Binary();
 						Parse(result.Pattern as Hl7.Fhir.Model.Base64Binary, child); // 300
@@ -20695,6 +20876,10 @@ namespace Hl7.Fhir.CustomSerializer
 						result.Pattern = new Hl7.Fhir.Model.Dosage();
 						Parse(result.Pattern as Hl7.Fhir.Model.Dosage, child); // 300
 						break;
+					case "patternMeta":
+						result.Pattern = new Hl7.Fhir.Model.Meta();
+						Parse(result.Pattern as Hl7.Fhir.Model.Meta, child); // 300
+						break;
 					case "example":
 						var newItem_example = new Hl7.Fhir.Model.ElementDefinition.ExampleComponent();
 						Parse(newItem_example, child); // 310
@@ -20831,8 +21016,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -20883,8 +21069,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21108,8 +21295,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21171,8 +21359,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21200,8 +21389,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21256,8 +21446,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21288,8 +21479,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21320,8 +21512,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21349,8 +21542,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21403,8 +21597,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21459,8 +21654,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21496,8 +21692,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21536,8 +21733,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21565,8 +21763,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21622,8 +21821,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21659,8 +21859,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21716,8 +21917,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21745,8 +21947,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21826,8 +22029,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21877,8 +22081,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21926,8 +22131,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -21963,8 +22169,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22000,8 +22207,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22045,8 +22253,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22102,8 +22311,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22159,8 +22369,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22220,8 +22431,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22249,8 +22461,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22310,8 +22523,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22339,8 +22553,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22386,8 +22601,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22451,8 +22667,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22483,8 +22700,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22515,8 +22733,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22544,8 +22763,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22596,8 +22816,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22628,8 +22849,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22657,8 +22879,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22714,8 +22937,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22732,8 +22956,8 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Dose as Hl7.Fhir.Model.Range, child); // 50
 						break;
 					case "doseQuantity":
-						result.Dose = new Hl7.Fhir.Model.SimpleQuantity();
-						Parse(result.Dose as Hl7.Fhir.Model.SimpleQuantity, child); // 50
+						result.Dose = new Hl7.Fhir.Model.Quantity();
+						Parse(result.Dose as Hl7.Fhir.Model.Quantity, child); // 50
 						break;
 					case "rateRatio":
 						result.Rate = new Hl7.Fhir.Model.Ratio();
@@ -22744,8 +22968,8 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Rate as Hl7.Fhir.Model.Range, child); // 60
 						break;
 					case "rateQuantity":
-						result.Rate = new Hl7.Fhir.Model.SimpleQuantity();
-						Parse(result.Rate as Hl7.Fhir.Model.SimpleQuantity, child); // 60
+						result.Rate = new Hl7.Fhir.Model.Quantity();
+						Parse(result.Rate as Hl7.Fhir.Model.Quantity, child); // 60
 						break;
 
 					default:
@@ -22767,8 +22991,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22804,8 +23029,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22853,8 +23079,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22899,8 +23126,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -22936,8 +23164,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23145,6 +23374,10 @@ namespace Hl7.Fhir.CustomSerializer
 						result.Value = new Hl7.Fhir.Model.Dosage();
 						Parse(result.Value as Hl7.Fhir.Model.Dosage, child); // 50
 						break;
+					case "valueMeta":
+						result.Value = new Hl7.Fhir.Model.Meta();
+						Parse(result.Value as Hl7.Fhir.Model.Meta, child); // 50
+						break;
 
 					default:
 						// Property not found
@@ -23165,8 +23398,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23210,8 +23444,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23247,8 +23482,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23294,8 +23530,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23340,8 +23577,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23381,8 +23619,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23422,8 +23661,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23503,8 +23743,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Account.AccountStatus
 		public void Parse(Hl7.Fhir.Model.Account.AccountStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23527,8 +23768,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23569,8 +23811,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23606,8 +23849,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.PublicationStatus
 		public void Parse(Hl7.Fhir.Model.PublicationStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23621,8 +23865,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ActivityDefinition.RequestResourceType
 		public void Parse(Hl7.Fhir.Model.ActivityDefinition.RequestResourceType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23636,8 +23881,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.RequestIntent
 		public void Parse(Hl7.Fhir.Model.RequestIntent result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23651,8 +23897,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.RequestPriority
 		public void Parse(Hl7.Fhir.Model.RequestPriority result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23675,8 +23922,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23717,8 +23965,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23766,8 +24015,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23799,8 +24049,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.AdverseEvent.AdverseEventActuality
 		public void Parse(Hl7.Fhir.Model.AdverseEvent.AdverseEventActuality result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23823,8 +24074,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23857,8 +24109,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceType
 		public void Parse(Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23872,8 +24125,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceCriticality
 		public void Parse(Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceCriticality result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23896,8 +24150,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -23951,8 +24206,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Appointment.AppointmentStatus
 		public void Parse(Hl7.Fhir.Model.Appointment.AppointmentStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -23975,8 +24231,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24021,8 +24278,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ParticipationStatus
 		public void Parse(Hl7.Fhir.Model.ParticipationStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24036,8 +24294,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.AuditEvent.AuditEventAction
 		public void Parse(Hl7.Fhir.Model.AuditEvent.AuditEventAction result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24051,8 +24310,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.AuditEvent.AuditEventOutcome
 		public void Parse(Hl7.Fhir.Model.AuditEvent.AuditEventOutcome result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24075,8 +24335,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24156,8 +24417,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24203,8 +24465,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24266,8 +24529,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductCategory
 		public void Parse(Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductCategory result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24281,8 +24545,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStatus
 		public void Parse(Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24305,8 +24570,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24355,8 +24621,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24409,8 +24676,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24455,8 +24723,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24496,8 +24765,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Bundle.BundleType
 		public void Parse(Hl7.Fhir.Model.Bundle.BundleType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24520,8 +24790,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24562,8 +24833,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24612,8 +24884,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.CapabilityStatementKind
 		public void Parse(Hl7.Fhir.Model.CapabilityStatementKind result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24636,8 +24909,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24682,8 +24956,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24719,8 +24994,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.FHIRVersion
 		public void Parse(Hl7.Fhir.Model.FHIRVersion result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24743,8 +25019,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24814,8 +25091,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24866,8 +25144,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24903,8 +25182,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.RequestStatus
 		public void Parse(Hl7.Fhir.Model.RequestStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24918,8 +25198,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.CarePlan.CarePlanIntent
 		public void Parse(Hl7.Fhir.Model.CarePlan.CarePlanIntent result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -24942,8 +25223,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -24990,8 +25272,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.CareTeam.CareTeamStatus
 		public void Parse(Hl7.Fhir.Model.CareTeam.CareTeamStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -25014,8 +25297,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25065,8 +25349,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25098,8 +25383,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ChargeItem.ChargeItemStatus
 		public void Parse(Hl7.Fhir.Model.ChargeItem.ChargeItemStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -25122,8 +25408,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25164,8 +25451,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25210,8 +25498,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25245,8 +25534,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.FinancialResourceStatusCodes
 		public void Parse(Hl7.Fhir.Model.FinancialResourceStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -25260,8 +25550,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Use
 		public void Parse(Hl7.Fhir.Model.Use result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -25284,8 +25575,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25330,8 +25622,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25372,8 +25665,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25426,8 +25720,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25504,8 +25799,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25563,8 +25859,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25623,8 +25920,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25686,8 +25984,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25736,8 +26035,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25867,8 +26167,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ClaimProcessingCodes
 		public void Parse(Hl7.Fhir.Model.ClaimProcessingCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -25891,8 +26192,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -25944,8 +26246,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26072,8 +26375,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26122,8 +26426,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26164,8 +26469,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26222,8 +26528,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26272,8 +26579,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26326,8 +26634,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26367,8 +26676,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ClinicalImpression.ClinicalImpressionStatus
 		public void Parse(Hl7.Fhir.Model.ClinicalImpression.ClinicalImpressionStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -26391,8 +26701,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26434,8 +26745,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26471,8 +26783,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.CodeSystem.CodeSystemHierarchyMeaning
 		public void Parse(Hl7.Fhir.Model.CodeSystem.CodeSystemHierarchyMeaning result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -26486,8 +26799,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.CodeSystem.CodeSystemContentMode
 		public void Parse(Hl7.Fhir.Model.CodeSystem.CodeSystemContentMode result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -26510,8 +26824,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26556,8 +26871,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26606,8 +26922,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26658,8 +26975,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.EventStatus
 		public void Parse(Hl7.Fhir.Model.EventStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -26682,8 +27000,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26728,8 +27047,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26765,8 +27085,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.CompartmentType
 		public void Parse(Hl7.Fhir.Model.CompartmentType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -26789,8 +27110,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26827,8 +27149,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.CompositionStatus
 		public void Parse(Hl7.Fhir.Model.CompositionStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -26842,8 +27165,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Composition.v3_ConfidentialityClassification
 		public void Parse(Hl7.Fhir.Model.Composition.v3_ConfidentialityClassification result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -26866,8 +27190,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26912,8 +27237,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -26958,8 +27284,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27006,8 +27333,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27083,8 +27411,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27142,8 +27471,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27189,8 +27519,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27224,8 +27555,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Consent.ConsentState
 		public void Parse(Hl7.Fhir.Model.Consent.ConsentState result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -27248,8 +27580,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27290,8 +27623,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27336,8 +27670,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27413,8 +27748,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Contract.ContractResourceStatusCodes
 		public void Parse(Hl7.Fhir.Model.Contract.ContractResourceStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -27437,8 +27773,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27495,8 +27832,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27585,8 +27923,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27632,8 +27971,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27674,8 +28014,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27716,8 +28057,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27758,8 +28100,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27804,8 +28147,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27855,8 +28199,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27901,8 +28246,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -27947,8 +28293,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28025,8 +28372,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28076,8 +28424,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28105,8 +28454,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ObservationStatus
 		public void Parse(Hl7.Fhir.Model.ObservationStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28120,8 +28470,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.DetectedIssue.DetectedIssueSeverity
 		public void Parse(Hl7.Fhir.Model.DetectedIssue.DetectedIssueSeverity result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28144,8 +28495,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28188,8 +28540,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28234,8 +28587,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28283,8 +28637,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Device.FHIRDeviceStatus
 		public void Parse(Hl7.Fhir.Model.Device.FHIRDeviceStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28307,8 +28662,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28349,8 +28705,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28391,8 +28748,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28437,8 +28795,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28485,8 +28844,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28531,8 +28891,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28573,8 +28934,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28615,8 +28977,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28658,8 +29021,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28706,8 +29070,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28743,8 +29108,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.DeviceMetric.DeviceMetricOperationalStatus
 		public void Parse(Hl7.Fhir.Model.DeviceMetric.DeviceMetricOperationalStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28758,8 +29124,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.DeviceMetric.DeviceMetricColor
 		public void Parse(Hl7.Fhir.Model.DeviceMetric.DeviceMetricColor result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28773,8 +29140,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.DeviceMetric.DeviceMetricCategory
 		public void Parse(Hl7.Fhir.Model.DeviceMetric.DeviceMetricCategory result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28797,8 +29165,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28843,8 +29212,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28888,8 +29258,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.DeviceUseStatement.DeviceUseStatementStatus
 		public void Parse(Hl7.Fhir.Model.DeviceUseStatement.DeviceUseStatementStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28903,8 +29274,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.DiagnosticReport.DiagnosticReportStatus
 		public void Parse(Hl7.Fhir.Model.DiagnosticReport.DiagnosticReportStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28927,8 +29299,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -28960,8 +29333,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.DocumentReferenceStatus
 		public void Parse(Hl7.Fhir.Model.DocumentReferenceStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -28984,8 +29358,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29026,8 +29401,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29068,8 +29444,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29110,8 +29487,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29175,8 +29553,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29221,8 +29600,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29271,8 +29651,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29330,8 +29711,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29370,8 +29752,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Encounter.EncounterStatus
 		public void Parse(Hl7.Fhir.Model.Encounter.EncounterStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -29394,8 +29777,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29436,8 +29820,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29478,8 +29863,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29525,8 +29911,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29571,8 +29958,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29644,8 +30032,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29685,8 +30074,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Endpoint.EndpointStatus
 		public void Parse(Hl7.Fhir.Model.Endpoint.EndpointStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -29700,8 +30090,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.EpisodeOfCare.EpisodeOfCareStatus
 		public void Parse(Hl7.Fhir.Model.EpisodeOfCare.EpisodeOfCareStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -29724,8 +30115,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29766,8 +30158,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29803,8 +30196,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.EvidenceVariableType
 		public void Parse(Hl7.Fhir.Model.EvidenceVariableType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -29827,8 +30221,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29922,8 +30317,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -29972,8 +30368,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30032,8 +30429,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30078,8 +30476,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ExplanationOfBenefit.ExplanationOfBenefitStatus
 		public void Parse(Hl7.Fhir.Model.ExplanationOfBenefit.ExplanationOfBenefitStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -30102,8 +30501,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30148,8 +30548,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30190,8 +30591,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30244,8 +30646,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30322,8 +30725,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30381,8 +30785,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30441,8 +30846,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30488,8 +30894,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30538,8 +30945,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30688,8 +31096,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30816,8 +31225,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30866,8 +31276,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30908,8 +31319,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -30966,8 +31378,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31016,8 +31429,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31074,8 +31488,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.FamilyMemberHistory.FamilyHistoryStatus
 		public void Parse(Hl7.Fhir.Model.FamilyMemberHistory.FamilyHistoryStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31098,8 +31513,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31156,8 +31572,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Flag.FlagStatus
 		public void Parse(Hl7.Fhir.Model.Flag.FlagStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31171,8 +31588,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Goal.GoalLifecycleStatus
 		public void Parse(Hl7.Fhir.Model.Goal.GoalLifecycleStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31195,8 +31613,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31260,8 +31679,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ResourceType
 		public void Parse(Hl7.Fhir.Model.ResourceType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31284,8 +31704,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31334,8 +31755,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Group.GroupType
 		public void Parse(Hl7.Fhir.Model.Group.GroupType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31358,8 +31780,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31424,8 +31847,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31461,8 +31885,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.GuidanceResponse.GuidanceResponseStatus
 		public void Parse(Hl7.Fhir.Model.GuidanceResponse.GuidanceResponseStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31485,8 +31910,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31527,8 +31953,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31573,8 +32000,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31606,8 +32034,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ImagingStudy.ImagingStudyStatus
 		public void Parse(Hl7.Fhir.Model.ImagingStudy.ImagingStudyStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31630,8 +32059,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31707,8 +32137,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Immunization.ImmunizationStatusCodes
 		public void Parse(Hl7.Fhir.Model.Immunization.ImmunizationStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31731,8 +32162,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31773,8 +32205,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31823,8 +32256,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31869,8 +32303,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -31923,8 +32358,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ImmunizationEvaluation.ImmunizationEvaluationStatusCodes
 		public void Parse(Hl7.Fhir.Model.ImmunizationEvaluation.ImmunizationEvaluationStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -31947,8 +32383,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32034,8 +32471,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ImplementationGuide.SPDXLicense
 		public void Parse(Hl7.Fhir.Model.ImplementationGuide.SPDXLicense result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32058,8 +32496,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32104,8 +32543,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32146,8 +32586,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32204,8 +32645,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32262,8 +32704,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32313,8 +32756,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32361,8 +32805,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32415,8 +32860,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Invoice.InvoiceStatus
 		public void Parse(Hl7.Fhir.Model.Invoice.InvoiceStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32439,8 +32885,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32481,8 +32928,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32532,8 +32980,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32582,8 +33031,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32615,8 +33065,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.List.ListStatus
 		public void Parse(Hl7.Fhir.Model.List.ListStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32630,8 +33081,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ListMode
 		public void Parse(Hl7.Fhir.Model.ListMode result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32654,8 +33106,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32695,8 +33148,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Location.LocationStatus
 		public void Parse(Hl7.Fhir.Model.Location.LocationStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32710,8 +33164,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Location.LocationMode
 		public void Parse(Hl7.Fhir.Model.Location.LocationMode result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32734,8 +33189,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32780,8 +33236,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32826,8 +33283,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32878,8 +33336,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -32920,8 +33379,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MeasureReport.MeasureReportStatus
 		public void Parse(Hl7.Fhir.Model.MeasureReport.MeasureReportStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32935,8 +33395,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MeasureReport.MeasureReportType
 		public void Parse(Hl7.Fhir.Model.MeasureReport.MeasureReportType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -32959,8 +33420,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33002,8 +33464,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Medication.MedicationStatusCodes
 		public void Parse(Hl7.Fhir.Model.Medication.MedicationStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -33026,8 +33489,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33076,8 +33540,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33109,8 +33574,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MedicationAdministration.MedicationAdministrationStatusCodes
 		public void Parse(Hl7.Fhir.Model.MedicationAdministration.MedicationAdministrationStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -33133,8 +33599,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33175,8 +33642,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33214,8 +33682,8 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Rate as Hl7.Fhir.Model.Ratio, child); // 90
 						break;
 					case "rateQuantity":
-						result.Rate = new Hl7.Fhir.Model.SimpleQuantity();
-						Parse(result.Rate as Hl7.Fhir.Model.SimpleQuantity, child); // 90
+						result.Rate = new Hl7.Fhir.Model.Quantity();
+						Parse(result.Rate as Hl7.Fhir.Model.Quantity, child); // 90
 						break;
 
 					default:
@@ -33228,8 +33696,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MedicationDispense.MedicationDispenseStatusCodes
 		public void Parse(Hl7.Fhir.Model.MedicationDispense.MedicationDispenseStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -33252,8 +33721,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33294,8 +33764,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33337,8 +33808,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MedicationKnowledge.MedicationKnowledgeStatusCodes
 		public void Parse(Hl7.Fhir.Model.MedicationKnowledge.MedicationKnowledgeStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -33361,8 +33833,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33404,8 +33877,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33446,8 +33920,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33496,8 +33971,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33542,8 +34018,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33584,8 +34061,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33636,8 +34114,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33679,8 +34158,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33721,8 +34201,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33748,8 +34229,8 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Value as Hl7.Fhir.Model.FhirString, child); // 50
 						break;
 					case "valueQuantity":
-						result.Value = new Hl7.Fhir.Model.SimpleQuantity();
-						Parse(result.Value as Hl7.Fhir.Model.SimpleQuantity, child); // 50
+						result.Value = new Hl7.Fhir.Model.Quantity();
+						Parse(result.Value as Hl7.Fhir.Model.Quantity, child); // 50
 						break;
 					case "valueBase64Binary":
 						result.Value = new Hl7.Fhir.Model.Base64Binary();
@@ -33775,8 +34256,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33827,8 +34309,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33866,8 +34349,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MedicationRequest.medicationrequestStatus
 		public void Parse(Hl7.Fhir.Model.MedicationRequest.medicationrequestStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -33881,8 +34365,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MedicationRequest.medicationRequestIntent
 		public void Parse(Hl7.Fhir.Model.MedicationRequest.medicationRequestIntent result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -33905,8 +34390,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -33967,8 +34453,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34004,8 +34491,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MedicationStatement.MedicationStatusCodes
 		public void Parse(Hl7.Fhir.Model.MedicationStatement.MedicationStatusCodes result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -34028,8 +34516,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34076,8 +34565,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34135,8 +34625,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34202,8 +34693,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34258,8 +34750,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34313,8 +34806,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34359,8 +34853,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34405,8 +34900,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34456,8 +34952,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34499,8 +34996,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34541,8 +35039,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34583,8 +35082,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34674,8 +35174,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34716,8 +35217,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34770,8 +35272,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MessageDefinition.MessageSignificanceCategory
 		public void Parse(Hl7.Fhir.Model.MessageDefinition.MessageSignificanceCategory result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -34794,8 +35297,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34835,8 +35339,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MessageDefinition.messageheader_response_request
 		public void Parse(Hl7.Fhir.Model.MessageDefinition.messageheader_response_request result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -34859,8 +35364,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34901,8 +35407,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -34951,8 +35458,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35005,8 +35513,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35042,8 +35551,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.MolecularSequence.sequenceType
 		public void Parse(Hl7.Fhir.Model.MolecularSequence.sequenceType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -35066,8 +35576,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35136,8 +35647,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35194,8 +35706,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35288,8 +35801,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35346,8 +35860,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35391,8 +35906,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.NamingSystem.NamingSystemType
 		public void Parse(Hl7.Fhir.Model.NamingSystem.NamingSystemType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -35415,8 +35931,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35469,8 +35986,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35532,8 +36050,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35587,8 +36106,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35658,8 +36178,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35717,8 +36238,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35813,8 +36335,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35863,8 +36386,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -35921,8 +36445,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.OperationDefinition.OperationKind
 		public void Parse(Hl7.Fhir.Model.OperationDefinition.OperationKind result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -35945,8 +36470,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36026,8 +36552,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36069,8 +36596,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36129,8 +36657,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36180,8 +36709,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36418,8 +36948,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.AdministrativeGender
 		public void Parse(Hl7.Fhir.Model.AdministrativeGender result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -36442,8 +36973,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36506,8 +37038,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36548,8 +37081,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36590,8 +37124,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36664,8 +37199,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36706,8 +37242,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36748,8 +37285,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36813,8 +37351,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -36995,8 +37534,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37046,8 +37586,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37092,8 +37633,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37134,8 +37676,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37180,8 +37723,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37222,8 +37766,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37273,8 +37818,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37320,8 +37866,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37414,8 +37961,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.QuestionnaireResponse.QuestionnaireResponseStatus
 		public void Parse(Hl7.Fhir.Model.QuestionnaireResponse.QuestionnaireResponseStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -37438,8 +37986,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37494,8 +38043,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37536,8 +38086,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37663,8 +38214,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ResearchElementDefinition.ResearchElementType
 		public void Parse(Hl7.Fhir.Model.ResearchElementDefinition.ResearchElementType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -37687,8 +38239,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37797,8 +38350,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ResearchStudy.ResearchStudyStatus
 		public void Parse(Hl7.Fhir.Model.ResearchStudy.ResearchStudyStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -37821,8 +38375,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37867,8 +38422,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37900,8 +38456,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.ResearchSubject.ResearchSubjectStatus
 		public void Parse(Hl7.Fhir.Model.ResearchSubject.ResearchSubjectStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -37924,8 +38481,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -37990,8 +38548,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38036,8 +38595,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38099,8 +38659,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38139,8 +38700,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.SearchParamType
 		public void Parse(Hl7.Fhir.Model.SearchParamType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38154,8 +38716,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.SearchParameter.XPathUsageType
 		public void Parse(Hl7.Fhir.Model.SearchParameter.XPathUsageType result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38178,8 +38741,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38211,8 +38775,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Slot.SlotStatus
 		public void Parse(Hl7.Fhir.Model.Slot.SlotStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38226,8 +38791,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Specimen.SpecimenStatus
 		public void Parse(Hl7.Fhir.Model.Specimen.SpecimenStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38250,8 +38816,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38320,8 +38887,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38375,8 +38943,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38438,8 +39007,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38506,8 +39076,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38547,8 +39118,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.StructureDefinition.StructureDefinitionKind
 		public void Parse(Hl7.Fhir.Model.StructureDefinition.StructureDefinitionKind result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38571,8 +39143,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38604,8 +39177,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.StructureDefinition.TypeDerivationRule
 		public void Parse(Hl7.Fhir.Model.StructureDefinition.TypeDerivationRule result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38628,8 +39202,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38667,8 +39242,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38706,8 +39282,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38756,8 +39333,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38807,8 +39385,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Subscription.SubscriptionStatus
 		public void Parse(Hl7.Fhir.Model.Subscription.SubscriptionStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38831,8 +39410,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38873,8 +39453,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Substance.FHIRSubstanceStatus
 		public void Parse(Hl7.Fhir.Model.Substance.FHIRSubstanceStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -38897,8 +39478,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38943,8 +39525,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -38989,8 +39572,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39057,8 +39641,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39100,8 +39685,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39151,8 +39737,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39217,8 +39804,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39264,8 +39852,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39311,8 +39900,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39363,8 +39953,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39438,8 +40029,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39480,8 +40072,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39547,8 +40140,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39589,8 +40183,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39655,8 +40250,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39717,8 +40313,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39786,8 +40383,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39841,8 +40439,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39926,8 +40525,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -39972,8 +40572,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40042,8 +40643,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.SupplyDelivery.SupplyDeliveryStatus
 		public void Parse(Hl7.Fhir.Model.SupplyDelivery.SupplyDeliveryStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -40066,8 +40668,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40103,8 +40706,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.SupplyRequest.SupplyRequestStatus
 		public void Parse(Hl7.Fhir.Model.SupplyRequest.SupplyRequestStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -40127,8 +40731,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40172,8 +40777,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Task.TaskStatus
 		public void Parse(Hl7.Fhir.Model.Task.TaskStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -40187,8 +40793,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.Task.TaskIntent
 		public void Parse(Hl7.Fhir.Model.Task.TaskIntent result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -40211,8 +40818,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40258,8 +40866,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40471,6 +41080,10 @@ namespace Hl7.Fhir.CustomSerializer
 					case "valueDosage":
 						result.Value = new Hl7.Fhir.Model.Dosage();
 						Parse(result.Value as Hl7.Fhir.Model.Dosage, child); // 50
+						break;
+					case "valueMeta":
+						result.Value = new Hl7.Fhir.Model.Meta();
+						Parse(result.Value as Hl7.Fhir.Model.Meta, child); // 50
 						break;
 
 					default:
@@ -40492,8 +41105,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40706,6 +41320,10 @@ namespace Hl7.Fhir.CustomSerializer
 						result.Value = new Hl7.Fhir.Model.Dosage();
 						Parse(result.Value as Hl7.Fhir.Model.Dosage, child); // 50
 						break;
+					case "valueMeta":
+						result.Value = new Hl7.Fhir.Model.Meta();
+						Parse(result.Value as Hl7.Fhir.Model.Meta, child); // 50
+						break;
 
 					default:
 						// Property not found
@@ -40726,8 +41344,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40768,8 +41387,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40810,8 +41430,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40857,8 +41478,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40903,8 +41525,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.TerminologyCapabilities.CodeSearchSupport
 		public void Parse(Hl7.Fhir.Model.TerminologyCapabilities.CodeSearchSupport result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -40927,8 +41550,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -40965,8 +41589,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41003,8 +41628,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41032,8 +41658,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.TestReport.TestReportStatus
 		public void Parse(Hl7.Fhir.Model.TestReport.TestReportStatus result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -41047,8 +41674,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.TestReport.TestReportResult
 		public void Parse(Hl7.Fhir.Model.TestReport.TestReportResult result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -41071,8 +41699,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41117,8 +41746,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41156,8 +41786,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41203,8 +41834,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41242,8 +41874,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41284,8 +41917,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41326,8 +41960,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41370,8 +42005,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41416,8 +42052,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41482,8 +42119,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41521,8 +42159,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41568,8 +42207,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41607,8 +42247,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41659,8 +42300,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41710,8 +42352,9 @@ namespace Hl7.Fhir.CustomSerializer
 		// Hl7.Fhir.Model.VerificationResult.status
 		public void Parse(Hl7.Fhir.Model.VerificationResult.status result, XmlElement doc)
 		{
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 
@@ -41734,8 +42377,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41799,8 +42443,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41865,8 +42510,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":
@@ -41911,8 +42557,9 @@ namespace Hl7.Fhir.CustomSerializer
 						break;
 			    }
 			}
-			foreach (XmlElement child in doc.ChildNodes)
+			foreach (XmlNode childNode in doc.ChildNodes)
 			{
+				if (!(childNode is XmlElement)) continue; var child = childNode as XmlElement;
 				switch (child.Name)
 				{
 					case "extension":

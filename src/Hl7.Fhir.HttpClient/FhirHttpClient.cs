@@ -1,7 +1,9 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using System;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Hl7.Fhir.Rest
@@ -77,7 +79,7 @@ namespace Hl7.Fhir.Rest
 
         public async System.Threading.Tasks.Task DeleteAsync(Resource resource)
         {
-            string requestUrl = $"{_baseAddress}/{resource.ResourceType.GetLiteral()}/{resource.Id}";
+            string requestUrl = $"{_baseAddress}/{resource.TypeName}/{resource.Id}";
             var msg = new HttpRequestMessage(HttpMethod.Delete, requestUrl);
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
@@ -141,7 +143,8 @@ namespace Hl7.Fhir.Rest
         public async Task<Bundle> SearchAsync<TResource>(string[] searchParameters)
             where TResource : Resource
         {
-            string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}?{string.Join("&", searchParameters)}";
+            UriParamList spd = new UriParamList(searchParameters.Select(criteria => criteria.SplitLeft('=')));
+            string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}?{spd.ToQueryString()}";
             var response = await _httpClient.GetAsync(requestUrl).ConfigureAwait(false);
             var stream = await response.Content.ReadAsStreamAsync();
             var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);

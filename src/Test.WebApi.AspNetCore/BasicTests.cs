@@ -74,6 +74,15 @@ namespace UnitTestWebApi
                 Console.WriteLine(doc.ToString(System.Xml.Linq.SaveOptions.None));
             }
         }
+        public static void DebugDumpOutputJson(Base fragment)
+        {
+            if (fragment == null)
+                Console.WriteLine("(null)");
+            else
+            {
+                Console.WriteLine(new FhirJsonSerializer(new SerializerSettings() { Pretty = true }).SerializeToString(fragment));
+            }
+        }
         #endregion
 
         [TestMethod]

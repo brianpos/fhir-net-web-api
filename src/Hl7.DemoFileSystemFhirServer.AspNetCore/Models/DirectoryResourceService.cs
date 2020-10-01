@@ -52,7 +52,28 @@ namespace Hl7.DemoFileSystemFhirServer
 
         public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
         {
-            throw new NotImplementedException();
+            var rt = new Hl7.Fhir.Model.CapabilityStatement.ResourceComponent();
+            rt.TypeElement = new Code<ResourceType>() { ObjectValue = ResourceName };
+            rt.ReadHistory = true;
+            rt.UpdateCreate = true;
+            rt.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;
+            rt.ConditionalCreate = false;
+            rt.ConditionalUpdate = false;
+            rt.ConditionalDelete = CapabilityStatement.ConditionalDeleteStatus.NotSupported;
+
+            rt.Interaction = new List<CapabilityStatement.ResourceInteractionComponent>()
+            {
+                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Create },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Read },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Update },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Delete },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.SearchType },
+                //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread },
+                //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance },
+                //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryType },
+            };
+
+            return System.Threading.Tasks.Task.FromResult(rt);
         }
 
         public Task<Bundle> InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
@@ -62,7 +83,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
         public Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
         {
-             if (operation == "count-em")
+            if (operation == "count-em")
             {
                 var result = new OperationOutcome();
                 result.Issue.Add(new OperationOutcome.IssueComponent()
@@ -127,7 +148,7 @@ namespace Hl7.DemoFileSystemFhirServer
             {
                 resource.AddResourceEntry(item,
                     ResourceIdentity.Build(RequestDetails.BaseUri,
-                        item.ResourceType.ToString(),
+                        item.TypeName,
                         item.Id,
                         item.Meta.VersionId).OriginalString).Search = new Bundle.SearchComponent()
                         {
@@ -172,7 +193,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(RequestDetails.BaseUri,
-                        resource.ResourceType.ToString(),
+                        resource.TypeName,
                         resource.Id,
                         resource.Meta.VersionId).OriginalString);
             }

@@ -26,7 +26,7 @@ namespace Hl7.DemoFileSystemFhirServer
         {
         }
 
-        public System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<IServiceProvider> request, SummaryType summary)
+        public async System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<IServiceProvider> request, SummaryType summary)
         {
             Hl7.Fhir.Model.CapabilityStatement con = new Hl7.Fhir.Model.CapabilityStatement();
             con.Url = request.BaseUri + "metadata";
@@ -53,12 +53,18 @@ namespace Hl7.DemoFileSystemFhirServer
             con.Rest[0].Mode = CapabilityStatement.RestfulCapabilityMode.Server;
             con.Rest[0].Resource = new List<Hl7.Fhir.Model.CapabilityStatement.ResourceComponent>();
 
+            foreach (var resName in ModelInfo.SupportedResources)
+            {
+                var c = await GetResourceService(request, resName).GetRestResourceComponent();
+                if (c != null)
+                    con.Rest[0].Resource.Add(c);
+            }
             //foreach (var model in ModelFactory.GetAllModels(GetInputs(buri)))
             //{
             //    con.Rest[0].Resource.Add(model.GetRestResourceComponent());
             //}
 
-            return System.Threading.Tasks.Task.FromResult(con);
+            return con;
         }
 
         public IFhirResourceServiceR4<IServiceProvider> GetResourceService(ModelBaseInputs<IServiceProvider> request, string resourceName)
@@ -118,7 +124,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
                 result.AddResourceEntry(resource, 
                     ResourceIdentity.Build(request.BaseUri, 
-                        resource.ResourceType.ToString(), 
+                        resource.TypeName, 
                         resource.Id, 
                         resource.Meta.VersionId).OriginalString);
             }

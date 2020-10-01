@@ -54,6 +54,12 @@ namespace Hl7.DemoFileSystemFhirServer
             con.Rest[0].Mode = CapabilityStatement.RestfulCapabilityMode.Server;
             con.Rest[0].Resource = new List<Hl7.Fhir.Model.CapabilityStatement.ResourceComponent>();
 
+            foreach (var resName in ModelInfo.SupportedResources)
+            {
+                var c = GetResourceService(request, resName).GetRestResourceComponent().Result;
+                if (c != null)
+                    con.Rest[0].Resource.Add(c);
+            }
             //foreach (var model in ModelFactory.GetAllModels(GetInputs(buri)))
             //{
             //    con.Rest[0].Resource.Add(model.GetRestResourceComponent());
@@ -119,7 +125,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
                 result.AddResourceEntry(resource, 
                     ResourceIdentity.Build(request.BaseUri, 
-                        resource.ResourceType.ToString(), 
+                        resource.TypeName, 
                         resource.Id, 
                         resource.Meta.VersionId).OriginalString);
             }

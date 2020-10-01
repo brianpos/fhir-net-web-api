@@ -133,7 +133,7 @@ namespace Hl7.Fhir.WebApi
                     ri.Host,
                     ri.IsDefaultPort ? "" : ":" + ri.Port.ToString(),
                     me.Request.PathBase.Value.TrimEnd('/') + '/',
-                    me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Replace("metadata", "").Replace("/${operation}", ""));
+                    me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Replace("metadata", "").Replace("/${operation}", "").Replace("${operation}", ""));
             }
             if (me.ControllerContext.ActionDescriptor.AttributeRouteInfo.Template.Contains("{ResourceName"))
                 resourceName = "{ResourceName";

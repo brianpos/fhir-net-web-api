@@ -144,9 +144,9 @@ namespace UnitTestWebApi
                     else
                     {
                         return;
-                        Debug.WriteLine($"Uploading {exampleName} [json]");
-                        var jr = SerializationUtil.JsonReaderFromStream(stream);
-                        resource = new FhirJsonParser().Parse<Resource>(jr);
+                        // Debug.WriteLine($"Uploading {exampleName} [json]");
+                        // var jr = SerializationUtil.JsonReaderFromStream(stream);
+                        // resource = new FhirJsonParser().Parse<Resource>(jr);
                     }
                 }
                 try

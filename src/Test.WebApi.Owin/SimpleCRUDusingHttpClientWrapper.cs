@@ -169,7 +169,7 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
-        public async System.Threading.Tasks.Task Http_DeletePatient()
+        public async System.Threading.Tasks.Task Http_DeletePatient_resource_signature()
         {
             Patient p = new Patient();
             p.Name = new System.Collections.Generic.List<HumanName>();
@@ -205,10 +205,51 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public async System.Threading.Tasks.Task Http_DeletePatient_string_signature()
+        {
+            var p = new Patient
+            {
+                Name = new System.Collections.Generic.List<HumanName>
+                {
+                    new HumanName().WithGiven("Grahame").AndFamily("Grieve")
+                },
+                BirthDate = new DateTime(1970, 3, 1).ToFhirDate(),
+                Active = true,
+                ManagingOrganization = new ResourceReference("Organization/1", "Demo Org")
+            };
+            // yes there are extensions to convert to FHIR format
+
+            var clientFhir = new FhirHttpClient(_baseAddress);
+            var result = await clientFhir.CreateAsync<Patient>(p);
+            DebugDumpOutputXml(result);
+
+            Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
+            Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+
+            // Now delete the patient we just created
+            await clientFhir.DeleteAsync($"Patient/{result.Id}");
+
+            try
+            {
+                var p4 = await clientFhir.ReadAsync<Patient>($"Patient/{result.Id}");
+                Assert.Fail("Should have received an exception running this");
+            }
+            catch (FhirOperationException ex)
+            {
+                Assert.AreEqual(HttpStatusCode.Gone, ex.Status, "Expected the patient to have been deleted");
+                // This was the expected outcome
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                DebugDumpOutputXml(ex.Outcome);
+            }
+        }
+
+        [TestMethod]
         public async System.Threading.Tasks.Task Http_SearchAzure()
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
-            var result = await clientFhir.SearchAsync<Patient>(new [] { "name=brian" });
+            var result = await clientFhir.SearchAsync<Patient>(new[] { "name=brian" });
             DebugDumpOutputXml(result);
             Assert.IsInstanceOfType(result, typeof(Bundle));
             Assert.AreEqual(1, result.Total.Value, "Expect only 1 brian");

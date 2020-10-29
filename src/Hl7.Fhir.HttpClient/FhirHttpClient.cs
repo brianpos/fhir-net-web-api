@@ -3,17 +3,16 @@ using Hl7.Fhir.Utility;
 using System;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Hl7.Fhir.Rest
 {
     public class FhirHttpClient : IDisposable, IFhirHttpClient
     {
-        System.Net.Http.HttpClient _httpClient;
-        Hl7.Fhir.Serialization.FhirXmlParser _xmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
-        Hl7.Fhir.Serialization.FhirXmlSerializer _xmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();
-        private string _baseAddress;
+        private HttpClient _httpClient;
+        private readonly Hl7.Fhir.Serialization.FhirXmlParser _xmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
+        private readonly Hl7.Fhir.Serialization.FhirXmlSerializer _xmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();
+        private readonly string _baseAddress;
 
         public FhirHttpClient(string baseAddress, params DelegatingHandler[] handlers)
         {
@@ -27,6 +26,17 @@ namespace Hl7.Fhir.Rest
             _baseAddress = baseAddress.TrimEnd('/');
         }
 
+        private ResourceIdentity verifyResourceIdentity(Uri location, bool needId, bool needVid)
+        {
+            var result = new ResourceIdentity(location);
+
+            if (result.ResourceType == null) throw Error.Argument(nameof(location), "Must be a FHIR REST url containing the resource type in its path");
+            if (needId && result.Id == null) throw Error.Argument(nameof(location), "Must be a FHIR REST url containing the logical id in its path");
+            if (needVid && !result.HasVersion) throw Error.Argument(nameof(location), "Must be a FHIR REST url containing the version id in its path");
+
+            return result;
+        }
+
         /// <summary>
         /// This is extracted from the regular FhirClient (v1.9.0) Requester.cs
         /// </summary>
@@ -34,7 +44,7 @@ namespace Hl7.Fhir.Rest
         /// <param name="status"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        private static Exception buildFhirOperationException(string operationName, System.Net.HttpStatusCode status, Resource body)
+        private static Exception BuildFhirOperationException(string operationName, System.Net.HttpStatusCode status, Resource body)
         {
             string message;
 
@@ -56,7 +66,7 @@ namespace Hl7.Fhir.Rest
         }
 
         public async Task<TResource> CreateAsync<TResource>(TResource resource)
-            where TResource : Resource
+             where TResource : Resource
         {
             string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}";
             var postContent = new System.Net.Http.ByteArrayContent(_xmlSerializer.SerializeToBytes(resource));
@@ -74,7 +84,7 @@ namespace Hl7.Fhir.Rest
             }
             // Check for an operation outcome returned
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
-            throw buildFhirOperationException("Create", response.StatusCode, outcome);
+            throw BuildFhirOperationException("Create", response.StatusCode, outcome);
         }
 
         public async System.Threading.Tasks.Task DeleteAsync(Resource resource)
@@ -89,7 +99,28 @@ namespace Hl7.Fhir.Rest
                 var stream = await response.Content.ReadAsStreamAsync();
                 var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
                 var outcome = _xmlParser.Parse<OperationOutcome>(xr);
-                throw buildFhirOperationException("Delete", response.StatusCode, outcome);
+                throw BuildFhirOperationException("Delete", response.StatusCode, outcome);
+            }
+        }
+
+        public async System.Threading.Tasks.Task DeleteAsync(string location)
+        {
+            if (location == null) throw Error.ArgumentNull(nameof(location));
+            var uri = new Uri(location, UriKind.Relative);
+
+            var id = verifyResourceIdentity(uri, needId: true, needVid: false);
+            string requestUrl = $"{_baseAddress}/{id.ResourceType}/{id.Id}";
+
+            var msg = new HttpRequestMessage(HttpMethod.Delete, requestUrl);
+            msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
+            var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
+            if (!response.IsSuccessStatusCode)
+            {
+                // serialize the result
+                var stream = await response.Content.ReadAsStreamAsync();
+                var xr = SerializationUtil.XmlReaderFromStream(stream);
+                var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+                throw BuildFhirOperationException("Delete", response.StatusCode, outcome);
             }
         }
 
@@ -120,7 +151,6 @@ namespace Hl7.Fhir.Rest
         }
         #endregion
 
-
         public async Task<TResource> ReadAsync<TResource>(string resourceId)
             where TResource : Resource
         {
@@ -137,7 +167,7 @@ namespace Hl7.Fhir.Rest
             }
             // Check for an operation outcome returned
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
-            throw buildFhirOperationException("Read", response.StatusCode, outcome);
+            throw BuildFhirOperationException("Read", response.StatusCode, outcome);
         }
 
         public async Task<Bundle> SearchAsync<TResource>(string[] searchParameters)
@@ -154,7 +184,7 @@ namespace Hl7.Fhir.Rest
                 return _xmlParser.Parse<Bundle>(xr);
             }
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
-            throw buildFhirOperationException("Search", response.StatusCode, outcome);
+            throw BuildFhirOperationException("Search", response.StatusCode, outcome);
         }
 
         public async Task<TResource> UpdateAsync<TResource>(TResource resource)
@@ -175,7 +205,7 @@ namespace Hl7.Fhir.Rest
                 return _xmlParser.Parse<TResource>(xr);
             }
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
-            throw buildFhirOperationException("Update", response.StatusCode, outcome);
+            throw BuildFhirOperationException("Update", response.StatusCode, outcome);
         }
     }
 }

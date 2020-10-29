@@ -203,7 +203,7 @@ namespace Hl7.Fhir.WebApi
                             // Add in the Meta Tag that indicates that this resource is only a partial
                             resource.Meta.Tag = new List<Coding>
                             {
-                                new Coding("http://hl7.org/fhir/v3/ObservationValue", "SUBSETTED")
+                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
                             };
                             break;
                         case Hl7.Fhir.Rest.SummaryType.Text:
@@ -215,7 +215,7 @@ namespace Hl7.Fhir.WebApi
                             // Add in the Meta Tag that indicates that this resource is only a partial
                             resource.Meta.Tag = new List<Coding>
                             {
-                                new Coding("http://hl7.org/fhir/v3/ObservationValue", "SUBSETTED")
+                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
                             };
                             break;
                     }

@@ -28,7 +28,8 @@ namespace Hl7.Fhir.WebApi
             foreach (var mediaType in ContentType.JSON_CONTENT_HEADERS)
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
         }
-        
+        static ParserSettings _settings = new ParserSettings() { AllowUnrecognizedEnums = true, PermissiveParsing = true };
+
         public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
         {
             base.SetDefaultContentHeaders(type, headers, mediaType);
@@ -45,14 +46,14 @@ namespace Hl7.Fhir.WebApi
             {
                 var body = base.ReadBodyFromStream(readStream, content);
 
-                var resource = new FhirJsonParser().Parse<Resource>(body);
+                var resource = new FhirJsonParser(_settings).Parse<Resource>(body);
                 // TODO: Do we need to update the Meta object with context information?
                 // entry.Tags = content.Headers.GetFhirTags();
                 return System.Threading.Tasks.Task.FromResult<object>(resource);
             }
             catch (FormatException exception)
             {
-                throw new FhirServerException(HttpStatusCode.BadRequest, "Body parsing failed: " + exception.Message);
+                throw HandleBodyParsingFormatException(exception);
             }
         }
 

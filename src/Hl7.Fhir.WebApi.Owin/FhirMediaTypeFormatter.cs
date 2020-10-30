@@ -14,6 +14,9 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -30,17 +33,19 @@ namespace Hl7.Fhir.WebApi
 
         private void setEntryHeaders(HttpContentHeaders headers)
         {
-            foreach (var header in _inputs.ResponseHeaders)
+            if (_inputs != null) // this happens if there is a parsing exception on the body
             {
-                headers.Add(header.Key, header.Value);
+                foreach (var header in _inputs.ResponseHeaders)
+                {
+                    headers.Add(header.Key, header.Value);
+                }
+                if (!string.IsNullOrEmpty(_inputs.X_CorelationId))
+                {
+                    if (headers.Contains("X-Correlation-Id"))
+                        headers.Remove("X-Correlation-Id");
+                    headers.Add("X-Correlation-Id", _inputs.X_CorelationId);
+                }
             }
-            if (!string.IsNullOrEmpty(_inputs.X_CorelationId))
-            {
-                if (headers.Contains("X-Correlation-Id"))
-                    headers.Remove("X-Correlation-Id");
-                headers.Add("X-Correlation-Id", _inputs.X_CorelationId);
-            }
-
             if (entry != null)
             {
                 if (entry.Meta != null && entry.Meta.LastUpdated.HasValue)
@@ -80,7 +85,8 @@ namespace Hl7.Fhir.WebApi
         public override MediaTypeFormatter GetPerRequestFormatterInstance(Type type, HttpRequestMessage request, MediaTypeHeaderValue mediaType)
         {
             this.entry = request.GetEntry();
-            _inputs = request.Properties["fhir-inputs"] as ModelBaseInputs;
+            if (request.Properties.ContainsKey("fhir-inputs"))
+                _inputs = request.Properties["fhir-inputs"] as ModelBaseInputs;
             return base.GetPerRequestFormatterInstance(type, request, mediaType);
         }
 
@@ -94,6 +100,30 @@ namespace Hl7.Fhir.WebApi
 
             StreamReader sr = new StreamReader(readStream, Encoding.UTF8, true);
             return sr.ReadToEnd();
+        }
+
+        static readonly Regex _matchExceptionLocation = new Regex(@"\(at (?<loc>[a-zA-Z\.\[\]0-9]+)\)$");
+        protected static Exception HandleBodyParsingFormatException(FormatException exception)
+        {
+            OperationOutcome oo = new OperationOutcome();
+            oo.Issue.Add(new OperationOutcome.IssueComponent()
+            {
+                Severity = OperationOutcome.IssueSeverity.Fatal,
+                Code = OperationOutcome.IssueType.Exception,
+                Details = new CodeableConcept() { Text = exception.Message }
+            });
+            MatchCollection matches = _matchExceptionLocation.Matches(exception.Message);
+            if (matches.Count > 0)
+            {
+                List<string> locs = new List<string>();
+                foreach (Match m in matches)
+                {
+                    locs.Add(m.Groups["loc"].Value);
+                    oo.Issue[0].Details.Text = oo.Issue[0].Details.Text.Replace(m.Value, "");
+                }
+                oo.Issue[0].Location = locs;
+            }
+            return new FhirServerException(HttpStatusCode.BadRequest, oo, "Body parsing failed: " + exception.Message);
         }
     }
 }

@@ -30,6 +30,8 @@ namespace Hl7.Fhir.WebApi
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
         }
 
+        static ParserSettings _settings = new ParserSettings() { AllowUnrecognizedEnums = true, PermissiveParsing = true };
+
         public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
         {
             base.SetDefaultContentHeaders(type, headers, mediaType);
@@ -47,7 +49,7 @@ namespace Hl7.Fhir.WebApi
                 {
                     if (!string.IsNullOrEmpty(body))
                     {
-                        Resource resource = new FhirXmlParser().Parse<Resource>(body);
+                        Resource resource = new FhirXmlParser(_settings).Parse<Resource>(body);
                         return System.Threading.Tasks.Task.FromResult<object>(resource);
                     }
                     return System.Threading.Tasks.Task.FromResult<object>(null);
@@ -55,9 +57,9 @@ namespace Hl7.Fhir.WebApi
                 else
                     throw new NotSupportedException(String.Format("Cannot read unsupported type {0} from body", type.Name));
             }
-            catch (FormatException exc)
+            catch (FormatException exception)
             {
-                throw new FhirServerException(HttpStatusCode.BadRequest, "Body parsing failed: " + exc.Message);
+                throw HandleBodyParsingFormatException(exception);
             }
         }
 
@@ -67,7 +69,7 @@ namespace Hl7.Fhir.WebApi
             if (type == typeof(OperationOutcome))
             {
                 Resource resource = (Resource)value;
-                new FhirXmlSerializer().Serialize(resource, writer);
+                new FhirXmlSerializer(new SerializerSettings() { Pretty = true }).Serialize(resource, writer);
             }
             else if (typeof(Resource).IsAssignableFrom(type))
             {

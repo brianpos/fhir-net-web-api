@@ -12,6 +12,9 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Builder;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -33,6 +36,28 @@ namespace Hl7.Fhir.WebApi
             if (typeof(Resource).IsAssignableFrom(type))
                 return true;
             return false;
+        }
+
+        static readonly Regex _matchExceptionLocation = new Regex(@"\(at (?<loc>[a-zA-Z\.\[\]0-9]+)\)$");
+        protected static Exception HandleBodyParsingFormatException(FormatException exception)
+        {
+            OperationOutcome oo = new OperationOutcome();
+            oo.Issue.Add(new OperationOutcome.IssueComponent()
+            {
+                Severity = OperationOutcome.IssueSeverity.Fatal,
+                Code = OperationOutcome.IssueType.Exception,
+                Details = new CodeableConcept() { Text = exception.Message }
+            });
+            MatchCollection matches = _matchExceptionLocation.Matches(exception.Message);
+            if (matches.Count > 0)
+            {
+                oo.Issue[0].Location = matches.Select(m => m.Groups["loc"].Value);
+                foreach (Match m in matches)
+                {
+                    oo.Issue[0].Details.Text = oo.Issue[0].Details.Text.Replace(m.Value, "");
+                }
+            }
+            return new FhirServerException(HttpStatusCode.BadRequest, oo, "Body parsing failed: " + exception.Message);
         }
     }
 
@@ -82,10 +107,16 @@ namespace Hl7.Fhir.WebApi
                 }
             }
 
-            ModelBaseInputs inputs = context.HttpContext.Items["fhir-inputs"] as ModelBaseInputs;
-            foreach (var header in inputs.ResponseHeaders)
+            if (context.HttpContext.Items.ContainsKey("fhir-inputs"))
             {
-                context.HttpContext.Response.Headers.Add(header.Key, new Microsoft.Extensions.Primitives.StringValues(header.Value.ToArray()));
+                ModelBaseInputs inputs = context.HttpContext.Items["fhir-inputs"] as ModelBaseInputs;
+                if (inputs != null)
+                {
+                    foreach (var header in inputs.ResponseHeaders)
+                    {
+                        context.HttpContext.Response.Headers.Add(header.Key, new Microsoft.Extensions.Primitives.StringValues(header.Value.ToArray()));
+                    }
+                }
             }
 
             // echo any X-Correlation-Id Headers if encountered

@@ -41,6 +41,7 @@ namespace Hl7.Fhir.WebApi
             foreach (var mediaType in ContentType.JSON_CONTENT_HEADERS)
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
         }
+        static ParserSettings _settings = new ParserSettings() { AllowUnrecognizedEnums = true, PermissiveParsing = true };
 
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
@@ -83,12 +84,12 @@ namespace Hl7.Fhir.WebApi
 
                 try
                 {
-                    var resource = new FhirJsonParser().Parse<Resource>(jsonReader);
+                    var resource = new FhirJsonParser(_settings).Parse<Resource>(jsonReader);
                     return InputFormatterResult.Success(resource);
                 }
                 catch (FormatException exception)
                 {
-                    throw new FhirServerException(HttpStatusCode.BadRequest, "Body parsing failed: " + exception.Message);
+                    throw HandleBodyParsingFormatException(exception);
                 }
             }
         }

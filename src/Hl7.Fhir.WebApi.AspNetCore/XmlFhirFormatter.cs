@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Hl7.Fhir.ElementModel;
 #if NETCOREAPP2_2
 using Microsoft.AspNetCore.Http.Internal;
 #endif
@@ -36,6 +37,8 @@ namespace Hl7.Fhir.WebApi
             foreach (var mediaType in ContentType.XML_CONTENT_HEADERS)
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
         }
+
+        static ParserSettings _settings = new ParserSettings() { AllowUnrecognizedEnums = true, PermissiveParsing = true };
 
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
@@ -63,16 +66,16 @@ namespace Hl7.Fhir.WebApi
                 request.Body.Seek(0L, SeekOrigin.Begin);
             }
 
-            using (var xmlReader = SerializationUtil.XmlReaderFromStream(request.Body))
+            using (var reader = SerializationUtil.XmlReaderFromStream(request.Body))
             {
                 try
                 {
-                    var resource = new FhirXmlParser().Parse<Resource>(xmlReader);
+                    Resource resource = new FhirXmlParser(_settings).Parse<Resource>(reader);
                     return InputFormatterResult.Success(resource);
                 }
-                catch (FormatException exc)
+                catch (FormatException exception)
                 {
-                    throw new FhirServerException(HttpStatusCode.BadRequest, "Body parsing failed: " + exc.Message);
+                    throw HandleBodyParsingFormatException(exception);
                 }
             }
         }

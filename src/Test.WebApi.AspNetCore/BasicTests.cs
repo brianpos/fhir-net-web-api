@@ -119,7 +119,7 @@ namespace UnitTestWebApi
             rawResult = await client.GetAsync($"{_baseAddress}metadata");
             cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
             System.Diagnostics.Trace.WriteLine($"{cs.Url}");
-            Assert.AreEqual(_baseAddress+"metadata", cs.Url);
+            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
 
             HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Options, $"{_baseAddress}");
             rawResult = await client.SendAsync(msg);
@@ -158,6 +158,71 @@ namespace UnitTestWebApi
             Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
             Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
             Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+        }
+
+        [TestMethod]
+        public void CreatePatientWithInvalidDate()
+        {
+            Patient p = new Patient();
+            p.Name = new System.Collections.Generic.List<HumanName>();
+            p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
+            p.BirthDate = "01-03-1970";
+            p.GenderElement = new Code<AdministrativeGender>() { ObjectValue = "m" };
+            p.Active = true;
+            p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
+
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            //clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
+            //clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
+            clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
+            {
+                string location = args.RawResponse.GetResponseHeader("Location");
+                if (!string.IsNullOrEmpty(location))
+                {
+                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
+                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/"), "proxy redirect detected");
+                }
+                // Assert.AreEqual("wild-turkey-create", args.RawResponse.GetResponseHeader("test"), "Custom Response header missing");
+            };
+
+            // with the default XML
+            try
+            {
+                var result = clientFhir.Create<Patient>(p);
+
+                Assert.Fail("Version1.9 of the fhir client fails parsing - even if I disagree with it");
+                Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
+                Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
+                Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
+                Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+            }
+            catch (FhirOperationException ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                DebugDumpOutputXml(ex.Outcome);
+                Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status, "Expected a bad request due to parsing the date");
+                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be interpreted as a date"));
+            }
+
+            // and try again with JSON
+            try
+            {
+                clientFhir.PreferredFormat = ResourceFormat.Json;
+                var result = clientFhir.Create<Patient>(p);
+
+                Assert.Fail("Version1.9 of the fhir client fails parsing - even if I disagree with it");
+                Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
+                Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
+                Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
+                Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+            }
+            catch (FhirOperationException ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                DebugDumpOutputXml(ex.Outcome);
+                Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status, "Expected a bad request due to parsing the date");
+                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be interpreted as a date"));
+            }
         }
 
         private void ClientFhir_OnBeforeRequestCorrlationTest(object sender, BeforeRequestEventArgs e)

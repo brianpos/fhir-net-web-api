@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 #if NETCOREAPP3_0 || NETCOREAPP3_1
 using Microsoft.Extensions.Hosting;
 #endif
@@ -15,6 +17,23 @@ namespace Hl7.DemoFileSystemFhirServer
 {
     public class Startup
     {
+#if NETCOREAPP3_0 || NETCOREAPP3_1
+        public Startup(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
+        private IWebHostEnvironment _env;
+#else
+        public Startup(IHostingEnvironment env)
+        {
+            _env = env;
+        }
+        private IHostingEnvironment _env;
+        
+#endif
+
+        public IConfiguration Configuration { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -32,7 +51,31 @@ namespace Hl7.DemoFileSystemFhirServer
                 options.Providers.Add<GzipCompressionProvider>();
             });
 
-            DirectorySystemService.Directory = @"c:\temp\demoserver";
+            // Load the configuration settings
+            var configBuilder = new ConfigurationBuilder()
+#if NETCOREAPP3_0 || NETCOREAPP3_1
+               .SetBasePath(_env.ContentRootPath)
+#else
+               .SetBasePath(_env.ContentRootPath)
+#endif
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+               .AddEnvironmentVariables();
+            Configuration = configBuilder.Build();
+            var settings = Configuration.GetOption<ServerSettings>("ServerSettings");
+
+            // CORS Support
+            services.AddCors(o => o.AddDefaultPolicy(builder =>
+            {
+                // Better to use with Origins to only permit locations that we really trust
+                // builder.AllowAnyOrigin();
+                builder.WithOrigins(settings.AllowedOrigins);
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowCredentials();
+                builder.WithExposedHeaders(new[] { "Content-Location", "Location", "Etag" });
+            }));
+
+            DirectorySystemService.Directory = settings.ServerBaseDirectory;
             if (!System.IO.Directory.Exists(DirectorySystemService.Directory))
                 System.IO.Directory.CreateDirectory(DirectorySystemService.Directory);
 
@@ -92,6 +135,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 RequestPath = "/content"
             }));
 
+            app.UseCors();
             app.UseAuthentication();
 
 #if NETCOREAPP2_2

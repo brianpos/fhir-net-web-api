@@ -125,34 +125,23 @@ namespace Hl7.Fhir.CustomSerializer
 		{
 			if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
 				continue;
-			if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v))
-				generateTypes.Add("Hl7.Fhir.Model."+ dtt.Name, dtt);
+			if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v) && !generateTypes.ContainsValue(dtt))
+				generateTypes.Add(dtt.FullName, dtt);
 
             // also check for nested fhir type classes
             foreach (var nt in dtt.GetNestedTypes())
             {
                 if (nt.IsClass)
                 {
-                    generateTypes.Add($"Hl7.Fhir.Model.{dtt.Name}.{nt.Name}" + dtt.Name, dtt);
-                    System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
+					if (!generateTypes.ContainsValue(nt))
+					{
+						generateTypes.Add(nt.FullName, nt);
+						System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
+					}
                 }
             }
 		}
     }
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ConstraintComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.Dosage.DoseAndRateComponent", typeof(Hl7.Fhir.Model.Dosage.DoseAndRateComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.DataRequirement.SortComponent", typeof(Hl7.Fhir.Model.DataRequirement.SortComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.DataRequirement.DateFilterComponent", typeof(Hl7.Fhir.Model.DataRequirement.DateFilterComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.DataRequirement.CodeFilterComponent", typeof(Hl7.Fhir.Model.DataRequirement.CodeFilterComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent", typeof(Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ExampleComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ExampleComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.MappingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.MappingComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent", typeof(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.TypeRefComponent", typeof(Hl7.Fhir.Model.ElementDefinition.TypeRefComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.SlicingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.SlicingComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.BaseComponent", typeof(Hl7.Fhir.Model.ElementDefinition.BaseComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent));
-	// generateTypes.Add("Hl7.Fhir.Model.Timing.RepeatComponent", typeof(Hl7.Fhir.Model.Timing.RepeatComponent));
 
     WriteLine("\t\t#region << Resource Parse >>");
 
@@ -346,7 +335,14 @@ namespace Hl7.Fhir.CustomSerializer
 	{
 		// Skip all the coded data properties for now
 		if (prop.PropertyType.GenericTypeArguments.Length > 0 && GetTypeName(prop.PropertyType.GenericTypeArguments[0]).StartsWith("Hl7.Fhir.Model.Code<"))
+		{
+			WriteLine($"\tcase \"{fea.Name}\":");
+			WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
+			WriteLine($"\t\tParse(newItem_{fea.Name}, child); // {fea.Order}");
+			WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
+			WriteLine($"\t\tbreak;");
 			return;
+		}
 			
 		if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XHtml)
 		{

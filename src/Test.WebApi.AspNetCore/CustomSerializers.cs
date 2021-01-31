@@ -130,11 +130,14 @@ namespace Test.WebApi.AspNetCore
                         {
                             if (nt.IsClass)
                             {
-                                generateTypes.Add($"Hl7.Fhir.Model.{dtt.Name}.{nt.Name}" + dtt.Name, dtt);
-                                if (ModelInfo.FhirCsTypeToString.ContainsKey(nt))
-                                    System.Diagnostics.Trace.WriteLine($"\t{nt.Name}: {ModelInfo.FhirCsTypeToString[nt]}");
-                                else
-                                    System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
+                                if (!generateTypes.ContainsValue(nt))
+                                {
+                                    generateTypes.Add($"Hl7.Fhir.Model.{dtt.Name}.{nt.Name}" + dtt.Name, dtt);
+                                    if (ModelInfo.FhirCsTypeToString.ContainsKey(nt))
+                                        System.Diagnostics.Trace.WriteLine($"\t{nt.Name}: {ModelInfo.FhirCsTypeToString[nt]}");
+                                    else
+                                        System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
+                                }
                             }
                         }
 

@@ -71,6 +71,14 @@ namespace Hl7.Fhir.CustomSerializer
             return result;
         }
 
+		public XmlElement FirstChildOf(XmlElement node)
+        {
+			XmlNode child = node.FirstChild;
+			while (child != null && !(child is XmlElement))
+				child = child.NextSibling;
+			return child as XmlElement;
+        }
+
         protected override void InitCallbacks()
         {
         }
@@ -361,7 +369,7 @@ namespace Hl7.Fhir.CustomSerializer
 				if (pta.Name == "Resource")
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
-					WriteLine($"\t\tvar {prop.Name}Resource = Parse(child.FirstChild as XmlElement); // {fea.Order}");
+					WriteLine($"\t\tvar {prop.Name}Resource = Parse(FirstChildOf(child)); // {fea.Order}");
 					if (GetTypeName(prop.PropertyType).StartsWith("System.Collections.Generic.List"))
 					{
 						WriteLine($"\t\tif ({prop.Name}Resource != null)");

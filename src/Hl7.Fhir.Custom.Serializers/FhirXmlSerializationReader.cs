@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
-// Generated: 01/31/2021 23:41:06
+// Generated: 02/01/2021 00:08:54
 // -----------------------------------------------------------------------------
 using System;
 using System.Linq;
@@ -621,6 +621,14 @@ namespace Hl7.Fhir.CustomSerializer
             return result;
         }
 
+		public XmlElement FirstChildOf(XmlElement node)
+        {
+			XmlNode child = node.FirstChild;
+			while (child != null && !(child is XmlElement))
+				child = child.NextSibling;
+			return child as XmlElement;
+        }
+
         protected override void InitCallbacks()
         {
         }
@@ -695,7 +703,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -794,7 +802,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1075,7 +1083,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1213,7 +1221,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1348,7 +1356,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1498,7 +1506,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1583,7 +1591,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1682,7 +1690,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1798,7 +1806,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -1898,7 +1906,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -2046,7 +2054,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -2212,7 +2220,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -2369,7 +2377,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -2480,7 +2488,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -2589,7 +2597,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -2767,7 +2775,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -2920,7 +2928,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -3087,7 +3095,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -3255,7 +3263,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -3399,7 +3407,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -3561,7 +3569,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -3718,7 +3726,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -3872,7 +3880,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -3982,7 +3990,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -4099,7 +4107,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -4234,7 +4242,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -4391,7 +4399,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -4504,7 +4512,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -4709,7 +4717,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -4833,7 +4841,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -4949,7 +4957,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -5068,7 +5076,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -5175,7 +5183,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -5340,7 +5348,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -5496,7 +5504,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -5589,7 +5597,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -5760,7 +5768,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -5877,7 +5885,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6015,7 +6023,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6119,7 +6127,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6240,7 +6248,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6437,7 +6445,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6593,7 +6601,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6693,7 +6701,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6773,7 +6781,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6857,7 +6865,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -6963,7 +6971,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -7141,7 +7149,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -7317,7 +7325,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -7488,7 +7496,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -7615,7 +7623,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -7853,7 +7861,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8015,7 +8023,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8100,7 +8108,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8226,7 +8234,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8341,7 +8349,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8435,7 +8443,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8560,7 +8568,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8723,7 +8731,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -8864,7 +8872,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9041,7 +9049,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9154,7 +9162,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9227,7 +9235,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9364,7 +9372,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9480,7 +9488,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9600,7 +9608,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9792,7 +9800,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9856,7 +9864,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -9962,7 +9970,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -10087,7 +10095,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -10321,7 +10329,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -10419,7 +10427,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -10567,7 +10575,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -10652,7 +10660,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -10798,7 +10806,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -10963,7 +10971,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11117,7 +11125,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11317,7 +11325,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11453,7 +11461,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11598,7 +11606,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11717,7 +11725,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11801,7 +11809,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11893,7 +11901,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -11970,7 +11978,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12051,7 +12059,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12133,7 +12141,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12226,7 +12234,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12310,7 +12318,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12383,7 +12391,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12543,7 +12551,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12644,7 +12652,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12765,7 +12773,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -12872,7 +12880,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13000,7 +13008,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13211,7 +13219,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13318,7 +13326,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13479,7 +13487,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13535,7 +13543,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13633,7 +13641,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13777,7 +13785,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -13909,7 +13917,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14009,7 +14017,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14123,7 +14131,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14219,7 +14227,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14411,7 +14419,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14509,7 +14517,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14625,7 +14633,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14821,7 +14829,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -14922,7 +14930,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -15069,7 +15077,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -15167,7 +15175,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -15273,7 +15281,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -15405,7 +15413,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -15608,7 +15616,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -15808,7 +15816,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -15970,7 +15978,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -16054,7 +16062,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -16183,7 +16191,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -16370,7 +16378,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -16458,7 +16466,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -16622,7 +16630,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -16843,7 +16851,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -16942,7 +16950,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17052,7 +17060,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17130,7 +17138,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17297,7 +17305,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17427,7 +17435,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17507,7 +17515,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17590,7 +17598,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17662,7 +17670,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17741,7 +17749,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17810,7 +17818,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17885,7 +17893,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -17994,7 +18002,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -18128,7 +18136,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -18235,7 +18243,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -18363,7 +18371,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -18547,7 +18555,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -18698,7 +18706,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -18799,7 +18807,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -18955,7 +18963,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -19082,7 +19090,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -19194,7 +19202,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Text as Hl7.Fhir.Model.Narrative, child); // 50
 						break;
 					case "contained":
-						var ContainedResource = Parse(child.FirstChild as XmlElement); // 60
+						var ContainedResource = Parse(FirstChildOf(child)); // 60
 						if (ContainedResource != null)
 							result.Contained.Add(ContainedResource);
 						break;
@@ -24742,7 +24750,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.FullUrlElement as Hl7.Fhir.Model.FhirUri, child); // 50
 						break;
 					case "resource":
-						var ResourceResource = Parse(child.FirstChild as XmlElement); // 60
+						var ResourceResource = Parse(FirstChildOf(child)); // 60
 						result.Resource = ResourceResource;
 						break;
 					case "search":
@@ -24954,7 +24962,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.LastModifiedElement as Hl7.Fhir.Model.Instant, child); // 70
 						break;
 					case "outcome":
-						var OutcomeResource = Parse(child.FirstChild as XmlElement); // 80
+						var OutcomeResource = Parse(FirstChildOf(child)); // 80
 						result.Outcome = OutcomeResource;
 						break;
 
@@ -41380,7 +41388,7 @@ namespace Hl7.Fhir.CustomSerializer
 						Parse(result.Value as Hl7.Fhir.Model.Meta, child); // 50
 						break;
 					case "resource":
-						var ResourceResource = Parse(child.FirstChild as XmlElement); // 60
+						var ResourceResource = Parse(FirstChildOf(child)); // 60
 						result.Resource = ResourceResource;
 						break;
 					case "part":

@@ -87,7 +87,7 @@ namespace UnitTestWebApi
         }
         #endregion
 
-        [TestMethod, TestCategory("Round Trip"), Ignore]
+        [TestMethod, TestCategory("Round Trip")]
         public void UploadAllExamples()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
@@ -107,13 +107,15 @@ namespace UnitTestWebApi
 
             var xmlParserClassic = new FhirXmlParser();
             var xmlParserCustom = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer();
+            var xmlSerializer = new FhirXmlSerializer(new SerializerSettings() { Pretty = true });
 
             System.Threading.Tasks.Parallel.ForEach(files,
                 new System.Threading.Tasks.ParallelOptions() { MaxDegreeOfParallelism = 1 },
                 file =>
             {
                 var exampleName = file.Name;
-                Resource resource;
+                Resource resourceOld;
+                Resource resourceNew;
                 var localZip = ZipFile.OpenRead(examplesZipPath);
                 var stream = localZip.GetEntry(file.Name).Open();
                 using (stream)
@@ -136,10 +138,14 @@ namespace UnitTestWebApi
 
                     if (exampleName.EndsWith(".xml"))
                     {
+                        MemoryStream ms = new MemoryStream();
+                        stream.CopyTo(ms);
+                        ms.Position = 0;
                         Debug.WriteLine($"Uploading {exampleName} [xml]");
-                        // var xr = SerializationUtil.XmlReaderFromStream(stream);
-                        // resource = xmlParserClassic.Parse<Resource>(xr);
-                        resource = xmlParserCustom.Deserialize(stream) as Resource;
+                        var xr = SerializationUtil.XmlReaderFromStream(ms);
+                        resourceOld = xmlParserClassic.Parse<Resource>(xr);
+                        ms.Position = 0;
+                        resourceNew = xmlParserCustom.Deserialize(ms) as Resource;
                     }
                     else
                     {
@@ -151,20 +157,34 @@ namespace UnitTestWebApi
                 }
                 try
                 {
-                    if (resource is StructureDefinition)
+                    if (false)
                     {
-                        // skip these
+                        if (resourceNew is StructureDefinition)
+                        {
+                            // skip these
+                        }
+                        else
+                        {
+                            Resource result;
+                            var resource = resourceNew;
+                            if (!string.IsNullOrEmpty(resource.Id))
+                                result = clientFhir.Update(resource);
+                            else
+                                result = clientFhir.Create(resource);
+                        }
+                        System.Threading.Interlocked.Increment(ref successes);
+
                     }
+                    // Now verify that the resource was correct
+                    if (resourceNew.IsExactly(resourceOld))
+                        System.Threading.Interlocked.Increment(ref successes);
                     else
                     {
-                        Resource result;
-                        if (!string.IsNullOrEmpty(resource.Id))
-                            result = clientFhir.Update(resource);
-                        else
-                            result = clientFhir.Create(resource);
+                        System.Diagnostics.Trace.WriteLine($"MATCH: ({exampleName}) diff doesnt match");
+                        System.Threading.Interlocked.Increment(ref failures);
+                        System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}", xmlSerializer.SerializeToString(resourceNew));
+                        System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}.old", xmlSerializer.SerializeToString(resourceOld));
                     }
-                    System.Threading.Interlocked.Increment(ref successes);
-                    // Now verify that the resource was correct
                 }
                 catch (Exception ex)
                 {
@@ -179,7 +199,7 @@ namespace UnitTestWebApi
             Debug.WriteLine($"Success: {successes}");
             Debug.WriteLine($"Failures: {failures}");
             Debug.WriteLine($"Duration: {sw.Elapsed.ToString()}");
-            Debug.WriteLine($"rps: {(successes+failures)/sw.Elapsed.TotalSeconds}");
+            Debug.WriteLine($"rps: {(successes + failures) / sw.Elapsed.TotalSeconds}");
 
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
         }

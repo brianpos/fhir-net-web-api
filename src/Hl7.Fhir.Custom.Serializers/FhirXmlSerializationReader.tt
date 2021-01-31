@@ -120,35 +120,39 @@ namespace Hl7.Fhir.CustomSerializer
 	Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
     foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
     {
-        if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v))
-        {
-            var dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
-			if (dtt != null)
-			{
-				if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
-					continue;
+        var dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
+		if (dtt != null)
+		{
+			if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
+				continue;
+			if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v))
 				generateTypes.Add("Hl7.Fhir.Model."+ dtt.Name, dtt);
-			}
-			else
-			{
-				WriteLine($"// Type {v} not found");
-			}
-        }
+
+            // also check for nested fhir type classes
+            foreach (var nt in dtt.GetNestedTypes())
+            {
+                if (nt.IsClass)
+                {
+                    generateTypes.Add($"Hl7.Fhir.Model.{dtt.Name}.{nt.Name}" + dtt.Name, dtt);
+                    System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
+                }
+            }
+		}
     }
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ConstraintComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent));
-	generateTypes.Add("Hl7.Fhir.Model.Dosage.DoseAndRateComponent", typeof(Hl7.Fhir.Model.Dosage.DoseAndRateComponent));
-	generateTypes.Add("Hl7.Fhir.Model.DataRequirement.SortComponent", typeof(Hl7.Fhir.Model.DataRequirement.SortComponent));
-	generateTypes.Add("Hl7.Fhir.Model.DataRequirement.DateFilterComponent", typeof(Hl7.Fhir.Model.DataRequirement.DateFilterComponent));
-	generateTypes.Add("Hl7.Fhir.Model.DataRequirement.CodeFilterComponent", typeof(Hl7.Fhir.Model.DataRequirement.CodeFilterComponent));
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent", typeof(Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent));
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ExampleComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ExampleComponent));
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.MappingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.MappingComponent));
-	generateTypes.Add("Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent", typeof(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent));
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.TypeRefComponent", typeof(Hl7.Fhir.Model.ElementDefinition.TypeRefComponent));
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.SlicingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.SlicingComponent));
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.BaseComponent", typeof(Hl7.Fhir.Model.ElementDefinition.BaseComponent));
-	generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent));
-	generateTypes.Add("Hl7.Fhir.Model.Timing.RepeatComponent", typeof(Hl7.Fhir.Model.Timing.RepeatComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ConstraintComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.Dosage.DoseAndRateComponent", typeof(Hl7.Fhir.Model.Dosage.DoseAndRateComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.DataRequirement.SortComponent", typeof(Hl7.Fhir.Model.DataRequirement.SortComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.DataRequirement.DateFilterComponent", typeof(Hl7.Fhir.Model.DataRequirement.DateFilterComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.DataRequirement.CodeFilterComponent", typeof(Hl7.Fhir.Model.DataRequirement.CodeFilterComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent", typeof(Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ExampleComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ExampleComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.MappingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.MappingComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent", typeof(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.TypeRefComponent", typeof(Hl7.Fhir.Model.ElementDefinition.TypeRefComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.SlicingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.SlicingComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.BaseComponent", typeof(Hl7.Fhir.Model.ElementDefinition.BaseComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent", typeof(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent));
+	// generateTypes.Add("Hl7.Fhir.Model.Timing.RepeatComponent", typeof(Hl7.Fhir.Model.Timing.RepeatComponent));
 
     WriteLine("\t\t#region << Resource Parse >>");
 
@@ -160,6 +164,9 @@ namespace Hl7.Fhir.CustomSerializer
 			// WriteLine("Resourcename: " + ResourceName + " : " + tr.BaseType.Name);
 			continue;
         }
+
+		// tr.DeclaredNestedTypes
+
         if (Hl7.Fhir.Model.ModelInfo.IsCoreSuperType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
             continue;
 
@@ -215,6 +222,8 @@ namespace Hl7.Fhir.CustomSerializer
 		PushIndent("\t");
 	    WriteLine($"// {typeName}");
 
+		if (typeName == "Hl7.Fhir.Model.BackboneElement")
+			WriteLine("[Obsolete(\"This should not be used\",false)]");
 		WriteLine($"public void Parse({typeName} result, XmlElement doc)");
         WriteLine("{");
 

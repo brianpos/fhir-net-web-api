@@ -1,5 +1,6 @@
 ﻿using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath.Sprache;
@@ -21,6 +22,14 @@ namespace Test.WebApi.AspNetCore
     public class CustomSerializers
     {
         public static int sampleSize = 10000;
+
+        [TestMethod]
+        public void XmlLoadIntrospection()
+        {
+            System.Diagnostics.Trace.WriteLine($"{BaseFhirParser.Inspector.FindClassMappingForResource("Patient")?.NativeType?.FullName}");  
+            BaseFhirParser.Inspector.Import(typeof(BaseFhirParser).Assembly);
+            System.Diagnostics.Trace.WriteLine($"{BaseFhirParser.Inspector.FindClassMappingForResource("Patient")?.NativeType?.FullName}");
+        }
 
         [TestMethod]
         public void XmlSerializerCustom()
@@ -96,6 +105,43 @@ namespace Test.WebApi.AspNetCore
                 p = fs.Parse<Patient>(SerializationUtil.XmlReaderFromStream(stream));
             }
             UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+        }
+
+        [TestMethod]
+        public void XmlTestParserQuality()
+        {
+            BaseFhirParser.Inspector.Import(typeof(Patient).Assembly);
+
+            // serialze both then do IsExactly check on them
+            Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
+            foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
+            {
+                System.Diagnostics.Trace.WriteLine($"{v}");
+                // if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v))
+                {
+                    Type dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
+                    if (dtt != null)
+                    {
+                        if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
+                            continue;
+                        generateTypes.Add("Hl7.Fhir.Model." + dtt.Name, dtt);
+                        // also check for nested fhir type classes
+                        foreach (var nt in dtt.GetNestedTypes())
+                        {
+                            if (nt.IsClass)
+                            {
+                                generateTypes.Add($"Hl7.Fhir.Model.{dtt.Name}.{nt.Name}" + dtt.Name, dtt);
+                                if (ModelInfo.FhirCsTypeToString.ContainsKey(nt))
+                                    System.Diagnostics.Trace.WriteLine($"\t{nt.Name}: {ModelInfo.FhirCsTypeToString[nt]}");
+                                else
+                                    System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
+                            }
+                        }
+
+                    }
+                }
+            }
+
         }
 
         private static Patient GenerateSamplePatient()

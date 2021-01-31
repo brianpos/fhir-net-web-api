@@ -91,15 +91,9 @@ namespace UnitTestWebApi
         public void UploadAllExamples()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            string examplesZipPath = @"TestData\examples.zip";
+            var inputPath = ZipFile.OpenRead(examplesZipPath);
 
-            string examplesZip = @"TestData\examples.zip";
-
-            var examples = ZipFile.OpenRead(examplesZip);
-            uploadFiles(examples, examplesZip, clientFhir);
-        }
-
-        private void uploadFiles(ZipArchive inputPath, string examplesZipPath, Hl7.Fhir.Rest.FhirClient clientFhir)
-        {
             var files = inputPath.Entries;
             long successes = 0;
             long failures = 0;
@@ -141,7 +135,7 @@ namespace UnitTestWebApi
                         MemoryStream ms = new MemoryStream();
                         stream.CopyTo(ms);
                         ms.Position = 0;
-                        Debug.WriteLine($"Uploading {exampleName} [xml]");
+                        // Debug.WriteLine($"Uploading {exampleName} [xml]");
                         var xr = SerializationUtil.XmlReaderFromStream(ms);
                         resourceOld = xmlParserClassic.Parse<Resource>(xr);
                         ms.Position = 0;
@@ -175,15 +169,29 @@ namespace UnitTestWebApi
                         System.Threading.Interlocked.Increment(ref successes);
 
                     }
+
+                    // trim out the Text
+                    if (resourceOld is DomainResource ro)
+                        ro.Text = null;
+                    if (resourceNew is DomainResource rn)
+                        rn.Text = null;
+
                     // Now verify that the resource was correct
                     if (resourceNew.IsExactly(resourceOld))
                         System.Threading.Interlocked.Increment(ref successes);
                     else
                     {
-                        System.Diagnostics.Trace.WriteLine($"MATCH: ({exampleName}) diff doesnt match");
-                        System.Threading.Interlocked.Increment(ref failures);
-                        System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}", xmlSerializer.SerializeToString(resourceNew));
-                        System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}.old", xmlSerializer.SerializeToString(resourceOld));
+                        if (xmlSerializer.SerializeToString(resourceNew) != xmlSerializer.SerializeToString(resourceOld))
+                        {
+                            System.Diagnostics.Trace.WriteLine($"MATCH: ({exampleName}) diff doesnt match");
+                            System.Threading.Interlocked.Increment(ref failures);
+                            System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}", xmlSerializer.SerializeToString(resourceNew));
+                            System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}.old", xmlSerializer.SerializeToString(resourceOld));
+                        }
+                        else
+                        {
+                            System.Diagnostics.Trace.WriteLine($"Warn: ({exampleName}) IsExactly doesnt match");
+                        }
                     }
                 }
                 catch (Exception ex)

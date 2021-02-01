@@ -154,8 +154,8 @@ namespace UnitTestWebApi
                         if (exampleName.EndsWith(".xml"))
                         {
                             // Debug.WriteLine($"Uploading {exampleName} [xml]");
-                            var xr = SerializationUtil.XmlReaderFromStream(stream);
-                            resourceOld = xmlParserClassic.Parse<Resource>(xr);
+                            using (var xr = SerializationUtil.XmlReaderFromStream(stream))
+                                resourceOld = xmlParserClassic.Parse<Resource>(xr);
                         }
                         else
                         {

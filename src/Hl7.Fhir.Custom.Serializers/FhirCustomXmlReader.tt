@@ -1,0 +1,590 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.ComponentModel.DataAnnotations" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.1.9.0\lib\net45\Hl7.Fhir.Support.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.Poco.1.9.0\lib\net45\Hl7.Fhir.Support.Poco.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.ElementModel.1.9.0\lib\net45\Hl7.Fhir.ElementModel.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.FhirPath.1.9.0\lib\net45\Hl7.FhirPath.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Serialization.1.9.0\lib\net45\Hl7.Fhir.Serialization.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.R4.1.9.0\lib\net45\Hl7.Fhir.R4.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Hl7.Fhir.Introspection" #>
+<#@ output extension=".cs" encoding="utf-8" #>
+// -----------------------------------------------------------------------------
+// GENERATED CODE - DO NOT EDIT
+// Generated: <#= DateTime.Now #>
+// -----------------------------------------------------------------------------
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
+using System.Threading;
+
+namespace Hl7.Fhir.CustomSerializer
+{
+    public partial class FhirCustomXmlReader : XmlSerializationReader
+    {
+        public Resource Parse()
+        {
+			return Parse(this.Reader);
+		}
+        public Resource Parse(XmlReader reader)
+        {
+			while (reader.Read())
+			{
+				// skip to the first start element node (over the processing instructions)
+				if (reader.IsStartElement())
+					break;
+			}
+            Resource result;
+            switch(reader.Name)
+            {
+<#	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
+    {
+#>                case "<#= ResourceName #>":
+                    result = new <#= ResourceName #>();
+                    Parse(result as <#= ResourceName #>, reader);
+                    break;
+<#	}
+#>
+                default:
+                    result = null;
+                    break;
+            }
+            return result;
+        }
+
+		public bool ShouldSkipNodeType(XmlNodeType nodeType)
+		{
+			return nodeType == XmlNodeType.Comment
+				|| nodeType == XmlNodeType.XmlDeclaration
+				|| nodeType == XmlNodeType.Whitespace
+				|| nodeType == XmlNodeType.SignificantWhitespace
+				|| nodeType == XmlNodeType.CDATA
+				|| nodeType == XmlNodeType.Notation
+				|| nodeType == XmlNodeType.ProcessingInstruction;
+		}
+
+		public void FirstChildOf(XmlReader reader)
+        {
+			do
+			{
+				reader.Read();
+			}
+			while (ShouldSkipNodeType(reader.NodeType));
+        }
+
+        protected override void InitCallbacks()
+        {
+        }
+
+        protected override void InitIDs()
+        {
+        }
+
+        public void Parse<T>(Code<T> result, XmlReader reader)
+            where T : struct
+        {
+            // skip ignored elements
+            while (ShouldSkipNodeType(reader.NodeType))
+                reader.Read();
+
+            if (reader.EOF)
+                return;
+
+            if (reader.MoveToFirstAttribute())
+            {
+                do
+                {
+					switch (reader.Name)
+					{
+						case "id":
+							result.ElementId = reader.Value;
+							break;
+						case "value":
+							result.ObjectValue = reader.Value;
+							break;
+						default:
+							// Property not found
+							// System.Diagnostics.Trace.WriteLine($"Unexpected token found {childAttr.Name}");
+							reader.ReadOuterXml();
+							break;
+					}
+                } while (reader.MoveToNextAttribute());
+                reader.MoveToElement();
+            }
+            if (reader.IsEmptyElement)
+            {
+                // contextLocation.Pop();
+                return;
+            }
+            // otherwise proceed to read all the other nodes
+            while (reader.Read())
+            {
+                if (reader.IsStartElement())
+                {
+					switch (reader.Name)
+					{
+						case "extension":
+							var newItem_extension = new Hl7.Fhir.Model.Extension();
+							Parse(newItem_extension, reader); // 20
+							result.Extension.Add(newItem_extension);
+							break;
+						default:
+							// Property not found, skip over it
+							// System.Diagnostics.Trace.WriteLine($"Unexpected token found {reader.Name}");
+							reader.ReadOuterXml();
+							break;
+					}
+                }
+                else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+                {
+                    break;
+                }
+			}
+        }
+<#
+	Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
+    foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
+    {
+        var dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
+		if (dtt != null)
+		{
+			if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
+				continue;
+			if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v) && !generateTypes.ContainsValue(dtt))
+				generateTypes.Add(dtt.FullName, dtt);
+
+            // also check for nested fhir type classes
+            foreach (var nt in dtt.GetNestedTypes())
+            {
+                if (nt.IsClass)
+                {
+					if (!generateTypes.ContainsValue(nt))
+					{
+						generateTypes.Add(nt.FullName, nt);
+						System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
+					}
+                }
+            }
+		}
+    }
+
+    WriteLine("\t\t#region << Resource Parse >>");
+
+	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
+    {
+		Type tr = typeof(Hl7.Fhir.Model.ModelInfo).Assembly.GetType("Hl7.Fhir.Model." + ResourceName);
+        if (tr.BaseType.Name != "DomainResource" && tr.BaseType.Name != "Resource")
+		{
+			// WriteLine("Resourcename: " + ResourceName + " : " + tr.BaseType.Name);
+			continue;
+        }
+
+		// tr.DeclaredNestedTypes
+
+        if (Hl7.Fhir.Model.ModelInfo.IsCoreSuperType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
+            continue;
+
+		PushIndent("\t");
+		PushIndent("\t");
+        WriteLine($"private void Parse({tr.Name} result, XmlReader reader)");
+        WriteLine("{");
+		PushIndent("\t");
+#>
+// skip ignored elements
+while (ShouldSkipNodeType(reader.NodeType))
+	reader.Read();
+
+if (reader.EOF)
+	return;
+
+// if (reader.IsStartElement())
+// {
+//     if (contextLocation.Count > 0)
+//         contextLocation.Push(contextLocation.Peek() + "." + reader.Name);
+//     else
+//         contextLocation.Push(reader.Name);
+// }
+// System.Diagnostics.Trace.WriteLine(contextLocation.Peek());
+
+if (reader.IsEmptyElement)
+{
+	// contextLocation.Pop();
+	return;
+}
+
+// otherwise proceed to read all the other nodes
+while (reader.Read())
+{
+    if (reader.IsStartElement())
+    {
+		switch (reader.Name)
+		{
+<#
+		PushIndent("\t");
+		PushIndent("\t");
+		WriteResourceProperties(tr, generateTypes);
+		PopIndent();
+		PopIndent();
+#>
+			default:
+				// Property not found
+				// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");
+				reader.ReadOuterXml();
+				break;
+		}
+    }
+    else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+    {
+        break;
+    }
+<#		PopIndent();
+	    WriteLine("}");
+		PopIndent();
+
+        WriteLine("}");
+        WriteLine("");
+
+		PopIndent();
+		PopIndent();
+    }
+    WriteLine("#endregion");
+
+    WriteLine("// ---------------------------");
+	foreach (Type tr in generateTypes.Values)
+	{
+        // if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
+        //    continue;
+		string typeName = GetTypeName(tr);
+		if (typeName.StartsWith("System.Collections.Generic.List"))
+			continue;
+		if (typeName.StartsWith("Hl7.Fhir.Model.Code<"))
+			continue;
+		if (typeName == "Hl7.Fhir.Model.Element" || typeName == "Hl7.Fhir.Model.Duration")
+			continue;
+		if (typeName == "Hl7.Fhir.Model.DomainResource")
+			continue;
+		else if (typeName == "Hl7.Fhir.Model.Resource")
+			continue;
+		PushIndent("\t");
+		PushIndent("\t");
+	    WriteLine($"// {typeName}");
+
+		if (typeName == "Hl7.Fhir.Model.BackboneElement")
+			WriteLine("[Obsolete(\"This should not be used\",false)]");
+		WriteLine($"public void Parse({typeName} result, XmlReader reader)");
+        WriteLine("{");
+
+		PushIndent("\t");
+
+#>
+// skip ignored elements
+while (ShouldSkipNodeType(reader.NodeType))
+    reader.Read();
+
+if (reader.EOF)
+    return;
+
+<#
+
+		if (HasAttributeProperties(tr))
+		{
+#>
+if (reader.MoveToFirstAttribute())
+{
+    do
+    {
+<#
+			PushIndent("\t");
+			WriteLine("    switch (reader.Name)");
+			WriteLine("    {");
+			PushIndent("\t");
+			WritePrimitiveElementProperties(tr);
+			PopIndent();
+			WriteLine("    }");
+			PopIndent();
+#>
+    } while (reader.MoveToNextAttribute());
+    reader.MoveToElement();
+}
+<#
+		}
+#>
+
+if (reader.IsEmptyElement)
+{
+    // contextLocation.Pop();
+    return;
+}
+
+// otherwise proceed to read all the other nodes
+while (reader.Read())
+{
+<#
+		PushIndent("\t");
+	    WriteLine("if (reader.IsStartElement())");
+	    WriteLine("{");
+		PushIndent("\t");
+	    WriteLine("switch (reader.Name)");
+	    WriteLine("{");
+		WriteElementProperties(tr);
+	    WriteLine("\tdefault:");
+	    WriteLine("\t\t// Property not found");
+	    WriteLine("\t\t// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");");
+		WriteLine("\t\treader.ReadOuterXml();");
+	    WriteLine("\t\tbreak;");
+	    WriteLine("}");
+		PopIndent();
+	    WriteLine("}");
+	    WriteLine("else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)");
+	    WriteLine("{");
+	    WriteLine("\tbreak;");
+	    WriteLine("}");
+		PopIndent();
+	    WriteLine("}"); // end of while loop
+		PopIndent();
+
+        WriteLine("}");
+		PopIndent();
+		PopIndent();
+	}
+#>
+	}
+}
+<#+ 
+
+	public void WriteResourceProperties(System.Type tr, Dictionary<string, Type> generateTypes)
+	{
+		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.Base)))
+		{
+			WriteResourceProperties(tr.BaseType, null);
+		}
+
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+		foreach (var prop in props)
+		{
+			if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+				continue;
+			FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea != null)
+			{
+				WriteProperty(tr, prop, fea, generateTypes);
+			}
+		}
+	}
+
+	public void WriteElementProperties(System.Type tr)
+	{
+		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.Base)))
+			WriteElementProperties(tr.BaseType);
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
+        foreach (var prop in props)
+        {
+            if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+                continue;
+            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea == null)
+				continue;
+			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+				continue;
+			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.None)
+				WriteLine($"\t// Xml Serialization: {fea.XmlSerialization}");
+			WriteProperty(tr, prop, fea, null);
+		}
+	}
+
+	public bool HasAttributeProperties(System.Type tr)
+	{
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
+        foreach (var prop in props)
+        {
+            if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+                continue;
+            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea == null)
+				continue;
+			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+				return true;
+		}
+		return false;
+	}
+
+	public void WritePrimitiveElementProperties(System.Type tr)
+	{
+		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
+        foreach (var prop in props)
+        {
+            if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
+                continue;
+            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+			if (fea == null)
+				continue;
+			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+				continue;
+			WriteProperty(tr, prop, fea, null);
+		}
+	}
+
+	public void WriteProperty(System.Type tr, PropertyInfo prop, FhirElementAttribute fea, Dictionary<string, Type> generateTypes)
+	{
+		// Skip all the coded data properties for now
+		if (prop.PropertyType.GenericTypeArguments.Length > 0 && GetTypeName(prop.PropertyType.GenericTypeArguments[0]).StartsWith("Hl7.Fhir.Model.Code<"))
+		{
+			WriteLine($"\tcase \"{fea.Name}\":");
+			WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
+			WriteLine($"\t\tParse(newItem_{fea.Name}, reader); // {fea.Order}");
+			WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
+			WriteLine($"\t\tbreak;");
+			return;
+		}
+			
+		if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XHtml)
+		{
+			WriteLine($"\tcase \"{fea.Name}\":");
+			WriteLine($"\t\tresult.{prop.Name} = reader.ReadOuterXml();");
+			WriteLine($"\t\tif (reader.NodeType == XmlNodeType.EndElement)");
+			WriteLine($"\t\t	return;");
+			WriteLine($"\t\tbreak;");
+			return;
+		}
+		var vat = prop.GetCustomAttribute(typeof(Hl7.Fhir.Validation.AllowedTypesAttribute)) as Hl7.Fhir.Validation.AllowedTypesAttribute;
+		if (vat != null)
+		{
+			// If there is an allowed types, then there could be other values
+			foreach (var t in vat.Types)
+			{
+				var pta = t.GetCustomAttribute(typeof(FhirTypeAttribute)) as FhirTypeAttribute;
+				if (pta.Name == "Resource")
+				{
+					WriteLine($"\tcase \"{fea.Name}\":");
+					WriteLine($"\t\t// FirstChildOf(reader); // {fea.Order}");
+					WriteLine($"\t\tvar {prop.Name}Resource = Parse(reader);");
+					if (GetTypeName(prop.PropertyType).StartsWith("System.Collections.Generic.List"))
+					{
+						WriteLine($"\t\tif ({prop.Name}Resource != null)");
+						WriteLine($"\t\t\tresult.{prop.Name}.Add({prop.Name}Resource);");
+					}
+					else
+					{
+						WriteLine($"\t\tresult.{prop.Name} = {prop.Name}Resource;");
+					}
+					WriteLine($"\t\treader.Read();");
+					WriteLine($"\t\tbreak;");
+				}
+				else
+				{
+					if (GetTypeName(prop.PropertyType).StartsWith("System.Collections.Generic.List"))
+					{
+						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
+						WriteLine($"\t\tvar newItem = new {GetTypeName(t)}();");
+						WriteLine($"\t\tParse(newItem, reader); // {fea.Order}");
+						WriteLine($"\t\tresult.{prop.Name}.Add(newItem);");
+						WriteLine($"\t\tbreak;");
+					}
+					else
+					{
+						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
+						WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(t)}();");
+						WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(t)}, reader); // {fea.Order}");
+						WriteLine($"\t\tbreak;");
+					}
+				}
+			}
+		}
+		else
+		{
+			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+			{
+				WriteLine($"\tcase \"{fea.Name}\":");
+				if (GetTypeName(prop.PropertyType) == "System.String")
+				{
+					WriteLine($"\t\tresult.{prop.Name} = reader.Value;");
+				}
+				else
+				{
+					if (GetTypeName(prop.PropertyType).StartsWith("System.Nullable<"))
+						WriteLine($"\t\tresult.{prop.Name} = Hl7.Fhir.Serialization.PrimitiveTypeConverter.ConvertTo<{GetTypeName(prop.PropertyType.GenericTypeArguments[0])}>(reader.Value);");
+					else
+						WriteLine($"\t\tresult.{prop.Name} = Hl7.Fhir.Serialization.PrimitiveTypeConverter.ConvertTo<{GetTypeName(prop.PropertyType)}>(reader.Value);");
+				}
+				WriteLine($"\t\tbreak;");
+			}
+			else
+			{
+				if (GetTypeName(prop.PropertyType).StartsWith("System.Collections.Generic.List"))
+				{
+					WriteLine($"\tcase \"{fea.Name}\":");
+					WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
+					WriteLine($"\t\tParse(newItem_{fea.Name}, reader); // {fea.Order}");
+					WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
+					WriteLine($"\t\tbreak;");
+				}
+				else
+				{
+					WriteLine($"\tcase \"{fea.Name}\":");
+					WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(prop.PropertyType)}();");
+					WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader); // {fea.Order}");
+					WriteLine($"\t\tbreak;");
+				}
+			}
+		}
+		if (generateTypes != null && !generateTypes.ContainsKey(prop.PropertyType.FullName))
+		{
+			generateTypes.Add(prop.PropertyType.FullName, prop.PropertyType);
+		}
+		if (prop.PropertyType.GenericTypeArguments.Count() > 0)
+		{
+			if (generateTypes != null && !generateTypes.ContainsKey(prop.PropertyType.GenericTypeArguments[0].FullName))
+			{
+				generateTypes.Add(prop.PropertyType.GenericTypeArguments[0].FullName, prop.PropertyType.GenericTypeArguments[0]);
+			}
+		}
+	}
+
+	public void WriteAttribute(System.Type tr, PropertyInfo prop, FhirElementAttribute fea)
+	{
+		if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
+			return;
+		WriteLine($"\tcase \"{fea.Name}\":");
+		WriteLine($"\t\t// result.{prop.Name} = new {GetTypeName(prop.PropertyType)}();");
+		WriteLine($"\t\t// Parse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader); // {fea.Order}");
+		WriteLine($"\t\tbreak;");
+	}
+
+	public static string GetTypeName(System.Type tr)
+	{
+		if (tr.Name.EndsWith("Component"))
+			Console.Write("{tr}");
+		string typeName = $"{tr.Namespace}.{tr.Name}";
+		if (tr.IsNested)
+			typeName = $"{GetTypeName(tr.DeclaringType)}.{tr.Name}";
+		if (tr.GenericTypeArguments.Count() > 0)
+		{
+			if (tr.IsNested)
+				typeName = $"{GetTypeName(tr.DeclaringType)}.{tr.Name}";
+			else
+				typeName = $"{tr.Namespace}.{tr.Name.Substring(0, tr.Name.Length-2)}<{GetTypeName(tr.GenericTypeArguments[0])}>";
+		}
+		return typeName;
+	}
+
+#>

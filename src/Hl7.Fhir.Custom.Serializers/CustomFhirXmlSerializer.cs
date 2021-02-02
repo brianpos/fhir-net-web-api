@@ -126,6 +126,21 @@ namespace Hl7.Fhir.CustomSerializer
             return new Hl7.Fhir.CustomSerializer.FhirXmlSerializationReader();
         }
     }
+
+
+    public partial class CustomFhirXmlSerializer2 : XmlSerializer
+    {
+        protected override object Deserialize(XmlSerializationReader reader)
+        {
+            var fr = reader as Hl7.Fhir.CustomSerializer.FhirCustomXmlReader;
+            return fr.Parse();
+        }
+
+        protected override XmlSerializationReader CreateReader()
+        {
+            return new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+        }
+    }
 }
 
 namespace Hl7.Fhir.WebApi

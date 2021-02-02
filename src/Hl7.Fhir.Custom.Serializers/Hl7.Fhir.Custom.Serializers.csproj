@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="FhirCustomXmlReader.tt">
+      <LastGenOutput>FhirCustomXmlReader.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
     <None Update="FhirXmlSerializationReader.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FhirXmlSerializationReader.cs</LastGenOutput>
@@ -55,9 +59,14 @@
 
   <ItemGroup>
     <Compile Update="FhirXmlSerializationReader.cs">
+      <DependentUpon>FhirXmlSerializationReader.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>FhirXmlSerializationReader.tt</DependentUpon>
+    </Compile>
+    <Compile Update="FhirCustomXmlReader.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FhirCustomXmlReader.tt</DependentUpon>
     </Compile>
     <Compile Update="XmlDeSerializer.cs">
       <DesignTime>True</DesignTime>

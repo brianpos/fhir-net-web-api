@@ -26,9 +26,8 @@ namespace Test.WebApi.AspNetCore
         [TestMethod]
         public void XmlLoadIntrospection()
         {
-            System.Diagnostics.Trace.WriteLine($"{BaseFhirParser.Inspector.FindClassMappingForResource("Patient")?.NativeType?.FullName}");  
-            BaseFhirParser.Inspector.Import(typeof(BaseFhirParser).Assembly);
-            System.Diagnostics.Trace.WriteLine($"{BaseFhirParser.Inspector.FindClassMappingForResource("Patient")?.NativeType?.FullName}");
+            var p = new Patient();
+            var temp = new FhirXmlSerializer().SerializeToString(p);
         }
 
         [TestMethod]
@@ -88,6 +87,25 @@ namespace Test.WebApi.AspNetCore
             }
             UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
         }
+
+        [TestMethod]
+        public void XmlParserCustom2()
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            // writer.WriteLine("<Patient xmlns=\"http://hl7.org.fhir\"><id value=\"pat1\"/></Patient>"); // System.IO.File.ReadAllText(""));
+            writer.WriteLine(System.IO.File.ReadAllText("TestPatient.xml"));
+            writer.Flush();
+
+            Patient p = null;
+            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            for (int n = 0; n < sampleSize; n++)
+            {
+                stream.Position = 0;
+                p = xs.Deserialize(stream) as Patient;
+            }
+            UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+        }
         [TestMethod]
         public void XmlParserStandard()
         {
@@ -107,44 +125,255 @@ namespace Test.WebApi.AspNetCore
             UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
         }
 
+        Coding ParseCoding(XmlReader reader, Stack<string> contextLocation)
+        {
+            // This is called when the current node is on the <valueCoding> node of the reader
+            // when it returns, the node will be on the </valueCoding> or <valueCoding/> node
+            // unless some error occurs, in which case, could be anywhere
+            // The context will be 
+            Coding result = new Coding();
+            if (reader.HasAttributes)
+            {
+                for (int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
+                {
+                    reader.MoveToAttribute(attrIndex);
+                    switch (reader.Name)
+                    {
+                        case "id":
+                            result.ElementId = reader.Value;
+                            break;
+                        default:
+                            // WTF we doing here, this is an error at this location
+                            // IXmlLineInfo info = reader as IXmlLineInfo;
+                            break;
+                    }
+                }
+                reader.MoveToElement();
+            }
+
+            // there are not other nodes present
+            if (reader.IsEmptyElement || reader.NodeType == XmlNodeType.EndElement)
+                return result;
+
+            // Now locate any other child nodes (till we encounter our end node)
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.EndElement)
+                    return result;
+                if (reader.IsStartElement())
+                {
+                    if (contextLocation.Count > 0)
+                        contextLocation.Push(contextLocation.Peek() + "." + reader.Name);
+                    else
+                        contextLocation.Push(reader.Name);
+                }
+                switch (reader.Name)
+                {
+                    case "extension":
+                        var newItem_extension = new Hl7.Fhir.Model.Extension();
+                        System.Diagnostics.Trace.WriteLine("===> extension: " + reader.ReadOuterXml());
+                        result.Extension.Add(newItem_extension);
+                        break;
+                    case "system":
+                        System.Diagnostics.Trace.WriteLine("===> system: " + reader.ReadOuterXml());
+                        // result.SystemElement = ParseString(reader, contextLocation);
+                        break;
+                    case "version":
+                        result.VersionElement = ParseString(reader, contextLocation);
+                        break;
+                    case "code":
+                        System.Diagnostics.Trace.WriteLine("===> code: " + reader.ReadOuterXml());
+                        // result.CodeElement = ParseString(reader, contextLocation);
+                        break;
+                    case "display":
+                        result.DisplayElement = ParseString(reader, contextLocation);
+                        break;
+                    default:
+                        // Property not found
+                        // System.Diagnostics.Trace.WriteLine($"Unexpected token found {child.Name}");
+                        System.Diagnostics.Trace.WriteLine($"===> ??? {reader.Name}: " + reader.ReadOuterXml());
+                        break;
+                }
+                if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+                    contextLocation.Pop();
+            }
+            return result;
+        }
+
+        FhirString ParseString(XmlReader reader, Stack<string> contextLocation)
+        {
+            FhirString result = new FhirString();
+
+            if (reader.HasAttributes)
+            {
+                for (int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
+                {
+                    reader.MoveToAttribute(attrIndex);
+                    switch (reader.Name)
+                    {
+                        case "value":
+                            result.Value = reader.Value;
+                            break;
+                        case "id":
+                            result.ElementId = reader.Value;
+                            break;
+                    }
+                }
+                reader.MoveToElement();
+            }
+
+            System.Diagnostics.Trace.WriteLine($"===> {reader.Name}: " + reader.ReadOuterXml());
+            return result;
+            // Now locate any other child nodes (till we encounter our end node)
+            while (!reader.IsEmptyElement && reader.Read() && reader.NodeType != XmlNodeType.EndElement)
+            {
+                if (reader.IsStartElement())
+                {
+                    if (contextLocation.Count > 0)
+                        contextLocation.Push(contextLocation.Peek() + "." + reader.Name);
+                    else
+                        contextLocation.Push(reader.Name);
+                }
+                switch (reader.Name)
+                {
+                    case "extension":
+                        var newItem_extension = new Hl7.Fhir.Model.Extension();
+                        Console.WriteLine(reader.ReadOuterXml());
+                        result.Extension.Add(newItem_extension);
+                        break;
+
+                    default:
+                        // Property not found
+                        // System.Diagnostics.Trace.WriteLine($"Unexpected token found {child.Name}");
+                        Console.WriteLine(reader.ReadOuterXml());
+                        break;
+                }
+                if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+                    contextLocation.Pop();
+            }
+            return result;
+        }
+
+        public void ParseElement(XmlReader reader, Stack<string> contextLocation)
+        {
+            // skip ignored elements
+            while (reader.NodeType == XmlNodeType.Comment 
+                || reader.NodeType == XmlNodeType.XmlDeclaration
+                || reader.NodeType == XmlNodeType.Whitespace
+                || reader.NodeType == XmlNodeType.SignificantWhitespace
+                || reader.NodeType == XmlNodeType.CDATA
+                || reader.NodeType == XmlNodeType.Notation
+                || reader.NodeType == XmlNodeType.ProcessingInstruction)
+                reader.Read();
+
+            if (reader.EOF)
+                return;
+
+            if (reader.IsStartElement())
+            {
+                if (contextLocation.Count > 0)
+                    contextLocation.Push(contextLocation.Peek() + "." + reader.Name);
+                else
+                    contextLocation.Push(reader.Name);
+            }
+            System.Diagnostics.Trace.WriteLine(contextLocation.Peek());
+
+            if (reader.HasAttributes)
+            {
+                for (int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
+                {
+                    reader.MoveToAttribute(attrIndex);
+                    System.Diagnostics.Trace.WriteLine($"    {reader.Name} = {reader.Value}");
+                }
+                reader.MoveToElement();
+            }
+            if (reader.IsEmptyElement)
+            {
+                contextLocation.Pop();
+                // reader.Read();
+                return;
+            }
+            // otherwise proceed to read all the other nodes
+            while (reader.Read())
+            {
+                if (reader.NamespaceURI == "http://www.w3.org/1999/xhtml")
+                {
+                    System.Diagnostics.Trace.WriteLine(">>> " + reader.ReadOuterXml());
+                    break;
+                }
+                else if (reader.IsStartElement())
+                {
+                    ParseElement(reader, contextLocation);
+                }
+                else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+                {
+                    break;
+                }
+            }
+            contextLocation.Pop();
+        }
+
+        [TestMethod]
+        public void XmlTestParserQuality2()
+        {
+            var patient = GenerateSamplePatient();
+            string patientXML = new FhirXmlSerializer(new SerializerSettings() { Pretty = true }).SerializeToString(patient);
+            XmlReader reader = SerializationUtil.XmlReaderFromXmlText(patientXML);
+            Stack<string> path = new Stack<string>();
+            while (reader.Read())
+            {
+                ParseElement(reader, path);
+            }
+            UnitTestWebApi.BasicFacade.DebugDumpOutputXml(patient);
+        }
+
         [TestMethod]
         public void XmlTestParserQuality()
         {
-            BaseFhirParser.Inspector.Import(typeof(Patient).Assembly);
-
-            // serialze both then do IsExactly check on them
-            Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
-            foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
+            var patient = GenerateSamplePatient();
+            string patientXML = new FhirXmlSerializer(new SerializerSettings() { Pretty = true }).SerializeToString(patient);
+            XmlReader reader = SerializationUtil.XmlReaderFromXmlText(patientXML);
+            string indent = "";
+            Stack<string> path = new Stack<string>();
+            while (reader.Read())
             {
-                System.Diagnostics.Trace.WriteLine($"{v}");
-                // if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v))
+                if (reader.IsStartElement())
                 {
-                    Type dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
-                    if (dtt != null)
-                    {
-                        if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
-                            continue;
-                        generateTypes.Add("Hl7.Fhir.Model." + dtt.Name, dtt);
-                        // also check for nested fhir type classes
-                        foreach (var nt in dtt.GetNestedTypes())
-                        {
-                            if (nt.IsClass)
-                            {
-                                if (!generateTypes.ContainsValue(nt))
-                                {
-                                    generateTypes.Add($"Hl7.Fhir.Model.{dtt.Name}.{nt.Name}" + dtt.Name, dtt);
-                                    if (ModelInfo.FhirCsTypeToString.ContainsKey(nt))
-                                        System.Diagnostics.Trace.WriteLine($"\t{nt.Name}: {ModelInfo.FhirCsTypeToString[nt]}");
-                                    else
-                                        System.Diagnostics.Trace.WriteLine($"\t{nt.FullName}: --");
-                                }
-                            }
-                        }
-
-                    }
+                    if (path.Count > 0)
+                        path.Push(path.Peek() + "." + reader.Name);
+                    else
+                        path.Push(reader.Name);
                 }
+                if (reader.NodeType == XmlNodeType.EndElement)
+                    indent = indent.Substring(2);
+                string namespaceUri = reader.NamespaceURI;
+                if (namespaceUri == "http://hl7.org/fhir")
+                    namespaceUri = "fhir";
+                // Console.WriteLine($"{indent}{namespaceUri}::{reader.Name}");
+                System.Diagnostics.Trace.WriteLine(path.Peek());
+                if (namespaceUri == "http://www.w3.org/1999/xhtml")
+                    System.Diagnostics.Trace.WriteLine(reader.ReadOuterXml());
+                if (path.Peek() == "Patient.text.extension.valueCoding")
+                {
+                    var coding = ParseCoding(reader, path);
+                }
+                if (reader.HasAttributes)
+                {
+                    for (int attrIndex=0; attrIndex < reader.AttributeCount; attrIndex++)
+                    {
+                        reader.MoveToAttribute(attrIndex);
+                        System.Diagnostics.Trace.WriteLine($"{indent}{reader.Name} = {reader.Value}");
+                    }
+                    reader.MoveToElement();
+                }
+                if (reader.IsStartElement() && !reader.IsEmptyElement)
+                {
+                    indent += "  ";
+                }
+                if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+                    path.Pop();
             }
-
+            UnitTestWebApi.BasicFacade.DebugDumpOutputXml(patient);
         }
 
         private static Patient GenerateSamplePatient()
@@ -170,7 +399,7 @@ namespace Test.WebApi.AspNetCore
             p.Text = new Narrative()
             {
                 Status = Narrative.NarrativeStatus.Generated,
-                Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">some content</div>"
+                Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">some content<table><td>stuff</td><td></td><td/></table></div>"
             };
 
             // Add in lots of phone numbers

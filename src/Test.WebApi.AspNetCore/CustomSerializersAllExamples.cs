@@ -47,6 +47,73 @@ namespace UnitTestWebApi
         #endregion
 
         [TestMethod, TestCategory("Round Trip")]
+        public void XmlParseAllExamplesCustom2()
+        {
+            string examplesZipPath = @"TestData\examples.zip";
+            var inputPath = ZipFile.OpenRead(examplesZipPath);
+
+            var files = inputPath.Entries;
+            long successes = 0;
+            long failures = 0;
+            var sw = Stopwatch.StartNew();
+
+            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+
+            System.Threading.Tasks.Parallel.ForEach(files,
+                new System.Threading.Tasks.ParallelOptions() { MaxDegreeOfParallelism = 100 },
+                file =>
+                {
+                    var exampleName = file.Name;
+                    Resource resourceNew;
+                    var localZip = ZipFile.OpenRead(examplesZipPath);
+                    var stream = localZip.GetEntry(file.Name).Open();
+                    using (stream)
+                    {
+                        // skip the dataelements file
+                        if (exampleName.EndsWith("dataelements.xml"))
+                            return;
+                        // skip the valuesets file
+                        if (exampleName.EndsWith("valuesets.xml"))
+                            return;
+                        if (exampleName.EndsWith("v2-tables.xml"))
+                            return;
+
+                        // skip other known invalid files
+                        if (exampleName.Contains("observation-decimal(decimal)"))
+                            return;
+
+                        //if (exampleName.EndsWith(""))
+                        //    return;
+
+                        if (exampleName.EndsWith(".xml"))
+                        {
+                            // Debug.WriteLine($"Uploading {exampleName} [xml]");
+                            resourceNew = xmlParserCustom.Deserialize(stream) as Resource;
+                        }
+                        else
+                        {
+                            return;
+                            // Debug.WriteLine($"Uploading {exampleName} [json]");
+                            // var jr = SerializationUtil.JsonReaderFromStream(stream);
+                            // resource = new FhirJsonParser().Parse<Resource>(jr);
+                        }
+                    }
+                    System.Threading.Interlocked.Increment(ref successes);
+                });
+
+            sw.Stop();
+            Debug.WriteLine("Done!");
+            Debug.WriteLine("-----------------------------------");
+            Debug.WriteLine($"Success: {successes}");
+            Debug.WriteLine($"Failures: {failures}");
+            Debug.WriteLine($"Duration: {sw.Elapsed.ToString()}");
+            Debug.WriteLine($"rps: {(successes + failures) / sw.Elapsed.TotalSeconds}");
+            Debug.WriteLine($"Memory: {GC.GetTotalMemory(true) / 1000:n0}");
+
+            Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
+        }
+
+        [TestMethod, TestCategory("Round Trip")]
         public void XmlParseAllExamplesCustom()
         {
             string examplesZipPath = @"TestData\examples.zip";
@@ -108,6 +175,7 @@ namespace UnitTestWebApi
             Debug.WriteLine($"Failures: {failures}");
             Debug.WriteLine($"Duration: {sw.Elapsed.ToString()}");
             Debug.WriteLine($"rps: {(successes + failures) / sw.Elapsed.TotalSeconds}");
+            Debug.WriteLine($"Memory: {GC.GetTotalMemory(true)/1000:n0}");
 
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
         }
@@ -175,6 +243,7 @@ namespace UnitTestWebApi
             Debug.WriteLine($"Failures: {failures}");
             Debug.WriteLine($"Duration: {sw.Elapsed.ToString()}");
             Debug.WriteLine($"rps: {(successes + failures) / sw.Elapsed.TotalSeconds}");
+            Debug.WriteLine($"Memory: {GC.GetTotalMemory(true) / 1000:n0}");
 
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
         }

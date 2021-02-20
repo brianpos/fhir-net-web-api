@@ -99,21 +99,94 @@ namespace Test.WebApi.AspNetCore
 
             Patient p = null;
             XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            var settings = new XmlReaderSettings
+            {
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                NameTable = new NameTable()
+            };
+            var xrc = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+
             for (int n = 0; n < sampleSize; n++)
             {
                 stream.Position = 0;
-                p = xs.Deserialize(stream) as Patient;
+                var xr = XmlReader.Create(stream, settings);
+                var outcome = new OperationOutcome();
+                p = xrc.Parse(xr, outcome) as Patient;
+                // p = xs.Deserialize(xr) as Patient;
+                if (n == 0)
+                {
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(outcome);
+                }
             }
-            UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
         }
+        [TestMethod]
+        public void XmlParserCustom2WithErrors()
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            // writer.WriteLine("<Patient xmlns=\"http://hl7.org.fhir\"><id value=\"pat1\"/></Patient>"); // System.IO.File.ReadAllText(""));
+            writer.WriteLine(System.IO.File.ReadAllText("TestPatientWithErrors.xml"));
+            writer.Flush();
+
+            Patient p = null;
+            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            var settings = new XmlReaderSettings
+            {
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                NameTable = new NameTable()
+            };
+            var xrc = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+
+            for (int n = 0; n < sampleSize; n++)
+            {
+                stream.Position = 0;
+                var xr = XmlReader.Create(stream, settings);
+                var outcome = new OperationOutcome();
+                p = xrc.Parse(xr, outcome) as Patient;
+                // p = xs.Deserialize(xr) as Patient;
+                if (n == 0)
+                {
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(outcome);
+                }
+            }
+        }
+
         [TestMethod]
         public void XmlParserStandard()
         {
-            var fs = new Hl7.Fhir.Serialization.FhirXmlParser();
+            var fs = new Hl7.Fhir.Serialization.FhirXmlParser(new ParserSettings() { AcceptUnknownMembers = true, AllowUnrecognizedEnums = true, PermissiveParsing = true });
+            // var fs = new Hl7.Fhir.Serialization.FhirXmlParser();
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream, Encoding.UTF8);
             // writer.WriteLine("<Patient xmlns=\"http://hl7.org.fhir\"><id value=\"pat1\"/></Patient>"); // System.IO.File.ReadAllText(""));
             writer.WriteLine(System.IO.File.ReadAllText("TestPatient.xml"));
+            writer.Flush();
+
+            Patient p = null;
+            for (int n = 0; n < sampleSize; n++)
+            {
+                stream.Position = 0;
+                p = fs.Parse<Patient>(SerializationUtil.XmlReaderFromStream(stream));
+            }
+            UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+        }
+        [TestMethod]
+        public void XmlParserStandardWithErrors()
+        {
+            var fs = new Hl7.Fhir.Serialization.FhirXmlParser(new ParserSettings() { AcceptUnknownMembers = true, AllowUnrecognizedEnums = true, PermissiveParsing = true });
+            // var fs = new Hl7.Fhir.Serialization.FhirXmlParser();
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            // writer.WriteLine("<Patient xmlns=\"http://hl7.org.fhir\"><id value=\"pat1\"/></Patient>"); // System.IO.File.ReadAllText(""));
+            writer.WriteLine(System.IO.File.ReadAllText("TestPatientWithErrors.xml"));
             writer.Flush();
 
             Patient p = null;
@@ -132,11 +205,10 @@ namespace Test.WebApi.AspNetCore
             // unless some error occurs, in which case, could be anywhere
             // The context will be 
             Coding result = new Coding();
-            if (reader.HasAttributes)
+            if (reader.MoveToFirstAttribute())
             {
-                for (int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
+                do
                 {
-                    reader.MoveToAttribute(attrIndex);
                     switch (reader.Name)
                     {
                         case "id":
@@ -147,7 +219,7 @@ namespace Test.WebApi.AspNetCore
                             // IXmlLineInfo info = reader as IXmlLineInfo;
                             break;
                     }
-                }
+                } while (reader.MoveToNextAttribute());
                 reader.MoveToElement();
             }
 
@@ -399,7 +471,7 @@ namespace Test.WebApi.AspNetCore
             p.Text = new Narrative()
             {
                 Status = Narrative.NarrativeStatus.Generated,
-                Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">some content<table><td>stuff</td><td></td><td/></table></div>"
+                Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">\r\nsome content<table><td>stuff</td><td></td><td/></table></div>"
             };
 
             // Add in lots of phone numbers

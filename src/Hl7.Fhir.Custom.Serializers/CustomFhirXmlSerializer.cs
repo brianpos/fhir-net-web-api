@@ -132,13 +132,13 @@ namespace Hl7.Fhir.CustomSerializer
     {
         protected override object Deserialize(XmlSerializationReader reader)
         {
-            var fr = reader as Hl7.Fhir.CustomSerializer.FhirCustomXmlReader;
+            var fr = reader as Hl7.Fhir.CustomSerializer.FhirCustomXmlSerializationReader;
             return fr.Parse();
         }
 
         protected override XmlSerializationReader CreateReader()
         {
-            return new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+            return new Hl7.Fhir.CustomSerializer.FhirCustomXmlSerializationReader();
         }
     }
 }

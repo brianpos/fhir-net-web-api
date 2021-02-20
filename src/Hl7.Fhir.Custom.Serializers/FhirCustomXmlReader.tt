@@ -40,13 +40,9 @@ using System.Threading;
 
 namespace Hl7.Fhir.CustomSerializer
 {
-    public partial class FhirCustomXmlReader : XmlSerializationReader
+    public partial class FhirCustomXmlReader
     {
-        public Resource Parse()
-        {
-			return Parse(this.Reader);
-		}
-        public Resource Parse(XmlReader reader)
+        public Resource Parse(XmlReader reader, OperationOutcome outcome)
         {
 			while (reader.Read())
 			{
@@ -61,7 +57,7 @@ namespace Hl7.Fhir.CustomSerializer
     {
 #>                case "<#= ResourceName #>":
                     result = new <#= ResourceName #>();
-                    Parse(result as <#= ResourceName #>, reader);
+                    Parse(result as <#= ResourceName #>, reader, outcome);
                     break;
 <#	}
 #>
@@ -72,95 +68,6 @@ namespace Hl7.Fhir.CustomSerializer
             return result;
         }
 
-		public bool ShouldSkipNodeType(XmlNodeType nodeType)
-		{
-			return nodeType == XmlNodeType.Comment
-				|| nodeType == XmlNodeType.XmlDeclaration
-				|| nodeType == XmlNodeType.Whitespace
-				|| nodeType == XmlNodeType.SignificantWhitespace
-				|| nodeType == XmlNodeType.CDATA
-				|| nodeType == XmlNodeType.Notation
-				|| nodeType == XmlNodeType.ProcessingInstruction;
-		}
-
-		public void FirstChildOf(XmlReader reader)
-        {
-			do
-			{
-				reader.Read();
-			}
-			while (ShouldSkipNodeType(reader.NodeType));
-        }
-
-        protected override void InitCallbacks()
-        {
-        }
-
-        protected override void InitIDs()
-        {
-        }
-
-        public void Parse<T>(Code<T> result, XmlReader reader)
-            where T : struct
-        {
-            // skip ignored elements
-            while (ShouldSkipNodeType(reader.NodeType))
-                reader.Read();
-
-            if (reader.EOF)
-                return;
-
-            if (reader.MoveToFirstAttribute())
-            {
-                do
-                {
-					switch (reader.Name)
-					{
-						case "id":
-							result.ElementId = reader.Value;
-							break;
-						case "value":
-							result.ObjectValue = reader.Value;
-							break;
-						default:
-							// Property not found
-							// System.Diagnostics.Trace.WriteLine($"Unexpected token found {childAttr.Name}");
-							reader.ReadOuterXml();
-							break;
-					}
-                } while (reader.MoveToNextAttribute());
-                reader.MoveToElement();
-            }
-            if (reader.IsEmptyElement)
-            {
-                // contextLocation.Pop();
-                return;
-            }
-            // otherwise proceed to read all the other nodes
-            while (reader.Read())
-            {
-                if (reader.IsStartElement())
-                {
-					switch (reader.Name)
-					{
-						case "extension":
-							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader); // 20
-							result.Extension.Add(newItem_extension);
-							break;
-						default:
-							// Property not found, skip over it
-							// System.Diagnostics.Trace.WriteLine($"Unexpected token found {reader.Name}");
-							reader.ReadOuterXml();
-							break;
-					}
-                }
-                else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
-                {
-                    break;
-                }
-			}
-        }
 <#
 	Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
     foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
@@ -206,16 +113,14 @@ namespace Hl7.Fhir.CustomSerializer
 
 		PushIndent("\t");
 		PushIndent("\t");
-        WriteLine($"private void Parse({tr.Name} result, XmlReader reader)");
+        WriteLine($"private void Parse({tr.Name} result, XmlReader reader, OperationOutcome outcome)");
         WriteLine("{");
 		PushIndent("\t");
 #>
 // skip ignored elements
 while (ShouldSkipNodeType(reader.NodeType))
-	reader.Read();
-
-if (reader.EOF)
-	return;
+    if (!reader.Read())
+		return;
 
 // if (reader.IsStartElement())
 // {
@@ -249,7 +154,8 @@ while (reader.Read())
 			default:
 				// Property not found
 				// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");
-				reader.ReadOuterXml();
+				HandlePropertyNotFound(reader, outcome, "unknown");
+				// reader.ReadInnerXml();
 				break;
 		}
     }
@@ -291,7 +197,7 @@ while (reader.Read())
 
 		if (typeName == "Hl7.Fhir.Model.BackboneElement")
 			WriteLine("[Obsolete(\"This should not be used\",false)]");
-		WriteLine($"public void Parse({typeName} result, XmlReader reader)");
+		WriteLine($"public void Parse({typeName} result, XmlReader reader, OperationOutcome outcome)");
         WriteLine("{");
 
 		PushIndent("\t");
@@ -299,10 +205,8 @@ while (reader.Read())
 #>
 // skip ignored elements
 while (ShouldSkipNodeType(reader.NodeType))
-    reader.Read();
-
-if (reader.EOF)
-    return;
+    if (!reader.Read())
+		return;
 
 <#
 
@@ -350,7 +254,8 @@ while (reader.Read())
 	    WriteLine("\tdefault:");
 	    WriteLine("\t\t// Property not found");
 	    WriteLine("\t\t// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");");
-		WriteLine("\t\treader.ReadOuterXml();");
+		WriteLine("\t\tHandlePropertyNotFound(reader, outcome, \"unknown\");");
+		WriteLine("\t\t// reader.ReadInnerXml();");
 	    WriteLine("\t\tbreak;");
 	    WriteLine("}");
 		PopIndent();
@@ -451,7 +356,7 @@ while (reader.Read())
 		{
 			WriteLine($"\tcase \"{fea.Name}\":");
 			WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
-			WriteLine($"\t\tParse(newItem_{fea.Name}, reader); // {fea.Order}");
+			WriteLine($"\t\tParse(newItem_{fea.Name}, reader, outcome); // {fea.Order}");
 			WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
 			WriteLine($"\t\tbreak;");
 			return;
@@ -460,7 +365,7 @@ while (reader.Read())
 		if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XHtml)
 		{
 			WriteLine($"\tcase \"{fea.Name}\":");
-			WriteLine($"\t\tresult.{prop.Name} = reader.ReadOuterXml();");
+			WriteLine($"\t\tresult.{prop.Name} = SerializationUtil.SanitizeXml(reader.ReadOuterXml()?.Trim());");
 			WriteLine($"\t\tif (reader.NodeType == XmlNodeType.EndElement)");
 			WriteLine($"\t\t	return;");
 			WriteLine($"\t\tbreak;");
@@ -477,7 +382,7 @@ while (reader.Read())
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\t// FirstChildOf(reader); // {fea.Order}");
-					WriteLine($"\t\tvar {prop.Name}Resource = Parse(reader);");
+					WriteLine($"\t\tvar {prop.Name}Resource = Parse(reader, outcome);");
 					if (GetTypeName(prop.PropertyType).StartsWith("System.Collections.Generic.List"))
 					{
 						WriteLine($"\t\tif ({prop.Name}Resource != null)");
@@ -487,7 +392,7 @@ while (reader.Read())
 					{
 						WriteLine($"\t\tresult.{prop.Name} = {prop.Name}Resource;");
 					}
-					WriteLine($"\t\treader.Read();");
+					WriteLine($"\t\tif (!reader.Read()) return;");
 					WriteLine($"\t\tbreak;");
 				}
 				else
@@ -496,7 +401,7 @@ while (reader.Read())
 					{
 						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
 						WriteLine($"\t\tvar newItem = new {GetTypeName(t)}();");
-						WriteLine($"\t\tParse(newItem, reader); // {fea.Order}");
+						WriteLine($"\t\tParse(newItem, reader, outcome); // {fea.Order}");
 						WriteLine($"\t\tresult.{prop.Name}.Add(newItem);");
 						WriteLine($"\t\tbreak;");
 					}
@@ -504,7 +409,7 @@ while (reader.Read())
 					{
 						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
 						WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(t)}();");
-						WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(t)}, reader); // {fea.Order}");
+						WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(t)}, reader, outcome); // {fea.Order}");
 						WriteLine($"\t\tbreak;");
 					}
 				}
@@ -517,14 +422,45 @@ while (reader.Read())
 				WriteLine($"\tcase \"{fea.Name}\":");
 				if (GetTypeName(prop.PropertyType) == "System.String")
 				{
-					WriteLine($"\t\tresult.{prop.Name} = reader.Value;");
+					if (fea.Name != "id" && (tr.Name == "Markdown" || tr.Name == "FhirString"))
+						WriteLine($"\t\tresult.{prop.Name} = SerializationUtil.SanitizeXml(reader.Value?.Trim());");
+					else
+						WriteLine($"\t\tresult.{prop.Name} = reader.Value;");
 				}
 				else
 				{
+					string typeName;
 					if (GetTypeName(prop.PropertyType).StartsWith("System.Nullable<"))
-						WriteLine($"\t\tresult.{prop.Name} = Hl7.Fhir.Serialization.PrimitiveTypeConverter.ConvertTo<{GetTypeName(prop.PropertyType.GenericTypeArguments[0])}>(reader.Value);");
+						typeName = GetTypeName(prop.PropertyType.GenericTypeArguments[0]);
 					else
-						WriteLine($"\t\tresult.{prop.Name} = Hl7.Fhir.Serialization.PrimitiveTypeConverter.ConvertTo<{GetTypeName(prop.PropertyType)}>(reader.Value);");
+						typeName = GetTypeName(prop.PropertyType);
+					// WriteLine($"\t\tresult.{prop.Name} = Hl7.Fhir.Serialization.PrimitiveTypeConverter.ConvertTo<{typeName}>(reader.Value);");
+					if (typeName == "System.Decimal" || typeName == "System.Int32")
+					{
+#>
+        try 
+		{
+			result.Value = reader.ReadContentAs<#= typeName == "System.Decimal" ? "Decimal" : "Int" #>();
+		}
+		catch (XmlException ex)
+        {
+			HandleAttributeInvalidValue(reader, "<#= tr.Name.ToLower().Replace("fhir","") #>", outcome, "unknown", ex);
+        }
+<#+
+					}
+					else
+					{
+#>
+        try 
+		{
+			result.Value = Hl7.Fhir.Serialization.PrimitiveTypeConverter.ConvertTo<<#= typeName #>>(reader.Value);
+		}
+		catch (FormatException ex)
+        {
+			HandleAttributeInvalidValue(reader, "<#= tr.Name.ToLower().Replace("fhir","") #>", outcome, "unknown", ex);
+        }
+<#+
+					}
 				}
 				WriteLine($"\t\tbreak;");
 			}
@@ -534,7 +470,7 @@ while (reader.Read())
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
-					WriteLine($"\t\tParse(newItem_{fea.Name}, reader); // {fea.Order}");
+					WriteLine($"\t\tParse(newItem_{fea.Name}, reader, outcome); // {fea.Order}");
 					WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
 					WriteLine($"\t\tbreak;");
 				}
@@ -542,7 +478,7 @@ while (reader.Read())
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(prop.PropertyType)}();");
-					WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader); // {fea.Order}");
+					WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome); // {fea.Order}");
 					WriteLine($"\t\tbreak;");
 				}
 			}
@@ -566,7 +502,7 @@ while (reader.Read())
 			return;
 		WriteLine($"\tcase \"{fea.Name}\":");
 		WriteLine($"\t\t// result.{prop.Name} = new {GetTypeName(prop.PropertyType)}();");
-		WriteLine($"\t\t// Parse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader); // {fea.Order}");
+		WriteLine($"\t\t// Parse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome); // {fea.Order}");
 		WriteLine($"\t\tbreak;");
 	}
 

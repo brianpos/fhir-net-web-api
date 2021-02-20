@@ -58,6 +58,14 @@ namespace UnitTestWebApi
             var sw = Stopwatch.StartNew();
 
             var xmlParserCustom = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            var settings = new XmlReaderSettings
+            {
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Ignore, //Prohibit,
+                NameTable = new NameTable()
+            };
 
             System.Threading.Tasks.Parallel.ForEach(files,
                 new System.Threading.Tasks.ParallelOptions() { MaxDegreeOfParallelism = 100 },
@@ -88,7 +96,8 @@ namespace UnitTestWebApi
                         if (exampleName.EndsWith(".xml"))
                         {
                             // Debug.WriteLine($"Uploading {exampleName} [xml]");
-                            resourceNew = xmlParserCustom.Deserialize(stream) as Resource;
+                            var xr = XmlReader.Create(stream, settings);
+                            resourceNew = xmlParserCustom.Deserialize(xr) as Resource;
                         }
                         else
                         {

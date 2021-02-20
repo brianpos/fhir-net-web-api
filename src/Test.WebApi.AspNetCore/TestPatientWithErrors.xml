@@ -9,22 +9,29 @@
   <contained>
     <Organization>
       <id value="43" />
+      <chicken value="brrrk"/>
       <name value="Brian's porgs" />
       <telecom>
-        <system value="phone" />
-        <value value="0121 222342" />
+        <system value="bork" />
+        <value value="0121 &quot;222342" />
       </telecom>
     </Organization>
   </contained>
   <extension url="http://example.org/ext2">
     <valueCoding>
       <system value="http://example.org/cs/231" />
-      <code value="C123" />
-      <display value="Display val" />
+      <code value="C123&quot;" />
+      <display value="Display &quot;val" />
+      <chicken value="brrrk">
+        <turkey xmlns="http://somethingelse">slime</turkey>
+      </chicken>
     </valueCoding>
   </extension>
   <extension url="http://example.org/ext3">
     <valueDecimal value="0.43000"/>
+  </extension>
+  <extension url="http://example.org/ext4">
+    <valueDecimal value="chicken"/>
   </extension>
   <active value="true" id="1">
     <extension url="http://example.org/test">
@@ -40,7 +47,7 @@
     </extension>
     <family value="Pos" />
     <given value="Brian" />
-    <given value="Richard" />
+    <given value="Richard&quot;" />
   </name>
   <telecom>
     <system value="phone" />
@@ -49,9 +56,12 @@
   </telecom>
   <telecom>
     <system value="phone" />
+      <chicken value="brrrk"/>
     <value value="1" />
+    <rank value="5.0"/>
   </telecom>
   <birthDate value="1973-01-17" />
+  <chicken value="brrrk"/>
   <managingOrganization>
     <reference value="#43" />
     <display value="Brian's porgs" />

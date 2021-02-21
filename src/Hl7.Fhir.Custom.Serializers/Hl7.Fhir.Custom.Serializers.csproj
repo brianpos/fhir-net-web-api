@@ -20,10 +20,16 @@
   <Import Project="..\platforms.props" />
   <Import Project="..\fhir-net-web-api.props" />
   <ItemGroup>
-    <None Include="XmlSerializer.cs">
+    <Compile Remove="FhirXmlSerializationReader.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="FhirXmlSerializationReader.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FhirCustomXmlWriter.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>XmlSerializer.tt</DependentUpon>
+      <DependentUpon>FhirCustomXmlWriter.tt</DependentUpon>
     </None>
   </ItemGroup>
 
@@ -36,13 +42,9 @@
       <LastGenOutput>FhirCustomXmlReader.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="FhirXmlSerializationReader.tt">
+    <None Update="FhirCustomXmlWriter.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FhirXmlSerializationReader.cs</LastGenOutput>
-    </None>
-    <None Update="XmlSerializer.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>XmlSerializer.cs</LastGenOutput>
+      <LastGenOutput>FhirCustomXmlWriter.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -58,15 +60,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="FhirXmlSerializationReader.cs">
-      <DependentUpon>FhirXmlSerializationReader.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="FhirCustomXmlReader.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FhirCustomXmlReader.tt</DependentUpon>
+    </Compile>
+    <Compile Update="FhirCustomXmlWriter.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FhirCustomXmlWriter.tt</DependentUpon>
     </Compile>
     <Compile Update="XmlDeSerializer.cs">
       <DesignTime>True</DesignTime>

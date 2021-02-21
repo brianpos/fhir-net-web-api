@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using Task = System.Threading.Tasks.Task;
 
 namespace Test.WebApi.AspNetCore
 {
@@ -42,17 +43,18 @@ namespace Test.WebApi.AspNetCore
                 Indent = true,
                 NamespaceHandling = NamespaceHandling.OmitDuplicates
             };
-
+            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            CancellationToken ct = new CancellationToken();
             for (int n = 0; n < sampleSize; n++)
             {
                 StringBuilder sb = new StringBuilder();
                 using (XmlWriter xw = XmlWriter.Create(sb, settings))
                 {
-                    var ct = new CancellationToken();
-                    Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer.SerializeBase(p, xw, "root", ct);
-                    xw.Flush();
+                    // xs.Serialize(xw, p);
+                    Hl7.Fhir.CustomSerializer.FhirCustomXmlWriter.Write(p, xw, ct);
                 }
-                System.Diagnostics.Trace.WriteLine(sb);
+                if (n == 0)
+                    System.Diagnostics.Trace.WriteLine(sb);
             }
             System.Diagnostics.Trace.WriteLine("test complete");
         }
@@ -64,7 +66,9 @@ namespace Test.WebApi.AspNetCore
             Patient p = GenerateSamplePatient();
             for (int n = 0; n < sampleSize; n++)
             {
-                System.Diagnostics.Trace.WriteLine(fs.SerializeToString(p));
+                string result = fs.SerializeToString(p);
+                if (n == 0)
+                    System.Diagnostics.Trace.WriteLine(result);
             }
             System.Diagnostics.Trace.WriteLine("test complete");
         }
@@ -79,7 +83,7 @@ namespace Test.WebApi.AspNetCore
             writer.Flush();
 
             Patient p = null;
-            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer();
+            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
             for (int n = 0; n < sampleSize; n++)
             {
                 stream.Position = 0;
@@ -150,6 +154,79 @@ namespace Test.WebApi.AspNetCore
                 var xr = XmlReader.Create(stream, settings);
                 var outcome = new OperationOutcome();
                 p = xrc.Parse(xr, outcome) as Patient;
+                // p = xs.Deserialize(xr) as Patient;
+                if (n == 0)
+                {
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(outcome);
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task XmlParserCustom2Async()
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            // writer.WriteLine("<Patient xmlns=\"http://hl7.org.fhir\"><id value=\"pat1\"/></Patient>"); // System.IO.File.ReadAllText(""));
+            writer.WriteLine(System.IO.File.ReadAllText("TestPatient.xml"));
+            writer.Flush();
+
+            Patient p = null;
+            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            var settings = new XmlReaderSettings
+            {
+                Async = true,
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                NameTable = new NameTable()
+            };
+            var xrc = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+
+            for (int n = 0; n < sampleSize; n++)
+            {
+                stream.Position = 0;
+                var xr = XmlReader.Create(stream, settings);
+                var outcome = new OperationOutcome();
+                p = await xrc.ParseAsync(xr, outcome) as Patient;
+                // p = xs.Deserialize(xr) as Patient;
+                if (n == 0)
+                {
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+                    UnitTestWebApi.BasicFacade.DebugDumpOutputXml(outcome);
+                }
+            }
+        }
+        [TestMethod]
+        public async Task XmlParserCustom2AsyncWithErrors()
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream, Encoding.UTF8);
+            // writer.WriteLine("<Patient xmlns=\"http://hl7.org.fhir\"><id value=\"pat1\"/></Patient>"); // System.IO.File.ReadAllText(""));
+            writer.WriteLine(System.IO.File.ReadAllText("TestPatientWithErrors.xml"));
+            writer.Flush();
+
+            Patient p = null;
+            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            var settings = new XmlReaderSettings
+            {
+                Async = true,
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                NameTable = new NameTable()
+            };
+            var xrc = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+
+            for (int n = 0; n < sampleSize; n++)
+            {
+                stream.Position = 0;
+                var xr = XmlReader.Create(stream, settings);
+                var outcome = new OperationOutcome();
+                p = await xrc.ParseAsync(xr, outcome) as Patient;
                 // p = xs.Deserialize(xr) as Patient;
                 if (n == 0)
                 {
@@ -329,7 +406,7 @@ namespace Test.WebApi.AspNetCore
         public void ParseElement(XmlReader reader, Stack<string> contextLocation)
         {
             // skip ignored elements
-            while (reader.NodeType == XmlNodeType.Comment 
+            while (reader.NodeType == XmlNodeType.Comment
                 || reader.NodeType == XmlNodeType.XmlDeclaration
                 || reader.NodeType == XmlNodeType.Whitespace
                 || reader.NodeType == XmlNodeType.SignificantWhitespace
@@ -431,7 +508,7 @@ namespace Test.WebApi.AspNetCore
                 }
                 if (reader.HasAttributes)
                 {
-                    for (int attrIndex=0; attrIndex < reader.AttributeCount; attrIndex++)
+                    for (int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
                     {
                         reader.MoveToAttribute(attrIndex);
                         System.Diagnostics.Trace.WriteLine($"{indent}{reader.Name} = {reader.Value}");

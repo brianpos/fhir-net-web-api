@@ -99,9 +99,21 @@ namespace UnitTestWebApi
             long failures = 0;
             var sw = Stopwatch.StartNew();
 
+            var nt = new NameTable();
             var xmlParserClassic = new FhirXmlParser();
-            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer();
+            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
             var xmlSerializer = new FhirXmlSerializer(new SerializerSettings() { Pretty = true });
+            var settings = new XmlReaderSettings
+            {
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                NameTable = new NameTable(),
+                CloseInput = false
+            };
+            XmlParserContext ctxt = new XmlParserContext(settings.NameTable, null, null, XmlSpace.None);
+
 
             System.Threading.Tasks.Parallel.ForEach(files,
                 new System.Threading.Tasks.ParallelOptions() { MaxDegreeOfParallelism = 1 },
@@ -130,16 +142,20 @@ namespace UnitTestWebApi
                     //if (exampleName.EndsWith(""))
                     //    return;
 
+                    MemoryStream ms = new MemoryStream();
                     if (exampleName.EndsWith(".xml"))
                     {
-                        MemoryStream ms = new MemoryStream();
                         stream.CopyTo(ms);
                         ms.Position = 0;
                         // Debug.WriteLine($"Uploading {exampleName} [xml]");
                         var xr = SerializationUtil.XmlReaderFromStream(ms);
                         resourceOld = xmlParserClassic.Parse<Resource>(xr);
                         ms.Position = 0;
-                        resourceNew = xmlParserCustom.Deserialize(ms) as Resource;
+                        xr = new XmlTextReader(ms, XmlNodeType.Document, ctxt) { Normalization = false, DtdProcessing = DtdProcessing.Prohibit, WhitespaceHandling = WhitespaceHandling.None };
+                        // xr = XmlTextReader.Create(ms, settings);
+                        // xr = SerializationUtil.XmlReaderFromStream(ms);
+                        resourceNew = xmlParserCustom.Deserialize(xr) as Resource;
+                        ms.Position = 0;
                     }
                     else
                     {
@@ -148,56 +164,61 @@ namespace UnitTestWebApi
                         // var jr = SerializationUtil.JsonReaderFromStream(stream);
                         // resource = new FhirJsonParser().Parse<Resource>(jr);
                     }
-                }
-                try
-                {
-                    if (false)
+                    try
                     {
-                        if (resourceNew is StructureDefinition)
+                        if (false)
                         {
-                            // skip these
-                        }
-                        else
-                        {
-                            Resource result;
-                            var resource = resourceNew;
-                            if (!string.IsNullOrEmpty(resource.Id))
-                                result = clientFhir.Update(resource);
+                            if (resourceNew is StructureDefinition)
+                            {
+                                // skip these
+                            }
                             else
-                                result = clientFhir.Create(resource);
+                            {
+                                Resource result;
+                                var resource = resourceNew;
+                                if (!string.IsNullOrEmpty(resource.Id))
+                                    result = clientFhir.Update(resource);
+                                else
+                                    result = clientFhir.Create(resource);
+                            }
+                            System.Threading.Interlocked.Increment(ref successes);
+
                         }
-                        System.Threading.Interlocked.Increment(ref successes);
 
-                    }
+                        // trim out the Text
+                        if (resourceOld is DomainResource ro)
+                            ro.Text = null;
+                        if (resourceNew is DomainResource rn)
+                            rn.Text = null;
 
-                    // trim out the Text
-                    if (resourceOld is DomainResource ro)
-                        ro.Text = null;
-                    if (resourceNew is DomainResource rn)
-                        rn.Text = null;
-
-                    // Now verify that the resource was correct
-                    if (resourceNew.IsExactly(resourceOld))
-                        System.Threading.Interlocked.Increment(ref successes);
-                    else
-                    {
-                        if (xmlSerializer.SerializeToString(resourceNew) != xmlSerializer.SerializeToString(resourceOld))
-                        {
-                            System.Diagnostics.Trace.WriteLine($"MATCH: ({exampleName}) diff doesnt match");
-                            System.Threading.Interlocked.Increment(ref failures);
-                            System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}", xmlSerializer.SerializeToString(resourceNew));
-                            System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}.old", xmlSerializer.SerializeToString(resourceOld));
-                        }
+                        // Now verify that the resource was correct
+                        if (resourceNew.IsExactly(resourceOld))
+                            System.Threading.Interlocked.Increment(ref successes);
                         else
                         {
-                            System.Diagnostics.Trace.WriteLine($"Warn: ({exampleName}) IsExactly doesnt match");
+                            if (xmlSerializer.SerializeToString(resourceNew) != xmlSerializer.SerializeToString(resourceOld))
+                            {
+                                System.Diagnostics.Trace.WriteLine($"MATCH: ({exampleName}) diff doesnt match");
+                                System.Threading.Interlocked.Increment(ref failures);
+                                System.IO.File.WriteAllBytes($"c:\\temp\\diffs\\{exampleName}.raw", ms.ToArray());
+                                System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}", xmlSerializer.SerializeToString(resourceNew));
+                                System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}.old", xmlSerializer.SerializeToString(resourceOld));
+                            }
+                            else
+                            {
+                                System.Diagnostics.Trace.WriteLine($"\r\nWarn: ({exampleName}) IsExactly doesnt match");
+                                System.IO.File.WriteAllBytes($"c:\\temp\\diffs\\{exampleName}.raw", ms.ToArray());
+                                System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}", xmlSerializer.SerializeToString(resourceNew));
+                                System.IO.File.WriteAllText($"c:\\temp\\diffs\\{exampleName}.old", xmlSerializer.SerializeToString(resourceOld));
+                                CompareResources(resourceOld, resourceNew);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Trace.WriteLine($"ERROR: ({exampleName}) {ex.Message}");
-                    System.Threading.Interlocked.Increment(ref failures);
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Trace.WriteLine($"ERROR: ({exampleName}) {ex.Message}");
+                        System.Threading.Interlocked.Increment(ref failures);
+                    }
                 }
             });
 
@@ -210,6 +231,66 @@ namespace UnitTestWebApi
             Debug.WriteLine($"rps: {(successes + failures) / sw.Elapsed.TotalSeconds}");
 
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
+        }
+
+        private void CompareResources(Base resourceOld, Base resourceNew, string path = null)
+        {
+            var cm = Hl7.Fhir.Serialization.BaseFhirParser.Inspector.FindClassMappingByType(resourceNew.GetType());
+            foreach (var pm in cm.PropertyMappings)
+            {
+                if (!pm.IsCollection)
+                {
+                    var ov = pm.GetValue(resourceOld) as Base;
+                    var nv = pm.GetValue(resourceNew) as Base;
+                    if (ov != null && nv != null && !ov.IsExactly(nv))
+                    {
+                        System.Diagnostics.Trace.WriteLine($"{path}.{pm.Name}: {ov.IsExactly(nv)} {pm.ElementType.Name}");
+                        CompareResources(ov, nv, $"{path}.{pm.Name}");
+                    }
+                    else
+                    {
+                        if ((ov == null) != (nv == null))
+                            System.Diagnostics.Trace.WriteLine($"{path}.{pm.Name}: {ov} {nv}");
+                        if (ov == null && nv == null)
+                        {
+                            var ov1 = pm.GetValue(resourceOld);
+                            var nv1 = pm.GetValue(resourceNew);
+                            if (ov1 != null || nv1 != null)
+                            {
+                                if ((ov1 == null) != (nv1 == null))
+                                    System.Diagnostics.Trace.WriteLine($"{path}.{pm.Name}: {ov} {nv}");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var ov = pm.GetValue(resourceOld) as System.Collections.IList;
+                    var nv = pm.GetValue(resourceNew) as System.Collections.IList;
+                    if (ov != null && nv != null)
+                    {
+                        if (ov.Count != nv.Count)
+                            System.Diagnostics.Trace.WriteLine($"{path}.{pm.Name}: {ov.Count} != {nv.Count}");
+                        else
+                        {
+                            for (int n = 0; n < ov.Count; n++)
+                            {
+                                var oi = ov[n] as Base;
+                                var ni = nv[n] as Base;
+                                if (!oi.IsExactly(ni))
+                                {
+                                    System.Diagnostics.Trace.WriteLine($"{path}.{pm.Name}: {oi.IsExactly(ni)}");
+                                    CompareResources(oi, ni, $"{path}.{pm.Name}[{n}]");
+                                }
+                            }
+                        }
+                    }
+                    else
+                        if ((ov == null) != (nv == null))
+                        System.Diagnostics.Trace.WriteLine($"{path}.{pm.Name}: {ov} {nv}");
+                }
+            }
+            resourceOld.IsExactly(resourceNew);
         }
     }
 }

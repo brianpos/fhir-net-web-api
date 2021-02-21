@@ -1,4 +1,4 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Data" #>
@@ -24,9 +24,9 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="Hl7.Fhir.Introspection" #>
 <#@ output extension=".cs" encoding="utf-8" #>
+<#@ include file="TemplateFileManagerV2.1.ttinclude" #><# var manager = TemplateFileManager.Create(this);#>
 // -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
-// Generated: <#= DateTime.Now #>
 // -----------------------------------------------------------------------------
 using System;
 using System.Linq;
@@ -68,6 +68,31 @@ namespace Hl7.Fhir.CustomSerializer
             return result;
         }
 
+        public async System.Threading.Tasks.Task<Resource> ParseAsync(XmlReader reader, OperationOutcome outcome)
+        {
+			while (await reader.ReadAsync().ConfigureAwait(false))
+			{
+				// skip to the first start element node (over the processing instructions)
+				if (reader.IsStartElement())
+					break;
+			}
+            Resource result;
+            switch(reader.Name)
+            {
+<#	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
+    {
+#>                case "<#= ResourceName #>":
+                    result = new <#= ResourceName #>();
+                    await ParseAsync(result as <#= ResourceName #>, reader, outcome);
+                    break;
+<#	}
+#>
+                default:
+                    result = null;
+                    break;
+            }
+            return result;
+        }
 <#
 	Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
     foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
@@ -94,8 +119,10 @@ namespace Hl7.Fhir.CustomSerializer
             }
 		}
     }
-
-    WriteLine("\t\t#region << Resource Parse >>");
+#>
+	}
+}
+<#
 
 	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
     {
@@ -111,76 +138,150 @@ namespace Hl7.Fhir.CustomSerializer
         if (Hl7.Fhir.Model.ModelInfo.IsCoreSuperType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
             continue;
 
-		PushIndent("\t");
-		PushIndent("\t");
-        WriteLine($"private void Parse({tr.Name} result, XmlReader reader, OperationOutcome outcome)");
-        WriteLine("{");
-		PushIndent("\t");
+		//==============
+		manager.StartNewFile("Generated\\FhirCustomXmlReader."+tr.Name + ".cs");
 #>
-// skip ignored elements
-while (ShouldSkipNodeType(reader.NodeType))
-    if (!reader.Read())
-		return;
+// -----------------------------------------------------------------------------
+// GENERATED CODE - DO NOT EDIT
+// -----------------------------------------------------------------------------
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
+using System.Threading;
 
-// if (reader.IsStartElement())
-// {
-//     if (contextLocation.Count > 0)
-//         contextLocation.Push(contextLocation.Peek() + "." + reader.Name);
-//     else
-//         contextLocation.Push(reader.Name);
-// }
-// System.Diagnostics.Trace.WriteLine(contextLocation.Peek());
-
-if (reader.IsEmptyElement)
+namespace Hl7.Fhir.CustomSerializer
 {
-	// contextLocation.Pop();
-	return;
-}
-
-// otherwise proceed to read all the other nodes
-while (reader.Read())
-{
-    if (reader.IsStartElement())
+    public partial class FhirCustomXmlReader
     {
-		switch (reader.Name)
+		private void Parse(<#= tr.Name #> result, XmlReader reader, OperationOutcome outcome)
 		{
+			// skip ignored elements
+			while (ShouldSkipNodeType(reader.NodeType))
+				if (!reader.Read())
+					return;
+
+			// if (reader.IsStartElement())
+			// {
+			//     if (contextLocation.Count > 0)
+			//         contextLocation.Push(contextLocation.Peek() + "." + reader.Name);
+			//     else
+			//         contextLocation.Push(reader.Name);
+			// }
+			// System.Diagnostics.Trace.WriteLine(contextLocation.Peek());
+
+			if (reader.IsEmptyElement)
+			{
+				// contextLocation.Pop();
+				return;
+			}
+
+			// otherwise proceed to read all the other nodes
+			while (reader.Read())
+			{
+				if (reader.IsStartElement())
+				{
+					switch (reader.Name)
+					{
 <#
 		PushIndent("\t");
 		PushIndent("\t");
-		WriteResourceProperties(tr, generateTypes);
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+		WriteResourceProperties(tr, generateTypes, false);
+		PopIndent();
+		PopIndent();
+		PopIndent();
+		PopIndent();
 		PopIndent();
 		PopIndent();
 #>
-			default:
-				// Property not found
-				// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");
-				HandlePropertyNotFound(reader, outcome, "unknown");
-				// reader.ReadInnerXml();
-				break;
+						default:
+							// Property not found
+							// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");
+							HandlePropertyNotFound(reader, outcome, "unknown");
+							// reader.ReadInnerXml();
+							break;
+					}
+				}
+				else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+				{
+					break;
+				}
+			}
 		}
-    }
-    else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
-    {
-        break;
-    }
-<#		PopIndent();
-	    WriteLine("}");
-		PopIndent();
 
-        WriteLine("}");
-        WriteLine("");
+		private async System.Threading.Tasks.Task ParseAsync(<#= tr.Name #> result, XmlReader reader, OperationOutcome outcome)
+		{
+			// skip ignored elements
+			while (ShouldSkipNodeType(reader.NodeType))
+				if (!await reader.ReadAsync().ConfigureAwait(false))
+					return;
 
+			// if (reader.IsStartElement())
+			// {
+			//     if (contextLocation.Count > 0)
+			//         contextLocation.Push(contextLocation.Peek() + "." + reader.Name);
+			//     else
+			//         contextLocation.Push(reader.Name);
+			// }
+			// System.Diagnostics.Trace.WriteLine(contextLocation.Peek());
+
+			if (reader.IsEmptyElement)
+			{
+				// contextLocation.Pop();
+				return;
+			}
+
+			// otherwise proceed to read all the other nodes
+			while (await reader.ReadAsync().ConfigureAwait(false))
+			{
+				if (reader.IsStartElement())
+				{
+					switch (reader.Name)
+					{
+<#
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+		WriteResourceProperties(tr, generateTypes, true);
 		PopIndent();
 		PopIndent();
-    }
-    WriteLine("#endregion");
+		PopIndent();
+		PopIndent();
+		PopIndent();
+		PopIndent();
+#>
+						default:
+							// Property not found
+							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							break;
+					}
+				}
+				else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+				{
+					break;
+				}
+			}
+		}
+	}
+}
+<#}
 
-    WriteLine("// ---------------------------");
 	foreach (Type tr in generateTypes.Values)
 	{
         // if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
         //    continue;
 		string typeName = GetTypeName(tr);
+		if (tr.IsEnum)
+			continue;
 		if (typeName.StartsWith("System.Collections.Generic.List"))
 			continue;
 		if (typeName.StartsWith("Hl7.Fhir.Model.Code<"))
@@ -191,97 +292,202 @@ while (reader.Read())
 			continue;
 		else if (typeName == "Hl7.Fhir.Model.Resource")
 			continue;
-		PushIndent("\t");
-		PushIndent("\t");
-	    WriteLine($"// {typeName}");
-
-		if (typeName == "Hl7.Fhir.Model.BackboneElement")
-			WriteLine("[Obsolete(\"This should not be used\",false)]");
-		WriteLine($"public void Parse({typeName} result, XmlReader reader, OperationOutcome outcome)");
-        WriteLine("{");
-
-		PushIndent("\t");
-
+		//==============
+		manager.StartNewFile("Generated\\FhirCustomXmlReader."+ typeName.Replace("Hl7.Fhir.Model.", "") + ".cs");
 #>
-// skip ignored elements
-while (ShouldSkipNodeType(reader.NodeType))
-    if (!reader.Read())
-		return;
+// -----------------------------------------------------------------------------
+// GENERATED CODE - DO NOT EDIT
+// -----------------------------------------------------------------------------
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
+using System.Threading;
 
+namespace Hl7.Fhir.CustomSerializer
+{
+    public partial class FhirCustomXmlReader
+    {
+<#		if (typeName == "Hl7.Fhir.Model.BackboneElement")
+			WriteLine("\t\t[Obsolete(\"This should not be used\",false)]");
+#>
+		public void Parse(<#= typeName#> result, XmlReader reader, OperationOutcome outcome)
+		{
+			// skip ignored elements
+			while (ShouldSkipNodeType(reader.NodeType))
+				if (!reader.Read())
+					return;
+			
 <#
-
 		if (HasAttributeProperties(tr))
 		{
 #>
-if (reader.MoveToFirstAttribute())
-{
-    do
-    {
+			if (reader.MoveToFirstAttribute())
+			{
+				do
+				{
+					switch (reader.Name)
+					{
 <#
 			PushIndent("\t");
-			WriteLine("    switch (reader.Name)");
-			WriteLine("    {");
 			PushIndent("\t");
-			WritePrimitiveElementProperties(tr);
+			PushIndent("\t");
+			PushIndent("\t");
+			PushIndent("\t");
+			WritePrimitiveElementProperties(tr, false);
 			PopIndent();
-			WriteLine("    }");
+			PopIndent();
+			PopIndent();
+			PopIndent();
 			PopIndent();
 #>
-    } while (reader.MoveToNextAttribute());
-    reader.MoveToElement();
-}
+					}
+				} while (reader.MoveToNextAttribute());
+				reader.MoveToElement();
+			}
 <#
 		}
 #>
 
-if (reader.IsEmptyElement)
-{
-    // contextLocation.Pop();
-    return;
-}
+			if (reader.IsEmptyElement)
+			{
+				// contextLocation.Pop();
+				return;
+			}
 
-// otherwise proceed to read all the other nodes
-while (reader.Read())
-{
+			// otherwise proceed to read all the other nodes
+			while (reader.Read())
+			{
+				if (reader.IsStartElement())
+				{
+					switch (reader.Name)
+					{
 <#
 		PushIndent("\t");
-	    WriteLine("if (reader.IsStartElement())");
-	    WriteLine("{");
 		PushIndent("\t");
-	    WriteLine("switch (reader.Name)");
-	    WriteLine("{");
-		WriteElementProperties(tr);
-	    WriteLine("\tdefault:");
-	    WriteLine("\t\t// Property not found");
-	    WriteLine("\t\t// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");");
-		WriteLine("\t\tHandlePropertyNotFound(reader, outcome, \"unknown\");");
-		WriteLine("\t\t// reader.ReadInnerXml();");
-	    WriteLine("\t\tbreak;");
-	    WriteLine("}");
-		PopIndent();
-	    WriteLine("}");
-	    WriteLine("else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)");
-	    WriteLine("{");
-	    WriteLine("\tbreak;");
-	    WriteLine("}");
-		PopIndent();
-	    WriteLine("}"); // end of while loop
-		PopIndent();
-
-        WriteLine("}");
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+WriteElementProperties(tr, false);
 		PopIndent();
 		PopIndent();
-	}
+		PopIndent();
+		PopIndent();
+		PopIndent();
 #>
+						default:
+							// Property not found
+							HandlePropertyNotFound(reader, outcome, "unknown");
+							break;
+					}
+				}
+				else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+				{
+					break;
+				}
+			}
+		}
+
+<#		if (typeName == "Hl7.Fhir.Model.BackboneElement")
+			WriteLine("\t\t[Obsolete(\"This should not be used\",false)]");
+#>
+		public async System.Threading.Tasks.Task ParseAsync(<#= typeName#> result, XmlReader reader, OperationOutcome outcome)
+		{
+			// skip ignored elements
+			while (ShouldSkipNodeType(reader.NodeType))
+				if (!await reader.ReadAsync().ConfigureAwait(false))
+					return;
+			
+<#
+		if (HasAttributeProperties(tr))
+		{
+#>
+			if (reader.MoveToFirstAttribute())
+			{
+				do
+				{
+					switch (reader.Name)
+					{
+<#
+			PushIndent("\t");
+			PushIndent("\t");
+			PushIndent("\t");
+			PushIndent("\t");
+			PushIndent("\t");
+			WritePrimitiveElementProperties(tr, false);
+			PopIndent();
+			PopIndent();
+			PopIndent();
+			PopIndent();
+			PopIndent();
+#>
+					}
+				} while (reader.MoveToNextAttribute());
+				reader.MoveToElement();
+			}
+<#
+		}
+#>
+
+			if (reader.IsEmptyElement)
+			{
+				// contextLocation.Pop();
+				return;
+			}
+
+			// otherwise proceed to read all the other nodes
+			while (await reader.ReadAsync().ConfigureAwait(false))
+			{
+				if (reader.IsStartElement())
+				{
+					switch (reader.Name)
+					{
+<#
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+		PushIndent("\t");
+WriteElementProperties(tr, true);
+		PopIndent();
+		PopIndent();
+		PopIndent();
+		PopIndent();
+		PopIndent();
+#>
+						default:
+							// Property not found
+							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							break;
+					}
+				}
+				else if (reader.NodeType == XmlNodeType.EndElement || reader.IsStartElement() && reader.IsEmptyElement)
+				{
+					break;
+				}
+			}
+		}
 	}
 }
+<#
+	}
+#>
+<#
+	// -------------------------------------------------------------------------
+	// FINISH The output of the project
+	manager.Process();
+#>
 <#+ 
 
-	public void WriteResourceProperties(System.Type tr, Dictionary<string, Type> generateTypes)
+	public void WriteResourceProperties(System.Type tr, Dictionary<string, Type> generateTypes, bool asyncGeneration)
 	{
 		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.Base)))
 		{
-			WriteResourceProperties(tr.BaseType, null);
+			WriteResourceProperties(tr.BaseType, null, asyncGeneration);
 		}
 
 		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
@@ -292,15 +498,15 @@ while (reader.Read())
 			FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
 			if (fea != null)
 			{
-				WriteProperty(tr, prop, fea, generateTypes);
+				WriteProperty(tr, prop, fea, generateTypes, asyncGeneration);
 			}
 		}
 	}
 
-	public void WriteElementProperties(System.Type tr)
+	public void WriteElementProperties(System.Type tr, bool asyncGeneration)
 	{
 		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.Base)))
-			WriteElementProperties(tr.BaseType);
+			WriteElementProperties(tr.BaseType, asyncGeneration);
 		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
         foreach (var prop in props)
         {
@@ -313,7 +519,7 @@ while (reader.Read())
 				continue;
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.None)
 				WriteLine($"\t// Xml Serialization: {fea.XmlSerialization}");
-			WriteProperty(tr, prop, fea, null);
+			WriteProperty(tr, prop, fea, null, asyncGeneration);
 		}
 	}
 
@@ -333,7 +539,7 @@ while (reader.Read())
 		return false;
 	}
 
-	public void WritePrimitiveElementProperties(System.Type tr)
+	public void WritePrimitiveElementProperties(System.Type tr, bool asyncGeneration)
 	{
 		var props = tr.GetProperties(BindingFlags.Public | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
         foreach (var prop in props)
@@ -345,18 +551,25 @@ while (reader.Read())
 				continue;
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
 				continue;
-			WriteProperty(tr, prop, fea, null);
+			WriteProperty(tr, prop, fea, null, asyncGeneration);
 		}
 	}
 
-	public void WriteProperty(System.Type tr, PropertyInfo prop, FhirElementAttribute fea, Dictionary<string, Type> generateTypes)
+	public void WriteProperty(System.Type tr, PropertyInfo prop, FhirElementAttribute fea, Dictionary<string, Type> generateTypes, bool asyncGeneration)
 	{
+		string awaitText = "";
+		string asyncText = "";
+		if (asyncGeneration)
+		{
+			awaitText = "await ";
+			asyncText = "Async";
+		}
 		// Skip all the coded data properties for now
 		if (prop.PropertyType.GenericTypeArguments.Length > 0 && GetTypeName(prop.PropertyType.GenericTypeArguments[0]).StartsWith("Hl7.Fhir.Model.Code<"))
 		{
 			WriteLine($"\tcase \"{fea.Name}\":");
 			WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
-			WriteLine($"\t\tParse(newItem_{fea.Name}, reader, outcome); // {fea.Order}");
+			WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem_{fea.Name}, reader, outcome); // {fea.Order}");
 			WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
 			WriteLine($"\t\tbreak;");
 			return;
@@ -382,7 +595,7 @@ while (reader.Read())
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\t// FirstChildOf(reader); // {fea.Order}");
-					WriteLine($"\t\tvar {prop.Name}Resource = Parse(reader, outcome);");
+					WriteLine($"\t\tvar {prop.Name}Resource = {awaitText}Parse{asyncText}(reader, outcome);");
 					if (GetTypeName(prop.PropertyType).StartsWith("System.Collections.Generic.List"))
 					{
 						WriteLine($"\t\tif ({prop.Name}Resource != null)");
@@ -401,7 +614,7 @@ while (reader.Read())
 					{
 						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
 						WriteLine($"\t\tvar newItem = new {GetTypeName(t)}();");
-						WriteLine($"\t\tParse(newItem, reader, outcome); // {fea.Order}");
+						WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem, reader, outcome); // {fea.Order}");
 						WriteLine($"\t\tresult.{prop.Name}.Add(newItem);");
 						WriteLine($"\t\tbreak;");
 					}
@@ -409,7 +622,7 @@ while (reader.Read())
 					{
 						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
 						WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(t)}();");
-						WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(t)}, reader, outcome); // {fea.Order}");
+						WriteLine($"\t\t{awaitText}Parse{asyncText}(result.{prop.Name} as {GetTypeName(t)}, reader, outcome); // {fea.Order}");
 						WriteLine($"\t\tbreak;");
 					}
 				}
@@ -470,7 +683,7 @@ while (reader.Read())
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
-					WriteLine($"\t\tParse(newItem_{fea.Name}, reader, outcome); // {fea.Order}");
+					WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem_{fea.Name}, reader, outcome); // {fea.Order}");
 					WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
 					WriteLine($"\t\tbreak;");
 				}
@@ -478,7 +691,7 @@ while (reader.Read())
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(prop.PropertyType)}();");
-					WriteLine($"\t\tParse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome); // {fea.Order}");
+					WriteLine($"\t\t{awaitText}Parse{asyncText}(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome); // {fea.Order}");
 					WriteLine($"\t\tbreak;");
 				}
 			}

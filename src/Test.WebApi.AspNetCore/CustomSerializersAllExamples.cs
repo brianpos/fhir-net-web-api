@@ -96,8 +96,10 @@ namespace UnitTestWebApi
                         if (exampleName.EndsWith(".xml"))
                         {
                             // Debug.WriteLine($"Uploading {exampleName} [xml]");
-                            var xr = XmlReader.Create(stream, settings);
-                            resourceNew = xmlParserCustom.Deserialize(xr) as Resource;
+                            using (var xr = XmlReader.Create(stream, settings))
+                            {
+                                resourceNew = xmlParserCustom.Deserialize(xr) as Resource;
+                            }
                         }
                         else
                         {
@@ -122,8 +124,9 @@ namespace UnitTestWebApi
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
         }
 
+#if NETCOREAPP3_1
         [TestMethod, TestCategory("Round Trip")]
-        public void XmlParseAllExamplesCustom()
+        public async System.Threading.Tasks.Task XmlParseAllExamplesCustom2Async()
         {
             string examplesZipPath = @"TestData\examples.zip";
             var inputPath = ZipFile.OpenRead(examplesZipPath);
@@ -133,49 +136,28 @@ namespace UnitTestWebApi
             long failures = 0;
             var sw = Stopwatch.StartNew();
 
-            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer();
+            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+            var settings = new XmlReaderSettings
+            {
+                Async = true,
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Ignore, //Prohibit,
+                NameTable = new NameTable()
+            };
 
-            System.Threading.Tasks.Parallel.ForEach(files,
-                new System.Threading.Tasks.ParallelOptions() { MaxDegreeOfParallelism = 100 },
-                file =>
-                {
-                    var exampleName = file.Name;
-                    Resource resourceNew;
-                    var localZip = ZipFile.OpenRead(examplesZipPath);
-                    var stream = localZip.GetEntry(file.Name).Open();
-                    using (stream)
-                    {
-                        // skip the dataelements file
-                        if (exampleName.EndsWith("dataelements.xml"))
-                            return;
-                        // skip the valuesets file
-                        if (exampleName.EndsWith("valuesets.xml"))
-                            return;
-                        if (exampleName.EndsWith("v2-tables.xml"))
-                            return;
-
-                        // skip other known invalid files
-                        if (exampleName.Contains("observation-decimal(decimal)"))
-                            return;
-
-                        //if (exampleName.EndsWith(""))
-                        //    return;
-
-                        if (exampleName.EndsWith(".xml"))
-                        {
-                            // Debug.WriteLine($"Uploading {exampleName} [xml]");
-                            resourceNew = xmlParserCustom.Deserialize(stream) as Resource;
-                        }
-                        else
-                        {
-                            return;
-                            // Debug.WriteLine($"Uploading {exampleName} [json]");
-                            // var jr = SerializationUtil.JsonReaderFromStream(stream);
-                            // resource = new FhirJsonParser().Parse<Resource>(jr);
-                        }
-                    }
+            List<System.Threading.Tasks.Task> listOfTasks = new List<System.Threading.Tasks.Task>();
+            foreach (ZipArchiveEntry file in files)
+            {
+                listOfTasks.Add(ExtractFileAsync(examplesZipPath, xmlParserCustom, settings, file));
+            }
+            await System.Threading.Tasks.Task.WhenAll(listOfTasks).ConfigureAwait(false);
+            foreach (System.Threading.Tasks.Task<bool> item in listOfTasks)
+            {
+                if (item.Result)
                     System.Threading.Interlocked.Increment(ref successes);
-                });
+            }
 
             sw.Stop();
             Debug.WriteLine("Done!");
@@ -188,6 +170,51 @@ namespace UnitTestWebApi
 
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
         }
+
+        private static async System.Threading.Tasks.Task<bool> ExtractFileAsync(string examplesZipPath, Hl7.Fhir.CustomSerializer.FhirCustomXmlReader xmlParserCustom, XmlReaderSettings settings, ZipArchiveEntry file)
+        {
+            var exampleName = file.Name;
+            Resource resourceNew;
+            var localZip = ZipFile.OpenRead(examplesZipPath);
+            var stream = localZip.GetEntry(file.Name).Open();
+            using (stream)
+            {
+                // skip the dataelements file
+                if (exampleName.EndsWith("dataelements.xml"))
+                    return false;
+                // skip the valuesets file
+                if (exampleName.EndsWith("valuesets.xml"))
+                    return false;
+                if (exampleName.EndsWith("v2-tables.xml"))
+                    return false;
+
+                // skip other known invalid files
+                if (exampleName.Contains("observation-decimal(decimal)"))
+                    return false;
+
+                //if (exampleName.EndsWith(""))
+                //    return;
+
+                if (exampleName.EndsWith(".xml"))
+                {
+                    // Debug.WriteLine($"Uploading {exampleName} [xml]");
+                    using (var xr = XmlReader.Create(stream, settings))
+                    {
+                        var outcome = new OperationOutcome();
+                        resourceNew = await xmlParserCustom.ParseAsync(xr, outcome) as Resource;
+                    }
+                }
+                else
+                {
+                    return false;
+                    // Debug.WriteLine($"Uploading {exampleName} [json]");
+                    // var jr = SerializationUtil.JsonReaderFromStream(stream);
+                    // resource = new FhirJsonParser().Parse<Resource>(jr);
+                }
+            }
+            return true;
+        }
+#endif
 
         [TestMethod, TestCategory("Round Trip")]
         public void XmlParseAllExamplesStandard()

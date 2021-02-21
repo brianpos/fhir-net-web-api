@@ -40,10 +40,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 
 			if (reader.IsEmptyElement)
-			{
-				// contextLocation.Pop();
 				return;
-			}
 
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
@@ -95,10 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 
 			if (reader.IsEmptyElement)
-			{
-				// contextLocation.Pop();
 				return;
-			}
 
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))

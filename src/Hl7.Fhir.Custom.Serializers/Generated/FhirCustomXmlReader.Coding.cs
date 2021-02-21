@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Coding result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Coding result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,32 +51,32 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 30
+							Parse(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system"); // 30
 							break;
 						case "version":
 							result.VersionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".version"); // 40
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.Code();
-							Parse(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome); // 50
+							Parse(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".code"); // 50
 							break;
 						case "display":
 							result.DisplayElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							Parse(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display"); // 60
 							break;
 						case "userSelected":
 							result.UserSelectedElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.UserSelectedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 70
+							Parse(result.UserSelectedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".userSelected"); // 70
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -87,7 +87,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Coding result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Coding result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -123,32 +123,32 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 30
+							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system"); // 30
 							break;
 						case "version":
 							result.VersionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".version"); // 40
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome); // 50
+							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".code"); // 50
 							break;
 						case "display":
 							result.DisplayElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							await ParseAsync(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display"); // 60
 							break;
 						case "userSelected":
 							result.UserSelectedElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.UserSelectedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 70
+							await ParseAsync(result.UserSelectedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".userSelected"); // 70
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

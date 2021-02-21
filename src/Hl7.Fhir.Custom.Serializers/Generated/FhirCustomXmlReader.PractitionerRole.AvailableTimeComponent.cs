@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.PractitionerRole.AvailableTimeComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.PractitionerRole.AvailableTimeComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,34 +51,34 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "daysOfWeek":
 							var newItem_daysOfWeek = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DaysOfWeek>();
-							Parse(newItem_daysOfWeek, reader, outcome); // 40
+							Parse(newItem_daysOfWeek, reader, outcome, locationPath + ".daysOfWeek["+result.DaysOfWeekElement.Count+"]"); // 40
 							result.DaysOfWeekElement.Add(newItem_daysOfWeek);
 							break;
 						case "allDay":
 							result.AllDayElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.AllDayElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							Parse(result.AllDayElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".allDay"); // 50
 							break;
 						case "availableStartTime":
 							result.AvailableStartTimeElement = new Hl7.Fhir.Model.Time();
-							Parse(result.AvailableStartTimeElement as Hl7.Fhir.Model.Time, reader, outcome); // 60
+							Parse(result.AvailableStartTimeElement as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".availableStartTime"); // 60
 							break;
 						case "availableEndTime":
 							result.AvailableEndTimeElement = new Hl7.Fhir.Model.Time();
-							Parse(result.AvailableEndTimeElement as Hl7.Fhir.Model.Time, reader, outcome); // 70
+							Parse(result.AvailableEndTimeElement as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".availableEndTime"); // 70
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -89,7 +89,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.PractitionerRole.AvailableTimeComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.PractitionerRole.AvailableTimeComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -125,34 +125,34 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "daysOfWeek":
 							var newItem_daysOfWeek = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DaysOfWeek>();
-							await ParseAsync(newItem_daysOfWeek, reader, outcome); // 40
+							await ParseAsync(newItem_daysOfWeek, reader, outcome, locationPath + ".daysOfWeek["+result.DaysOfWeekElement.Count+"]"); // 40
 							result.DaysOfWeekElement.Add(newItem_daysOfWeek);
 							break;
 						case "allDay":
 							result.AllDayElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.AllDayElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							await ParseAsync(result.AllDayElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".allDay"); // 50
 							break;
 						case "availableStartTime":
 							result.AvailableStartTimeElement = new Hl7.Fhir.Model.Time();
-							await ParseAsync(result.AvailableStartTimeElement as Hl7.Fhir.Model.Time, reader, outcome); // 60
+							await ParseAsync(result.AvailableStartTimeElement as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".availableStartTime"); // 60
 							break;
 						case "availableEndTime":
 							result.AvailableEndTimeElement = new Hl7.Fhir.Model.Time();
-							await ParseAsync(result.AvailableEndTimeElement as Hl7.Fhir.Model.Time, reader, outcome); // 70
+							await ParseAsync(result.AvailableEndTimeElement as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".availableEndTime"); // 70
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

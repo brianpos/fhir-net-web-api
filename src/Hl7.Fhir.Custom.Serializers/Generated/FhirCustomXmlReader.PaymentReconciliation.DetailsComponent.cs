@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.PaymentReconciliation.DetailsComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.PaymentReconciliation.DetailsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,57 +51,57 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome); // 40
+							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 40
 							break;
 						case "predecessor":
 							result.Predecessor = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Predecessor as Hl7.Fhir.Model.Identifier, reader, outcome); // 50
+							Parse(result.Predecessor as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".predecessor"); // 50
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 60
 							break;
 						case "request":
 							result.Request = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Request as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 70
+							Parse(result.Request as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".request"); // 70
 							break;
 						case "submitter":
 							result.Submitter = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Submitter as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 80
+							Parse(result.Submitter as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".submitter"); // 80
 							break;
 						case "response":
 							result.Response = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Response as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 90
+							Parse(result.Response as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".response"); // 90
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.Date();
-							Parse(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome); // 100
+							Parse(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".date"); // 100
 							break;
 						case "responsible":
 							result.Responsible = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 110
+							Parse(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".responsible"); // 110
 							break;
 						case "payee":
 							result.Payee = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Payee as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 120
+							Parse(result.Payee as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".payee"); // 120
 							break;
 						case "amount":
 							result.Amount = new Hl7.Fhir.Model.Money();
-							Parse(result.Amount as Hl7.Fhir.Model.Money, reader, outcome); // 130
+							Parse(result.Amount as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".amount"); // 130
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -112,7 +112,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.PaymentReconciliation.DetailsComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.PaymentReconciliation.DetailsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -148,57 +148,57 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome); // 40
+							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 40
 							break;
 						case "predecessor":
 							result.Predecessor = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Predecessor as Hl7.Fhir.Model.Identifier, reader, outcome); // 50
+							await ParseAsync(result.Predecessor as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".predecessor"); // 50
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 60
 							break;
 						case "request":
 							result.Request = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Request as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 70
+							await ParseAsync(result.Request as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".request"); // 70
 							break;
 						case "submitter":
 							result.Submitter = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Submitter as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 80
+							await ParseAsync(result.Submitter as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".submitter"); // 80
 							break;
 						case "response":
 							result.Response = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Response as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 90
+							await ParseAsync(result.Response as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".response"); // 90
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.Date();
-							await ParseAsync(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome); // 100
+							await ParseAsync(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".date"); // 100
 							break;
 						case "responsible":
 							result.Responsible = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 110
+							await ParseAsync(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".responsible"); // 110
 							break;
 						case "payee":
 							result.Payee = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Payee as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 120
+							await ParseAsync(result.Payee as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".payee"); // 120
 							break;
 						case "amount":
 							result.Amount = new Hl7.Fhir.Model.Money();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.Money, reader, outcome); // 130
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".amount"); // 130
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

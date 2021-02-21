@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicationRequest.DispenseRequestComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MedicationRequest.DispenseRequestComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,45 +51,45 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "initialFill":
 							result.InitialFill = new Hl7.Fhir.Model.MedicationRequest.InitialFillComponent();
-							Parse(result.InitialFill as Hl7.Fhir.Model.MedicationRequest.InitialFillComponent, reader, outcome); // 40
+							Parse(result.InitialFill as Hl7.Fhir.Model.MedicationRequest.InitialFillComponent, reader, outcome, locationPath + ".initialFill"); // 40
 							break;
 						case "dispenseInterval":
 							result.DispenseInterval = new Hl7.Fhir.Model.Duration();
-							Parse(result.DispenseInterval as Hl7.Fhir.Model.Duration, reader, outcome); // 50
+							Parse(result.DispenseInterval as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".dispenseInterval"); // 50
 							break;
 						case "validityPeriod":
 							result.ValidityPeriod = new Hl7.Fhir.Model.Period();
-							Parse(result.ValidityPeriod as Hl7.Fhir.Model.Period, reader, outcome); // 60
+							Parse(result.ValidityPeriod as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".validityPeriod"); // 60
 							break;
 						case "numberOfRepeatsAllowed":
 							result.NumberOfRepeatsAllowedElement = new Hl7.Fhir.Model.UnsignedInt();
-							Parse(result.NumberOfRepeatsAllowedElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome); // 70
+							Parse(result.NumberOfRepeatsAllowedElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".numberOfRepeatsAllowed"); // 70
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 80
+							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 80
 							break;
 						case "expectedSupplyDuration":
 							result.ExpectedSupplyDuration = new Hl7.Fhir.Model.Duration();
-							Parse(result.ExpectedSupplyDuration as Hl7.Fhir.Model.Duration, reader, outcome); // 90
+							Parse(result.ExpectedSupplyDuration as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".expectedSupplyDuration"); // 90
 							break;
 						case "performer":
 							result.Performer = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Performer as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 100
+							Parse(result.Performer as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".performer"); // 100
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -100,7 +100,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicationRequest.DispenseRequestComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicationRequest.DispenseRequestComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -136,45 +136,45 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "initialFill":
 							result.InitialFill = new Hl7.Fhir.Model.MedicationRequest.InitialFillComponent();
-							await ParseAsync(result.InitialFill as Hl7.Fhir.Model.MedicationRequest.InitialFillComponent, reader, outcome); // 40
+							await ParseAsync(result.InitialFill as Hl7.Fhir.Model.MedicationRequest.InitialFillComponent, reader, outcome, locationPath + ".initialFill"); // 40
 							break;
 						case "dispenseInterval":
 							result.DispenseInterval = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.DispenseInterval as Hl7.Fhir.Model.Duration, reader, outcome); // 50
+							await ParseAsync(result.DispenseInterval as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".dispenseInterval"); // 50
 							break;
 						case "validityPeriod":
 							result.ValidityPeriod = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.ValidityPeriod as Hl7.Fhir.Model.Period, reader, outcome); // 60
+							await ParseAsync(result.ValidityPeriod as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".validityPeriod"); // 60
 							break;
 						case "numberOfRepeatsAllowed":
 							result.NumberOfRepeatsAllowedElement = new Hl7.Fhir.Model.UnsignedInt();
-							await ParseAsync(result.NumberOfRepeatsAllowedElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome); // 70
+							await ParseAsync(result.NumberOfRepeatsAllowedElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".numberOfRepeatsAllowed"); // 70
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 80
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 80
 							break;
 						case "expectedSupplyDuration":
 							result.ExpectedSupplyDuration = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.ExpectedSupplyDuration as Hl7.Fhir.Model.Duration, reader, outcome); // 90
+							await ParseAsync(result.ExpectedSupplyDuration as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".expectedSupplyDuration"); // 90
 							break;
 						case "performer":
 							result.Performer = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Performer as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 100
+							await ParseAsync(result.Performer as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".performer"); // 100
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

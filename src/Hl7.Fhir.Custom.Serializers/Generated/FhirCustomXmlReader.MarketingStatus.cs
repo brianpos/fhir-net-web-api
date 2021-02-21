@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MarketingStatus result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MarketingStatus result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,37 +51,37 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "country":
 							result.Country = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							Parse(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".country"); // 90
 							break;
 						case "jurisdiction":
 							result.Jurisdiction = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							Parse(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".jurisdiction"); // 100
 							break;
 						case "status":
 							result.Status = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 110
+							Parse(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status"); // 110
 							break;
 						case "dateRange":
 							result.DateRange = new Hl7.Fhir.Model.Period();
-							Parse(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome); // 120
+							Parse(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".dateRange"); // 120
 							break;
 						case "restoreDate":
 							result.RestoreDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 130
+							Parse(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".restoreDate"); // 130
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -92,7 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MarketingStatus result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MarketingStatus result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -128,37 +128,37 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "country":
 							result.Country = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							await ParseAsync(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".country"); // 90
 							break;
 						case "jurisdiction":
 							result.Jurisdiction = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							await ParseAsync(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".jurisdiction"); // 100
 							break;
 						case "status":
 							result.Status = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 110
+							await ParseAsync(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status"); // 110
 							break;
 						case "dateRange":
 							result.DateRange = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome); // 120
+							await ParseAsync(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".dateRange"); // 120
 							break;
 						case "restoreDate":
 							result.RestoreDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 130
+							await ParseAsync(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".restoreDate"); // 130
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

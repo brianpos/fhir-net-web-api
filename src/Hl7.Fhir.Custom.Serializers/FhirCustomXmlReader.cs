@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-        public Resource Parse(XmlReader reader, OperationOutcome outcome)
+        public Resource Parse(XmlReader reader, OperationOutcome outcome, string locationPath = null)
         {
 			while (reader.Read())
 			{
@@ -23,592 +23,594 @@ namespace Hl7.Fhir.CustomSerializer
 				if (reader.IsStartElement())
 					break;
 			}
+            if (string.IsNullOrEmpty(locationPath))
+                locationPath = reader.Name;
             Resource result;
-            switch(reader.Name)
+            switch (reader.Name)
             {
                 case "Account":
                     result = new Account();
-                    Parse(result as Account, reader, outcome);
+                    Parse(result as Account, reader, outcome, locationPath);
                     break;
                 case "ActivityDefinition":
                     result = new ActivityDefinition();
-                    Parse(result as ActivityDefinition, reader, outcome);
+                    Parse(result as ActivityDefinition, reader, outcome, locationPath);
                     break;
                 case "AdverseEvent":
                     result = new AdverseEvent();
-                    Parse(result as AdverseEvent, reader, outcome);
+                    Parse(result as AdverseEvent, reader, outcome, locationPath);
                     break;
                 case "AllergyIntolerance":
                     result = new AllergyIntolerance();
-                    Parse(result as AllergyIntolerance, reader, outcome);
+                    Parse(result as AllergyIntolerance, reader, outcome, locationPath);
                     break;
                 case "Appointment":
                     result = new Appointment();
-                    Parse(result as Appointment, reader, outcome);
+                    Parse(result as Appointment, reader, outcome, locationPath);
                     break;
                 case "AppointmentResponse":
                     result = new AppointmentResponse();
-                    Parse(result as AppointmentResponse, reader, outcome);
+                    Parse(result as AppointmentResponse, reader, outcome, locationPath);
                     break;
                 case "AuditEvent":
                     result = new AuditEvent();
-                    Parse(result as AuditEvent, reader, outcome);
+                    Parse(result as AuditEvent, reader, outcome, locationPath);
                     break;
                 case "Basic":
                     result = new Basic();
-                    Parse(result as Basic, reader, outcome);
+                    Parse(result as Basic, reader, outcome, locationPath);
                     break;
                 case "Binary":
                     result = new Binary();
-                    Parse(result as Binary, reader, outcome);
+                    Parse(result as Binary, reader, outcome, locationPath);
                     break;
                 case "BiologicallyDerivedProduct":
                     result = new BiologicallyDerivedProduct();
-                    Parse(result as BiologicallyDerivedProduct, reader, outcome);
+                    Parse(result as BiologicallyDerivedProduct, reader, outcome, locationPath);
                     break;
                 case "BodyStructure":
                     result = new BodyStructure();
-                    Parse(result as BodyStructure, reader, outcome);
+                    Parse(result as BodyStructure, reader, outcome, locationPath);
                     break;
                 case "Bundle":
                     result = new Bundle();
-                    Parse(result as Bundle, reader, outcome);
+                    Parse(result as Bundle, reader, outcome, locationPath);
                     break;
                 case "CapabilityStatement":
                     result = new CapabilityStatement();
-                    Parse(result as CapabilityStatement, reader, outcome);
+                    Parse(result as CapabilityStatement, reader, outcome, locationPath);
                     break;
                 case "CarePlan":
                     result = new CarePlan();
-                    Parse(result as CarePlan, reader, outcome);
+                    Parse(result as CarePlan, reader, outcome, locationPath);
                     break;
                 case "CareTeam":
                     result = new CareTeam();
-                    Parse(result as CareTeam, reader, outcome);
+                    Parse(result as CareTeam, reader, outcome, locationPath);
                     break;
                 case "CatalogEntry":
                     result = new CatalogEntry();
-                    Parse(result as CatalogEntry, reader, outcome);
+                    Parse(result as CatalogEntry, reader, outcome, locationPath);
                     break;
                 case "ChargeItem":
                     result = new ChargeItem();
-                    Parse(result as ChargeItem, reader, outcome);
+                    Parse(result as ChargeItem, reader, outcome, locationPath);
                     break;
                 case "ChargeItemDefinition":
                     result = new ChargeItemDefinition();
-                    Parse(result as ChargeItemDefinition, reader, outcome);
+                    Parse(result as ChargeItemDefinition, reader, outcome, locationPath);
                     break;
                 case "Claim":
                     result = new Claim();
-                    Parse(result as Claim, reader, outcome);
+                    Parse(result as Claim, reader, outcome, locationPath);
                     break;
                 case "ClaimResponse":
                     result = new ClaimResponse();
-                    Parse(result as ClaimResponse, reader, outcome);
+                    Parse(result as ClaimResponse, reader, outcome, locationPath);
                     break;
                 case "ClinicalImpression":
                     result = new ClinicalImpression();
-                    Parse(result as ClinicalImpression, reader, outcome);
+                    Parse(result as ClinicalImpression, reader, outcome, locationPath);
                     break;
                 case "CodeSystem":
                     result = new CodeSystem();
-                    Parse(result as CodeSystem, reader, outcome);
+                    Parse(result as CodeSystem, reader, outcome, locationPath);
                     break;
                 case "Communication":
                     result = new Communication();
-                    Parse(result as Communication, reader, outcome);
+                    Parse(result as Communication, reader, outcome, locationPath);
                     break;
                 case "CommunicationRequest":
                     result = new CommunicationRequest();
-                    Parse(result as CommunicationRequest, reader, outcome);
+                    Parse(result as CommunicationRequest, reader, outcome, locationPath);
                     break;
                 case "CompartmentDefinition":
                     result = new CompartmentDefinition();
-                    Parse(result as CompartmentDefinition, reader, outcome);
+                    Parse(result as CompartmentDefinition, reader, outcome, locationPath);
                     break;
                 case "Composition":
                     result = new Composition();
-                    Parse(result as Composition, reader, outcome);
+                    Parse(result as Composition, reader, outcome, locationPath);
                     break;
                 case "ConceptMap":
                     result = new ConceptMap();
-                    Parse(result as ConceptMap, reader, outcome);
+                    Parse(result as ConceptMap, reader, outcome, locationPath);
                     break;
                 case "Condition":
                     result = new Condition();
-                    Parse(result as Condition, reader, outcome);
+                    Parse(result as Condition, reader, outcome, locationPath);
                     break;
                 case "Consent":
                     result = new Consent();
-                    Parse(result as Consent, reader, outcome);
+                    Parse(result as Consent, reader, outcome, locationPath);
                     break;
                 case "Contract":
                     result = new Contract();
-                    Parse(result as Contract, reader, outcome);
+                    Parse(result as Contract, reader, outcome, locationPath);
                     break;
                 case "Coverage":
                     result = new Coverage();
-                    Parse(result as Coverage, reader, outcome);
+                    Parse(result as Coverage, reader, outcome, locationPath);
                     break;
                 case "CoverageEligibilityRequest":
                     result = new CoverageEligibilityRequest();
-                    Parse(result as CoverageEligibilityRequest, reader, outcome);
+                    Parse(result as CoverageEligibilityRequest, reader, outcome, locationPath);
                     break;
                 case "CoverageEligibilityResponse":
                     result = new CoverageEligibilityResponse();
-                    Parse(result as CoverageEligibilityResponse, reader, outcome);
+                    Parse(result as CoverageEligibilityResponse, reader, outcome, locationPath);
                     break;
                 case "DetectedIssue":
                     result = new DetectedIssue();
-                    Parse(result as DetectedIssue, reader, outcome);
+                    Parse(result as DetectedIssue, reader, outcome, locationPath);
                     break;
                 case "Device":
                     result = new Device();
-                    Parse(result as Device, reader, outcome);
+                    Parse(result as Device, reader, outcome, locationPath);
                     break;
                 case "DeviceDefinition":
                     result = new DeviceDefinition();
-                    Parse(result as DeviceDefinition, reader, outcome);
+                    Parse(result as DeviceDefinition, reader, outcome, locationPath);
                     break;
                 case "DeviceMetric":
                     result = new DeviceMetric();
-                    Parse(result as DeviceMetric, reader, outcome);
+                    Parse(result as DeviceMetric, reader, outcome, locationPath);
                     break;
                 case "DeviceRequest":
                     result = new DeviceRequest();
-                    Parse(result as DeviceRequest, reader, outcome);
+                    Parse(result as DeviceRequest, reader, outcome, locationPath);
                     break;
                 case "DeviceUseStatement":
                     result = new DeviceUseStatement();
-                    Parse(result as DeviceUseStatement, reader, outcome);
+                    Parse(result as DeviceUseStatement, reader, outcome, locationPath);
                     break;
                 case "DiagnosticReport":
                     result = new DiagnosticReport();
-                    Parse(result as DiagnosticReport, reader, outcome);
+                    Parse(result as DiagnosticReport, reader, outcome, locationPath);
                     break;
                 case "DocumentManifest":
                     result = new DocumentManifest();
-                    Parse(result as DocumentManifest, reader, outcome);
+                    Parse(result as DocumentManifest, reader, outcome, locationPath);
                     break;
                 case "DocumentReference":
                     result = new DocumentReference();
-                    Parse(result as DocumentReference, reader, outcome);
+                    Parse(result as DocumentReference, reader, outcome, locationPath);
                     break;
                 case "EffectEvidenceSynthesis":
                     result = new EffectEvidenceSynthesis();
-                    Parse(result as EffectEvidenceSynthesis, reader, outcome);
+                    Parse(result as EffectEvidenceSynthesis, reader, outcome, locationPath);
                     break;
                 case "Encounter":
                     result = new Encounter();
-                    Parse(result as Encounter, reader, outcome);
+                    Parse(result as Encounter, reader, outcome, locationPath);
                     break;
                 case "Endpoint":
                     result = new Endpoint();
-                    Parse(result as Endpoint, reader, outcome);
+                    Parse(result as Endpoint, reader, outcome, locationPath);
                     break;
                 case "EnrollmentRequest":
                     result = new EnrollmentRequest();
-                    Parse(result as EnrollmentRequest, reader, outcome);
+                    Parse(result as EnrollmentRequest, reader, outcome, locationPath);
                     break;
                 case "EnrollmentResponse":
                     result = new EnrollmentResponse();
-                    Parse(result as EnrollmentResponse, reader, outcome);
+                    Parse(result as EnrollmentResponse, reader, outcome, locationPath);
                     break;
                 case "EpisodeOfCare":
                     result = new EpisodeOfCare();
-                    Parse(result as EpisodeOfCare, reader, outcome);
+                    Parse(result as EpisodeOfCare, reader, outcome, locationPath);
                     break;
                 case "EventDefinition":
                     result = new EventDefinition();
-                    Parse(result as EventDefinition, reader, outcome);
+                    Parse(result as EventDefinition, reader, outcome, locationPath);
                     break;
                 case "Evidence":
                     result = new Evidence();
-                    Parse(result as Evidence, reader, outcome);
+                    Parse(result as Evidence, reader, outcome, locationPath);
                     break;
                 case "EvidenceVariable":
                     result = new EvidenceVariable();
-                    Parse(result as EvidenceVariable, reader, outcome);
+                    Parse(result as EvidenceVariable, reader, outcome, locationPath);
                     break;
                 case "ExampleScenario":
                     result = new ExampleScenario();
-                    Parse(result as ExampleScenario, reader, outcome);
+                    Parse(result as ExampleScenario, reader, outcome, locationPath);
                     break;
                 case "ExplanationOfBenefit":
                     result = new ExplanationOfBenefit();
-                    Parse(result as ExplanationOfBenefit, reader, outcome);
+                    Parse(result as ExplanationOfBenefit, reader, outcome, locationPath);
                     break;
                 case "FamilyMemberHistory":
                     result = new FamilyMemberHistory();
-                    Parse(result as FamilyMemberHistory, reader, outcome);
+                    Parse(result as FamilyMemberHistory, reader, outcome, locationPath);
                     break;
                 case "Flag":
                     result = new Flag();
-                    Parse(result as Flag, reader, outcome);
+                    Parse(result as Flag, reader, outcome, locationPath);
                     break;
                 case "Goal":
                     result = new Goal();
-                    Parse(result as Goal, reader, outcome);
+                    Parse(result as Goal, reader, outcome, locationPath);
                     break;
                 case "GraphDefinition":
                     result = new GraphDefinition();
-                    Parse(result as GraphDefinition, reader, outcome);
+                    Parse(result as GraphDefinition, reader, outcome, locationPath);
                     break;
                 case "Group":
                     result = new Group();
-                    Parse(result as Group, reader, outcome);
+                    Parse(result as Group, reader, outcome, locationPath);
                     break;
                 case "GuidanceResponse":
                     result = new GuidanceResponse();
-                    Parse(result as GuidanceResponse, reader, outcome);
+                    Parse(result as GuidanceResponse, reader, outcome, locationPath);
                     break;
                 case "HealthcareService":
                     result = new HealthcareService();
-                    Parse(result as HealthcareService, reader, outcome);
+                    Parse(result as HealthcareService, reader, outcome, locationPath);
                     break;
                 case "ImagingStudy":
                     result = new ImagingStudy();
-                    Parse(result as ImagingStudy, reader, outcome);
+                    Parse(result as ImagingStudy, reader, outcome, locationPath);
                     break;
                 case "Immunization":
                     result = new Immunization();
-                    Parse(result as Immunization, reader, outcome);
+                    Parse(result as Immunization, reader, outcome, locationPath);
                     break;
                 case "ImmunizationEvaluation":
                     result = new ImmunizationEvaluation();
-                    Parse(result as ImmunizationEvaluation, reader, outcome);
+                    Parse(result as ImmunizationEvaluation, reader, outcome, locationPath);
                     break;
                 case "ImmunizationRecommendation":
                     result = new ImmunizationRecommendation();
-                    Parse(result as ImmunizationRecommendation, reader, outcome);
+                    Parse(result as ImmunizationRecommendation, reader, outcome, locationPath);
                     break;
                 case "ImplementationGuide":
                     result = new ImplementationGuide();
-                    Parse(result as ImplementationGuide, reader, outcome);
+                    Parse(result as ImplementationGuide, reader, outcome, locationPath);
                     break;
                 case "InsurancePlan":
                     result = new InsurancePlan();
-                    Parse(result as InsurancePlan, reader, outcome);
+                    Parse(result as InsurancePlan, reader, outcome, locationPath);
                     break;
                 case "Invoice":
                     result = new Invoice();
-                    Parse(result as Invoice, reader, outcome);
+                    Parse(result as Invoice, reader, outcome, locationPath);
                     break;
                 case "Library":
                     result = new Library();
-                    Parse(result as Library, reader, outcome);
+                    Parse(result as Library, reader, outcome, locationPath);
                     break;
                 case "Linkage":
                     result = new Linkage();
-                    Parse(result as Linkage, reader, outcome);
+                    Parse(result as Linkage, reader, outcome, locationPath);
                     break;
                 case "List":
                     result = new List();
-                    Parse(result as List, reader, outcome);
+                    Parse(result as List, reader, outcome, locationPath);
                     break;
                 case "Location":
                     result = new Location();
-                    Parse(result as Location, reader, outcome);
+                    Parse(result as Location, reader, outcome, locationPath);
                     break;
                 case "Measure":
                     result = new Measure();
-                    Parse(result as Measure, reader, outcome);
+                    Parse(result as Measure, reader, outcome, locationPath);
                     break;
                 case "MeasureReport":
                     result = new MeasureReport();
-                    Parse(result as MeasureReport, reader, outcome);
+                    Parse(result as MeasureReport, reader, outcome, locationPath);
                     break;
                 case "Media":
                     result = new Media();
-                    Parse(result as Media, reader, outcome);
+                    Parse(result as Media, reader, outcome, locationPath);
                     break;
                 case "Medication":
                     result = new Medication();
-                    Parse(result as Medication, reader, outcome);
+                    Parse(result as Medication, reader, outcome, locationPath);
                     break;
                 case "MedicationAdministration":
                     result = new MedicationAdministration();
-                    Parse(result as MedicationAdministration, reader, outcome);
+                    Parse(result as MedicationAdministration, reader, outcome, locationPath);
                     break;
                 case "MedicationDispense":
                     result = new MedicationDispense();
-                    Parse(result as MedicationDispense, reader, outcome);
+                    Parse(result as MedicationDispense, reader, outcome, locationPath);
                     break;
                 case "MedicationKnowledge":
                     result = new MedicationKnowledge();
-                    Parse(result as MedicationKnowledge, reader, outcome);
+                    Parse(result as MedicationKnowledge, reader, outcome, locationPath);
                     break;
                 case "MedicationRequest":
                     result = new MedicationRequest();
-                    Parse(result as MedicationRequest, reader, outcome);
+                    Parse(result as MedicationRequest, reader, outcome, locationPath);
                     break;
                 case "MedicationStatement":
                     result = new MedicationStatement();
-                    Parse(result as MedicationStatement, reader, outcome);
+                    Parse(result as MedicationStatement, reader, outcome, locationPath);
                     break;
                 case "MedicinalProduct":
                     result = new MedicinalProduct();
-                    Parse(result as MedicinalProduct, reader, outcome);
+                    Parse(result as MedicinalProduct, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductAuthorization":
                     result = new MedicinalProductAuthorization();
-                    Parse(result as MedicinalProductAuthorization, reader, outcome);
+                    Parse(result as MedicinalProductAuthorization, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductContraindication":
                     result = new MedicinalProductContraindication();
-                    Parse(result as MedicinalProductContraindication, reader, outcome);
+                    Parse(result as MedicinalProductContraindication, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductIndication":
                     result = new MedicinalProductIndication();
-                    Parse(result as MedicinalProductIndication, reader, outcome);
+                    Parse(result as MedicinalProductIndication, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductIngredient":
                     result = new MedicinalProductIngredient();
-                    Parse(result as MedicinalProductIngredient, reader, outcome);
+                    Parse(result as MedicinalProductIngredient, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductInteraction":
                     result = new MedicinalProductInteraction();
-                    Parse(result as MedicinalProductInteraction, reader, outcome);
+                    Parse(result as MedicinalProductInteraction, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductManufactured":
                     result = new MedicinalProductManufactured();
-                    Parse(result as MedicinalProductManufactured, reader, outcome);
+                    Parse(result as MedicinalProductManufactured, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductPackaged":
                     result = new MedicinalProductPackaged();
-                    Parse(result as MedicinalProductPackaged, reader, outcome);
+                    Parse(result as MedicinalProductPackaged, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductPharmaceutical":
                     result = new MedicinalProductPharmaceutical();
-                    Parse(result as MedicinalProductPharmaceutical, reader, outcome);
+                    Parse(result as MedicinalProductPharmaceutical, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductUndesirableEffect":
                     result = new MedicinalProductUndesirableEffect();
-                    Parse(result as MedicinalProductUndesirableEffect, reader, outcome);
+                    Parse(result as MedicinalProductUndesirableEffect, reader, outcome, locationPath);
                     break;
                 case "MessageDefinition":
                     result = new MessageDefinition();
-                    Parse(result as MessageDefinition, reader, outcome);
+                    Parse(result as MessageDefinition, reader, outcome, locationPath);
                     break;
                 case "MessageHeader":
                     result = new MessageHeader();
-                    Parse(result as MessageHeader, reader, outcome);
+                    Parse(result as MessageHeader, reader, outcome, locationPath);
                     break;
                 case "MolecularSequence":
                     result = new MolecularSequence();
-                    Parse(result as MolecularSequence, reader, outcome);
+                    Parse(result as MolecularSequence, reader, outcome, locationPath);
                     break;
                 case "NamingSystem":
                     result = new NamingSystem();
-                    Parse(result as NamingSystem, reader, outcome);
+                    Parse(result as NamingSystem, reader, outcome, locationPath);
                     break;
                 case "NutritionOrder":
                     result = new NutritionOrder();
-                    Parse(result as NutritionOrder, reader, outcome);
+                    Parse(result as NutritionOrder, reader, outcome, locationPath);
                     break;
                 case "Observation":
                     result = new Observation();
-                    Parse(result as Observation, reader, outcome);
+                    Parse(result as Observation, reader, outcome, locationPath);
                     break;
                 case "ObservationDefinition":
                     result = new ObservationDefinition();
-                    Parse(result as ObservationDefinition, reader, outcome);
+                    Parse(result as ObservationDefinition, reader, outcome, locationPath);
                     break;
                 case "OperationDefinition":
                     result = new OperationDefinition();
-                    Parse(result as OperationDefinition, reader, outcome);
+                    Parse(result as OperationDefinition, reader, outcome, locationPath);
                     break;
                 case "OperationOutcome":
                     result = new OperationOutcome();
-                    Parse(result as OperationOutcome, reader, outcome);
+                    Parse(result as OperationOutcome, reader, outcome, locationPath);
                     break;
                 case "Organization":
                     result = new Organization();
-                    Parse(result as Organization, reader, outcome);
+                    Parse(result as Organization, reader, outcome, locationPath);
                     break;
                 case "OrganizationAffiliation":
                     result = new OrganizationAffiliation();
-                    Parse(result as OrganizationAffiliation, reader, outcome);
+                    Parse(result as OrganizationAffiliation, reader, outcome, locationPath);
                     break;
                 case "Parameters":
                     result = new Parameters();
-                    Parse(result as Parameters, reader, outcome);
+                    Parse(result as Parameters, reader, outcome, locationPath);
                     break;
                 case "Patient":
                     result = new Patient();
-                    Parse(result as Patient, reader, outcome);
+                    Parse(result as Patient, reader, outcome, locationPath);
                     break;
                 case "PaymentNotice":
                     result = new PaymentNotice();
-                    Parse(result as PaymentNotice, reader, outcome);
+                    Parse(result as PaymentNotice, reader, outcome, locationPath);
                     break;
                 case "PaymentReconciliation":
                     result = new PaymentReconciliation();
-                    Parse(result as PaymentReconciliation, reader, outcome);
+                    Parse(result as PaymentReconciliation, reader, outcome, locationPath);
                     break;
                 case "Person":
                     result = new Person();
-                    Parse(result as Person, reader, outcome);
+                    Parse(result as Person, reader, outcome, locationPath);
                     break;
                 case "PlanDefinition":
                     result = new PlanDefinition();
-                    Parse(result as PlanDefinition, reader, outcome);
+                    Parse(result as PlanDefinition, reader, outcome, locationPath);
                     break;
                 case "Practitioner":
                     result = new Practitioner();
-                    Parse(result as Practitioner, reader, outcome);
+                    Parse(result as Practitioner, reader, outcome, locationPath);
                     break;
                 case "PractitionerRole":
                     result = new PractitionerRole();
-                    Parse(result as PractitionerRole, reader, outcome);
+                    Parse(result as PractitionerRole, reader, outcome, locationPath);
                     break;
                 case "Procedure":
                     result = new Procedure();
-                    Parse(result as Procedure, reader, outcome);
+                    Parse(result as Procedure, reader, outcome, locationPath);
                     break;
                 case "Provenance":
                     result = new Provenance();
-                    Parse(result as Provenance, reader, outcome);
+                    Parse(result as Provenance, reader, outcome, locationPath);
                     break;
                 case "Questionnaire":
                     result = new Questionnaire();
-                    Parse(result as Questionnaire, reader, outcome);
+                    Parse(result as Questionnaire, reader, outcome, locationPath);
                     break;
                 case "QuestionnaireResponse":
                     result = new QuestionnaireResponse();
-                    Parse(result as QuestionnaireResponse, reader, outcome);
+                    Parse(result as QuestionnaireResponse, reader, outcome, locationPath);
                     break;
                 case "RelatedPerson":
                     result = new RelatedPerson();
-                    Parse(result as RelatedPerson, reader, outcome);
+                    Parse(result as RelatedPerson, reader, outcome, locationPath);
                     break;
                 case "RequestGroup":
                     result = new RequestGroup();
-                    Parse(result as RequestGroup, reader, outcome);
+                    Parse(result as RequestGroup, reader, outcome, locationPath);
                     break;
                 case "ResearchDefinition":
                     result = new ResearchDefinition();
-                    Parse(result as ResearchDefinition, reader, outcome);
+                    Parse(result as ResearchDefinition, reader, outcome, locationPath);
                     break;
                 case "ResearchElementDefinition":
                     result = new ResearchElementDefinition();
-                    Parse(result as ResearchElementDefinition, reader, outcome);
+                    Parse(result as ResearchElementDefinition, reader, outcome, locationPath);
                     break;
                 case "ResearchStudy":
                     result = new ResearchStudy();
-                    Parse(result as ResearchStudy, reader, outcome);
+                    Parse(result as ResearchStudy, reader, outcome, locationPath);
                     break;
                 case "ResearchSubject":
                     result = new ResearchSubject();
-                    Parse(result as ResearchSubject, reader, outcome);
+                    Parse(result as ResearchSubject, reader, outcome, locationPath);
                     break;
                 case "RiskAssessment":
                     result = new RiskAssessment();
-                    Parse(result as RiskAssessment, reader, outcome);
+                    Parse(result as RiskAssessment, reader, outcome, locationPath);
                     break;
                 case "RiskEvidenceSynthesis":
                     result = new RiskEvidenceSynthesis();
-                    Parse(result as RiskEvidenceSynthesis, reader, outcome);
+                    Parse(result as RiskEvidenceSynthesis, reader, outcome, locationPath);
                     break;
                 case "Schedule":
                     result = new Schedule();
-                    Parse(result as Schedule, reader, outcome);
+                    Parse(result as Schedule, reader, outcome, locationPath);
                     break;
                 case "SearchParameter":
                     result = new SearchParameter();
-                    Parse(result as SearchParameter, reader, outcome);
+                    Parse(result as SearchParameter, reader, outcome, locationPath);
                     break;
                 case "ServiceRequest":
                     result = new ServiceRequest();
-                    Parse(result as ServiceRequest, reader, outcome);
+                    Parse(result as ServiceRequest, reader, outcome, locationPath);
                     break;
                 case "Slot":
                     result = new Slot();
-                    Parse(result as Slot, reader, outcome);
+                    Parse(result as Slot, reader, outcome, locationPath);
                     break;
                 case "Specimen":
                     result = new Specimen();
-                    Parse(result as Specimen, reader, outcome);
+                    Parse(result as Specimen, reader, outcome, locationPath);
                     break;
                 case "SpecimenDefinition":
                     result = new SpecimenDefinition();
-                    Parse(result as SpecimenDefinition, reader, outcome);
+                    Parse(result as SpecimenDefinition, reader, outcome, locationPath);
                     break;
                 case "StructureDefinition":
                     result = new StructureDefinition();
-                    Parse(result as StructureDefinition, reader, outcome);
+                    Parse(result as StructureDefinition, reader, outcome, locationPath);
                     break;
                 case "StructureMap":
                     result = new StructureMap();
-                    Parse(result as StructureMap, reader, outcome);
+                    Parse(result as StructureMap, reader, outcome, locationPath);
                     break;
                 case "Subscription":
                     result = new Subscription();
-                    Parse(result as Subscription, reader, outcome);
+                    Parse(result as Subscription, reader, outcome, locationPath);
                     break;
                 case "Substance":
                     result = new Substance();
-                    Parse(result as Substance, reader, outcome);
+                    Parse(result as Substance, reader, outcome, locationPath);
                     break;
                 case "SubstanceNucleicAcid":
                     result = new SubstanceNucleicAcid();
-                    Parse(result as SubstanceNucleicAcid, reader, outcome);
+                    Parse(result as SubstanceNucleicAcid, reader, outcome, locationPath);
                     break;
                 case "SubstancePolymer":
                     result = new SubstancePolymer();
-                    Parse(result as SubstancePolymer, reader, outcome);
+                    Parse(result as SubstancePolymer, reader, outcome, locationPath);
                     break;
                 case "SubstanceProtein":
                     result = new SubstanceProtein();
-                    Parse(result as SubstanceProtein, reader, outcome);
+                    Parse(result as SubstanceProtein, reader, outcome, locationPath);
                     break;
                 case "SubstanceReferenceInformation":
                     result = new SubstanceReferenceInformation();
-                    Parse(result as SubstanceReferenceInformation, reader, outcome);
+                    Parse(result as SubstanceReferenceInformation, reader, outcome, locationPath);
                     break;
                 case "SubstanceSourceMaterial":
                     result = new SubstanceSourceMaterial();
-                    Parse(result as SubstanceSourceMaterial, reader, outcome);
+                    Parse(result as SubstanceSourceMaterial, reader, outcome, locationPath);
                     break;
                 case "SubstanceSpecification":
                     result = new SubstanceSpecification();
-                    Parse(result as SubstanceSpecification, reader, outcome);
+                    Parse(result as SubstanceSpecification, reader, outcome, locationPath);
                     break;
                 case "SupplyDelivery":
                     result = new SupplyDelivery();
-                    Parse(result as SupplyDelivery, reader, outcome);
+                    Parse(result as SupplyDelivery, reader, outcome, locationPath);
                     break;
                 case "SupplyRequest":
                     result = new SupplyRequest();
-                    Parse(result as SupplyRequest, reader, outcome);
+                    Parse(result as SupplyRequest, reader, outcome, locationPath);
                     break;
                 case "Task":
                     result = new Task();
-                    Parse(result as Task, reader, outcome);
+                    Parse(result as Task, reader, outcome, locationPath);
                     break;
                 case "TerminologyCapabilities":
                     result = new TerminologyCapabilities();
-                    Parse(result as TerminologyCapabilities, reader, outcome);
+                    Parse(result as TerminologyCapabilities, reader, outcome, locationPath);
                     break;
                 case "TestReport":
                     result = new TestReport();
-                    Parse(result as TestReport, reader, outcome);
+                    Parse(result as TestReport, reader, outcome, locationPath);
                     break;
                 case "TestScript":
                     result = new TestScript();
-                    Parse(result as TestScript, reader, outcome);
+                    Parse(result as TestScript, reader, outcome, locationPath);
                     break;
                 case "ValueSet":
                     result = new ValueSet();
-                    Parse(result as ValueSet, reader, outcome);
+                    Parse(result as ValueSet, reader, outcome, locationPath);
                     break;
                 case "VerificationResult":
                     result = new VerificationResult();
-                    Parse(result as VerificationResult, reader, outcome);
+                    Parse(result as VerificationResult, reader, outcome, locationPath);
                     break;
                 case "VisionPrescription":
                     result = new VisionPrescription();
-                    Parse(result as VisionPrescription, reader, outcome);
+                    Parse(result as VisionPrescription, reader, outcome, locationPath);
                     break;
                 default:
                     result = null;
@@ -617,7 +619,7 @@ namespace Hl7.Fhir.CustomSerializer
             return result;
         }
 
-        public async System.Threading.Tasks.Task<Resource> ParseAsync(XmlReader reader, OperationOutcome outcome)
+        public async System.Threading.Tasks.Task<Resource> ParseAsync(XmlReader reader, OperationOutcome outcome, string locationPath = null)
         {
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
@@ -625,592 +627,594 @@ namespace Hl7.Fhir.CustomSerializer
 				if (reader.IsStartElement())
 					break;
 			}
+            if (string.IsNullOrEmpty(locationPath))
+                locationPath = reader.Name;
             Resource result;
-            switch(reader.Name)
+            switch (reader.Name)
             {
                 case "Account":
                     result = new Account();
-                    await ParseAsync(result as Account, reader, outcome);
+                    await ParseAsync(result as Account, reader, outcome, locationPath);
                     break;
                 case "ActivityDefinition":
                     result = new ActivityDefinition();
-                    await ParseAsync(result as ActivityDefinition, reader, outcome);
+                    await ParseAsync(result as ActivityDefinition, reader, outcome, locationPath);
                     break;
                 case "AdverseEvent":
                     result = new AdverseEvent();
-                    await ParseAsync(result as AdverseEvent, reader, outcome);
+                    await ParseAsync(result as AdverseEvent, reader, outcome, locationPath);
                     break;
                 case "AllergyIntolerance":
                     result = new AllergyIntolerance();
-                    await ParseAsync(result as AllergyIntolerance, reader, outcome);
+                    await ParseAsync(result as AllergyIntolerance, reader, outcome, locationPath);
                     break;
                 case "Appointment":
                     result = new Appointment();
-                    await ParseAsync(result as Appointment, reader, outcome);
+                    await ParseAsync(result as Appointment, reader, outcome, locationPath);
                     break;
                 case "AppointmentResponse":
                     result = new AppointmentResponse();
-                    await ParseAsync(result as AppointmentResponse, reader, outcome);
+                    await ParseAsync(result as AppointmentResponse, reader, outcome, locationPath);
                     break;
                 case "AuditEvent":
                     result = new AuditEvent();
-                    await ParseAsync(result as AuditEvent, reader, outcome);
+                    await ParseAsync(result as AuditEvent, reader, outcome, locationPath);
                     break;
                 case "Basic":
                     result = new Basic();
-                    await ParseAsync(result as Basic, reader, outcome);
+                    await ParseAsync(result as Basic, reader, outcome, locationPath);
                     break;
                 case "Binary":
                     result = new Binary();
-                    await ParseAsync(result as Binary, reader, outcome);
+                    await ParseAsync(result as Binary, reader, outcome, locationPath);
                     break;
                 case "BiologicallyDerivedProduct":
                     result = new BiologicallyDerivedProduct();
-                    await ParseAsync(result as BiologicallyDerivedProduct, reader, outcome);
+                    await ParseAsync(result as BiologicallyDerivedProduct, reader, outcome, locationPath);
                     break;
                 case "BodyStructure":
                     result = new BodyStructure();
-                    await ParseAsync(result as BodyStructure, reader, outcome);
+                    await ParseAsync(result as BodyStructure, reader, outcome, locationPath);
                     break;
                 case "Bundle":
                     result = new Bundle();
-                    await ParseAsync(result as Bundle, reader, outcome);
+                    await ParseAsync(result as Bundle, reader, outcome, locationPath);
                     break;
                 case "CapabilityStatement":
                     result = new CapabilityStatement();
-                    await ParseAsync(result as CapabilityStatement, reader, outcome);
+                    await ParseAsync(result as CapabilityStatement, reader, outcome, locationPath);
                     break;
                 case "CarePlan":
                     result = new CarePlan();
-                    await ParseAsync(result as CarePlan, reader, outcome);
+                    await ParseAsync(result as CarePlan, reader, outcome, locationPath);
                     break;
                 case "CareTeam":
                     result = new CareTeam();
-                    await ParseAsync(result as CareTeam, reader, outcome);
+                    await ParseAsync(result as CareTeam, reader, outcome, locationPath);
                     break;
                 case "CatalogEntry":
                     result = new CatalogEntry();
-                    await ParseAsync(result as CatalogEntry, reader, outcome);
+                    await ParseAsync(result as CatalogEntry, reader, outcome, locationPath);
                     break;
                 case "ChargeItem":
                     result = new ChargeItem();
-                    await ParseAsync(result as ChargeItem, reader, outcome);
+                    await ParseAsync(result as ChargeItem, reader, outcome, locationPath);
                     break;
                 case "ChargeItemDefinition":
                     result = new ChargeItemDefinition();
-                    await ParseAsync(result as ChargeItemDefinition, reader, outcome);
+                    await ParseAsync(result as ChargeItemDefinition, reader, outcome, locationPath);
                     break;
                 case "Claim":
                     result = new Claim();
-                    await ParseAsync(result as Claim, reader, outcome);
+                    await ParseAsync(result as Claim, reader, outcome, locationPath);
                     break;
                 case "ClaimResponse":
                     result = new ClaimResponse();
-                    await ParseAsync(result as ClaimResponse, reader, outcome);
+                    await ParseAsync(result as ClaimResponse, reader, outcome, locationPath);
                     break;
                 case "ClinicalImpression":
                     result = new ClinicalImpression();
-                    await ParseAsync(result as ClinicalImpression, reader, outcome);
+                    await ParseAsync(result as ClinicalImpression, reader, outcome, locationPath);
                     break;
                 case "CodeSystem":
                     result = new CodeSystem();
-                    await ParseAsync(result as CodeSystem, reader, outcome);
+                    await ParseAsync(result as CodeSystem, reader, outcome, locationPath);
                     break;
                 case "Communication":
                     result = new Communication();
-                    await ParseAsync(result as Communication, reader, outcome);
+                    await ParseAsync(result as Communication, reader, outcome, locationPath);
                     break;
                 case "CommunicationRequest":
                     result = new CommunicationRequest();
-                    await ParseAsync(result as CommunicationRequest, reader, outcome);
+                    await ParseAsync(result as CommunicationRequest, reader, outcome, locationPath);
                     break;
                 case "CompartmentDefinition":
                     result = new CompartmentDefinition();
-                    await ParseAsync(result as CompartmentDefinition, reader, outcome);
+                    await ParseAsync(result as CompartmentDefinition, reader, outcome, locationPath);
                     break;
                 case "Composition":
                     result = new Composition();
-                    await ParseAsync(result as Composition, reader, outcome);
+                    await ParseAsync(result as Composition, reader, outcome, locationPath);
                     break;
                 case "ConceptMap":
                     result = new ConceptMap();
-                    await ParseAsync(result as ConceptMap, reader, outcome);
+                    await ParseAsync(result as ConceptMap, reader, outcome, locationPath);
                     break;
                 case "Condition":
                     result = new Condition();
-                    await ParseAsync(result as Condition, reader, outcome);
+                    await ParseAsync(result as Condition, reader, outcome, locationPath);
                     break;
                 case "Consent":
                     result = new Consent();
-                    await ParseAsync(result as Consent, reader, outcome);
+                    await ParseAsync(result as Consent, reader, outcome, locationPath);
                     break;
                 case "Contract":
                     result = new Contract();
-                    await ParseAsync(result as Contract, reader, outcome);
+                    await ParseAsync(result as Contract, reader, outcome, locationPath);
                     break;
                 case "Coverage":
                     result = new Coverage();
-                    await ParseAsync(result as Coverage, reader, outcome);
+                    await ParseAsync(result as Coverage, reader, outcome, locationPath);
                     break;
                 case "CoverageEligibilityRequest":
                     result = new CoverageEligibilityRequest();
-                    await ParseAsync(result as CoverageEligibilityRequest, reader, outcome);
+                    await ParseAsync(result as CoverageEligibilityRequest, reader, outcome, locationPath);
                     break;
                 case "CoverageEligibilityResponse":
                     result = new CoverageEligibilityResponse();
-                    await ParseAsync(result as CoverageEligibilityResponse, reader, outcome);
+                    await ParseAsync(result as CoverageEligibilityResponse, reader, outcome, locationPath);
                     break;
                 case "DetectedIssue":
                     result = new DetectedIssue();
-                    await ParseAsync(result as DetectedIssue, reader, outcome);
+                    await ParseAsync(result as DetectedIssue, reader, outcome, locationPath);
                     break;
                 case "Device":
                     result = new Device();
-                    await ParseAsync(result as Device, reader, outcome);
+                    await ParseAsync(result as Device, reader, outcome, locationPath);
                     break;
                 case "DeviceDefinition":
                     result = new DeviceDefinition();
-                    await ParseAsync(result as DeviceDefinition, reader, outcome);
+                    await ParseAsync(result as DeviceDefinition, reader, outcome, locationPath);
                     break;
                 case "DeviceMetric":
                     result = new DeviceMetric();
-                    await ParseAsync(result as DeviceMetric, reader, outcome);
+                    await ParseAsync(result as DeviceMetric, reader, outcome, locationPath);
                     break;
                 case "DeviceRequest":
                     result = new DeviceRequest();
-                    await ParseAsync(result as DeviceRequest, reader, outcome);
+                    await ParseAsync(result as DeviceRequest, reader, outcome, locationPath);
                     break;
                 case "DeviceUseStatement":
                     result = new DeviceUseStatement();
-                    await ParseAsync(result as DeviceUseStatement, reader, outcome);
+                    await ParseAsync(result as DeviceUseStatement, reader, outcome, locationPath);
                     break;
                 case "DiagnosticReport":
                     result = new DiagnosticReport();
-                    await ParseAsync(result as DiagnosticReport, reader, outcome);
+                    await ParseAsync(result as DiagnosticReport, reader, outcome, locationPath);
                     break;
                 case "DocumentManifest":
                     result = new DocumentManifest();
-                    await ParseAsync(result as DocumentManifest, reader, outcome);
+                    await ParseAsync(result as DocumentManifest, reader, outcome, locationPath);
                     break;
                 case "DocumentReference":
                     result = new DocumentReference();
-                    await ParseAsync(result as DocumentReference, reader, outcome);
+                    await ParseAsync(result as DocumentReference, reader, outcome, locationPath);
                     break;
                 case "EffectEvidenceSynthesis":
                     result = new EffectEvidenceSynthesis();
-                    await ParseAsync(result as EffectEvidenceSynthesis, reader, outcome);
+                    await ParseAsync(result as EffectEvidenceSynthesis, reader, outcome, locationPath);
                     break;
                 case "Encounter":
                     result = new Encounter();
-                    await ParseAsync(result as Encounter, reader, outcome);
+                    await ParseAsync(result as Encounter, reader, outcome, locationPath);
                     break;
                 case "Endpoint":
                     result = new Endpoint();
-                    await ParseAsync(result as Endpoint, reader, outcome);
+                    await ParseAsync(result as Endpoint, reader, outcome, locationPath);
                     break;
                 case "EnrollmentRequest":
                     result = new EnrollmentRequest();
-                    await ParseAsync(result as EnrollmentRequest, reader, outcome);
+                    await ParseAsync(result as EnrollmentRequest, reader, outcome, locationPath);
                     break;
                 case "EnrollmentResponse":
                     result = new EnrollmentResponse();
-                    await ParseAsync(result as EnrollmentResponse, reader, outcome);
+                    await ParseAsync(result as EnrollmentResponse, reader, outcome, locationPath);
                     break;
                 case "EpisodeOfCare":
                     result = new EpisodeOfCare();
-                    await ParseAsync(result as EpisodeOfCare, reader, outcome);
+                    await ParseAsync(result as EpisodeOfCare, reader, outcome, locationPath);
                     break;
                 case "EventDefinition":
                     result = new EventDefinition();
-                    await ParseAsync(result as EventDefinition, reader, outcome);
+                    await ParseAsync(result as EventDefinition, reader, outcome, locationPath);
                     break;
                 case "Evidence":
                     result = new Evidence();
-                    await ParseAsync(result as Evidence, reader, outcome);
+                    await ParseAsync(result as Evidence, reader, outcome, locationPath);
                     break;
                 case "EvidenceVariable":
                     result = new EvidenceVariable();
-                    await ParseAsync(result as EvidenceVariable, reader, outcome);
+                    await ParseAsync(result as EvidenceVariable, reader, outcome, locationPath);
                     break;
                 case "ExampleScenario":
                     result = new ExampleScenario();
-                    await ParseAsync(result as ExampleScenario, reader, outcome);
+                    await ParseAsync(result as ExampleScenario, reader, outcome, locationPath);
                     break;
                 case "ExplanationOfBenefit":
                     result = new ExplanationOfBenefit();
-                    await ParseAsync(result as ExplanationOfBenefit, reader, outcome);
+                    await ParseAsync(result as ExplanationOfBenefit, reader, outcome, locationPath);
                     break;
                 case "FamilyMemberHistory":
                     result = new FamilyMemberHistory();
-                    await ParseAsync(result as FamilyMemberHistory, reader, outcome);
+                    await ParseAsync(result as FamilyMemberHistory, reader, outcome, locationPath);
                     break;
                 case "Flag":
                     result = new Flag();
-                    await ParseAsync(result as Flag, reader, outcome);
+                    await ParseAsync(result as Flag, reader, outcome, locationPath);
                     break;
                 case "Goal":
                     result = new Goal();
-                    await ParseAsync(result as Goal, reader, outcome);
+                    await ParseAsync(result as Goal, reader, outcome, locationPath);
                     break;
                 case "GraphDefinition":
                     result = new GraphDefinition();
-                    await ParseAsync(result as GraphDefinition, reader, outcome);
+                    await ParseAsync(result as GraphDefinition, reader, outcome, locationPath);
                     break;
                 case "Group":
                     result = new Group();
-                    await ParseAsync(result as Group, reader, outcome);
+                    await ParseAsync(result as Group, reader, outcome, locationPath);
                     break;
                 case "GuidanceResponse":
                     result = new GuidanceResponse();
-                    await ParseAsync(result as GuidanceResponse, reader, outcome);
+                    await ParseAsync(result as GuidanceResponse, reader, outcome, locationPath);
                     break;
                 case "HealthcareService":
                     result = new HealthcareService();
-                    await ParseAsync(result as HealthcareService, reader, outcome);
+                    await ParseAsync(result as HealthcareService, reader, outcome, locationPath);
                     break;
                 case "ImagingStudy":
                     result = new ImagingStudy();
-                    await ParseAsync(result as ImagingStudy, reader, outcome);
+                    await ParseAsync(result as ImagingStudy, reader, outcome, locationPath);
                     break;
                 case "Immunization":
                     result = new Immunization();
-                    await ParseAsync(result as Immunization, reader, outcome);
+                    await ParseAsync(result as Immunization, reader, outcome, locationPath);
                     break;
                 case "ImmunizationEvaluation":
                     result = new ImmunizationEvaluation();
-                    await ParseAsync(result as ImmunizationEvaluation, reader, outcome);
+                    await ParseAsync(result as ImmunizationEvaluation, reader, outcome, locationPath);
                     break;
                 case "ImmunizationRecommendation":
                     result = new ImmunizationRecommendation();
-                    await ParseAsync(result as ImmunizationRecommendation, reader, outcome);
+                    await ParseAsync(result as ImmunizationRecommendation, reader, outcome, locationPath);
                     break;
                 case "ImplementationGuide":
                     result = new ImplementationGuide();
-                    await ParseAsync(result as ImplementationGuide, reader, outcome);
+                    await ParseAsync(result as ImplementationGuide, reader, outcome, locationPath);
                     break;
                 case "InsurancePlan":
                     result = new InsurancePlan();
-                    await ParseAsync(result as InsurancePlan, reader, outcome);
+                    await ParseAsync(result as InsurancePlan, reader, outcome, locationPath);
                     break;
                 case "Invoice":
                     result = new Invoice();
-                    await ParseAsync(result as Invoice, reader, outcome);
+                    await ParseAsync(result as Invoice, reader, outcome, locationPath);
                     break;
                 case "Library":
                     result = new Library();
-                    await ParseAsync(result as Library, reader, outcome);
+                    await ParseAsync(result as Library, reader, outcome, locationPath);
                     break;
                 case "Linkage":
                     result = new Linkage();
-                    await ParseAsync(result as Linkage, reader, outcome);
+                    await ParseAsync(result as Linkage, reader, outcome, locationPath);
                     break;
                 case "List":
                     result = new List();
-                    await ParseAsync(result as List, reader, outcome);
+                    await ParseAsync(result as List, reader, outcome, locationPath);
                     break;
                 case "Location":
                     result = new Location();
-                    await ParseAsync(result as Location, reader, outcome);
+                    await ParseAsync(result as Location, reader, outcome, locationPath);
                     break;
                 case "Measure":
                     result = new Measure();
-                    await ParseAsync(result as Measure, reader, outcome);
+                    await ParseAsync(result as Measure, reader, outcome, locationPath);
                     break;
                 case "MeasureReport":
                     result = new MeasureReport();
-                    await ParseAsync(result as MeasureReport, reader, outcome);
+                    await ParseAsync(result as MeasureReport, reader, outcome, locationPath);
                     break;
                 case "Media":
                     result = new Media();
-                    await ParseAsync(result as Media, reader, outcome);
+                    await ParseAsync(result as Media, reader, outcome, locationPath);
                     break;
                 case "Medication":
                     result = new Medication();
-                    await ParseAsync(result as Medication, reader, outcome);
+                    await ParseAsync(result as Medication, reader, outcome, locationPath);
                     break;
                 case "MedicationAdministration":
                     result = new MedicationAdministration();
-                    await ParseAsync(result as MedicationAdministration, reader, outcome);
+                    await ParseAsync(result as MedicationAdministration, reader, outcome, locationPath);
                     break;
                 case "MedicationDispense":
                     result = new MedicationDispense();
-                    await ParseAsync(result as MedicationDispense, reader, outcome);
+                    await ParseAsync(result as MedicationDispense, reader, outcome, locationPath);
                     break;
                 case "MedicationKnowledge":
                     result = new MedicationKnowledge();
-                    await ParseAsync(result as MedicationKnowledge, reader, outcome);
+                    await ParseAsync(result as MedicationKnowledge, reader, outcome, locationPath);
                     break;
                 case "MedicationRequest":
                     result = new MedicationRequest();
-                    await ParseAsync(result as MedicationRequest, reader, outcome);
+                    await ParseAsync(result as MedicationRequest, reader, outcome, locationPath);
                     break;
                 case "MedicationStatement":
                     result = new MedicationStatement();
-                    await ParseAsync(result as MedicationStatement, reader, outcome);
+                    await ParseAsync(result as MedicationStatement, reader, outcome, locationPath);
                     break;
                 case "MedicinalProduct":
                     result = new MedicinalProduct();
-                    await ParseAsync(result as MedicinalProduct, reader, outcome);
+                    await ParseAsync(result as MedicinalProduct, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductAuthorization":
                     result = new MedicinalProductAuthorization();
-                    await ParseAsync(result as MedicinalProductAuthorization, reader, outcome);
+                    await ParseAsync(result as MedicinalProductAuthorization, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductContraindication":
                     result = new MedicinalProductContraindication();
-                    await ParseAsync(result as MedicinalProductContraindication, reader, outcome);
+                    await ParseAsync(result as MedicinalProductContraindication, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductIndication":
                     result = new MedicinalProductIndication();
-                    await ParseAsync(result as MedicinalProductIndication, reader, outcome);
+                    await ParseAsync(result as MedicinalProductIndication, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductIngredient":
                     result = new MedicinalProductIngredient();
-                    await ParseAsync(result as MedicinalProductIngredient, reader, outcome);
+                    await ParseAsync(result as MedicinalProductIngredient, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductInteraction":
                     result = new MedicinalProductInteraction();
-                    await ParseAsync(result as MedicinalProductInteraction, reader, outcome);
+                    await ParseAsync(result as MedicinalProductInteraction, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductManufactured":
                     result = new MedicinalProductManufactured();
-                    await ParseAsync(result as MedicinalProductManufactured, reader, outcome);
+                    await ParseAsync(result as MedicinalProductManufactured, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductPackaged":
                     result = new MedicinalProductPackaged();
-                    await ParseAsync(result as MedicinalProductPackaged, reader, outcome);
+                    await ParseAsync(result as MedicinalProductPackaged, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductPharmaceutical":
                     result = new MedicinalProductPharmaceutical();
-                    await ParseAsync(result as MedicinalProductPharmaceutical, reader, outcome);
+                    await ParseAsync(result as MedicinalProductPharmaceutical, reader, outcome, locationPath);
                     break;
                 case "MedicinalProductUndesirableEffect":
                     result = new MedicinalProductUndesirableEffect();
-                    await ParseAsync(result as MedicinalProductUndesirableEffect, reader, outcome);
+                    await ParseAsync(result as MedicinalProductUndesirableEffect, reader, outcome, locationPath);
                     break;
                 case "MessageDefinition":
                     result = new MessageDefinition();
-                    await ParseAsync(result as MessageDefinition, reader, outcome);
+                    await ParseAsync(result as MessageDefinition, reader, outcome, locationPath);
                     break;
                 case "MessageHeader":
                     result = new MessageHeader();
-                    await ParseAsync(result as MessageHeader, reader, outcome);
+                    await ParseAsync(result as MessageHeader, reader, outcome, locationPath);
                     break;
                 case "MolecularSequence":
                     result = new MolecularSequence();
-                    await ParseAsync(result as MolecularSequence, reader, outcome);
+                    await ParseAsync(result as MolecularSequence, reader, outcome, locationPath);
                     break;
                 case "NamingSystem":
                     result = new NamingSystem();
-                    await ParseAsync(result as NamingSystem, reader, outcome);
+                    await ParseAsync(result as NamingSystem, reader, outcome, locationPath);
                     break;
                 case "NutritionOrder":
                     result = new NutritionOrder();
-                    await ParseAsync(result as NutritionOrder, reader, outcome);
+                    await ParseAsync(result as NutritionOrder, reader, outcome, locationPath);
                     break;
                 case "Observation":
                     result = new Observation();
-                    await ParseAsync(result as Observation, reader, outcome);
+                    await ParseAsync(result as Observation, reader, outcome, locationPath);
                     break;
                 case "ObservationDefinition":
                     result = new ObservationDefinition();
-                    await ParseAsync(result as ObservationDefinition, reader, outcome);
+                    await ParseAsync(result as ObservationDefinition, reader, outcome, locationPath);
                     break;
                 case "OperationDefinition":
                     result = new OperationDefinition();
-                    await ParseAsync(result as OperationDefinition, reader, outcome);
+                    await ParseAsync(result as OperationDefinition, reader, outcome, locationPath);
                     break;
                 case "OperationOutcome":
                     result = new OperationOutcome();
-                    await ParseAsync(result as OperationOutcome, reader, outcome);
+                    await ParseAsync(result as OperationOutcome, reader, outcome, locationPath);
                     break;
                 case "Organization":
                     result = new Organization();
-                    await ParseAsync(result as Organization, reader, outcome);
+                    await ParseAsync(result as Organization, reader, outcome, locationPath);
                     break;
                 case "OrganizationAffiliation":
                     result = new OrganizationAffiliation();
-                    await ParseAsync(result as OrganizationAffiliation, reader, outcome);
+                    await ParseAsync(result as OrganizationAffiliation, reader, outcome, locationPath);
                     break;
                 case "Parameters":
                     result = new Parameters();
-                    await ParseAsync(result as Parameters, reader, outcome);
+                    await ParseAsync(result as Parameters, reader, outcome, locationPath);
                     break;
                 case "Patient":
                     result = new Patient();
-                    await ParseAsync(result as Patient, reader, outcome);
+                    await ParseAsync(result as Patient, reader, outcome, locationPath);
                     break;
                 case "PaymentNotice":
                     result = new PaymentNotice();
-                    await ParseAsync(result as PaymentNotice, reader, outcome);
+                    await ParseAsync(result as PaymentNotice, reader, outcome, locationPath);
                     break;
                 case "PaymentReconciliation":
                     result = new PaymentReconciliation();
-                    await ParseAsync(result as PaymentReconciliation, reader, outcome);
+                    await ParseAsync(result as PaymentReconciliation, reader, outcome, locationPath);
                     break;
                 case "Person":
                     result = new Person();
-                    await ParseAsync(result as Person, reader, outcome);
+                    await ParseAsync(result as Person, reader, outcome, locationPath);
                     break;
                 case "PlanDefinition":
                     result = new PlanDefinition();
-                    await ParseAsync(result as PlanDefinition, reader, outcome);
+                    await ParseAsync(result as PlanDefinition, reader, outcome, locationPath);
                     break;
                 case "Practitioner":
                     result = new Practitioner();
-                    await ParseAsync(result as Practitioner, reader, outcome);
+                    await ParseAsync(result as Practitioner, reader, outcome, locationPath);
                     break;
                 case "PractitionerRole":
                     result = new PractitionerRole();
-                    await ParseAsync(result as PractitionerRole, reader, outcome);
+                    await ParseAsync(result as PractitionerRole, reader, outcome, locationPath);
                     break;
                 case "Procedure":
                     result = new Procedure();
-                    await ParseAsync(result as Procedure, reader, outcome);
+                    await ParseAsync(result as Procedure, reader, outcome, locationPath);
                     break;
                 case "Provenance":
                     result = new Provenance();
-                    await ParseAsync(result as Provenance, reader, outcome);
+                    await ParseAsync(result as Provenance, reader, outcome, locationPath);
                     break;
                 case "Questionnaire":
                     result = new Questionnaire();
-                    await ParseAsync(result as Questionnaire, reader, outcome);
+                    await ParseAsync(result as Questionnaire, reader, outcome, locationPath);
                     break;
                 case "QuestionnaireResponse":
                     result = new QuestionnaireResponse();
-                    await ParseAsync(result as QuestionnaireResponse, reader, outcome);
+                    await ParseAsync(result as QuestionnaireResponse, reader, outcome, locationPath);
                     break;
                 case "RelatedPerson":
                     result = new RelatedPerson();
-                    await ParseAsync(result as RelatedPerson, reader, outcome);
+                    await ParseAsync(result as RelatedPerson, reader, outcome, locationPath);
                     break;
                 case "RequestGroup":
                     result = new RequestGroup();
-                    await ParseAsync(result as RequestGroup, reader, outcome);
+                    await ParseAsync(result as RequestGroup, reader, outcome, locationPath);
                     break;
                 case "ResearchDefinition":
                     result = new ResearchDefinition();
-                    await ParseAsync(result as ResearchDefinition, reader, outcome);
+                    await ParseAsync(result as ResearchDefinition, reader, outcome, locationPath);
                     break;
                 case "ResearchElementDefinition":
                     result = new ResearchElementDefinition();
-                    await ParseAsync(result as ResearchElementDefinition, reader, outcome);
+                    await ParseAsync(result as ResearchElementDefinition, reader, outcome, locationPath);
                     break;
                 case "ResearchStudy":
                     result = new ResearchStudy();
-                    await ParseAsync(result as ResearchStudy, reader, outcome);
+                    await ParseAsync(result as ResearchStudy, reader, outcome, locationPath);
                     break;
                 case "ResearchSubject":
                     result = new ResearchSubject();
-                    await ParseAsync(result as ResearchSubject, reader, outcome);
+                    await ParseAsync(result as ResearchSubject, reader, outcome, locationPath);
                     break;
                 case "RiskAssessment":
                     result = new RiskAssessment();
-                    await ParseAsync(result as RiskAssessment, reader, outcome);
+                    await ParseAsync(result as RiskAssessment, reader, outcome, locationPath);
                     break;
                 case "RiskEvidenceSynthesis":
                     result = new RiskEvidenceSynthesis();
-                    await ParseAsync(result as RiskEvidenceSynthesis, reader, outcome);
+                    await ParseAsync(result as RiskEvidenceSynthesis, reader, outcome, locationPath);
                     break;
                 case "Schedule":
                     result = new Schedule();
-                    await ParseAsync(result as Schedule, reader, outcome);
+                    await ParseAsync(result as Schedule, reader, outcome, locationPath);
                     break;
                 case "SearchParameter":
                     result = new SearchParameter();
-                    await ParseAsync(result as SearchParameter, reader, outcome);
+                    await ParseAsync(result as SearchParameter, reader, outcome, locationPath);
                     break;
                 case "ServiceRequest":
                     result = new ServiceRequest();
-                    await ParseAsync(result as ServiceRequest, reader, outcome);
+                    await ParseAsync(result as ServiceRequest, reader, outcome, locationPath);
                     break;
                 case "Slot":
                     result = new Slot();
-                    await ParseAsync(result as Slot, reader, outcome);
+                    await ParseAsync(result as Slot, reader, outcome, locationPath);
                     break;
                 case "Specimen":
                     result = new Specimen();
-                    await ParseAsync(result as Specimen, reader, outcome);
+                    await ParseAsync(result as Specimen, reader, outcome, locationPath);
                     break;
                 case "SpecimenDefinition":
                     result = new SpecimenDefinition();
-                    await ParseAsync(result as SpecimenDefinition, reader, outcome);
+                    await ParseAsync(result as SpecimenDefinition, reader, outcome, locationPath);
                     break;
                 case "StructureDefinition":
                     result = new StructureDefinition();
-                    await ParseAsync(result as StructureDefinition, reader, outcome);
+                    await ParseAsync(result as StructureDefinition, reader, outcome, locationPath);
                     break;
                 case "StructureMap":
                     result = new StructureMap();
-                    await ParseAsync(result as StructureMap, reader, outcome);
+                    await ParseAsync(result as StructureMap, reader, outcome, locationPath);
                     break;
                 case "Subscription":
                     result = new Subscription();
-                    await ParseAsync(result as Subscription, reader, outcome);
+                    await ParseAsync(result as Subscription, reader, outcome, locationPath);
                     break;
                 case "Substance":
                     result = new Substance();
-                    await ParseAsync(result as Substance, reader, outcome);
+                    await ParseAsync(result as Substance, reader, outcome, locationPath);
                     break;
                 case "SubstanceNucleicAcid":
                     result = new SubstanceNucleicAcid();
-                    await ParseAsync(result as SubstanceNucleicAcid, reader, outcome);
+                    await ParseAsync(result as SubstanceNucleicAcid, reader, outcome, locationPath);
                     break;
                 case "SubstancePolymer":
                     result = new SubstancePolymer();
-                    await ParseAsync(result as SubstancePolymer, reader, outcome);
+                    await ParseAsync(result as SubstancePolymer, reader, outcome, locationPath);
                     break;
                 case "SubstanceProtein":
                     result = new SubstanceProtein();
-                    await ParseAsync(result as SubstanceProtein, reader, outcome);
+                    await ParseAsync(result as SubstanceProtein, reader, outcome, locationPath);
                     break;
                 case "SubstanceReferenceInformation":
                     result = new SubstanceReferenceInformation();
-                    await ParseAsync(result as SubstanceReferenceInformation, reader, outcome);
+                    await ParseAsync(result as SubstanceReferenceInformation, reader, outcome, locationPath);
                     break;
                 case "SubstanceSourceMaterial":
                     result = new SubstanceSourceMaterial();
-                    await ParseAsync(result as SubstanceSourceMaterial, reader, outcome);
+                    await ParseAsync(result as SubstanceSourceMaterial, reader, outcome, locationPath);
                     break;
                 case "SubstanceSpecification":
                     result = new SubstanceSpecification();
-                    await ParseAsync(result as SubstanceSpecification, reader, outcome);
+                    await ParseAsync(result as SubstanceSpecification, reader, outcome, locationPath);
                     break;
                 case "SupplyDelivery":
                     result = new SupplyDelivery();
-                    await ParseAsync(result as SupplyDelivery, reader, outcome);
+                    await ParseAsync(result as SupplyDelivery, reader, outcome, locationPath);
                     break;
                 case "SupplyRequest":
                     result = new SupplyRequest();
-                    await ParseAsync(result as SupplyRequest, reader, outcome);
+                    await ParseAsync(result as SupplyRequest, reader, outcome, locationPath);
                     break;
                 case "Task":
                     result = new Task();
-                    await ParseAsync(result as Task, reader, outcome);
+                    await ParseAsync(result as Task, reader, outcome, locationPath);
                     break;
                 case "TerminologyCapabilities":
                     result = new TerminologyCapabilities();
-                    await ParseAsync(result as TerminologyCapabilities, reader, outcome);
+                    await ParseAsync(result as TerminologyCapabilities, reader, outcome, locationPath);
                     break;
                 case "TestReport":
                     result = new TestReport();
-                    await ParseAsync(result as TestReport, reader, outcome);
+                    await ParseAsync(result as TestReport, reader, outcome, locationPath);
                     break;
                 case "TestScript":
                     result = new TestScript();
-                    await ParseAsync(result as TestScript, reader, outcome);
+                    await ParseAsync(result as TestScript, reader, outcome, locationPath);
                     break;
                 case "ValueSet":
                     result = new ValueSet();
-                    await ParseAsync(result as ValueSet, reader, outcome);
+                    await ParseAsync(result as ValueSet, reader, outcome, locationPath);
                     break;
                 case "VerificationResult":
                     result = new VerificationResult();
-                    await ParseAsync(result as VerificationResult, reader, outcome);
+                    await ParseAsync(result as VerificationResult, reader, outcome, locationPath);
                     break;
                 case "VisionPrescription":
                     result = new VisionPrescription();
-                    await ParseAsync(result as VisionPrescription, reader, outcome);
+                    await ParseAsync(result as VisionPrescription, reader, outcome, locationPath);
                     break;
                 default:
                     result = null;

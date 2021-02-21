@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.CodeableConcept result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.CodeableConcept result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,21 +51,21 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "coding":
 							var newItem_coding = new Hl7.Fhir.Model.Coding();
-							Parse(newItem_coding, reader, outcome); // 30
+							Parse(newItem_coding, reader, outcome, locationPath + ".coding["+result.Coding.Count+"]"); // 30
 							result.Coding.Add(newItem_coding);
 							break;
 						case "text":
 							result.TextElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text"); // 40
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -76,7 +76,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.CodeableConcept result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.CodeableConcept result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -112,21 +112,21 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "coding":
 							var newItem_coding = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(newItem_coding, reader, outcome); // 30
+							await ParseAsync(newItem_coding, reader, outcome, locationPath + ".coding["+result.Coding.Count+"]"); // 30
 							result.Coding.Add(newItem_coding);
 							break;
 						case "text":
 							result.TextElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text"); // 40
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

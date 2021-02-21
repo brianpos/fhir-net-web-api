@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.VisionPrescription.LensSpecificationComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.VisionPrescription.LensSpecificationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,75 +51,75 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "product":
 							result.Product = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Product as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Product as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".product"); // 40
 							break;
 						case "eye":
 							result.EyeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VisionPrescription.VisionEyes>();
-							Parse(result.EyeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VisionPrescription.VisionEyes>, reader, outcome); // 50
+							Parse(result.EyeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VisionPrescription.VisionEyes>, reader, outcome, locationPath + ".eye"); // 50
 							break;
 						case "sphere":
 							result.SphereElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.SphereElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 60
+							Parse(result.SphereElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".sphere"); // 60
 							break;
 						case "cylinder":
 							result.CylinderElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.CylinderElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 70
+							Parse(result.CylinderElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".cylinder"); // 70
 							break;
 						case "axis":
 							result.AxisElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.AxisElement as Hl7.Fhir.Model.Integer, reader, outcome); // 80
+							Parse(result.AxisElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".axis"); // 80
 							break;
 						case "prism":
 							var newItem_prism = new Hl7.Fhir.Model.VisionPrescription.PrismComponent();
-							Parse(newItem_prism, reader, outcome); // 90
+							Parse(newItem_prism, reader, outcome, locationPath + ".prism["+result.Prism.Count+"]"); // 90
 							result.Prism.Add(newItem_prism);
 							break;
 						case "add":
 							result.AddElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.AddElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 100
+							Parse(result.AddElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".add"); // 100
 							break;
 						case "power":
 							result.PowerElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.PowerElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 110
+							Parse(result.PowerElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".power"); // 110
 							break;
 						case "backCurve":
 							result.BackCurveElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.BackCurveElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 120
+							Parse(result.BackCurveElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".backCurve"); // 120
 							break;
 						case "diameter":
 							result.DiameterElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.DiameterElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 130
+							Parse(result.DiameterElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".diameter"); // 130
 							break;
 						case "duration":
 							result.Duration = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Duration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 140
+							Parse(result.Duration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".duration"); // 140
 							break;
 						case "color":
 							result.ColorElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ColorElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 150
+							Parse(result.ColorElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".color"); // 150
 							break;
 						case "brand":
 							result.BrandElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.BrandElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 160
+							Parse(result.BrandElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".brand"); // 160
 							break;
 						case "note":
 							var newItem_note = new Hl7.Fhir.Model.Annotation();
-							Parse(newItem_note, reader, outcome); // 170
+							Parse(newItem_note, reader, outcome, locationPath + ".note["+result.Note.Count+"]"); // 170
 							result.Note.Add(newItem_note);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -130,7 +130,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.VisionPrescription.LensSpecificationComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.VisionPrescription.LensSpecificationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -166,75 +166,75 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "product":
 							result.Product = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Product as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Product as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".product"); // 40
 							break;
 						case "eye":
 							result.EyeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VisionPrescription.VisionEyes>();
-							await ParseAsync(result.EyeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VisionPrescription.VisionEyes>, reader, outcome); // 50
+							await ParseAsync(result.EyeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VisionPrescription.VisionEyes>, reader, outcome, locationPath + ".eye"); // 50
 							break;
 						case "sphere":
 							result.SphereElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.SphereElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 60
+							await ParseAsync(result.SphereElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".sphere"); // 60
 							break;
 						case "cylinder":
 							result.CylinderElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.CylinderElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 70
+							await ParseAsync(result.CylinderElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".cylinder"); // 70
 							break;
 						case "axis":
 							result.AxisElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.AxisElement as Hl7.Fhir.Model.Integer, reader, outcome); // 80
+							await ParseAsync(result.AxisElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".axis"); // 80
 							break;
 						case "prism":
 							var newItem_prism = new Hl7.Fhir.Model.VisionPrescription.PrismComponent();
-							await ParseAsync(newItem_prism, reader, outcome); // 90
+							await ParseAsync(newItem_prism, reader, outcome, locationPath + ".prism["+result.Prism.Count+"]"); // 90
 							result.Prism.Add(newItem_prism);
 							break;
 						case "add":
 							result.AddElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.AddElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 100
+							await ParseAsync(result.AddElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".add"); // 100
 							break;
 						case "power":
 							result.PowerElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.PowerElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 110
+							await ParseAsync(result.PowerElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".power"); // 110
 							break;
 						case "backCurve":
 							result.BackCurveElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.BackCurveElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 120
+							await ParseAsync(result.BackCurveElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".backCurve"); // 120
 							break;
 						case "diameter":
 							result.DiameterElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.DiameterElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 130
+							await ParseAsync(result.DiameterElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".diameter"); // 130
 							break;
 						case "duration":
 							result.Duration = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Duration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 140
+							await ParseAsync(result.Duration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".duration"); // 140
 							break;
 						case "color":
 							result.ColorElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ColorElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 150
+							await ParseAsync(result.ColorElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".color"); // 150
 							break;
 						case "brand":
 							result.BrandElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.BrandElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 160
+							await ParseAsync(result.BrandElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".brand"); // 160
 							break;
 						case "note":
 							var newItem_note = new Hl7.Fhir.Model.Annotation();
-							await ParseAsync(newItem_note, reader, outcome); // 170
+							await ParseAsync(newItem_note, reader, outcome, locationPath + ".note["+result.Note.Count+"]"); // 170
 							result.Note.Add(newItem_note);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

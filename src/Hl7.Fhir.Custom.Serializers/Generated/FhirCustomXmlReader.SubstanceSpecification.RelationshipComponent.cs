@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SubstanceSpecification.RelationshipComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.SubstanceSpecification.RelationshipComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,62 +51,62 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "substanceReference":
 							result.Substance = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Substance as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 40
+							Parse(result.Substance as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".substance"); // 40
 							break;
 						case "substanceCodeableConcept":
 							result.Substance = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance"); // 40
 							break;
 						case "relationship":
 							result.Relationship = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Relationship as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Relationship as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".relationship"); // 50
 							break;
 						case "isDefining":
 							result.IsDefiningElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.IsDefiningElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 60
+							Parse(result.IsDefiningElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".isDefining"); // 60
 							break;
 						case "amountQuantity":
 							result.Amount = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome); // 70
+							Parse(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountRange":
 							result.Amount = new Hl7.Fhir.Model.Range();
-							Parse(result.Amount as Hl7.Fhir.Model.Range, reader, outcome); // 70
+							Parse(result.Amount as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountRatio":
 							result.Amount = new Hl7.Fhir.Model.Ratio();
-							Parse(result.Amount as Hl7.Fhir.Model.Ratio, reader, outcome); // 70
+							Parse(result.Amount as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountString":
 							result.Amount = new Hl7.Fhir.Model.FhirString();
-							Parse(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							Parse(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountRatioLowLimit":
 							result.AmountRatioLowLimit = new Hl7.Fhir.Model.Ratio();
-							Parse(result.AmountRatioLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome); // 80
+							Parse(result.AmountRatioLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".amountRatioLowLimit"); // 80
 							break;
 						case "amountType":
 							result.AmountType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							Parse(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".amountType"); // 90
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_source, reader, outcome); // 100
+							Parse(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 100
 							result.Source.Add(newItem_source);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -117,7 +117,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceSpecification.RelationshipComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceSpecification.RelationshipComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -153,62 +153,62 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "substanceReference":
 							result.Substance = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Substance as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 40
+							await ParseAsync(result.Substance as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".substance"); // 40
 							break;
 						case "substanceCodeableConcept":
 							result.Substance = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance"); // 40
 							break;
 						case "relationship":
 							result.Relationship = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Relationship as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Relationship as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".relationship"); // 50
 							break;
 						case "isDefining":
 							result.IsDefiningElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.IsDefiningElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 60
+							await ParseAsync(result.IsDefiningElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".isDefining"); // 60
 							break;
 						case "amountQuantity":
 							result.Amount = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome); // 70
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountRange":
 							result.Amount = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.Range, reader, outcome); // 70
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountRatio":
 							result.Amount = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.Ratio, reader, outcome); // 70
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountString":
 							result.Amount = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".amount"); // 70
 							break;
 						case "amountRatioLowLimit":
 							result.AmountRatioLowLimit = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.AmountRatioLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome); // 80
+							await ParseAsync(result.AmountRatioLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".amountRatioLowLimit"); // 80
 							break;
 						case "amountType":
 							result.AmountType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							await ParseAsync(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".amountType"); // 90
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_source, reader, outcome); // 100
+							await ParseAsync(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 100
 							result.Source.Add(newItem_source);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

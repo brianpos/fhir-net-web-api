@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.InsurancePlan.PlanComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.InsurancePlan.PlanComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,46 +51,46 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							var newItem_identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(newItem_identifier, reader, outcome); // 40
+							Parse(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]"); // 40
 							result.Identifier.Add(newItem_identifier);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
 							break;
 						case "coverageArea":
 							var newItem_coverageArea = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_coverageArea, reader, outcome); // 60
+							Parse(newItem_coverageArea, reader, outcome, locationPath + ".coverageArea["+result.CoverageArea.Count+"]"); // 60
 							result.CoverageArea.Add(newItem_coverageArea);
 							break;
 						case "network":
 							var newItem_network = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_network, reader, outcome); // 70
+							Parse(newItem_network, reader, outcome, locationPath + ".network["+result.Network.Count+"]"); // 70
 							result.Network.Add(newItem_network);
 							break;
 						case "generalCost":
 							var newItem_generalCost = new Hl7.Fhir.Model.InsurancePlan.GeneralCostComponent();
-							Parse(newItem_generalCost, reader, outcome); // 80
+							Parse(newItem_generalCost, reader, outcome, locationPath + ".generalCost["+result.GeneralCost.Count+"]"); // 80
 							result.GeneralCost.Add(newItem_generalCost);
 							break;
 						case "specificCost":
 							var newItem_specificCost = new Hl7.Fhir.Model.InsurancePlan.SpecificCostComponent();
-							Parse(newItem_specificCost, reader, outcome); // 90
+							Parse(newItem_specificCost, reader, outcome, locationPath + ".specificCost["+result.SpecificCost.Count+"]"); // 90
 							result.SpecificCost.Add(newItem_specificCost);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -101,7 +101,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.InsurancePlan.PlanComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.InsurancePlan.PlanComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -137,46 +137,46 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							var newItem_identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(newItem_identifier, reader, outcome); // 40
+							await ParseAsync(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]"); // 40
 							result.Identifier.Add(newItem_identifier);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
 							break;
 						case "coverageArea":
 							var newItem_coverageArea = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_coverageArea, reader, outcome); // 60
+							await ParseAsync(newItem_coverageArea, reader, outcome, locationPath + ".coverageArea["+result.CoverageArea.Count+"]"); // 60
 							result.CoverageArea.Add(newItem_coverageArea);
 							break;
 						case "network":
 							var newItem_network = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_network, reader, outcome); // 70
+							await ParseAsync(newItem_network, reader, outcome, locationPath + ".network["+result.Network.Count+"]"); // 70
 							result.Network.Add(newItem_network);
 							break;
 						case "generalCost":
 							var newItem_generalCost = new Hl7.Fhir.Model.InsurancePlan.GeneralCostComponent();
-							await ParseAsync(newItem_generalCost, reader, outcome); // 80
+							await ParseAsync(newItem_generalCost, reader, outcome, locationPath + ".generalCost["+result.GeneralCost.Count+"]"); // 80
 							result.GeneralCost.Add(newItem_generalCost);
 							break;
 						case "specificCost":
 							var newItem_specificCost = new Hl7.Fhir.Model.InsurancePlan.SpecificCostComponent();
-							await ParseAsync(newItem_specificCost, reader, outcome); // 90
+							await ParseAsync(newItem_specificCost, reader, outcome, locationPath + ".specificCost["+result.SpecificCost.Count+"]"); // 90
 							result.SpecificCost.Add(newItem_specificCost);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

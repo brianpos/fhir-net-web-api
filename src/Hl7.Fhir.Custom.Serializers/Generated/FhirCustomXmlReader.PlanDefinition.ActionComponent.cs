@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.PlanDefinition.ActionComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.PlanDefinition.ActionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,165 +51,165 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "prefix":
 							result.PrefixElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PrefixElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.PrefixElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".prefix"); // 40
 							break;
 						case "title":
 							result.TitleElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title"); // 50
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 60
 							break;
 						case "textEquivalent":
 							result.TextEquivalentElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TextEquivalentElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							Parse(result.TextEquivalentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".textEquivalent"); // 70
 							break;
 						case "priority":
 							result.PriorityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RequestPriority>();
-							Parse(result.PriorityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RequestPriority>, reader, outcome); // 80
+							Parse(result.PriorityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RequestPriority>, reader, outcome, locationPath + ".priority"); // 80
 							break;
 						case "code":
 							var newItem_code = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_code, reader, outcome); // 90
+							Parse(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]"); // 90
 							result.Code.Add(newItem_code);
 							break;
 						case "reason":
 							var newItem_reason = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_reason, reader, outcome); // 100
+							Parse(newItem_reason, reader, outcome, locationPath + ".reason["+result.Reason.Count+"]"); // 100
 							result.Reason.Add(newItem_reason);
 							break;
 						case "documentation":
 							var newItem_documentation = new Hl7.Fhir.Model.RelatedArtifact();
-							Parse(newItem_documentation, reader, outcome); // 110
+							Parse(newItem_documentation, reader, outcome, locationPath + ".documentation["+result.Documentation.Count+"]"); // 110
 							result.Documentation.Add(newItem_documentation);
 							break;
 						case "goalId":
 							var newItem_goalId = new Hl7.Fhir.Model.Id();
-							Parse(newItem_goalId, reader, outcome); // 120
+							Parse(newItem_goalId, reader, outcome, locationPath + ".goalId["+result.GoalIdElement.Count+"]"); // 120
 							result.GoalIdElement.Add(newItem_goalId);
 							break;
 						case "subjectCodeableConcept":
 							result.Subject = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Subject as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 130
+							Parse(result.Subject as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".subject"); // 130
 							break;
 						case "subjectReference":
 							result.Subject = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 130
+							Parse(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".subject"); // 130
 							break;
 						case "trigger":
 							var newItem_trigger = new Hl7.Fhir.Model.TriggerDefinition();
-							Parse(newItem_trigger, reader, outcome); // 140
+							Parse(newItem_trigger, reader, outcome, locationPath + ".trigger["+result.Trigger.Count+"]"); // 140
 							result.Trigger.Add(newItem_trigger);
 							break;
 						case "condition":
 							var newItem_condition = new Hl7.Fhir.Model.PlanDefinition.ConditionComponent();
-							Parse(newItem_condition, reader, outcome); // 150
+							Parse(newItem_condition, reader, outcome, locationPath + ".condition["+result.Condition.Count+"]"); // 150
 							result.Condition.Add(newItem_condition);
 							break;
 						case "input":
 							var newItem_input = new Hl7.Fhir.Model.DataRequirement();
-							Parse(newItem_input, reader, outcome); // 160
+							Parse(newItem_input, reader, outcome, locationPath + ".input["+result.Input.Count+"]"); // 160
 							result.Input.Add(newItem_input);
 							break;
 						case "output":
 							var newItem_output = new Hl7.Fhir.Model.DataRequirement();
-							Parse(newItem_output, reader, outcome); // 170
+							Parse(newItem_output, reader, outcome, locationPath + ".output["+result.Output.Count+"]"); // 170
 							result.Output.Add(newItem_output);
 							break;
 						case "relatedAction":
 							var newItem_relatedAction = new Hl7.Fhir.Model.PlanDefinition.RelatedActionComponent();
-							Parse(newItem_relatedAction, reader, outcome); // 180
+							Parse(newItem_relatedAction, reader, outcome, locationPath + ".relatedAction["+result.RelatedAction.Count+"]"); // 180
 							result.RelatedAction.Add(newItem_relatedAction);
 							break;
 						case "timingDateTime":
 							result.Timing = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.Timing as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 190
+							Parse(result.Timing as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingAge":
 							result.Timing = new Hl7.Fhir.Model.Age();
-							Parse(result.Timing as Hl7.Fhir.Model.Age, reader, outcome); // 190
+							Parse(result.Timing as Hl7.Fhir.Model.Age, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingPeriod":
 							result.Timing = new Hl7.Fhir.Model.Period();
-							Parse(result.Timing as Hl7.Fhir.Model.Period, reader, outcome); // 190
+							Parse(result.Timing as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingDuration":
 							result.Timing = new Hl7.Fhir.Model.Duration();
-							Parse(result.Timing as Hl7.Fhir.Model.Duration, reader, outcome); // 190
+							Parse(result.Timing as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingRange":
 							result.Timing = new Hl7.Fhir.Model.Range();
-							Parse(result.Timing as Hl7.Fhir.Model.Range, reader, outcome); // 190
+							Parse(result.Timing as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingTiming":
 							result.Timing = new Hl7.Fhir.Model.Timing();
-							Parse(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome); // 190
+							Parse(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "participant":
 							var newItem_participant = new Hl7.Fhir.Model.PlanDefinition.ParticipantComponent();
-							Parse(newItem_participant, reader, outcome); // 200
+							Parse(newItem_participant, reader, outcome, locationPath + ".participant["+result.Participant.Count+"]"); // 200
 							result.Participant.Add(newItem_participant);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 210
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 210
 							break;
 						case "groupingBehavior":
 							result.GroupingBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionGroupingBehavior>();
-							Parse(result.GroupingBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionGroupingBehavior>, reader, outcome); // 220
+							Parse(result.GroupingBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionGroupingBehavior>, reader, outcome, locationPath + ".groupingBehavior"); // 220
 							break;
 						case "selectionBehavior":
 							result.SelectionBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionSelectionBehavior>();
-							Parse(result.SelectionBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionSelectionBehavior>, reader, outcome); // 230
+							Parse(result.SelectionBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionSelectionBehavior>, reader, outcome, locationPath + ".selectionBehavior"); // 230
 							break;
 						case "requiredBehavior":
 							result.RequiredBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionRequiredBehavior>();
-							Parse(result.RequiredBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionRequiredBehavior>, reader, outcome); // 240
+							Parse(result.RequiredBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionRequiredBehavior>, reader, outcome, locationPath + ".requiredBehavior"); // 240
 							break;
 						case "precheckBehavior":
 							result.PrecheckBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionPrecheckBehavior>();
-							Parse(result.PrecheckBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionPrecheckBehavior>, reader, outcome); // 250
+							Parse(result.PrecheckBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionPrecheckBehavior>, reader, outcome, locationPath + ".precheckBehavior"); // 250
 							break;
 						case "cardinalityBehavior":
 							result.CardinalityBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionCardinalityBehavior>();
-							Parse(result.CardinalityBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionCardinalityBehavior>, reader, outcome); // 260
+							Parse(result.CardinalityBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionCardinalityBehavior>, reader, outcome, locationPath + ".cardinalityBehavior"); // 260
 							break;
 						case "definitionCanonical":
 							result.Definition = new Hl7.Fhir.Model.Canonical();
-							Parse(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome); // 270
+							Parse(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".definition"); // 270
 							break;
 						case "definitionUri":
 							result.Definition = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.Definition as Hl7.Fhir.Model.FhirUri, reader, outcome); // 270
+							Parse(result.Definition as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".definition"); // 270
 							break;
 						case "transform":
 							result.TransformElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.TransformElement as Hl7.Fhir.Model.Canonical, reader, outcome); // 280
+							Parse(result.TransformElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".transform"); // 280
 							break;
 						case "dynamicValue":
 							var newItem_dynamicValue = new Hl7.Fhir.Model.PlanDefinition.DynamicValueComponent();
-							Parse(newItem_dynamicValue, reader, outcome); // 290
+							Parse(newItem_dynamicValue, reader, outcome, locationPath + ".dynamicValue["+result.DynamicValue.Count+"]"); // 290
 							result.DynamicValue.Add(newItem_dynamicValue);
 							break;
 						case "action":
 							var newItem_action = new Hl7.Fhir.Model.PlanDefinition.ActionComponent();
-							Parse(newItem_action, reader, outcome); // 300
+							Parse(newItem_action, reader, outcome, locationPath + ".action["+result.Action.Count+"]"); // 300
 							result.Action.Add(newItem_action);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -220,7 +220,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.PlanDefinition.ActionComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.PlanDefinition.ActionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -256,165 +256,165 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "prefix":
 							result.PrefixElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PrefixElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.PrefixElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".prefix"); // 40
 							break;
 						case "title":
 							result.TitleElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title"); // 50
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 60
 							break;
 						case "textEquivalent":
 							result.TextEquivalentElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TextEquivalentElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							await ParseAsync(result.TextEquivalentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".textEquivalent"); // 70
 							break;
 						case "priority":
 							result.PriorityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RequestPriority>();
-							await ParseAsync(result.PriorityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RequestPriority>, reader, outcome); // 80
+							await ParseAsync(result.PriorityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RequestPriority>, reader, outcome, locationPath + ".priority"); // 80
 							break;
 						case "code":
 							var newItem_code = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_code, reader, outcome); // 90
+							await ParseAsync(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]"); // 90
 							result.Code.Add(newItem_code);
 							break;
 						case "reason":
 							var newItem_reason = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_reason, reader, outcome); // 100
+							await ParseAsync(newItem_reason, reader, outcome, locationPath + ".reason["+result.Reason.Count+"]"); // 100
 							result.Reason.Add(newItem_reason);
 							break;
 						case "documentation":
 							var newItem_documentation = new Hl7.Fhir.Model.RelatedArtifact();
-							await ParseAsync(newItem_documentation, reader, outcome); // 110
+							await ParseAsync(newItem_documentation, reader, outcome, locationPath + ".documentation["+result.Documentation.Count+"]"); // 110
 							result.Documentation.Add(newItem_documentation);
 							break;
 						case "goalId":
 							var newItem_goalId = new Hl7.Fhir.Model.Id();
-							await ParseAsync(newItem_goalId, reader, outcome); // 120
+							await ParseAsync(newItem_goalId, reader, outcome, locationPath + ".goalId["+result.GoalIdElement.Count+"]"); // 120
 							result.GoalIdElement.Add(newItem_goalId);
 							break;
 						case "subjectCodeableConcept":
 							result.Subject = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Subject as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 130
+							await ParseAsync(result.Subject as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".subject"); // 130
 							break;
 						case "subjectReference":
 							result.Subject = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 130
+							await ParseAsync(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".subject"); // 130
 							break;
 						case "trigger":
 							var newItem_trigger = new Hl7.Fhir.Model.TriggerDefinition();
-							await ParseAsync(newItem_trigger, reader, outcome); // 140
+							await ParseAsync(newItem_trigger, reader, outcome, locationPath + ".trigger["+result.Trigger.Count+"]"); // 140
 							result.Trigger.Add(newItem_trigger);
 							break;
 						case "condition":
 							var newItem_condition = new Hl7.Fhir.Model.PlanDefinition.ConditionComponent();
-							await ParseAsync(newItem_condition, reader, outcome); // 150
+							await ParseAsync(newItem_condition, reader, outcome, locationPath + ".condition["+result.Condition.Count+"]"); // 150
 							result.Condition.Add(newItem_condition);
 							break;
 						case "input":
 							var newItem_input = new Hl7.Fhir.Model.DataRequirement();
-							await ParseAsync(newItem_input, reader, outcome); // 160
+							await ParseAsync(newItem_input, reader, outcome, locationPath + ".input["+result.Input.Count+"]"); // 160
 							result.Input.Add(newItem_input);
 							break;
 						case "output":
 							var newItem_output = new Hl7.Fhir.Model.DataRequirement();
-							await ParseAsync(newItem_output, reader, outcome); // 170
+							await ParseAsync(newItem_output, reader, outcome, locationPath + ".output["+result.Output.Count+"]"); // 170
 							result.Output.Add(newItem_output);
 							break;
 						case "relatedAction":
 							var newItem_relatedAction = new Hl7.Fhir.Model.PlanDefinition.RelatedActionComponent();
-							await ParseAsync(newItem_relatedAction, reader, outcome); // 180
+							await ParseAsync(newItem_relatedAction, reader, outcome, locationPath + ".relatedAction["+result.RelatedAction.Count+"]"); // 180
 							result.RelatedAction.Add(newItem_relatedAction);
 							break;
 						case "timingDateTime":
 							result.Timing = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.Timing as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 190
+							await ParseAsync(result.Timing as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingAge":
 							result.Timing = new Hl7.Fhir.Model.Age();
-							await ParseAsync(result.Timing as Hl7.Fhir.Model.Age, reader, outcome); // 190
+							await ParseAsync(result.Timing as Hl7.Fhir.Model.Age, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingPeriod":
 							result.Timing = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Timing as Hl7.Fhir.Model.Period, reader, outcome); // 190
+							await ParseAsync(result.Timing as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingDuration":
 							result.Timing = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.Timing as Hl7.Fhir.Model.Duration, reader, outcome); // 190
+							await ParseAsync(result.Timing as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingRange":
 							result.Timing = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Timing as Hl7.Fhir.Model.Range, reader, outcome); // 190
+							await ParseAsync(result.Timing as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "timingTiming":
 							result.Timing = new Hl7.Fhir.Model.Timing();
-							await ParseAsync(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome); // 190
+							await ParseAsync(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".timing"); // 190
 							break;
 						case "participant":
 							var newItem_participant = new Hl7.Fhir.Model.PlanDefinition.ParticipantComponent();
-							await ParseAsync(newItem_participant, reader, outcome); // 200
+							await ParseAsync(newItem_participant, reader, outcome, locationPath + ".participant["+result.Participant.Count+"]"); // 200
 							result.Participant.Add(newItem_participant);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 210
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 210
 							break;
 						case "groupingBehavior":
 							result.GroupingBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionGroupingBehavior>();
-							await ParseAsync(result.GroupingBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionGroupingBehavior>, reader, outcome); // 220
+							await ParseAsync(result.GroupingBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionGroupingBehavior>, reader, outcome, locationPath + ".groupingBehavior"); // 220
 							break;
 						case "selectionBehavior":
 							result.SelectionBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionSelectionBehavior>();
-							await ParseAsync(result.SelectionBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionSelectionBehavior>, reader, outcome); // 230
+							await ParseAsync(result.SelectionBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionSelectionBehavior>, reader, outcome, locationPath + ".selectionBehavior"); // 230
 							break;
 						case "requiredBehavior":
 							result.RequiredBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionRequiredBehavior>();
-							await ParseAsync(result.RequiredBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionRequiredBehavior>, reader, outcome); // 240
+							await ParseAsync(result.RequiredBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionRequiredBehavior>, reader, outcome, locationPath + ".requiredBehavior"); // 240
 							break;
 						case "precheckBehavior":
 							result.PrecheckBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionPrecheckBehavior>();
-							await ParseAsync(result.PrecheckBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionPrecheckBehavior>, reader, outcome); // 250
+							await ParseAsync(result.PrecheckBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionPrecheckBehavior>, reader, outcome, locationPath + ".precheckBehavior"); // 250
 							break;
 						case "cardinalityBehavior":
 							result.CardinalityBehaviorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionCardinalityBehavior>();
-							await ParseAsync(result.CardinalityBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionCardinalityBehavior>, reader, outcome); // 260
+							await ParseAsync(result.CardinalityBehaviorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionCardinalityBehavior>, reader, outcome, locationPath + ".cardinalityBehavior"); // 260
 							break;
 						case "definitionCanonical":
 							result.Definition = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome); // 270
+							await ParseAsync(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".definition"); // 270
 							break;
 						case "definitionUri":
 							result.Definition = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.FhirUri, reader, outcome); // 270
+							await ParseAsync(result.Definition as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".definition"); // 270
 							break;
 						case "transform":
 							result.TransformElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.TransformElement as Hl7.Fhir.Model.Canonical, reader, outcome); // 280
+							await ParseAsync(result.TransformElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".transform"); // 280
 							break;
 						case "dynamicValue":
 							var newItem_dynamicValue = new Hl7.Fhir.Model.PlanDefinition.DynamicValueComponent();
-							await ParseAsync(newItem_dynamicValue, reader, outcome); // 290
+							await ParseAsync(newItem_dynamicValue, reader, outcome, locationPath + ".dynamicValue["+result.DynamicValue.Count+"]"); // 290
 							result.DynamicValue.Add(newItem_dynamicValue);
 							break;
 						case "action":
 							var newItem_action = new Hl7.Fhir.Model.PlanDefinition.ActionComponent();
-							await ParseAsync(newItem_action, reader, outcome); // 300
+							await ParseAsync(newItem_action, reader, outcome, locationPath + ".action["+result.Action.Count+"]"); // 300
 							result.Action.Add(newItem_action);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

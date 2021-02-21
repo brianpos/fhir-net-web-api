@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SubstanceProtein.SubunitComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.SubstanceProtein.SubunitComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,49 +51,49 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "subunit":
 							result.SubunitElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.SubunitElement as Hl7.Fhir.Model.Integer, reader, outcome); // 40
+							Parse(result.SubunitElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".subunit"); // 40
 							break;
 						case "sequence":
 							result.SequenceElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.SequenceElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.SequenceElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sequence"); // 50
 							break;
 						case "length":
 							result.LengthElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome); // 60
+							Parse(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".length"); // 60
 							break;
 						case "sequenceAttachment":
 							result.SequenceAttachment = new Hl7.Fhir.Model.Attachment();
-							Parse(result.SequenceAttachment as Hl7.Fhir.Model.Attachment, reader, outcome); // 70
+							Parse(result.SequenceAttachment as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".sequenceAttachment"); // 70
 							break;
 						case "nTerminalModificationId":
 							result.NTerminalModificationId = new Hl7.Fhir.Model.Identifier();
-							Parse(result.NTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome); // 80
+							Parse(result.NTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".nTerminalModificationId"); // 80
 							break;
 						case "nTerminalModification":
 							result.NTerminalModificationElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.NTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							Parse(result.NTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".nTerminalModification"); // 90
 							break;
 						case "cTerminalModificationId":
 							result.CTerminalModificationId = new Hl7.Fhir.Model.Identifier();
-							Parse(result.CTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome); // 100
+							Parse(result.CTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".cTerminalModificationId"); // 100
 							break;
 						case "cTerminalModification":
 							result.CTerminalModificationElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.CTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 110
+							Parse(result.CTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".cTerminalModification"); // 110
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -104,7 +104,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceProtein.SubunitComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceProtein.SubunitComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -140,49 +140,49 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "subunit":
 							result.SubunitElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.SubunitElement as Hl7.Fhir.Model.Integer, reader, outcome); // 40
+							await ParseAsync(result.SubunitElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".subunit"); // 40
 							break;
 						case "sequence":
 							result.SequenceElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.SequenceElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.SequenceElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sequence"); // 50
 							break;
 						case "length":
 							result.LengthElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome); // 60
+							await ParseAsync(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".length"); // 60
 							break;
 						case "sequenceAttachment":
 							result.SequenceAttachment = new Hl7.Fhir.Model.Attachment();
-							await ParseAsync(result.SequenceAttachment as Hl7.Fhir.Model.Attachment, reader, outcome); // 70
+							await ParseAsync(result.SequenceAttachment as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".sequenceAttachment"); // 70
 							break;
 						case "nTerminalModificationId":
 							result.NTerminalModificationId = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.NTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome); // 80
+							await ParseAsync(result.NTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".nTerminalModificationId"); // 80
 							break;
 						case "nTerminalModification":
 							result.NTerminalModificationElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.NTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							await ParseAsync(result.NTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".nTerminalModification"); // 90
 							break;
 						case "cTerminalModificationId":
 							result.CTerminalModificationId = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.CTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome); // 100
+							await ParseAsync(result.CTerminalModificationId as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".cTerminalModificationId"); // 100
 							break;
 						case "cTerminalModification":
 							result.CTerminalModificationElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.CTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 110
+							await ParseAsync(result.CTerminalModificationElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".cTerminalModification"); // 110
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

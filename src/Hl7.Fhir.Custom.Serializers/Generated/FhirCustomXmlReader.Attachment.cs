@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Attachment result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Attachment result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,44 +51,44 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "contentType":
 							result.ContentTypeElement = new Hl7.Fhir.Model.Code();
-							Parse(result.ContentTypeElement as Hl7.Fhir.Model.Code, reader, outcome); // 30
+							Parse(result.ContentTypeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".contentType"); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome); // 40
+							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
 							break;
 						case "data":
 							result.DataElement = new Hl7.Fhir.Model.Base64Binary();
-							Parse(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome); // 50
+							Parse(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".data"); // 50
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUrl();
-							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome); // 60
+							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".url"); // 60
 							break;
 						case "size":
 							result.SizeElement = new Hl7.Fhir.Model.UnsignedInt();
-							Parse(result.SizeElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome); // 70
+							Parse(result.SizeElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".size"); // 70
 							break;
 						case "hash":
 							result.HashElement = new Hl7.Fhir.Model.Base64Binary();
-							Parse(result.HashElement as Hl7.Fhir.Model.Base64Binary, reader, outcome); // 80
+							Parse(result.HashElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".hash"); // 80
 							break;
 						case "title":
 							result.TitleElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							Parse(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title"); // 90
 							break;
 						case "creation":
 							result.CreationElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.CreationElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 100
+							Parse(result.CreationElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".creation"); // 100
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -99,7 +99,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Attachment result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Attachment result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -135,44 +135,44 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "contentType":
 							result.ContentTypeElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.ContentTypeElement as Hl7.Fhir.Model.Code, reader, outcome); // 30
+							await ParseAsync(result.ContentTypeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".contentType"); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome); // 40
+							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
 							break;
 						case "data":
 							result.DataElement = new Hl7.Fhir.Model.Base64Binary();
-							await ParseAsync(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome); // 50
+							await ParseAsync(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".data"); // 50
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUrl();
-							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome); // 60
+							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".url"); // 60
 							break;
 						case "size":
 							result.SizeElement = new Hl7.Fhir.Model.UnsignedInt();
-							await ParseAsync(result.SizeElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome); // 70
+							await ParseAsync(result.SizeElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".size"); // 70
 							break;
 						case "hash":
 							result.HashElement = new Hl7.Fhir.Model.Base64Binary();
-							await ParseAsync(result.HashElement as Hl7.Fhir.Model.Base64Binary, reader, outcome); // 80
+							await ParseAsync(result.HashElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".hash"); // 80
 							break;
 						case "title":
 							result.TitleElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							await ParseAsync(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title"); // 90
 							break;
 						case "creation":
 							result.CreationElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.CreationElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 100
+							await ParseAsync(result.CreationElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".creation"); // 100
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

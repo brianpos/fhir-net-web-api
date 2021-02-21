@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Contract.ValuedItemComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Contract.ValuedItemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,79 +51,79 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "entityCodeableConcept":
 							result.Entity = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Entity as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Entity as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".entity"); // 40
 							break;
 						case "entityReference":
 							result.Entity = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Entity as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 40
+							Parse(result.Entity as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".entity"); // 40
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome); // 50
+							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 50
 							break;
 						case "effectiveTime":
 							result.EffectiveTimeElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.EffectiveTimeElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 60
+							Parse(result.EffectiveTimeElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveTime"); // 60
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 70
+							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 70
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();
-							Parse(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome); // 80
+							Parse(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".unitPrice"); // 80
 							break;
 						case "factor":
 							result.FactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 90
+							Parse(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor"); // 90
 							break;
 						case "points":
 							result.PointsElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.PointsElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 100
+							Parse(result.PointsElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".points"); // 100
 							break;
 						case "net":
 							result.Net = new Hl7.Fhir.Model.Money();
-							Parse(result.Net as Hl7.Fhir.Model.Money, reader, outcome); // 110
+							Parse(result.Net as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".net"); // 110
 							break;
 						case "payment":
 							result.PaymentElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PaymentElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 120
+							Parse(result.PaymentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".payment"); // 120
 							break;
 						case "paymentDate":
 							result.PaymentDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.PaymentDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 130
+							Parse(result.PaymentDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".paymentDate"); // 130
 							break;
 						case "responsible":
 							result.Responsible = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 140
+							Parse(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".responsible"); // 140
 							break;
 						case "recipient":
 							result.Recipient = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Recipient as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 150
+							Parse(result.Recipient as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".recipient"); // 150
 							break;
 						case "linkId":
 							var newItem_linkId = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_linkId, reader, outcome); // 160
+							Parse(newItem_linkId, reader, outcome, locationPath + ".linkId["+result.LinkIdElement.Count+"]"); // 160
 							result.LinkIdElement.Add(newItem_linkId);
 							break;
 						case "securityLabelNumber":
 							var newItem_securityLabelNumber = new Hl7.Fhir.Model.UnsignedInt();
-							Parse(newItem_securityLabelNumber, reader, outcome); // 170
+							Parse(newItem_securityLabelNumber, reader, outcome, locationPath + ".securityLabelNumber["+result.SecurityLabelNumberElement.Count+"]"); // 170
 							result.SecurityLabelNumberElement.Add(newItem_securityLabelNumber);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -134,7 +134,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Contract.ValuedItemComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Contract.ValuedItemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -170,79 +170,79 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "entityCodeableConcept":
 							result.Entity = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Entity as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Entity as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".entity"); // 40
 							break;
 						case "entityReference":
 							result.Entity = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Entity as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 40
+							await ParseAsync(result.Entity as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".entity"); // 40
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome); // 50
+							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 50
 							break;
 						case "effectiveTime":
 							result.EffectiveTimeElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.EffectiveTimeElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 60
+							await ParseAsync(result.EffectiveTimeElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveTime"); // 60
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 70
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 70
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();
-							await ParseAsync(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome); // 80
+							await ParseAsync(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".unitPrice"); // 80
 							break;
 						case "factor":
 							result.FactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 90
+							await ParseAsync(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor"); // 90
 							break;
 						case "points":
 							result.PointsElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.PointsElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 100
+							await ParseAsync(result.PointsElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".points"); // 100
 							break;
 						case "net":
 							result.Net = new Hl7.Fhir.Model.Money();
-							await ParseAsync(result.Net as Hl7.Fhir.Model.Money, reader, outcome); // 110
+							await ParseAsync(result.Net as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".net"); // 110
 							break;
 						case "payment":
 							result.PaymentElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PaymentElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 120
+							await ParseAsync(result.PaymentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".payment"); // 120
 							break;
 						case "paymentDate":
 							result.PaymentDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.PaymentDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 130
+							await ParseAsync(result.PaymentDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".paymentDate"); // 130
 							break;
 						case "responsible":
 							result.Responsible = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 140
+							await ParseAsync(result.Responsible as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".responsible"); // 140
 							break;
 						case "recipient":
 							result.Recipient = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Recipient as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 150
+							await ParseAsync(result.Recipient as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".recipient"); // 150
 							break;
 						case "linkId":
 							var newItem_linkId = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_linkId, reader, outcome); // 160
+							await ParseAsync(newItem_linkId, reader, outcome, locationPath + ".linkId["+result.LinkIdElement.Count+"]"); // 160
 							result.LinkIdElement.Add(newItem_linkId);
 							break;
 						case "securityLabelNumber":
 							var newItem_securityLabelNumber = new Hl7.Fhir.Model.UnsignedInt();
-							await ParseAsync(newItem_securityLabelNumber, reader, outcome); // 170
+							await ParseAsync(newItem_securityLabelNumber, reader, outcome, locationPath + ".securityLabelNumber["+result.SecurityLabelNumberElement.Count+"]"); // 170
 							result.SecurityLabelNumberElement.Add(newItem_securityLabelNumber);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

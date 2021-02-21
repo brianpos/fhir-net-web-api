@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MolecularSequence.ReferenceSeqComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MolecularSequence.ReferenceSeqComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,53 +51,53 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "chromosome":
 							result.Chromosome = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Chromosome as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Chromosome as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".chromosome"); // 40
 							break;
 						case "genomeBuild":
 							result.GenomeBuildElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.GenomeBuildElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.GenomeBuildElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".genomeBuild"); // 50
 							break;
 						case "orientation":
 							result.OrientationElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.orientationType>();
-							Parse(result.OrientationElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.orientationType>, reader, outcome); // 60
+							Parse(result.OrientationElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.orientationType>, reader, outcome, locationPath + ".orientation"); // 60
 							break;
 						case "referenceSeqId":
 							result.ReferenceSeqId = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.ReferenceSeqId as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 70
+							Parse(result.ReferenceSeqId as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".referenceSeqId"); // 70
 							break;
 						case "referenceSeqPointer":
 							result.ReferenceSeqPointer = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.ReferenceSeqPointer as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 80
+							Parse(result.ReferenceSeqPointer as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".referenceSeqPointer"); // 80
 							break;
 						case "referenceSeqString":
 							result.ReferenceSeqStringElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ReferenceSeqStringElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							Parse(result.ReferenceSeqStringElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".referenceSeqString"); // 90
 							break;
 						case "strand":
 							result.StrandElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.strandType>();
-							Parse(result.StrandElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.strandType>, reader, outcome); // 100
+							Parse(result.StrandElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.strandType>, reader, outcome, locationPath + ".strand"); // 100
 							break;
 						case "windowStart":
 							result.WindowStartElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.WindowStartElement as Hl7.Fhir.Model.Integer, reader, outcome); // 110
+							Parse(result.WindowStartElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".windowStart"); // 110
 							break;
 						case "windowEnd":
 							result.WindowEndElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.WindowEndElement as Hl7.Fhir.Model.Integer, reader, outcome); // 120
+							Parse(result.WindowEndElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".windowEnd"); // 120
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -108,7 +108,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MolecularSequence.ReferenceSeqComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MolecularSequence.ReferenceSeqComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -144,53 +144,53 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "chromosome":
 							result.Chromosome = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Chromosome as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Chromosome as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".chromosome"); // 40
 							break;
 						case "genomeBuild":
 							result.GenomeBuildElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.GenomeBuildElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.GenomeBuildElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".genomeBuild"); // 50
 							break;
 						case "orientation":
 							result.OrientationElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.orientationType>();
-							await ParseAsync(result.OrientationElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.orientationType>, reader, outcome); // 60
+							await ParseAsync(result.OrientationElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.orientationType>, reader, outcome, locationPath + ".orientation"); // 60
 							break;
 						case "referenceSeqId":
 							result.ReferenceSeqId = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.ReferenceSeqId as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 70
+							await ParseAsync(result.ReferenceSeqId as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".referenceSeqId"); // 70
 							break;
 						case "referenceSeqPointer":
 							result.ReferenceSeqPointer = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.ReferenceSeqPointer as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 80
+							await ParseAsync(result.ReferenceSeqPointer as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".referenceSeqPointer"); // 80
 							break;
 						case "referenceSeqString":
 							result.ReferenceSeqStringElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ReferenceSeqStringElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							await ParseAsync(result.ReferenceSeqStringElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".referenceSeqString"); // 90
 							break;
 						case "strand":
 							result.StrandElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.strandType>();
-							await ParseAsync(result.StrandElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.strandType>, reader, outcome); // 100
+							await ParseAsync(result.StrandElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.strandType>, reader, outcome, locationPath + ".strand"); // 100
 							break;
 						case "windowStart":
 							result.WindowStartElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.WindowStartElement as Hl7.Fhir.Model.Integer, reader, outcome); // 110
+							await ParseAsync(result.WindowStartElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".windowStart"); // 110
 							break;
 						case "windowEnd":
 							result.WindowEndElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.WindowEndElement as Hl7.Fhir.Model.Integer, reader, outcome); // 120
+							await ParseAsync(result.WindowEndElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".windowEnd"); // 120
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

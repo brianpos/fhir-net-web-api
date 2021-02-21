@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SubstancePolymer.DegreeOfPolymerisationComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.SubstancePolymer.DegreeOfPolymerisationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,25 +51,25 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "degree":
 							result.Degree = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Degree as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Degree as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".degree"); // 40
 							break;
 						case "amount":
 							result.Amount = new Hl7.Fhir.Model.SubstanceAmount();
-							Parse(result.Amount as Hl7.Fhir.Model.SubstanceAmount, reader, outcome); // 50
+							Parse(result.Amount as Hl7.Fhir.Model.SubstanceAmount, reader, outcome, locationPath + ".amount"); // 50
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -80,7 +80,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstancePolymer.DegreeOfPolymerisationComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstancePolymer.DegreeOfPolymerisationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -116,25 +116,25 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "degree":
 							result.Degree = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Degree as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Degree as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".degree"); // 40
 							break;
 						case "amount":
 							result.Amount = new Hl7.Fhir.Model.SubstanceAmount();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.SubstanceAmount, reader, outcome); // 50
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.SubstanceAmount, reader, outcome, locationPath + ".amount"); // 50
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

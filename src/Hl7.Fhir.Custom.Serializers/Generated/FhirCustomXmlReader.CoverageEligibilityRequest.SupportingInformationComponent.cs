@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.CoverageEligibilityRequest.SupportingInformationComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.CoverageEligibilityRequest.SupportingInformationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,29 +51,29 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "sequence":
 							result.SequenceElement = new Hl7.Fhir.Model.PositiveInt();
-							Parse(result.SequenceElement as Hl7.Fhir.Model.PositiveInt, reader, outcome); // 40
+							Parse(result.SequenceElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".sequence"); // 40
 							break;
 						case "information":
 							result.Information = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Information as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 50
+							Parse(result.Information as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".information"); // 50
 							break;
 						case "appliesToAll":
 							result.AppliesToAllElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.AppliesToAllElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 60
+							Parse(result.AppliesToAllElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".appliesToAll"); // 60
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -84,7 +84,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.CoverageEligibilityRequest.SupportingInformationComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.CoverageEligibilityRequest.SupportingInformationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -120,29 +120,29 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "sequence":
 							result.SequenceElement = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(result.SequenceElement as Hl7.Fhir.Model.PositiveInt, reader, outcome); // 40
+							await ParseAsync(result.SequenceElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".sequence"); // 40
 							break;
 						case "information":
 							result.Information = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Information as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 50
+							await ParseAsync(result.Information as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".information"); // 50
 							break;
 						case "appliesToAll":
 							result.AppliesToAllElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.AppliesToAllElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 60
+							await ParseAsync(result.AppliesToAllElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".appliesToAll"); // 60
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

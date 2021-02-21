@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Observation.ComponentComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Observation.ComponentComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,79 +51,79 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code"); // 40
 							break;
 						case "valueQuantity":
 							result.Value = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueCodeableConcept":
 							result.Value = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueString":
 							result.Value = new Hl7.Fhir.Model.FhirString();
-							Parse(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueBoolean":
 							result.Value = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueInteger":
 							result.Value = new Hl7.Fhir.Model.Integer();
-							Parse(result.Value as Hl7.Fhir.Model.Integer, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueRange":
 							result.Value = new Hl7.Fhir.Model.Range();
-							Parse(result.Value as Hl7.Fhir.Model.Range, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueRatio":
 							result.Value = new Hl7.Fhir.Model.Ratio();
-							Parse(result.Value as Hl7.Fhir.Model.Ratio, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueSampledData":
 							result.Value = new Hl7.Fhir.Model.SampledData();
-							Parse(result.Value as Hl7.Fhir.Model.SampledData, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.SampledData, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueTime":
 							result.Value = new Hl7.Fhir.Model.Time();
-							Parse(result.Value as Hl7.Fhir.Model.Time, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueDateTime":
 							result.Value = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valuePeriod":
 							result.Value = new Hl7.Fhir.Model.Period();
-							Parse(result.Value as Hl7.Fhir.Model.Period, reader, outcome); // 50
+							Parse(result.Value as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "dataAbsentReason":
 							result.DataAbsentReason = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.DataAbsentReason as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							Parse(result.DataAbsentReason as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".dataAbsentReason"); // 60
 							break;
 						case "interpretation":
 							var newItem_interpretation = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_interpretation, reader, outcome); // 70
+							Parse(newItem_interpretation, reader, outcome, locationPath + ".interpretation["+result.Interpretation.Count+"]"); // 70
 							result.Interpretation.Add(newItem_interpretation);
 							break;
 						case "referenceRange":
 							var newItem_referenceRange = new Hl7.Fhir.Model.Observation.ReferenceRangeComponent();
-							Parse(newItem_referenceRange, reader, outcome); // 80
+							Parse(newItem_referenceRange, reader, outcome, locationPath + ".referenceRange["+result.ReferenceRange.Count+"]"); // 80
 							result.ReferenceRange.Add(newItem_referenceRange);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -134,7 +134,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Observation.ComponentComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Observation.ComponentComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -170,79 +170,79 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code"); // 40
 							break;
 						case "valueQuantity":
 							result.Value = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueCodeableConcept":
 							result.Value = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueString":
 							result.Value = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueBoolean":
 							result.Value = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueInteger":
 							result.Value = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Integer, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueRange":
 							result.Value = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Range, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueRatio":
 							result.Value = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Ratio, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueSampledData":
 							result.Value = new Hl7.Fhir.Model.SampledData();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.SampledData, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.SampledData, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueTime":
 							result.Value = new Hl7.Fhir.Model.Time();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Time, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valueDateTime":
 							result.Value = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "valuePeriod":
 							result.Value = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Period, reader, outcome); // 50
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".value"); // 50
 							break;
 						case "dataAbsentReason":
 							result.DataAbsentReason = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.DataAbsentReason as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							await ParseAsync(result.DataAbsentReason as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".dataAbsentReason"); // 60
 							break;
 						case "interpretation":
 							var newItem_interpretation = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_interpretation, reader, outcome); // 70
+							await ParseAsync(newItem_interpretation, reader, outcome, locationPath + ".interpretation["+result.Interpretation.Count+"]"); // 70
 							result.Interpretation.Add(newItem_interpretation);
 							break;
 						case "referenceRange":
 							var newItem_referenceRange = new Hl7.Fhir.Model.Observation.ReferenceRangeComponent();
-							await ParseAsync(newItem_referenceRange, reader, outcome); // 80
+							await ParseAsync(newItem_referenceRange, reader, outcome, locationPath + ".referenceRange["+result.ReferenceRange.Count+"]"); // 80
 							result.ReferenceRange.Add(newItem_referenceRange);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

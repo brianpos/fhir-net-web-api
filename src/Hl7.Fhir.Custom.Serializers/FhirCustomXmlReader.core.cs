@@ -16,7 +16,7 @@ namespace Hl7.Fhir.CustomSerializer
         public Resource Parse()
         {
             var reader = new FhirCustomXmlReader();
-            return reader.Parse(this.Reader, new OperationOutcome());
+            return reader.Parse(this.Reader, new OperationOutcome(), null);
         }
 
         protected override void InitCallbacks()
@@ -132,7 +132,7 @@ namespace Hl7.Fhir.CustomSerializer
             });
         }
 
-        public void Parse<T>(Code<T> result, XmlReader reader, OperationOutcome outcome)
+        public void Parse<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath)
             where T : struct
         {
             // skip ignored elements
@@ -155,7 +155,7 @@ namespace Hl7.Fhir.CustomSerializer
                             break;
                         default:
                             // Property not found
-                            HandleAttributeNotFound(reader, outcome, "unknown");
+                            HandleAttributeNotFound(reader, outcome, locationPath);
                             break;
                     }
                 } while (reader.MoveToNextAttribute());
@@ -175,12 +175,12 @@ namespace Hl7.Fhir.CustomSerializer
                     {
                         case "extension":
                             var newItem_extension = new Hl7.Fhir.Model.Extension();
-                            Parse(newItem_extension, reader, outcome); // 20
+                            Parse(newItem_extension, reader, outcome, locationPath + ".extension[" + result.Extension.Count + "]"); // 20
                             result.Extension.Add(newItem_extension);
                             break;
                         default:
                             // Property not found, skip over it
-                            HandlePropertyNotFound(reader, outcome, "unknown");
+                            HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
                             break;
                     }
                 }
@@ -191,7 +191,7 @@ namespace Hl7.Fhir.CustomSerializer
             }
         }
 
-        public async Task ParseAsync<T>(Code<T> result, XmlReader reader, OperationOutcome outcome)
+        public async Task ParseAsync<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath)
             where T : struct
         {
             // skip ignored elements
@@ -214,7 +214,7 @@ namespace Hl7.Fhir.CustomSerializer
                             break;
                         default:
                             // Property not found
-                            HandleAttributeNotFound(reader, outcome, "unknown");
+                            HandleAttributeNotFound(reader, outcome, locationPath);
                             break;
                     }
                 } while (reader.MoveToNextAttribute());
@@ -234,12 +234,12 @@ namespace Hl7.Fhir.CustomSerializer
                     {
                         case "extension":
                             var newItem_extension = new Hl7.Fhir.Model.Extension();
-                            await ParseAsync(newItem_extension, reader, outcome); // 20
+                            await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension[" + result.Extension.Count + "]"); // 20
                             result.Extension.Add(newItem_extension);
                             break;
                         default:
                             // Property not found, skip over it
-                            HandlePropertyNotFound(reader, outcome, "unknown");
+                            HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
                             break;
                     }
                 }

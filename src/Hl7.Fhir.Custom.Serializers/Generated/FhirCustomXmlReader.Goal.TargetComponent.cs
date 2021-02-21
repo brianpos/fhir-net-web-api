@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Goal.TargetComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Goal.TargetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,57 +51,57 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "measure":
 							result.Measure = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Measure as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Measure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".measure"); // 40
 							break;
 						case "detailQuantity":
 							result.Detail = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Detail as Hl7.Fhir.Model.Quantity, reader, outcome); // 50
+							Parse(result.Detail as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailRange":
 							result.Detail = new Hl7.Fhir.Model.Range();
-							Parse(result.Detail as Hl7.Fhir.Model.Range, reader, outcome); // 50
+							Parse(result.Detail as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailCodeableConcept":
 							result.Detail = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Detail as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Detail as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailString":
 							result.Detail = new Hl7.Fhir.Model.FhirString();
-							Parse(result.Detail as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.Detail as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailBoolean":
 							result.Detail = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.Detail as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							Parse(result.Detail as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailInteger":
 							result.Detail = new Hl7.Fhir.Model.Integer();
-							Parse(result.Detail as Hl7.Fhir.Model.Integer, reader, outcome); // 50
+							Parse(result.Detail as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailRatio":
 							result.Detail = new Hl7.Fhir.Model.Ratio();
-							Parse(result.Detail as Hl7.Fhir.Model.Ratio, reader, outcome); // 50
+							Parse(result.Detail as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "dueDate":
 							result.Due = new Hl7.Fhir.Model.Date();
-							Parse(result.Due as Hl7.Fhir.Model.Date, reader, outcome); // 60
+							Parse(result.Due as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".due"); // 60
 							break;
 						case "dueDuration":
 							result.Due = new Hl7.Fhir.Model.Duration();
-							Parse(result.Due as Hl7.Fhir.Model.Duration, reader, outcome); // 60
+							Parse(result.Due as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".due"); // 60
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -112,7 +112,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Goal.TargetComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Goal.TargetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -148,57 +148,57 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "measure":
 							result.Measure = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Measure as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Measure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".measure"); // 40
 							break;
 						case "detailQuantity":
 							result.Detail = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Detail as Hl7.Fhir.Model.Quantity, reader, outcome); // 50
+							await ParseAsync(result.Detail as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailRange":
 							result.Detail = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Detail as Hl7.Fhir.Model.Range, reader, outcome); // 50
+							await ParseAsync(result.Detail as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailCodeableConcept":
 							result.Detail = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Detail as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Detail as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailString":
 							result.Detail = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.Detail as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.Detail as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailBoolean":
 							result.Detail = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.Detail as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							await ParseAsync(result.Detail as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailInteger":
 							result.Detail = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.Detail as Hl7.Fhir.Model.Integer, reader, outcome); // 50
+							await ParseAsync(result.Detail as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "detailRatio":
 							result.Detail = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.Detail as Hl7.Fhir.Model.Ratio, reader, outcome); // 50
+							await ParseAsync(result.Detail as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".detail"); // 50
 							break;
 						case "dueDate":
 							result.Due = new Hl7.Fhir.Model.Date();
-							await ParseAsync(result.Due as Hl7.Fhir.Model.Date, reader, outcome); // 60
+							await ParseAsync(result.Due as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".due"); // 60
 							break;
 						case "dueDuration":
 							result.Due = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.Due as Hl7.Fhir.Model.Duration, reader, outcome); // 60
+							await ParseAsync(result.Due as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".due"); // 60
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.NutritionOrder.SupplementComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.NutritionOrder.SupplementComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,38 +51,38 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 40
 							break;
 						case "productName":
 							result.ProductNameElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.ProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".productName"); // 50
 							break;
 						case "schedule":
 							var newItem_schedule = new Hl7.Fhir.Model.Timing();
-							Parse(newItem_schedule, reader, outcome); // 60
+							Parse(newItem_schedule, reader, outcome, locationPath + ".schedule["+result.Schedule.Count+"]"); // 60
 							result.Schedule.Add(newItem_schedule);
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 70
+							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 70
 							break;
 						case "instruction":
 							result.InstructionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							Parse(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".instruction"); // 80
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -93,7 +93,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.NutritionOrder.SupplementComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.NutritionOrder.SupplementComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -129,38 +129,38 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 40
 							break;
 						case "productName":
 							result.ProductNameElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.ProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".productName"); // 50
 							break;
 						case "schedule":
 							var newItem_schedule = new Hl7.Fhir.Model.Timing();
-							await ParseAsync(newItem_schedule, reader, outcome); // 60
+							await ParseAsync(newItem_schedule, reader, outcome, locationPath + ".schedule["+result.Schedule.Count+"]"); // 60
 							result.Schedule.Add(newItem_schedule);
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 70
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 70
 							break;
 						case "instruction":
 							result.InstructionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							await ParseAsync(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".instruction"); // 80
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

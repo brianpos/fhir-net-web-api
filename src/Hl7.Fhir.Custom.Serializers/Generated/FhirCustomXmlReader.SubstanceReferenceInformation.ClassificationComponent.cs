@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SubstanceReferenceInformation.ClassificationComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.SubstanceReferenceInformation.ClassificationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,35 +51,35 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "domain":
 							result.Domain = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Domain as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Domain as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".domain"); // 40
 							break;
 						case "classification":
 							result.Classification = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Classification as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Classification as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".classification"); // 50
 							break;
 						case "subtype":
 							var newItem_subtype = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_subtype, reader, outcome); // 60
+							Parse(newItem_subtype, reader, outcome, locationPath + ".subtype["+result.Subtype.Count+"]"); // 60
 							result.Subtype.Add(newItem_subtype);
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_source, reader, outcome); // 70
+							Parse(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 70
 							result.Source.Add(newItem_source);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -90,7 +90,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceReferenceInformation.ClassificationComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceReferenceInformation.ClassificationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -126,35 +126,35 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "domain":
 							result.Domain = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Domain as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Domain as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".domain"); // 40
 							break;
 						case "classification":
 							result.Classification = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Classification as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Classification as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".classification"); // 50
 							break;
 						case "subtype":
 							var newItem_subtype = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_subtype, reader, outcome); // 60
+							await ParseAsync(newItem_subtype, reader, outcome, locationPath + ".subtype["+result.Subtype.Count+"]"); // 60
 							result.Subtype.Add(newItem_subtype);
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_source, reader, outcome); // 70
+							await ParseAsync(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 70
 							result.Source.Add(newItem_source);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

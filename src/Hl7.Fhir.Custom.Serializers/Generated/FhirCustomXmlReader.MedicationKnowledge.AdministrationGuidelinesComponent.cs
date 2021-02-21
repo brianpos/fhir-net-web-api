@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicationKnowledge.AdministrationGuidelinesComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MedicationKnowledge.AdministrationGuidelinesComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,35 +51,35 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "dosage":
 							var newItem_dosage = new Hl7.Fhir.Model.MedicationKnowledge.DosageComponent();
-							Parse(newItem_dosage, reader, outcome); // 40
+							Parse(newItem_dosage, reader, outcome, locationPath + ".dosage["+result.Dosage.Count+"]"); // 40
 							result.Dosage.Add(newItem_dosage);
 							break;
 						case "indicationCodeableConcept":
 							result.Indication = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".indication"); // 50
 							break;
 						case "indicationReference":
 							result.Indication = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 50
+							Parse(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".indication"); // 50
 							break;
 						case "patientCharacteristics":
 							var newItem_patientCharacteristics = new Hl7.Fhir.Model.MedicationKnowledge.PatientCharacteristicsComponent();
-							Parse(newItem_patientCharacteristics, reader, outcome); // 60
+							Parse(newItem_patientCharacteristics, reader, outcome, locationPath + ".patientCharacteristics["+result.PatientCharacteristics.Count+"]"); // 60
 							result.PatientCharacteristics.Add(newItem_patientCharacteristics);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -90,7 +90,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicationKnowledge.AdministrationGuidelinesComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicationKnowledge.AdministrationGuidelinesComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -126,35 +126,35 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "dosage":
 							var newItem_dosage = new Hl7.Fhir.Model.MedicationKnowledge.DosageComponent();
-							await ParseAsync(newItem_dosage, reader, outcome); // 40
+							await ParseAsync(newItem_dosage, reader, outcome, locationPath + ".dosage["+result.Dosage.Count+"]"); // 40
 							result.Dosage.Add(newItem_dosage);
 							break;
 						case "indicationCodeableConcept":
 							result.Indication = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".indication"); // 50
 							break;
 						case "indicationReference":
 							result.Indication = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 50
+							await ParseAsync(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".indication"); // 50
 							break;
 						case "patientCharacteristics":
 							var newItem_patientCharacteristics = new Hl7.Fhir.Model.MedicationKnowledge.PatientCharacteristicsComponent();
-							await ParseAsync(newItem_patientCharacteristics, reader, outcome); // 60
+							await ParseAsync(newItem_patientCharacteristics, reader, outcome, locationPath + ".patientCharacteristics["+result.PatientCharacteristics.Count+"]"); // 60
 							result.PatientCharacteristics.Add(newItem_patientCharacteristics);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

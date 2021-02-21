@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		private void Parse(SubstanceSourceMaterial result, XmlReader reader, OperationOutcome outcome)
+		private void Parse(SubstanceSourceMaterial result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -46,103 +46,103 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "id":
 							result.IdElement = new Hl7.Fhir.Model.Id();
-							Parse(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome); // 10
+							Parse(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id"); // 10
 							break;
 						case "meta":
 							result.Meta = new Hl7.Fhir.Model.Meta();
-							Parse(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome); // 20
+							Parse(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta"); // 20
 							break;
 						case "implicitRules":
 							result.ImplicitRulesElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 30
+							Parse(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules"); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome); // 40
+							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
 							break;
 						case "text":
 							result.Text = new Hl7.Fhir.Model.Narrative();
-							Parse(result.Text as Hl7.Fhir.Model.Narrative, reader, outcome); // 50
+							Parse(result.Text as Hl7.Fhir.Model.Narrative, reader, outcome, locationPath + ".text"); // 50
 							break;
 						case "contained":
 							// FirstChildOf(reader); // 60
-							var ContainedResource = Parse(reader, outcome);
+							var ContainedResource = Parse(reader, outcome, locationPath + ".contained["+result.Contained.Count+"]");
 							if (ContainedResource != null)
 								result.Contained.Add(ContainedResource);
 							if (!reader.Read()) return;
 							break;
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 70
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 70
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 80
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 80
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "sourceMaterialClass":
 							result.SourceMaterialClass = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.SourceMaterialClass as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							Parse(result.SourceMaterialClass as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".sourceMaterialClass"); // 90
 							break;
 						case "sourceMaterialType":
 							result.SourceMaterialType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.SourceMaterialType as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							Parse(result.SourceMaterialType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".sourceMaterialType"); // 100
 							break;
 						case "sourceMaterialState":
 							result.SourceMaterialState = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.SourceMaterialState as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 110
+							Parse(result.SourceMaterialState as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".sourceMaterialState"); // 110
 							break;
 						case "organismId":
 							result.OrganismId = new Hl7.Fhir.Model.Identifier();
-							Parse(result.OrganismId as Hl7.Fhir.Model.Identifier, reader, outcome); // 120
+							Parse(result.OrganismId as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".organismId"); // 120
 							break;
 						case "organismName":
 							result.OrganismNameElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.OrganismNameElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 130
+							Parse(result.OrganismNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".organismName"); // 130
 							break;
 						case "parentSubstanceId":
 							var newItem_parentSubstanceId = new Hl7.Fhir.Model.Identifier();
-							Parse(newItem_parentSubstanceId, reader, outcome); // 140
+							Parse(newItem_parentSubstanceId, reader, outcome, locationPath + ".parentSubstanceId["+result.ParentSubstanceId.Count+"]"); // 140
 							result.ParentSubstanceId.Add(newItem_parentSubstanceId);
 							break;
 						case "parentSubstanceName":
 							var newItem_parentSubstanceName = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_parentSubstanceName, reader, outcome); // 150
+							Parse(newItem_parentSubstanceName, reader, outcome, locationPath + ".parentSubstanceName["+result.ParentSubstanceNameElement.Count+"]"); // 150
 							result.ParentSubstanceNameElement.Add(newItem_parentSubstanceName);
 							break;
 						case "countryOfOrigin":
 							var newItem_countryOfOrigin = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_countryOfOrigin, reader, outcome); // 160
+							Parse(newItem_countryOfOrigin, reader, outcome, locationPath + ".countryOfOrigin["+result.CountryOfOrigin.Count+"]"); // 160
 							result.CountryOfOrigin.Add(newItem_countryOfOrigin);
 							break;
 						case "geographicalLocation":
 							var newItem_geographicalLocation = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_geographicalLocation, reader, outcome); // 170
+							Parse(newItem_geographicalLocation, reader, outcome, locationPath + ".geographicalLocation["+result.GeographicalLocationElement.Count+"]"); // 170
 							result.GeographicalLocationElement.Add(newItem_geographicalLocation);
 							break;
 						case "developmentStage":
 							result.DevelopmentStage = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.DevelopmentStage as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 180
+							Parse(result.DevelopmentStage as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".developmentStage"); // 180
 							break;
 						case "fractionDescription":
 							var newItem_fractionDescription = new Hl7.Fhir.Model.SubstanceSourceMaterial.FractionDescriptionComponent();
-							Parse(newItem_fractionDescription, reader, outcome); // 190
+							Parse(newItem_fractionDescription, reader, outcome, locationPath + ".fractionDescription["+result.FractionDescription.Count+"]"); // 190
 							result.FractionDescription.Add(newItem_fractionDescription);
 							break;
 						case "organism":
 							result.Organism = new Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent();
-							Parse(result.Organism as Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent, reader, outcome); // 200
+							Parse(result.Organism as Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent, reader, outcome, locationPath + ".organism"); // 200
 							break;
 						case "partDescription":
 							var newItem_partDescription = new Hl7.Fhir.Model.SubstanceSourceMaterial.PartDescriptionComponent();
-							Parse(newItem_partDescription, reader, outcome); // 210
+							Parse(newItem_partDescription, reader, outcome, locationPath + ".partDescription["+result.PartDescription.Count+"]"); // 210
 							result.PartDescription.Add(newItem_partDescription);
 							break;
 						default:
 							// Property not found
 							// System.Diagnostics.Trace.WriteLine($\"Unexpected token found {reader.Name}\");
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							// reader.ReadInnerXml();
 							break;
 					}
@@ -154,7 +154,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		private async System.Threading.Tasks.Task ParseAsync(SubstanceSourceMaterial result, XmlReader reader, OperationOutcome outcome)
+		private async System.Threading.Tasks.Task ParseAsync(SubstanceSourceMaterial result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -185,102 +185,102 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "id":
 							result.IdElement = new Hl7.Fhir.Model.Id();
-							await ParseAsync(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome); // 10
+							await ParseAsync(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id"); // 10
 							break;
 						case "meta":
 							result.Meta = new Hl7.Fhir.Model.Meta();
-							await ParseAsync(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome); // 20
+							await ParseAsync(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta"); // 20
 							break;
 						case "implicitRules":
 							result.ImplicitRulesElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 30
+							await ParseAsync(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules"); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome); // 40
+							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
 							break;
 						case "text":
 							result.Text = new Hl7.Fhir.Model.Narrative();
-							await ParseAsync(result.Text as Hl7.Fhir.Model.Narrative, reader, outcome); // 50
+							await ParseAsync(result.Text as Hl7.Fhir.Model.Narrative, reader, outcome, locationPath + ".text"); // 50
 							break;
 						case "contained":
 							// FirstChildOf(reader); // 60
-							var ContainedResource = await ParseAsync(reader, outcome);
+							var ContainedResource = await ParseAsync(reader, outcome, locationPath + ".contained["+result.Contained.Count+"]");
 							if (ContainedResource != null)
 								result.Contained.Add(ContainedResource);
 							if (!reader.Read()) return;
 							break;
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 70
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 70
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 80
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 80
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "sourceMaterialClass":
 							result.SourceMaterialClass = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.SourceMaterialClass as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							await ParseAsync(result.SourceMaterialClass as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".sourceMaterialClass"); // 90
 							break;
 						case "sourceMaterialType":
 							result.SourceMaterialType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.SourceMaterialType as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							await ParseAsync(result.SourceMaterialType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".sourceMaterialType"); // 100
 							break;
 						case "sourceMaterialState":
 							result.SourceMaterialState = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.SourceMaterialState as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 110
+							await ParseAsync(result.SourceMaterialState as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".sourceMaterialState"); // 110
 							break;
 						case "organismId":
 							result.OrganismId = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.OrganismId as Hl7.Fhir.Model.Identifier, reader, outcome); // 120
+							await ParseAsync(result.OrganismId as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".organismId"); // 120
 							break;
 						case "organismName":
 							result.OrganismNameElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.OrganismNameElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 130
+							await ParseAsync(result.OrganismNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".organismName"); // 130
 							break;
 						case "parentSubstanceId":
 							var newItem_parentSubstanceId = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(newItem_parentSubstanceId, reader, outcome); // 140
+							await ParseAsync(newItem_parentSubstanceId, reader, outcome, locationPath + ".parentSubstanceId["+result.ParentSubstanceId.Count+"]"); // 140
 							result.ParentSubstanceId.Add(newItem_parentSubstanceId);
 							break;
 						case "parentSubstanceName":
 							var newItem_parentSubstanceName = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_parentSubstanceName, reader, outcome); // 150
+							await ParseAsync(newItem_parentSubstanceName, reader, outcome, locationPath + ".parentSubstanceName["+result.ParentSubstanceNameElement.Count+"]"); // 150
 							result.ParentSubstanceNameElement.Add(newItem_parentSubstanceName);
 							break;
 						case "countryOfOrigin":
 							var newItem_countryOfOrigin = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_countryOfOrigin, reader, outcome); // 160
+							await ParseAsync(newItem_countryOfOrigin, reader, outcome, locationPath + ".countryOfOrigin["+result.CountryOfOrigin.Count+"]"); // 160
 							result.CountryOfOrigin.Add(newItem_countryOfOrigin);
 							break;
 						case "geographicalLocation":
 							var newItem_geographicalLocation = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_geographicalLocation, reader, outcome); // 170
+							await ParseAsync(newItem_geographicalLocation, reader, outcome, locationPath + ".geographicalLocation["+result.GeographicalLocationElement.Count+"]"); // 170
 							result.GeographicalLocationElement.Add(newItem_geographicalLocation);
 							break;
 						case "developmentStage":
 							result.DevelopmentStage = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.DevelopmentStage as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 180
+							await ParseAsync(result.DevelopmentStage as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".developmentStage"); // 180
 							break;
 						case "fractionDescription":
 							var newItem_fractionDescription = new Hl7.Fhir.Model.SubstanceSourceMaterial.FractionDescriptionComponent();
-							await ParseAsync(newItem_fractionDescription, reader, outcome); // 190
+							await ParseAsync(newItem_fractionDescription, reader, outcome, locationPath + ".fractionDescription["+result.FractionDescription.Count+"]"); // 190
 							result.FractionDescription.Add(newItem_fractionDescription);
 							break;
 						case "organism":
 							result.Organism = new Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent();
-							await ParseAsync(result.Organism as Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent, reader, outcome); // 200
+							await ParseAsync(result.Organism as Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent, reader, outcome, locationPath + ".organism"); // 200
 							break;
 						case "partDescription":
 							var newItem_partDescription = new Hl7.Fhir.Model.SubstanceSourceMaterial.PartDescriptionComponent();
-							await ParseAsync(newItem_partDescription, reader, outcome); // 210
+							await ParseAsync(newItem_partDescription, reader, outcome, locationPath + ".partDescription["+result.PartDescription.Count+"]"); // 210
 							result.PartDescription.Add(newItem_partDescription);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

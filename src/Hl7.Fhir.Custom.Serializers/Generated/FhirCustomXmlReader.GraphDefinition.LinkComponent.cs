@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.GraphDefinition.LinkComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.GraphDefinition.LinkComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,42 +51,42 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path"); // 40
 							break;
 						case "sliceName":
 							result.SliceNameElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.SliceNameElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.SliceNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sliceName"); // 50
 							break;
 						case "min":
 							result.MinElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.MinElement as Hl7.Fhir.Model.Integer, reader, outcome); // 60
+							Parse(result.MinElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".min"); // 60
 							break;
 						case "max":
 							result.MaxElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							Parse(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".max"); // 70
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 80
 							break;
 						case "target":
 							var newItem_target = new Hl7.Fhir.Model.GraphDefinition.TargetComponent();
-							Parse(newItem_target, reader, outcome); // 90
+							Parse(newItem_target, reader, outcome, locationPath + ".target["+result.Target.Count+"]"); // 90
 							result.Target.Add(newItem_target);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -97,7 +97,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.GraphDefinition.LinkComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.GraphDefinition.LinkComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -133,42 +133,42 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path"); // 40
 							break;
 						case "sliceName":
 							result.SliceNameElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.SliceNameElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.SliceNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sliceName"); // 50
 							break;
 						case "min":
 							result.MinElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.MinElement as Hl7.Fhir.Model.Integer, reader, outcome); // 60
+							await ParseAsync(result.MinElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".min"); // 60
 							break;
 						case "max":
 							result.MaxElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							await ParseAsync(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".max"); // 70
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 80
 							break;
 						case "target":
 							var newItem_target = new Hl7.Fhir.Model.GraphDefinition.TargetComponent();
-							await ParseAsync(newItem_target, reader, outcome); // 90
+							await ParseAsync(newItem_target, reader, outcome, locationPath + ".target["+result.Target.Count+"]"); // 90
 							result.Target.Add(newItem_target);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

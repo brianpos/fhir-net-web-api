@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Bundle.ResponseComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Bundle.ResponseComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,39 +51,39 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "status":
 							result.StatusElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.StatusElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.StatusElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".status"); // 40
 							break;
 						case "location":
 							result.LocationElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.LocationElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							Parse(result.LocationElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".location"); // 50
 							break;
 						case "etag":
 							result.EtagElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.EtagElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							Parse(result.EtagElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".etag"); // 60
 							break;
 						case "lastModified":
 							result.LastModifiedElement = new Hl7.Fhir.Model.Instant();
-							Parse(result.LastModifiedElement as Hl7.Fhir.Model.Instant, reader, outcome); // 70
+							Parse(result.LastModifiedElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".lastModified"); // 70
 							break;
 						case "outcome":
 							// FirstChildOf(reader); // 80
-							var OutcomeResource = Parse(reader, outcome);
+							var OutcomeResource = Parse(reader, outcome, locationPath + ".outcome");
 							result.Outcome = OutcomeResource;
 							if (!reader.Read()) return;
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -94,7 +94,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Bundle.ResponseComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Bundle.ResponseComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -130,39 +130,39 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "status":
 							result.StatusElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.StatusElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.StatusElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".status"); // 40
 							break;
 						case "location":
 							result.LocationElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.LocationElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							await ParseAsync(result.LocationElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".location"); // 50
 							break;
 						case "etag":
 							result.EtagElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.EtagElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							await ParseAsync(result.EtagElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".etag"); // 60
 							break;
 						case "lastModified":
 							result.LastModifiedElement = new Hl7.Fhir.Model.Instant();
-							await ParseAsync(result.LastModifiedElement as Hl7.Fhir.Model.Instant, reader, outcome); // 70
+							await ParseAsync(result.LastModifiedElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".lastModified"); // 70
 							break;
 						case "outcome":
 							// FirstChildOf(reader); // 80
-							var OutcomeResource = await ParseAsync(reader, outcome);
+							var OutcomeResource = await ParseAsync(reader, outcome, locationPath + ".outcome");
 							result.Outcome = OutcomeResource;
 							if (!reader.Read()) return;
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

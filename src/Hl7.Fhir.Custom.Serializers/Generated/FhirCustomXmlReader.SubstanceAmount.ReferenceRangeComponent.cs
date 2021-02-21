@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,20 +51,20 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "lowLimit":
 							result.LowLimit = new Hl7.Fhir.Model.Quantity();
-							Parse(result.LowLimit as Hl7.Fhir.Model.Quantity, reader, outcome); // 40
+							Parse(result.LowLimit as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".lowLimit"); // 40
 							break;
 						case "highLimit":
 							result.HighLimit = new Hl7.Fhir.Model.Quantity();
-							Parse(result.HighLimit as Hl7.Fhir.Model.Quantity, reader, outcome); // 50
+							Parse(result.HighLimit as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".highLimit"); // 50
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -75,7 +75,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -111,20 +111,20 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "lowLimit":
 							result.LowLimit = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.LowLimit as Hl7.Fhir.Model.Quantity, reader, outcome); // 40
+							await ParseAsync(result.LowLimit as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".lowLimit"); // 40
 							break;
 						case "highLimit":
 							result.HighLimit = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.HighLimit as Hl7.Fhir.Model.Quantity, reader, outcome); // 50
+							await ParseAsync(result.HighLimit as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".highLimit"); // 50
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

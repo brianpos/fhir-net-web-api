@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ValueSet.ConceptSetComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.ValueSet.ConceptSetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,40 +51,40 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 40
+							Parse(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system"); // 40
 							break;
 						case "version":
 							result.VersionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".version"); // 50
 							break;
 						case "concept":
 							var newItem_concept = new Hl7.Fhir.Model.ValueSet.ConceptReferenceComponent();
-							Parse(newItem_concept, reader, outcome); // 60
+							Parse(newItem_concept, reader, outcome, locationPath + ".concept["+result.Concept.Count+"]"); // 60
 							result.Concept.Add(newItem_concept);
 							break;
 						case "filter":
 							var newItem_filter = new Hl7.Fhir.Model.ValueSet.FilterComponent();
-							Parse(newItem_filter, reader, outcome); // 70
+							Parse(newItem_filter, reader, outcome, locationPath + ".filter["+result.Filter.Count+"]"); // 70
 							result.Filter.Add(newItem_filter);
 							break;
 						case "valueSet":
 							var newItem_valueSet = new Hl7.Fhir.Model.Canonical();
-							Parse(newItem_valueSet, reader, outcome); // 80
+							Parse(newItem_valueSet, reader, outcome, locationPath + ".valueSet["+result.ValueSetElement.Count+"]"); // 80
 							result.ValueSetElement.Add(newItem_valueSet);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -95,7 +95,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ValueSet.ConceptSetComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ValueSet.ConceptSetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -131,40 +131,40 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 40
+							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system"); // 40
 							break;
 						case "version":
 							result.VersionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.VersionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".version"); // 50
 							break;
 						case "concept":
 							var newItem_concept = new Hl7.Fhir.Model.ValueSet.ConceptReferenceComponent();
-							await ParseAsync(newItem_concept, reader, outcome); // 60
+							await ParseAsync(newItem_concept, reader, outcome, locationPath + ".concept["+result.Concept.Count+"]"); // 60
 							result.Concept.Add(newItem_concept);
 							break;
 						case "filter":
 							var newItem_filter = new Hl7.Fhir.Model.ValueSet.FilterComponent();
-							await ParseAsync(newItem_filter, reader, outcome); // 70
+							await ParseAsync(newItem_filter, reader, outcome, locationPath + ".filter["+result.Filter.Count+"]"); // 70
 							result.Filter.Add(newItem_filter);
 							break;
 						case "valueSet":
 							var newItem_valueSet = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(newItem_valueSet, reader, outcome); // 80
+							await ParseAsync(newItem_valueSet, reader, outcome, locationPath + ".valueSet["+result.ValueSetElement.Count+"]"); // 80
 							result.ValueSetElement.Add(newItem_valueSet);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

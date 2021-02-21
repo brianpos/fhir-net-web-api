@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.NutritionOrder.OralDietComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.NutritionOrder.OralDietComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,46 +51,46 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							var newItem_type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_type, reader, outcome); // 40
+							Parse(newItem_type, reader, outcome, locationPath + ".type["+result.Type.Count+"]"); // 40
 							result.Type.Add(newItem_type);
 							break;
 						case "schedule":
 							var newItem_schedule = new Hl7.Fhir.Model.Timing();
-							Parse(newItem_schedule, reader, outcome); // 50
+							Parse(newItem_schedule, reader, outcome, locationPath + ".schedule["+result.Schedule.Count+"]"); // 50
 							result.Schedule.Add(newItem_schedule);
 							break;
 						case "nutrient":
 							var newItem_nutrient = new Hl7.Fhir.Model.NutritionOrder.NutrientComponent();
-							Parse(newItem_nutrient, reader, outcome); // 60
+							Parse(newItem_nutrient, reader, outcome, locationPath + ".nutrient["+result.Nutrient.Count+"]"); // 60
 							result.Nutrient.Add(newItem_nutrient);
 							break;
 						case "texture":
 							var newItem_texture = new Hl7.Fhir.Model.NutritionOrder.TextureComponent();
-							Parse(newItem_texture, reader, outcome); // 70
+							Parse(newItem_texture, reader, outcome, locationPath + ".texture["+result.Texture.Count+"]"); // 70
 							result.Texture.Add(newItem_texture);
 							break;
 						case "fluidConsistencyType":
 							var newItem_fluidConsistencyType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_fluidConsistencyType, reader, outcome); // 80
+							Parse(newItem_fluidConsistencyType, reader, outcome, locationPath + ".fluidConsistencyType["+result.FluidConsistencyType.Count+"]"); // 80
 							result.FluidConsistencyType.Add(newItem_fluidConsistencyType);
 							break;
 						case "instruction":
 							result.InstructionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							Parse(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".instruction"); // 90
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -101,7 +101,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.NutritionOrder.OralDietComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.NutritionOrder.OralDietComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -137,46 +137,46 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							var newItem_type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_type, reader, outcome); // 40
+							await ParseAsync(newItem_type, reader, outcome, locationPath + ".type["+result.Type.Count+"]"); // 40
 							result.Type.Add(newItem_type);
 							break;
 						case "schedule":
 							var newItem_schedule = new Hl7.Fhir.Model.Timing();
-							await ParseAsync(newItem_schedule, reader, outcome); // 50
+							await ParseAsync(newItem_schedule, reader, outcome, locationPath + ".schedule["+result.Schedule.Count+"]"); // 50
 							result.Schedule.Add(newItem_schedule);
 							break;
 						case "nutrient":
 							var newItem_nutrient = new Hl7.Fhir.Model.NutritionOrder.NutrientComponent();
-							await ParseAsync(newItem_nutrient, reader, outcome); // 60
+							await ParseAsync(newItem_nutrient, reader, outcome, locationPath + ".nutrient["+result.Nutrient.Count+"]"); // 60
 							result.Nutrient.Add(newItem_nutrient);
 							break;
 						case "texture":
 							var newItem_texture = new Hl7.Fhir.Model.NutritionOrder.TextureComponent();
-							await ParseAsync(newItem_texture, reader, outcome); // 70
+							await ParseAsync(newItem_texture, reader, outcome, locationPath + ".texture["+result.Texture.Count+"]"); // 70
 							result.Texture.Add(newItem_texture);
 							break;
 						case "fluidConsistencyType":
 							var newItem_fluidConsistencyType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_fluidConsistencyType, reader, outcome); // 80
+							await ParseAsync(newItem_fluidConsistencyType, reader, outcome, locationPath + ".fluidConsistencyType["+result.FluidConsistencyType.Count+"]"); // 80
 							result.FluidConsistencyType.Add(newItem_fluidConsistencyType);
 							break;
 						case "instruction":
 							result.InstructionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							await ParseAsync(result.InstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".instruction"); // 90
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

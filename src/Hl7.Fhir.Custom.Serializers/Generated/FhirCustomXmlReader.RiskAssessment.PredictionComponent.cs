@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.RiskAssessment.PredictionComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.RiskAssessment.PredictionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,49 +51,49 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "outcome":
 							result.Outcome = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Outcome as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Outcome as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".outcome"); // 40
 							break;
 						case "probabilityDecimal":
 							result.Probability = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.Probability as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 50
+							Parse(result.Probability as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".probability"); // 50
 							break;
 						case "probabilityRange":
 							result.Probability = new Hl7.Fhir.Model.Range();
-							Parse(result.Probability as Hl7.Fhir.Model.Range, reader, outcome); // 50
+							Parse(result.Probability as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".probability"); // 50
 							break;
 						case "qualitativeRisk":
 							result.QualitativeRisk = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.QualitativeRisk as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							Parse(result.QualitativeRisk as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".qualitativeRisk"); // 60
 							break;
 						case "relativeRisk":
 							result.RelativeRiskElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.RelativeRiskElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 70
+							Parse(result.RelativeRiskElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".relativeRisk"); // 70
 							break;
 						case "whenPeriod":
 							result.When = new Hl7.Fhir.Model.Period();
-							Parse(result.When as Hl7.Fhir.Model.Period, reader, outcome); // 80
+							Parse(result.When as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".when"); // 80
 							break;
 						case "whenRange":
 							result.When = new Hl7.Fhir.Model.Range();
-							Parse(result.When as Hl7.Fhir.Model.Range, reader, outcome); // 80
+							Parse(result.When as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".when"); // 80
 							break;
 						case "rationale":
 							result.RationaleElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.RationaleElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							Parse(result.RationaleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".rationale"); // 90
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -104,7 +104,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.RiskAssessment.PredictionComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.RiskAssessment.PredictionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -140,49 +140,49 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "outcome":
 							result.Outcome = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Outcome as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Outcome as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".outcome"); // 40
 							break;
 						case "probabilityDecimal":
 							result.Probability = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.Probability as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 50
+							await ParseAsync(result.Probability as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".probability"); // 50
 							break;
 						case "probabilityRange":
 							result.Probability = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Probability as Hl7.Fhir.Model.Range, reader, outcome); // 50
+							await ParseAsync(result.Probability as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".probability"); // 50
 							break;
 						case "qualitativeRisk":
 							result.QualitativeRisk = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.QualitativeRisk as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							await ParseAsync(result.QualitativeRisk as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".qualitativeRisk"); // 60
 							break;
 						case "relativeRisk":
 							result.RelativeRiskElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.RelativeRiskElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 70
+							await ParseAsync(result.RelativeRiskElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".relativeRisk"); // 70
 							break;
 						case "whenPeriod":
 							result.When = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.When as Hl7.Fhir.Model.Period, reader, outcome); // 80
+							await ParseAsync(result.When as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".when"); // 80
 							break;
 						case "whenRange":
 							result.When = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.When as Hl7.Fhir.Model.Range, reader, outcome); // 80
+							await ParseAsync(result.When as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".when"); // 80
 							break;
 						case "rationale":
 							result.RationaleElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.RationaleElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							await ParseAsync(result.RationaleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".rationale"); // 90
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

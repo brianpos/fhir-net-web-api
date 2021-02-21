@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.DataRequirement.CodeFilterComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.DataRequirement.CodeFilterComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,29 +51,29 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path"); // 40
 							break;
 						case "searchParam":
 							result.SearchParamElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam"); // 50
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome); // 60
+							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet"); // 60
 							break;
 						case "code":
 							var newItem_code = new Hl7.Fhir.Model.Coding();
-							Parse(newItem_code, reader, outcome); // 70
+							Parse(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]"); // 70
 							result.Code.Add(newItem_code);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -84,7 +84,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.DataRequirement.CodeFilterComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.DataRequirement.CodeFilterComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -120,29 +120,29 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path"); // 40
 							break;
 						case "searchParam":
 							result.SearchParamElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam"); // 50
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome); // 60
+							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet"); // 60
 							break;
 						case "code":
 							var newItem_code = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(newItem_code, reader, outcome); // 70
+							await ParseAsync(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]"); // 70
 							result.Code.Add(newItem_code);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

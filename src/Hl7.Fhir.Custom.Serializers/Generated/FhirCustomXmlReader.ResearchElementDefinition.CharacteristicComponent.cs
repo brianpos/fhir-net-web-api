@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ResearchElementDefinition.CharacteristicComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.ResearchElementDefinition.CharacteristicComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,102 +51,102 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "definitionCodeableConcept":
 							result.Definition = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Definition as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.Definition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "definitionCanonical":
 							result.Definition = new Hl7.Fhir.Model.Canonical();
-							Parse(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome); // 40
+							Parse(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "definitionExpression":
 							result.Definition = new Hl7.Fhir.Model.Expression();
-							Parse(result.Definition as Hl7.Fhir.Model.Expression, reader, outcome); // 40
+							Parse(result.Definition as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "definitionDataRequirement":
 							result.Definition = new Hl7.Fhir.Model.DataRequirement();
-							Parse(result.Definition as Hl7.Fhir.Model.DataRequirement, reader, outcome); // 40
+							Parse(result.Definition as Hl7.Fhir.Model.DataRequirement, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "usageContext":
 							var newItem_usageContext = new Hl7.Fhir.Model.UsageContext();
-							Parse(newItem_usageContext, reader, outcome); // 50
+							Parse(newItem_usageContext, reader, outcome, locationPath + ".usageContext["+result.UsageContext.Count+"]"); // 50
 							result.UsageContext.Add(newItem_usageContext);
 							break;
 						case "exclude":
 							result.ExcludeElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 60
+							Parse(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exclude"); // 60
 							break;
 						case "unitOfMeasure":
 							result.UnitOfMeasure = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.UnitOfMeasure as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 70
+							Parse(result.UnitOfMeasure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".unitOfMeasure"); // 70
 							break;
 						case "studyEffectiveDescription":
 							result.StudyEffectiveDescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.StudyEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							Parse(result.StudyEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".studyEffectiveDescription"); // 80
 							break;
 						case "studyEffectiveDateTime":
 							result.StudyEffective = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.StudyEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 90
+							Parse(result.StudyEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectivePeriod":
 							result.StudyEffective = new Hl7.Fhir.Model.Period();
-							Parse(result.StudyEffective as Hl7.Fhir.Model.Period, reader, outcome); // 90
+							Parse(result.StudyEffective as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectiveDuration":
 							result.StudyEffective = new Hl7.Fhir.Model.Duration();
-							Parse(result.StudyEffective as Hl7.Fhir.Model.Duration, reader, outcome); // 90
+							Parse(result.StudyEffective as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectiveTiming":
 							result.StudyEffective = new Hl7.Fhir.Model.Timing();
-							Parse(result.StudyEffective as Hl7.Fhir.Model.Timing, reader, outcome); // 90
+							Parse(result.StudyEffective as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectiveTimeFromStart":
 							result.StudyEffectiveTimeFromStart = new Hl7.Fhir.Model.Duration();
-							Parse(result.StudyEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome); // 100
+							Parse(result.StudyEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".studyEffectiveTimeFromStart"); // 100
 							break;
 						case "studyEffectiveGroupMeasure":
 							result.StudyEffectiveGroupMeasureElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>();
-							Parse(result.StudyEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome); // 110
+							Parse(result.StudyEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome, locationPath + ".studyEffectiveGroupMeasure"); // 110
 							break;
 						case "participantEffectiveDescription":
 							result.ParticipantEffectiveDescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ParticipantEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 120
+							Parse(result.ParticipantEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".participantEffectiveDescription"); // 120
 							break;
 						case "participantEffectiveDateTime":
 							result.ParticipantEffective = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 130
+							Parse(result.ParticipantEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectivePeriod":
 							result.ParticipantEffective = new Hl7.Fhir.Model.Period();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Period, reader, outcome); // 130
+							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectiveDuration":
 							result.ParticipantEffective = new Hl7.Fhir.Model.Duration();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Duration, reader, outcome); // 130
+							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectiveTiming":
 							result.ParticipantEffective = new Hl7.Fhir.Model.Timing();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Timing, reader, outcome); // 130
+							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectiveTimeFromStart":
 							result.ParticipantEffectiveTimeFromStart = new Hl7.Fhir.Model.Duration();
-							Parse(result.ParticipantEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome); // 140
+							Parse(result.ParticipantEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".participantEffectiveTimeFromStart"); // 140
 							break;
 						case "participantEffectiveGroupMeasure":
 							result.ParticipantEffectiveGroupMeasureElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>();
-							Parse(result.ParticipantEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome); // 150
+							Parse(result.ParticipantEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome, locationPath + ".participantEffectiveGroupMeasure"); // 150
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -157,7 +157,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ResearchElementDefinition.CharacteristicComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ResearchElementDefinition.CharacteristicComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -193,102 +193,102 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "definitionCodeableConcept":
 							result.Definition = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.Definition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "definitionCanonical":
 							result.Definition = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome); // 40
+							await ParseAsync(result.Definition as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "definitionExpression":
 							result.Definition = new Hl7.Fhir.Model.Expression();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.Expression, reader, outcome); // 40
+							await ParseAsync(result.Definition as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "definitionDataRequirement":
 							result.Definition = new Hl7.Fhir.Model.DataRequirement();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.DataRequirement, reader, outcome); // 40
+							await ParseAsync(result.Definition as Hl7.Fhir.Model.DataRequirement, reader, outcome, locationPath + ".definition"); // 40
 							break;
 						case "usageContext":
 							var newItem_usageContext = new Hl7.Fhir.Model.UsageContext();
-							await ParseAsync(newItem_usageContext, reader, outcome); // 50
+							await ParseAsync(newItem_usageContext, reader, outcome, locationPath + ".usageContext["+result.UsageContext.Count+"]"); // 50
 							result.UsageContext.Add(newItem_usageContext);
 							break;
 						case "exclude":
 							result.ExcludeElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 60
+							await ParseAsync(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exclude"); // 60
 							break;
 						case "unitOfMeasure":
 							result.UnitOfMeasure = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.UnitOfMeasure as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 70
+							await ParseAsync(result.UnitOfMeasure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".unitOfMeasure"); // 70
 							break;
 						case "studyEffectiveDescription":
 							result.StudyEffectiveDescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.StudyEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							await ParseAsync(result.StudyEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".studyEffectiveDescription"); // 80
 							break;
 						case "studyEffectiveDateTime":
 							result.StudyEffective = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 90
+							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectivePeriod":
 							result.StudyEffective = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.Period, reader, outcome); // 90
+							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectiveDuration":
 							result.StudyEffective = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.Duration, reader, outcome); // 90
+							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectiveTiming":
 							result.StudyEffective = new Hl7.Fhir.Model.Timing();
-							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.Timing, reader, outcome); // 90
+							await ParseAsync(result.StudyEffective as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".studyEffective"); // 90
 							break;
 						case "studyEffectiveTimeFromStart":
 							result.StudyEffectiveTimeFromStart = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.StudyEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome); // 100
+							await ParseAsync(result.StudyEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".studyEffectiveTimeFromStart"); // 100
 							break;
 						case "studyEffectiveGroupMeasure":
 							result.StudyEffectiveGroupMeasureElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>();
-							await ParseAsync(result.StudyEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome); // 110
+							await ParseAsync(result.StudyEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome, locationPath + ".studyEffectiveGroupMeasure"); // 110
 							break;
 						case "participantEffectiveDescription":
 							result.ParticipantEffectiveDescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ParticipantEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 120
+							await ParseAsync(result.ParticipantEffectiveDescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".participantEffectiveDescription"); // 120
 							break;
 						case "participantEffectiveDateTime":
 							result.ParticipantEffective = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 130
+							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectivePeriod":
 							result.ParticipantEffective = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Period, reader, outcome); // 130
+							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectiveDuration":
 							result.ParticipantEffective = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Duration, reader, outcome); // 130
+							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectiveTiming":
 							result.ParticipantEffective = new Hl7.Fhir.Model.Timing();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Timing, reader, outcome); // 130
+							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".participantEffective"); // 130
 							break;
 						case "participantEffectiveTimeFromStart":
 							result.ParticipantEffectiveTimeFromStart = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.ParticipantEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome); // 140
+							await ParseAsync(result.ParticipantEffectiveTimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".participantEffectiveTimeFromStart"); // 140
 							break;
 						case "participantEffectiveGroupMeasure":
 							result.ParticipantEffectiveGroupMeasureElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>();
-							await ParseAsync(result.ParticipantEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome); // 150
+							await ParseAsync(result.ParticipantEffectiveGroupMeasureElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>, reader, outcome, locationPath + ".participantEffectiveGroupMeasure"); // 150
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Population result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Population result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,37 +51,37 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "ageRange":
 							result.Age = new Hl7.Fhir.Model.Range();
-							Parse(result.Age as Hl7.Fhir.Model.Range, reader, outcome); // 90
+							Parse(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age"); // 90
 							break;
 						case "ageCodeableConcept":
 							result.Age = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							Parse(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".age"); // 90
 							break;
 						case "gender":
 							result.Gender = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							Parse(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".gender"); // 100
 							break;
 						case "race":
 							result.Race = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 110
+							Parse(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".race"); // 110
 							break;
 						case "physiologicalCondition":
 							result.PhysiologicalCondition = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 120
+							Parse(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".physiologicalCondition"); // 120
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -92,7 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Population result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Population result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -128,37 +128,37 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "ageRange":
 							result.Age = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Age as Hl7.Fhir.Model.Range, reader, outcome); // 90
+							await ParseAsync(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age"); // 90
 							break;
 						case "ageCodeableConcept":
 							result.Age = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 90
+							await ParseAsync(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".age"); // 90
 							break;
 						case "gender":
 							result.Gender = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							await ParseAsync(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".gender"); // 100
 							break;
 						case "race":
 							result.Race = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 110
+							await ParseAsync(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".race"); // 110
 							break;
 						case "physiologicalCondition":
 							result.PhysiologicalCondition = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 120
+							await ParseAsync(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".physiologicalCondition"); // 120
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Bundle.RequestComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Bundle.RequestComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,41 +51,41 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "method":
 							result.MethodElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.HTTPVerb>();
-							Parse(result.MethodElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.HTTPVerb>, reader, outcome); // 40
+							Parse(result.MethodElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.HTTPVerb>, reader, outcome, locationPath + ".method"); // 40
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".url"); // 50
 							break;
 						case "ifNoneMatch":
 							result.IfNoneMatchElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.IfNoneMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							Parse(result.IfNoneMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".ifNoneMatch"); // 60
 							break;
 						case "ifModifiedSince":
 							result.IfModifiedSinceElement = new Hl7.Fhir.Model.Instant();
-							Parse(result.IfModifiedSinceElement as Hl7.Fhir.Model.Instant, reader, outcome); // 70
+							Parse(result.IfModifiedSinceElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".ifModifiedSince"); // 70
 							break;
 						case "ifMatch":
 							result.IfMatchElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.IfMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							Parse(result.IfMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".ifMatch"); // 80
 							break;
 						case "ifNoneExist":
 							result.IfNoneExistElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.IfNoneExistElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							Parse(result.IfNoneExistElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".ifNoneExist"); // 90
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -96,7 +96,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Bundle.RequestComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Bundle.RequestComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -132,41 +132,41 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "method":
 							result.MethodElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.HTTPVerb>();
-							await ParseAsync(result.MethodElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.HTTPVerb>, reader, outcome); // 40
+							await ParseAsync(result.MethodElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.HTTPVerb>, reader, outcome, locationPath + ".method"); // 40
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".url"); // 50
 							break;
 						case "ifNoneMatch":
 							result.IfNoneMatchElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.IfNoneMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 60
+							await ParseAsync(result.IfNoneMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".ifNoneMatch"); // 60
 							break;
 						case "ifModifiedSince":
 							result.IfModifiedSinceElement = new Hl7.Fhir.Model.Instant();
-							await ParseAsync(result.IfModifiedSinceElement as Hl7.Fhir.Model.Instant, reader, outcome); // 70
+							await ParseAsync(result.IfModifiedSinceElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".ifModifiedSince"); // 70
 							break;
 						case "ifMatch":
 							result.IfMatchElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.IfMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							await ParseAsync(result.IfMatchElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".ifMatch"); // 80
 							break;
 						case "ifNoneExist":
 							result.IfNoneExistElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.IfNoneExistElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							await ParseAsync(result.IfNoneExistElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".ifNoneExist"); // 90
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

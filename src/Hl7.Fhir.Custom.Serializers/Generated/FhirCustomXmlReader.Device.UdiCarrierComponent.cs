@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Device.UdiCarrierComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Device.UdiCarrierComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,41 +51,41 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "deviceIdentifier":
 							result.DeviceIdentifierElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DeviceIdentifierElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.DeviceIdentifierElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".deviceIdentifier"); // 40
 							break;
 						case "issuer":
 							result.IssuerElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.IssuerElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							Parse(result.IssuerElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".issuer"); // 50
 							break;
 						case "jurisdiction":
 							result.JurisdictionElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.JurisdictionElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 60
+							Parse(result.JurisdictionElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".jurisdiction"); // 60
 							break;
 						case "carrierAIDC":
 							result.CarrierAIDCElement = new Hl7.Fhir.Model.Base64Binary();
-							Parse(result.CarrierAIDCElement as Hl7.Fhir.Model.Base64Binary, reader, outcome); // 70
+							Parse(result.CarrierAIDCElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".carrierAIDC"); // 70
 							break;
 						case "carrierHRF":
 							result.CarrierHRFElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.CarrierHRFElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							Parse(result.CarrierHRFElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".carrierHRF"); // 80
 							break;
 						case "entryType":
 							result.EntryTypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Device.UDIEntryType>();
-							Parse(result.EntryTypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Device.UDIEntryType>, reader, outcome); // 90
+							Parse(result.EntryTypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Device.UDIEntryType>, reader, outcome, locationPath + ".entryType"); // 90
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -96,7 +96,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Device.UdiCarrierComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Device.UdiCarrierComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -132,41 +132,41 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "deviceIdentifier":
 							result.DeviceIdentifierElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DeviceIdentifierElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.DeviceIdentifierElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".deviceIdentifier"); // 40
 							break;
 						case "issuer":
 							result.IssuerElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.IssuerElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							await ParseAsync(result.IssuerElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".issuer"); // 50
 							break;
 						case "jurisdiction":
 							result.JurisdictionElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.JurisdictionElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 60
+							await ParseAsync(result.JurisdictionElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".jurisdiction"); // 60
 							break;
 						case "carrierAIDC":
 							result.CarrierAIDCElement = new Hl7.Fhir.Model.Base64Binary();
-							await ParseAsync(result.CarrierAIDCElement as Hl7.Fhir.Model.Base64Binary, reader, outcome); // 70
+							await ParseAsync(result.CarrierAIDCElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".carrierAIDC"); // 70
 							break;
 						case "carrierHRF":
 							result.CarrierHRFElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.CarrierHRFElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 80
+							await ParseAsync(result.CarrierHRFElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".carrierHRF"); // 80
 							break;
 						case "entryType":
 							result.EntryTypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Device.UDIEntryType>();
-							await ParseAsync(result.EntryTypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Device.UDIEntryType>, reader, outcome); // 90
+							await ParseAsync(result.EntryTypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Device.UDIEntryType>, reader, outcome, locationPath + ".entryType"); // 90
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

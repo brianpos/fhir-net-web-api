@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ObservationDefinition.QuantitativeDetailsComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.ObservationDefinition.QuantitativeDetailsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,33 +51,33 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "customaryUnit":
 							result.CustomaryUnit = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.CustomaryUnit as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.CustomaryUnit as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".customaryUnit"); // 40
 							break;
 						case "unit":
 							result.Unit = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Unit as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Unit as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".unit"); // 50
 							break;
 						case "conversionFactor":
 							result.ConversionFactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.ConversionFactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 60
+							Parse(result.ConversionFactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".conversionFactor"); // 60
 							break;
 						case "decimalPrecision":
 							result.DecimalPrecisionElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.DecimalPrecisionElement as Hl7.Fhir.Model.Integer, reader, outcome); // 70
+							Parse(result.DecimalPrecisionElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".decimalPrecision"); // 70
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -88,7 +88,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ObservationDefinition.QuantitativeDetailsComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ObservationDefinition.QuantitativeDetailsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -124,33 +124,33 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "customaryUnit":
 							result.CustomaryUnit = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.CustomaryUnit as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.CustomaryUnit as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".customaryUnit"); // 40
 							break;
 						case "unit":
 							result.Unit = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Unit as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Unit as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".unit"); // 50
 							break;
 						case "conversionFactor":
 							result.ConversionFactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.ConversionFactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 60
+							await ParseAsync(result.ConversionFactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".conversionFactor"); // 60
 							break;
 						case "decimalPrecision":
 							result.DecimalPrecisionElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.DecimalPrecisionElement as Hl7.Fhir.Model.Integer, reader, outcome); // 70
+							await ParseAsync(result.DecimalPrecisionElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".decimalPrecision"); // 70
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

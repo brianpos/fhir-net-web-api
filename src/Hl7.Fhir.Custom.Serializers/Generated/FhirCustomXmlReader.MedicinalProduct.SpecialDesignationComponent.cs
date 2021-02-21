@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicinalProduct.SpecialDesignationComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MedicinalProduct.SpecialDesignationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,50 +51,50 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							var newItem_identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(newItem_identifier, reader, outcome); // 40
+							Parse(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]"); // 40
 							result.Identifier.Add(newItem_identifier);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
 							break;
 						case "intendedUse":
 							result.IntendedUse = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.IntendedUse as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							Parse(result.IntendedUse as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".intendedUse"); // 60
 							break;
 						case "indicationCodeableConcept":
 							result.Indication = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 70
+							Parse(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".indication"); // 70
 							break;
 						case "indicationReference":
 							result.Indication = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 70
+							Parse(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".indication"); // 70
 							break;
 						case "status":
 							result.Status = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 80
+							Parse(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status"); // 80
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.DateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 90
+							Parse(result.DateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".date"); // 90
 							break;
 						case "species":
 							result.Species = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Species as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							Parse(result.Species as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".species"); // 100
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -105,7 +105,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProduct.SpecialDesignationComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProduct.SpecialDesignationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -141,50 +141,50 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							var newItem_identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(newItem_identifier, reader, outcome); // 40
+							await ParseAsync(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]"); // 40
 							result.Identifier.Add(newItem_identifier);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
 							break;
 						case "intendedUse":
 							result.IntendedUse = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.IntendedUse as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 60
+							await ParseAsync(result.IntendedUse as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".intendedUse"); // 60
 							break;
 						case "indicationCodeableConcept":
 							result.Indication = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 70
+							await ParseAsync(result.Indication as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".indication"); // 70
 							break;
 						case "indicationReference":
 							result.Indication = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 70
+							await ParseAsync(result.Indication as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".indication"); // 70
 							break;
 						case "status":
 							result.Status = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 80
+							await ParseAsync(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status"); // 80
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.DateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 90
+							await ParseAsync(result.DateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".date"); // 90
 							break;
 						case "species":
 							result.Species = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Species as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 100
+							await ParseAsync(result.Species as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".species"); // 100
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

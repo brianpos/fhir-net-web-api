@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Provenance.EntityComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Provenance.EntityComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,30 +51,30 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "role":
 							result.RoleElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Provenance.ProvenanceEntityRole>();
-							Parse(result.RoleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Provenance.ProvenanceEntityRole>, reader, outcome); // 40
+							Parse(result.RoleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Provenance.ProvenanceEntityRole>, reader, outcome, locationPath + ".role"); // 40
 							break;
 						case "what":
 							result.What = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.What as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 50
+							Parse(result.What as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".what"); // 50
 							break;
 						case "agent":
 							var newItem_agent = new Hl7.Fhir.Model.Provenance.AgentComponent();
-							Parse(newItem_agent, reader, outcome); // 60
+							Parse(newItem_agent, reader, outcome, locationPath + ".agent["+result.Agent.Count+"]"); // 60
 							result.Agent.Add(newItem_agent);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -85,7 +85,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Provenance.EntityComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Provenance.EntityComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -121,30 +121,30 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "role":
 							result.RoleElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Provenance.ProvenanceEntityRole>();
-							await ParseAsync(result.RoleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Provenance.ProvenanceEntityRole>, reader, outcome); // 40
+							await ParseAsync(result.RoleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Provenance.ProvenanceEntityRole>, reader, outcome, locationPath + ".role"); // 40
 							break;
 						case "what":
 							result.What = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.What as Hl7.Fhir.Model.ResourceReference, reader, outcome); // 50
+							await ParseAsync(result.What as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".what"); // 50
 							break;
 						case "agent":
 							var newItem_agent = new Hl7.Fhir.Model.Provenance.AgentComponent();
-							await ParseAsync(newItem_agent, reader, outcome); // 60
+							await ParseAsync(newItem_agent, reader, outcome, locationPath + ".agent["+result.Agent.Count+"]"); // 60
 							result.Agent.Add(newItem_agent);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

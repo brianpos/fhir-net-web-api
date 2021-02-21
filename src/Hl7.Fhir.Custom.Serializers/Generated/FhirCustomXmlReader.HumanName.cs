@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.HumanName result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.HumanName result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,43 +51,43 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "use":
 							result.UseElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.HumanName.NameUse>();
-							Parse(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.HumanName.NameUse>, reader, outcome); // 30
+							Parse(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.HumanName.NameUse>, reader, outcome, locationPath + ".use"); // 30
 							break;
 						case "text":
 							result.TextElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text"); // 40
 							break;
 						case "family":
 							result.FamilyElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.FamilyElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							Parse(result.FamilyElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".family"); // 50
 							break;
 						case "given":
 							var newItem_given = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_given, reader, outcome); // 60
+							Parse(newItem_given, reader, outcome, locationPath + ".given["+result.GivenElement.Count+"]"); // 60
 							result.GivenElement.Add(newItem_given);
 							break;
 						case "prefix":
 							var newItem_prefix = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_prefix, reader, outcome); // 70
+							Parse(newItem_prefix, reader, outcome, locationPath + ".prefix["+result.PrefixElement.Count+"]"); // 70
 							result.PrefixElement.Add(newItem_prefix);
 							break;
 						case "suffix":
 							var newItem_suffix = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_suffix, reader, outcome); // 80
+							Parse(newItem_suffix, reader, outcome, locationPath + ".suffix["+result.SuffixElement.Count+"]"); // 80
 							result.SuffixElement.Add(newItem_suffix);
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Period();
-							Parse(result.Period as Hl7.Fhir.Model.Period, reader, outcome); // 90
+							Parse(result.Period as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".period"); // 90
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -98,7 +98,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.HumanName result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.HumanName result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -134,43 +134,43 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "use":
 							result.UseElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.HumanName.NameUse>();
-							await ParseAsync(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.HumanName.NameUse>, reader, outcome); // 30
+							await ParseAsync(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.HumanName.NameUse>, reader, outcome, locationPath + ".use"); // 30
 							break;
 						case "text":
 							result.TextElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text"); // 40
 							break;
 						case "family":
 							result.FamilyElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.FamilyElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 50
+							await ParseAsync(result.FamilyElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".family"); // 50
 							break;
 						case "given":
 							var newItem_given = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_given, reader, outcome); // 60
+							await ParseAsync(newItem_given, reader, outcome, locationPath + ".given["+result.GivenElement.Count+"]"); // 60
 							result.GivenElement.Add(newItem_given);
 							break;
 						case "prefix":
 							var newItem_prefix = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_prefix, reader, outcome); // 70
+							await ParseAsync(newItem_prefix, reader, outcome, locationPath + ".prefix["+result.PrefixElement.Count+"]"); // 70
 							result.PrefixElement.Add(newItem_prefix);
 							break;
 						case "suffix":
 							var newItem_suffix = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_suffix, reader, outcome); // 80
+							await ParseAsync(newItem_suffix, reader, outcome, locationPath + ".suffix["+result.SuffixElement.Count+"]"); // 80
 							result.SuffixElement.Add(newItem_suffix);
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Period as Hl7.Fhir.Model.Period, reader, outcome); // 90
+							await ParseAsync(result.Period as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".period"); // 90
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

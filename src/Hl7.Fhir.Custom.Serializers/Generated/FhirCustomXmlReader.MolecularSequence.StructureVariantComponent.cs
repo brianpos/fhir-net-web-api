@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MolecularSequence.StructureVariantComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MolecularSequence.StructureVariantComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,37 +51,37 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "variantType":
 							result.VariantType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.VariantType as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							Parse(result.VariantType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".variantType"); // 40
 							break;
 						case "exact":
 							result.ExactElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.ExactElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							Parse(result.ExactElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exact"); // 50
 							break;
 						case "length":
 							result.LengthElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome); // 60
+							Parse(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".length"); // 60
 							break;
 						case "outer":
 							result.Outer = new Hl7.Fhir.Model.MolecularSequence.OuterComponent();
-							Parse(result.Outer as Hl7.Fhir.Model.MolecularSequence.OuterComponent, reader, outcome); // 70
+							Parse(result.Outer as Hl7.Fhir.Model.MolecularSequence.OuterComponent, reader, outcome, locationPath + ".outer"); // 70
 							break;
 						case "inner":
 							result.Inner = new Hl7.Fhir.Model.MolecularSequence.InnerComponent();
-							Parse(result.Inner as Hl7.Fhir.Model.MolecularSequence.InnerComponent, reader, outcome); // 80
+							Parse(result.Inner as Hl7.Fhir.Model.MolecularSequence.InnerComponent, reader, outcome, locationPath + ".inner"); // 80
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -92,7 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MolecularSequence.StructureVariantComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MolecularSequence.StructureVariantComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -128,37 +128,37 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "variantType":
 							result.VariantType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.VariantType as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 40
+							await ParseAsync(result.VariantType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".variantType"); // 40
 							break;
 						case "exact":
 							result.ExactElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.ExactElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome); // 50
+							await ParseAsync(result.ExactElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exact"); // 50
 							break;
 						case "length":
 							result.LengthElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome); // 60
+							await ParseAsync(result.LengthElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".length"); // 60
 							break;
 						case "outer":
 							result.Outer = new Hl7.Fhir.Model.MolecularSequence.OuterComponent();
-							await ParseAsync(result.Outer as Hl7.Fhir.Model.MolecularSequence.OuterComponent, reader, outcome); // 70
+							await ParseAsync(result.Outer as Hl7.Fhir.Model.MolecularSequence.OuterComponent, reader, outcome, locationPath + ".outer"); // 70
 							break;
 						case "inner":
 							result.Inner = new Hl7.Fhir.Model.MolecularSequence.InnerComponent();
-							await ParseAsync(result.Inner as Hl7.Fhir.Model.MolecularSequence.InnerComponent, reader, outcome); // 80
+							await ParseAsync(result.Inner as Hl7.Fhir.Model.MolecularSequence.InnerComponent, reader, outcome, locationPath + ".inner"); // 80
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

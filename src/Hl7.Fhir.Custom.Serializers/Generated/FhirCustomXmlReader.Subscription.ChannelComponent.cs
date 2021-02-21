@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Subscription.ChannelComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Subscription.ChannelComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,34 +51,34 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionChannelType>();
-							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionChannelType>, reader, outcome); // 40
+							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionChannelType>, reader, outcome, locationPath + ".type"); // 40
 							break;
 						case "endpoint":
 							result.EndpointElement = new Hl7.Fhir.Model.FhirUrl();
-							Parse(result.EndpointElement as Hl7.Fhir.Model.FhirUrl, reader, outcome); // 50
+							Parse(result.EndpointElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".endpoint"); // 50
 							break;
 						case "payload":
 							result.PayloadElement = new Hl7.Fhir.Model.Code();
-							Parse(result.PayloadElement as Hl7.Fhir.Model.Code, reader, outcome); // 60
+							Parse(result.PayloadElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".payload"); // 60
 							break;
 						case "header":
 							var newItem_header = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_header, reader, outcome); // 70
+							Parse(newItem_header, reader, outcome, locationPath + ".header["+result.HeaderElement.Count+"]"); // 70
 							result.HeaderElement.Add(newItem_header);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -89,7 +89,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Subscription.ChannelComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Subscription.ChannelComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -125,34 +125,34 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionChannelType>();
-							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionChannelType>, reader, outcome); // 40
+							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionChannelType>, reader, outcome, locationPath + ".type"); // 40
 							break;
 						case "endpoint":
 							result.EndpointElement = new Hl7.Fhir.Model.FhirUrl();
-							await ParseAsync(result.EndpointElement as Hl7.Fhir.Model.FhirUrl, reader, outcome); // 50
+							await ParseAsync(result.EndpointElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".endpoint"); // 50
 							break;
 						case "payload":
 							result.PayloadElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.PayloadElement as Hl7.Fhir.Model.Code, reader, outcome); // 60
+							await ParseAsync(result.PayloadElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".payload"); // 60
 							break;
 						case "header":
 							var newItem_header = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_header, reader, outcome); // 70
+							await ParseAsync(newItem_header, reader, outcome, locationPath + ".header["+result.HeaderElement.Count+"]"); // 70
 							result.HeaderElement.Add(newItem_header);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

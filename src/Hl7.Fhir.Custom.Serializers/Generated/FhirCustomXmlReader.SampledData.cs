@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SampledData result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.SampledData result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,40 +51,40 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "origin":
 							result.Origin = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Origin as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 30
+							Parse(result.Origin as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".origin"); // 30
 							break;
 						case "period":
 							result.PeriodElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 40
+							Parse(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".period"); // 40
 							break;
 						case "factor":
 							result.FactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 50
+							Parse(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor"); // 50
 							break;
 						case "lowerLimit":
 							result.LowerLimitElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.LowerLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 60
+							Parse(result.LowerLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".lowerLimit"); // 60
 							break;
 						case "upperLimit":
 							result.UpperLimitElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.UpperLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 70
+							Parse(result.UpperLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".upperLimit"); // 70
 							break;
 						case "dimensions":
 							result.DimensionsElement = new Hl7.Fhir.Model.PositiveInt();
-							Parse(result.DimensionsElement as Hl7.Fhir.Model.PositiveInt, reader, outcome); // 80
+							Parse(result.DimensionsElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".dimensions"); // 80
 							break;
 						case "data":
 							result.DataElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DataElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							Parse(result.DataElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".data"); // 90
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -95,7 +95,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SampledData result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SampledData result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -131,40 +131,40 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "origin":
 							result.Origin = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Origin as Hl7.Fhir.Model.SimpleQuantity, reader, outcome); // 30
+							await ParseAsync(result.Origin as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".origin"); // 30
 							break;
 						case "period":
 							result.PeriodElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 40
+							await ParseAsync(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".period"); // 40
 							break;
 						case "factor":
 							result.FactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 50
+							await ParseAsync(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor"); // 50
 							break;
 						case "lowerLimit":
 							result.LowerLimitElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.LowerLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 60
+							await ParseAsync(result.LowerLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".lowerLimit"); // 60
 							break;
 						case "upperLimit":
 							result.UpperLimitElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.UpperLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome); // 70
+							await ParseAsync(result.UpperLimitElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".upperLimit"); // 70
 							break;
 						case "dimensions":
 							result.DimensionsElement = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(result.DimensionsElement as Hl7.Fhir.Model.PositiveInt, reader, outcome); // 80
+							await ParseAsync(result.DimensionsElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".dimensions"); // 80
 							break;
 						case "data":
 							result.DataElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DataElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 90
+							await ParseAsync(result.DataElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".data"); // 90
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

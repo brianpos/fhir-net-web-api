@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,38 +51,38 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome); // 40
+							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
 							break;
 						case "datePeriod":
 							result.Date = new Hl7.Fhir.Model.Period();
-							Parse(result.Date as Hl7.Fhir.Model.Period, reader, outcome); // 60
+							Parse(result.Date as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".date"); // 60
 							break;
 						case "dateDateTime":
 							result.Date = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.Date as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 60
+							Parse(result.Date as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".date"); // 60
 							break;
 						case "application":
 							var newItem_application = new Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent();
-							Parse(newItem_application, reader, outcome); // 70
+							Parse(newItem_application, reader, outcome, locationPath + ".application["+result.Application.Count+"]"); // 70
 							result.Application.Add(newItem_application);
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -93,7 +93,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -129,38 +129,38 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome); // 40
+							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome); // 50
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
 							break;
 						case "datePeriod":
 							result.Date = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Date as Hl7.Fhir.Model.Period, reader, outcome); // 60
+							await ParseAsync(result.Date as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".date"); // 60
 							break;
 						case "dateDateTime":
 							result.Date = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.Date as Hl7.Fhir.Model.FhirDateTime, reader, outcome); // 60
+							await ParseAsync(result.Date as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".date"); // 60
 							break;
 						case "application":
 							var newItem_application = new Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent();
-							await ParseAsync(newItem_application, reader, outcome); // 70
+							await ParseAsync(newItem_application, reader, outcome, locationPath + ".application["+result.Application.Count+"]"); // 70
 							result.Application.Add(newItem_application);
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

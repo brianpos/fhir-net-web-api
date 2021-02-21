@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ContactPoint result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.ContactPoint result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,32 +51,32 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointSystem>();
-							Parse(result.SystemElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointSystem>, reader, outcome); // 30
+							Parse(result.SystemElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointSystem>, reader, outcome, locationPath + ".system"); // 30
 							break;
 						case "value":
 							result.ValueElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ValueElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							Parse(result.ValueElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value"); // 40
 							break;
 						case "use":
 							result.UseElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointUse>();
-							Parse(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointUse>, reader, outcome); // 50
+							Parse(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointUse>, reader, outcome, locationPath + ".use"); // 50
 							break;
 						case "rank":
 							result.RankElement = new Hl7.Fhir.Model.PositiveInt();
-							Parse(result.RankElement as Hl7.Fhir.Model.PositiveInt, reader, outcome); // 60
+							Parse(result.RankElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".rank"); // 60
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Period();
-							Parse(result.Period as Hl7.Fhir.Model.Period, reader, outcome); // 70
+							Parse(result.Period as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".period"); // 70
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -87,7 +87,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ContactPoint result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ContactPoint result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -123,32 +123,32 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointSystem>();
-							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointSystem>, reader, outcome); // 30
+							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointSystem>, reader, outcome, locationPath + ".system"); // 30
 							break;
 						case "value":
 							result.ValueElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ValueElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 40
+							await ParseAsync(result.ValueElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value"); // 40
 							break;
 						case "use":
 							result.UseElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointUse>();
-							await ParseAsync(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointUse>, reader, outcome); // 50
+							await ParseAsync(result.UseElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ContactPoint.ContactPointUse>, reader, outcome, locationPath + ".use"); // 50
 							break;
 						case "rank":
 							result.RankElement = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(result.RankElement as Hl7.Fhir.Model.PositiveInt, reader, outcome); // 60
+							await ParseAsync(result.RankElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".rank"); // 60
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Period as Hl7.Fhir.Model.Period, reader, outcome); // 70
+							await ParseAsync(result.Period as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".period"); // 70
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

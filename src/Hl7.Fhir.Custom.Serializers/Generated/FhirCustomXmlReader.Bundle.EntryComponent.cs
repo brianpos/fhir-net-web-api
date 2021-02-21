@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Bundle.EntryComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.Bundle.EntryComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,44 +51,44 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "link":
 							var newItem_link = new Hl7.Fhir.Model.Bundle.LinkComponent();
-							Parse(newItem_link, reader, outcome); // 40
+							Parse(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]"); // 40
 							result.Link.Add(newItem_link);
 							break;
 						case "fullUrl":
 							result.FullUrlElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.FullUrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							Parse(result.FullUrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".fullUrl"); // 50
 							break;
 						case "resource":
 							// FirstChildOf(reader); // 60
-							var ResourceResource = Parse(reader, outcome);
+							var ResourceResource = Parse(reader, outcome, locationPath + ".resource");
 							result.Resource = ResourceResource;
 							if (!reader.Read()) return;
 							break;
 						case "search":
 							result.Search = new Hl7.Fhir.Model.Bundle.SearchComponent();
-							Parse(result.Search as Hl7.Fhir.Model.Bundle.SearchComponent, reader, outcome); // 70
+							Parse(result.Search as Hl7.Fhir.Model.Bundle.SearchComponent, reader, outcome, locationPath + ".search"); // 70
 							break;
 						case "request":
 							result.Request = new Hl7.Fhir.Model.Bundle.RequestComponent();
-							Parse(result.Request as Hl7.Fhir.Model.Bundle.RequestComponent, reader, outcome); // 80
+							Parse(result.Request as Hl7.Fhir.Model.Bundle.RequestComponent, reader, outcome, locationPath + ".request"); // 80
 							break;
 						case "response":
 							result.Response = new Hl7.Fhir.Model.Bundle.ResponseComponent();
-							Parse(result.Response as Hl7.Fhir.Model.Bundle.ResponseComponent, reader, outcome); // 90
+							Parse(result.Response as Hl7.Fhir.Model.Bundle.ResponseComponent, reader, outcome, locationPath + ".response"); // 90
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -99,7 +99,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Bundle.EntryComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Bundle.EntryComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -135,44 +135,44 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "link":
 							var newItem_link = new Hl7.Fhir.Model.Bundle.LinkComponent();
-							await ParseAsync(newItem_link, reader, outcome); // 40
+							await ParseAsync(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]"); // 40
 							result.Link.Add(newItem_link);
 							break;
 						case "fullUrl":
 							result.FullUrlElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.FullUrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome); // 50
+							await ParseAsync(result.FullUrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".fullUrl"); // 50
 							break;
 						case "resource":
 							// FirstChildOf(reader); // 60
-							var ResourceResource = await ParseAsync(reader, outcome);
+							var ResourceResource = await ParseAsync(reader, outcome, locationPath + ".resource");
 							result.Resource = ResourceResource;
 							if (!reader.Read()) return;
 							break;
 						case "search":
 							result.Search = new Hl7.Fhir.Model.Bundle.SearchComponent();
-							await ParseAsync(result.Search as Hl7.Fhir.Model.Bundle.SearchComponent, reader, outcome); // 70
+							await ParseAsync(result.Search as Hl7.Fhir.Model.Bundle.SearchComponent, reader, outcome, locationPath + ".search"); // 70
 							break;
 						case "request":
 							result.Request = new Hl7.Fhir.Model.Bundle.RequestComponent();
-							await ParseAsync(result.Request as Hl7.Fhir.Model.Bundle.RequestComponent, reader, outcome); // 80
+							await ParseAsync(result.Request as Hl7.Fhir.Model.Bundle.RequestComponent, reader, outcome, locationPath + ".request"); // 80
 							break;
 						case "response":
 							result.Response = new Hl7.Fhir.Model.Bundle.ResponseComponent();
-							await ParseAsync(result.Response as Hl7.Fhir.Model.Bundle.ResponseComponent, reader, outcome); // 90
+							await ParseAsync(result.Response as Hl7.Fhir.Model.Bundle.ResponseComponent, reader, outcome, locationPath + ".response"); // 90
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

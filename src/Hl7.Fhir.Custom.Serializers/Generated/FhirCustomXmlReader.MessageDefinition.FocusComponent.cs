@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MessageDefinition.FocusComponent result, XmlReader reader, OperationOutcome outcome)
+		public void Parse(Hl7.Fhir.Model.MessageDefinition.FocusComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -51,33 +51,33 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResourceType>();
-							Parse(result.CodeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResourceType>, reader, outcome); // 40
+							Parse(result.CodeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResourceType>, reader, outcome, locationPath + ".code"); // 40
 							break;
 						case "profile":
 							result.ProfileElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.ProfileElement as Hl7.Fhir.Model.Canonical, reader, outcome); // 50
+							Parse(result.ProfileElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".profile"); // 50
 							break;
 						case "min":
 							result.MinElement = new Hl7.Fhir.Model.UnsignedInt();
-							Parse(result.MinElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome); // 60
+							Parse(result.MinElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".min"); // 60
 							break;
 						case "max":
 							result.MaxElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							Parse(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".max"); // 70
 							break;
 						default:
 							// Property not found
-							HandlePropertyNotFound(reader, outcome, "unknown");
+							HandlePropertyNotFound(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}
@@ -88,7 +88,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MessageDefinition.FocusComponent result, XmlReader reader, OperationOutcome outcome)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MessageDefinition.FocusComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -124,33 +124,33 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResourceType>();
-							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResourceType>, reader, outcome); // 40
+							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResourceType>, reader, outcome, locationPath + ".code"); // 40
 							break;
 						case "profile":
 							result.ProfileElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.ProfileElement as Hl7.Fhir.Model.Canonical, reader, outcome); // 50
+							await ParseAsync(result.ProfileElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".profile"); // 50
 							break;
 						case "min":
 							result.MinElement = new Hl7.Fhir.Model.UnsignedInt();
-							await ParseAsync(result.MinElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome); // 60
+							await ParseAsync(result.MinElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".min"); // 60
 							break;
 						case "max":
 							result.MaxElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome); // 70
+							await ParseAsync(result.MaxElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".max"); // 70
 							break;
 						default:
 							// Property not found
-							await HandlePropertyNotFoundAsync(reader, outcome, "unknown");
+							await HandlePropertyNotFoundAsync(reader, outcome, locationPath + "." + reader.Name);
 							break;
 					}
 				}

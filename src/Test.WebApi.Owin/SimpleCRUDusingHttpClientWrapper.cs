@@ -260,6 +260,57 @@ namespace UnitTestWebApi
             Assert.AreEqual(3, result.Total.Value, "Expect only 1 brian");
         }
 
+        [TestMethod]
+        public async System.Threading.Tasks.Task Http_SearchAzureNoParams()
+        {
+            Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
+            var result = await clientFhir.SearchAsync<Patient>();
+            DebugDumpOutputXml(result);
+            Assert.IsInstanceOfType(result, typeof(Bundle));
+            Assert.AreEqual(48, result.Total.Value, "volume on test server");
+        }
+
+        [TestMethod]
+        public async System.Threading.Tasks.Task Http_SearchAzureWithSearchParams()
+        {
+            Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
+            var sp = new SearchParams();
+            sp.Add("name", "brian");
+            var result = await clientFhir.SearchAsync<Patient>(sp);
+            DebugDumpOutputXml(result);
+            Assert.IsInstanceOfType(result, typeof(Bundle));
+            Assert.AreEqual(1, result.Total.Value, "Expect only 1 brian");
+
+            sp = new SearchParams();
+            sp.Add("name", "b");
+            result = await clientFhir.SearchAsync<Patient>(sp);
+            DebugDumpOutputXml(result);
+            Assert.IsInstanceOfType(result, typeof(Bundle));
+            Assert.AreEqual(3, result.Total.Value, "Expect only 1 brian");
+        }
+
+
+        [TestMethod]
+        public async System.Threading.Tasks.Task Http_SearchContinueAzure()
+        {
+            var clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
+            var result = await clientFhir.SearchAsync<Patient>();
+            DebugDumpOutputXml(result);
+            int nPages = 0;
+            int nTotal = 0;
+            int nTotalBundleReport = result.Total.Value;
+            Assert.IsInstanceOfType(result, typeof(Bundle));
+            while (result != null)
+            {
+                nTotal += result.Entry.Count; 
+                nPages++;
+                result = await clientFhir.ContinueAsync(result);
+            }
+            Assert.AreEqual(48, nTotal, "entry count incorrect");
+            Assert.AreEqual(48, nTotalBundleReport, "server calculation of count incorrect");
+            Assert.AreEqual(3, nPages);
+        }
+
         //[TestMethod]
         //public async System.Threading.Tasks.Task GetCapabilityStatement()
         //{

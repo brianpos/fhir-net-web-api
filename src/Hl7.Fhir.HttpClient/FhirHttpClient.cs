@@ -170,11 +170,36 @@ namespace Hl7.Fhir.Rest
             throw BuildFhirOperationException("Read", response.StatusCode, outcome);
         }
 
-        public async Task<Bundle> SearchAsync<TResource>(string[] searchParameters)
+        public async Task<Bundle> SearchAsync<TResource>(string[] searchParameters = null)
             where TResource : Resource
         {
-            UriParamList spd = new UriParamList(searchParameters.Select(criteria => criteria.SplitLeft('=')));
-            string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}?{spd.ToQueryString()}";
+            string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}";
+            if (searchParameters != null)
+            {
+                UriParamList spd = new UriParamList(searchParameters.Select(criteria => criteria.SplitLeft('=')));
+                requestUrl += "?" + spd.ToQueryString();
+            }
+            var response = await _httpClient.GetAsync(requestUrl).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync();
+            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            if (response.IsSuccessStatusCode)
+            {
+                // serialize the result
+                return _xmlParser.Parse<Bundle>(xr);
+            }
+            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            throw BuildFhirOperationException("Search", response.StatusCode, outcome);
+        }
+
+        public async Task<Bundle> SearchAsync<TResource>(SearchParams searchParameters)
+            where TResource : Resource
+        {
+            string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}";
+            if (searchParameters != null)
+            {
+                UriParamList spd = searchParameters.ToUriParamList();
+                requestUrl += "?" + spd.ToQueryString();
+            }
             var response = await _httpClient.GetAsync(requestUrl).ConfigureAwait(false);
             var stream = await response.Content.ReadAsStreamAsync();
             var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
@@ -206,6 +231,44 @@ namespace Hl7.Fhir.Rest
             }
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
             throw BuildFhirOperationException("Update", response.StatusCode, outcome);
+        }
+
+        public async Task<Bundle> ContinueAsync(Bundle current, PageDirection direction = PageDirection.Next)
+        {
+            if (current == null) throw Error.ArgumentNull(nameof(current));
+            if (current.Link == null) return null;
+
+            Uri continueAt = null;
+
+            switch (direction)
+            {
+                case PageDirection.First:
+                    continueAt = current.FirstLink; break;
+                case PageDirection.Previous:
+                    continueAt = current.PreviousLink; break;
+                case PageDirection.Next:
+                    continueAt = current.NextLink; break;
+                case PageDirection.Last:
+                    continueAt = current.LastLink; break;
+            }
+
+            if (continueAt != null)
+            {
+                var msg = new HttpRequestMessage(HttpMethod.Get, continueAt);
+                msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
+                var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
+                var stream = await response.Content.ReadAsStreamAsync();
+                var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+                if (response.IsSuccessStatusCode)
+                {
+                    // serialize the result
+                    return _xmlParser.Parse<Bundle>(xr);
+                }
+                var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+                throw BuildFhirOperationException("Continue", response.StatusCode, outcome);
+            }
+            // Return a null bundle, can not return simply null because this is a task
+            return null;
         }
     }
 }

@@ -9,20 +9,30 @@ namespace Hl7.Fhir.Rest
 {
     public class FhirHttpClient : IDisposable, IFhirHttpClient
     {
+        private bool _ownsHttpClient;
         private HttpClient _httpClient;
         private readonly Hl7.Fhir.Serialization.FhirXmlParser _xmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
         private readonly Hl7.Fhir.Serialization.FhirXmlSerializer _xmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();
         private readonly string _baseAddress;
 
+        public FhirHttpClient(string baseAddress, HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+            _ownsHttpClient = false;
+            _baseAddress = baseAddress.TrimEnd('/');
+        }
+
         public FhirHttpClient(string baseAddress, params DelegatingHandler[] handlers)
         {
             _httpClient = HttpClientFactory.Create(handlers);
+            _ownsHttpClient = true;
             _baseAddress = baseAddress.TrimEnd('/');
         }
 
         public FhirHttpClient(string baseAddress, HttpMessageHandler innerHandler, params DelegatingHandler[] handlers)
         {
             _httpClient = HttpClientFactory.Create(innerHandler, handlers);
+            _ownsHttpClient = true;
             _baseAddress = baseAddress.TrimEnd('/');
         }
 
@@ -133,7 +143,7 @@ namespace Hl7.Fhir.Rest
             {
                 if (disposing)
                 {
-                    if (_httpClient != null)
+                    if (_httpClient != null && _ownsHttpClient)
                     {
                         _httpClient.Dispose();
                         _httpClient = null;

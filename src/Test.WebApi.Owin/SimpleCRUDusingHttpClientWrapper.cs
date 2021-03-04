@@ -246,6 +246,19 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public async System.Threading.Tasks.Task Http_CapabilityStatement()
+        {
+            Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient(_baseAddress);
+            var result = await clientFhir.CapabilityStatementAsync();
+            DebugDumpOutputXml(result);
+
+            Assert.IsInstanceOfType(result, typeof(CapabilityStatement));
+            Assert.IsNull(result.Id, "Live Server Capability Statements don't typically have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
+        }
+
+        [TestMethod]
         public async System.Threading.Tasks.Task Http_SearchAzure()
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");

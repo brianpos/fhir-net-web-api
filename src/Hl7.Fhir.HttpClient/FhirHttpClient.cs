@@ -280,5 +280,25 @@ namespace Hl7.Fhir.Rest
             // Return a null bundle, can not return simply null because this is a task
             return null;
         }
+
+        public async Task<CapabilityStatement> CapabilityStatementAsync(SummaryType? summary = null)
+        {
+            string requestUrl = $"{_baseAddress}/metadata";
+            if (summary != null)
+                requestUrl += $"?_summary={summary.GetLiteral()}";
+
+            var msg = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+            msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
+            var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync();
+            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            if (response.IsSuccessStatusCode)
+            {
+                // serialize the result
+                return _xmlParser.Parse<CapabilityStatement>(xr);
+            }
+            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            throw BuildFhirOperationException("CapabilityStatement", response.StatusCode, outcome);
+        }
     }
 }

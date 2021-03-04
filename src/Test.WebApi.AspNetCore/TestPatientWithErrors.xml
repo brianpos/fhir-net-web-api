@@ -56,7 +56,7 @@
   </telecom>
   <telecom>
     <system value="phone" />
-      <chicken value="brrrk"/>
+    <chicken value="brrrk"/>
     <value value="1" />
     <rank value="5.0"/>
   </telecom>

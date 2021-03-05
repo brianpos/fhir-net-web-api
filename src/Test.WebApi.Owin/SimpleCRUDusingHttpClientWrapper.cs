@@ -148,6 +148,46 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public async System.Threading.Tasks.Task Http_GetPatient()
+        {
+            Patient p = new Patient();
+            p.Id = "pat1"; // if you support this format for the IDs (client allocated ID)
+            p.Name = new System.Collections.Generic.List<HumanName>();
+            p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
+            p.BirthDate = new DateTime(1970, 3, 1).ToFhirDate(); // yes there are extensions to convert to FHIR format
+            p.Active = true;
+            p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
+
+            var clientFhir = new Hl7.Fhir.Rest.FhirHttpClient(_baseAddress);
+            var result = await clientFhir.UpdateAsync<Patient>(p);
+            DebugDumpOutputXml(result);
+
+            Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
+            Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+
+            // read the record to check that it can be loaded
+            result = await clientFhir.GetAsync("Patient/pat1") as Patient;
+            Assert.AreEqual(p.Id, result.Id, "Newly created patient should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
+            Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+
+            try
+            {
+                var p4 = await clientFhir.GetAsync("Patient/missing-client-id");
+                Assert.Fail("Should have received an exception running this");
+            }
+            catch (Hl7.Fhir.Rest.FhirOperationException ex)
+            {
+                // This was the expected outcome
+                System.Diagnostics.Trace.WriteLine(ex.Message);
+                DebugDumpOutputXml(ex.Outcome);
+            }
+        }
+
+        [TestMethod]
         public async System.Threading.Tasks.Task Http_UpdatePatient()
         {
             Patient p = new Patient();

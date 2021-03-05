@@ -180,6 +180,26 @@ namespace Hl7.Fhir.Rest
             throw BuildFhirOperationException("Read", response.StatusCode, outcome);
         }
 
+        public async Task<Resource> GetAsync(string location)
+        {
+            var uri = new Uri(location, UriKind.RelativeOrAbsolute);
+
+            if (!uri.IsAbsoluteUri)
+                uri = HttpUtil.MakeAbsoluteToBase(uri, new Uri(_baseAddress));
+
+            var response = await _httpClient.GetAsync(uri).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync();
+            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            if (response.IsSuccessStatusCode)
+            {
+                // serialize the result
+                return _xmlParser.Parse<Resource>(xr);
+            }
+            // Check for an operation outcome returned
+            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            throw BuildFhirOperationException("Get", response.StatusCode, outcome);
+        }
+
         public async Task<Bundle> SearchAsync<TResource>(string[] searchParameters = null)
             where TResource : Resource
         {

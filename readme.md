@@ -15,6 +15,7 @@ This library provides:
 * A partial example implementation of a fhir server CRUD that just writes files to C:\Temp\demoserver
 * A unit test project that utilizes the FhirClient NuGet packages to test the example Service
 * Support for both Owin (.NET 4.7+) and AspNetCore
+* An extra FhirHttpClient assembly that is a partial drop in replacement for the v1.9.0 FhirClient class that uses the HttpClient internally for use in Azure Function Apps and other locations where high load causes issues with socket exhaustion
 
 The library depends on several NuGet packages (notably):
 

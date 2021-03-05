@@ -300,5 +300,31 @@ namespace Hl7.Fhir.Rest
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
             throw BuildFhirOperationException("CapabilityStatement", response.StatusCode, outcome);
         }
+
+        public async Task<Resource> InstanceOperationAsync(Uri location, string operationName, Parameters parameters = null, bool useGet = false)
+        {
+            if (location == null) throw Error.ArgumentNull(nameof(location));
+            if (operationName == null) throw Error.ArgumentNull(nameof(operationName));
+
+            var id = verifyResourceIdentity(location, needId: true, needVid: false);
+
+            RestUrl requestUrl = new RestUrl(_baseAddress).AddPath(id.ResourceType, id.Id);
+            if (id.HasVersion)
+                requestUrl.AddPath("_history", id.VersionId);
+            requestUrl.AddPath("$" + operationName);
+
+            var msg = new HttpRequestMessage(HttpMethod.Get, requestUrl.AsString);
+            msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
+            var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync();
+            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            if (response.IsSuccessStatusCode)
+            {
+                // serialize the result
+                return _xmlParser.Parse<Resource>(xr);
+            }
+            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            throw BuildFhirOperationException("Operation", response.StatusCode, outcome);
+        }
     }
 }

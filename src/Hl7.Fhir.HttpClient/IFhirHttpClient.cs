@@ -14,5 +14,6 @@ namespace Hl7.Fhir.Rest
         System.Threading.Tasks.Task<Bundle> SearchAsync<TResource>(SearchParams searchParameters) where TResource : Resource;
         System.Threading.Tasks.Task<Bundle> ContinueAsync(Bundle current, PageDirection direction = PageDirection.Next);
         System.Threading.Tasks.Task<CapabilityStatement> CapabilityStatementAsync(SummaryType? summary = null);
+        System.Threading.Tasks.Task<Resource> InstanceOperationAsync(Uri location, string operationName, Parameters parameters = null, bool useGet = false);
     }
 }

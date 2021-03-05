@@ -107,6 +107,18 @@ namespace Hl7.DemoFileSystemFhirServer
 
         public Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
         {
+            if (operation == "send-activation-code")
+            {
+                // Test operation that isn't really anything just for a specific unit test
+                OperationOutcome outcome = new OperationOutcome() { Id = operationParameters?.GetString("id") };
+                outcome.Issue.Add(new OperationOutcome.IssueComponent 
+                {
+                   Severity = OperationOutcome.IssueSeverity.Information,
+                   Code = OperationOutcome.IssueType.Informational,
+                   Details = new CodeableConcept() { Text = $"Send an activation code to {ResourceName}/{id}" }
+                });
+                return System.Threading.Tasks.Task.FromResult<Resource>(outcome);
+            }
             throw new NotImplementedException();
         }
 

@@ -333,8 +333,29 @@ namespace Hl7.Fhir.Rest
                 requestUrl.AddPath("_history", id.VersionId);
             requestUrl.AddPath("$" + operationName);
 
-            var msg = new HttpRequestMessage(HttpMethod.Get, requestUrl.AsString);
+            System.Net.Http.ByteArrayContent postContent = null;
+            if (useGet)
+            {
+                if (parameters != null)
+                {
+                    foreach (var parameter in parameters.Parameter)
+                    {
+                        requestUrl.AddParam(parameter.Name, paramValueToString(parameter));
+                    }
+                }
+            }
+            else
+            {
+                if (parameters != null)
+                {
+                    postContent = new System.Net.Http.ByteArrayContent(_xmlSerializer.SerializeToBytes(parameters));
+                    postContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ContentType.XML_CONTENT_HEADER);
+                }
+            }
+
+            var msg = new HttpRequestMessage(useGet ? HttpMethod.Get : HttpMethod.Post, requestUrl.AsString);
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
+            msg.Content = postContent;
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
             var stream = await response.Content.ReadAsStreamAsync();
             var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
@@ -346,5 +367,107 @@ namespace Hl7.Fhir.Rest
             var outcome = _xmlParser.Parse<OperationOutcome>(xr);
             throw BuildFhirOperationException("Operation", response.StatusCode, outcome);
         }
+
+        public async Task<Resource> TypeOperationAsync(string operationName, string typeName, Parameters parameters = null, bool useGet = false)
+        {
+            if (typeName == null) throw Error.ArgumentNull(nameof(typeName));
+            if (operationName == null) throw Error.ArgumentNull(nameof(operationName));
+
+            RestUrl requestUrl = new RestUrl(_baseAddress).AddPath(typeName);
+            requestUrl.AddPath("$" + operationName);
+
+            System.Net.Http.ByteArrayContent postContent = null;
+            if (useGet)
+            {
+                if (parameters != null)
+                {
+                    foreach (var parameter in parameters.Parameter)
+                    {
+                        requestUrl.AddParam(parameter.Name, paramValueToString(parameter));
+                    }
+                }
+            }
+            else
+            {
+                if (parameters != null)
+                {
+                    postContent = new System.Net.Http.ByteArrayContent(_xmlSerializer.SerializeToBytes(parameters));
+                    postContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ContentType.XML_CONTENT_HEADER);
+                }
+            }
+
+            var msg = new HttpRequestMessage(useGet ? HttpMethod.Get : HttpMethod.Post, requestUrl.AsString);
+            msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
+            msg.Content = postContent;
+            var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync();
+            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            if (response.IsSuccessStatusCode)
+            {
+                // serialize the result
+                return _xmlParser.Parse<Resource>(xr);
+            }
+            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            throw BuildFhirOperationException("Operation", response.StatusCode, outcome);
+        }
+
+        // replica of extension method from FhirClientOperations in 1.9.0
+        public async Task<OperationOutcome> ValidateResourceAsync(DomainResource resource, string id = null, FhirUri profile = null)
+        {
+            if (resource == null) throw Error.ArgumentNull(nameof(resource));
+
+            var par = new Parameters().Add("resource", resource);
+            if (profile != null) par.Add("profile", profile);
+
+            if (id == null)
+            {
+                return OperationResult<OperationOutcome>(await TypeOperationAsync(RestOperation.VALIDATE_RESOURCE, resource.TypeName, par).ConfigureAwait(false));
+            }
+
+            var loc = ResourceIdentity.Build(resource.TypeName, id);
+            return OperationResult<OperationOutcome>(await InstanceOperationAsync(loc, RestOperation.VALIDATE_RESOURCE, par).ConfigureAwait(false));
+        }
+
+        internal static T OperationResult<T>(Resource result) where T : Resource
+        {
+            if (result == null) return null;
+
+            //If this is immediately what we are expecting, that's fine
+            if (result is T) return (T)result;
+
+            // If return value is a Parameters object with a single result of the expected type,
+            // return it (it should be called "return", but I don't care).
+            if (result is Parameters pars && pars.Parameter.Count == 1 && pars.Parameter[0].Resource is T)
+                return (T)pars.Parameter[0].Resource;
+
+            // Else, throw. The return type is unexpected
+            throw Error.InvalidOperation($"Operation did not return a {typeof(T).Name} but a {result.GetType().Name}");
+        }
+
+        private string paramValueToString(Parameters.ParameterComponent parameter)
+        {
+            if (parameter.Value != null)
+            {
+                switch (parameter.Value)
+                {
+                    case Identifier id:
+                        return id.ToToken();
+                    case Coding coding:
+                        return coding.ToToken();
+                    case ContactPoint contactPoint:
+                        return contactPoint.ToToken();
+                    case CodeableConcept codeableConcept:
+                        return codeableConcept.ToToken();
+                    default:
+                        if (ModelInfo.IsPrimitive(parameter.Value.GetType()))
+                        {
+                            return parameter.Value.ToString();
+                        }
+                        break;
+                }
+            }
+            throw Error.InvalidOperation($"Parameter '{parameter.Name}' has a non-primitive type, which is not allowed.");
+        }
+
     }
 }

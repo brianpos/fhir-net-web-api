@@ -299,6 +299,36 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public async System.Threading.Tasks.Task Http_ValidatePatientOnAzure()
+        {
+            Patient p = new Patient();
+            p.Name = new System.Collections.Generic.List<HumanName>();
+            p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
+            p.BirthDate = "123-123-123";
+            p.Active = true;
+            p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
+
+            var clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
+            try
+            {
+                var result = await clientFhir.ValidateResourceAsync(p);
+                DebugDumpOutputXml(result);
+                Assert.Fail("expected it to throw");
+            }
+            catch(FhirOperationException ex)
+            {
+                DebugDumpOutputXml(ex.Outcome);
+                Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status);
+                Assert.AreEqual(OperationOutcome.IssueSeverity.Error, ex.Outcome.Issue.FirstOrDefault().Severity);
+                Assert.AreEqual("Body parsing failed: Type checking the data: Literal '123-123-123' cannot be interpreted as a date: 'Partial is in an invalid format, should use ISO8601 YYYY-MM-DDThh:mm:ss+TZ notation'. (at Parameters.parameter[0].resource[0].birthDate[0])", ex.Outcome.Issue.FirstOrDefault().Details.Text);
+            }
+
+            p.BirthDate = "1970-01-01";
+            var resultGood = await clientFhir.ValidateResourceAsync(p);
+            DebugDumpOutputXml(resultGood);
+        }
+
+        [TestMethod]
         public async System.Threading.Tasks.Task Http_SearchAzure()
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
@@ -401,6 +431,16 @@ namespace UnitTestWebApi
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a OperationOutcome returned");
             Assert.AreEqual("Send an activation code to Patient/45", result.Issue.FirstOrDefault()?.Details.Text);
+        }
+
+        [TestMethod]
+        public async System.Threading.Tasks.Task Http_PerformTypeOperation()
+        {
+            Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient(_baseAddress);
+            var result = await clientFhir.TypeOperationAsync("count-em", "Patient") as OperationOutcome;
+            DebugDumpOutputXml(result);
+            Assert.IsNotNull(result, "Should be a OperationOutcome returned");
+            Assert.IsTrue(result.Issue.FirstOrDefault()?.Details.Text.StartsWith("Patient resource instances: ") == true);
         }
     }
 }

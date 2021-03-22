@@ -156,9 +156,13 @@ namespace Hl7.Fhir.CustomSerializer
     WriteLine("// ---------------------------");
     WriteLine($"public static void WriteBase(Base value, XmlWriter writer, string propertyName, CancellationToken cancellationToken)");
     WriteLine("{");
-    WriteLine("\tif (cancellationToken.IsCancellationRequested) return;");
 	PushIndent("\t");
-    WriteLine("switch(value)");
+    WriteLine("if (cancellationToken.IsCancellationRequested) return;");
+	WriteLine("if (value == null) return;");
+	WriteLine("if (value is Hl7.Fhir.Model.Resource && propertyName != \"root\")");
+	WriteLine("\twriter.WriteStartElement(propertyName, XmlNs.FHIR);");
+    WriteLine("");
+    WriteLine("switch (value)");
     WriteLine("{");
 	string genList = "System.Collections.Generic.List<";
 	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
@@ -196,6 +200,8 @@ namespace Hl7.Fhir.CustomSerializer
 	WriteLine("\tdefault:\tSystem.Diagnostics.Trace.WriteLine($\"No Serialization defined for {value?.TypeName}\");");
 	WriteLine("\t\t\t\tbreak;");
     WriteLine("}");
+	WriteLine("if (value is Hl7.Fhir.Model.Resource && propertyName != \"root\")");
+	WriteLine("\twriter.WriteEndElement();");
 	PopIndent();
     WriteLine("}");
 	PopIndent();
@@ -300,7 +306,9 @@ namespace Hl7.Fhir.CustomSerializer
 			foreach (var t in vat.Types)
 			{
 				var pta = t.GetCustomAttribute(typeof(FhirTypeAttribute)) as FhirTypeAttribute;
-				if (pta.Name == "Resource")
+				if (pta.Name == "Resource" && prop.Name != "Contained")
+					WriteLine($"\tWriteBase(name.{prop.Name}, writer, \"{fea.Name}\", cancellationToken); // {fea.Order}");
+				else if (pta.Name == "Resource" && prop.Name == "Contained")
 					WriteLine($"\tWrite(name.{prop.Name}, writer, \"{fea.Name}\", cancellationToken); // {fea.Order}");
 				else
 					WriteLine($"\tWrite(name.{prop.Name} as {GetTypeName(t)}, writer, \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\", cancellationToken); // {fea.Order}");

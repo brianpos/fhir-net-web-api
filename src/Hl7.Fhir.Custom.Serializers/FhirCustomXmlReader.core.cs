@@ -30,6 +30,16 @@ namespace Hl7.Fhir.CustomSerializer
 
     public partial class FhirCustomXmlReader
     {
+        public static XmlReaderSettings Settings = new XmlReaderSettings
+        {
+            Async = true,
+            IgnoreComments = true,
+            IgnoreProcessingInstructions = true,
+            IgnoreWhitespace = true,
+            DtdProcessing = DtdProcessing.Ignore, //Prohibit,
+            NameTable = new NameTable()
+        };
+
         public bool ShouldSkipNodeType(XmlNodeType nodeType)
         {
             return nodeType == XmlNodeType.Comment

@@ -42,6 +42,17 @@ namespace Hl7.Fhir.CustomSerializer
 
     public partial class FhirCustomXmlWriter
     {
+        public static XmlWriterSettings Settings = new XmlWriterSettings
+        {
+            Encoding = new UTF8Encoding(false),
+            OmitXmlDeclaration = true,
+            Async = true,
+            CloseOutput = true,
+            Indent = true,
+            NewLineHandling = NewLineHandling.Entitize,
+            IndentChars = "  "
+        };
+
         public static void Write<T>(IEnumerable<T> items, XmlWriter writer, string propName, CancellationToken cancellationToken)
             where T : Base
         {

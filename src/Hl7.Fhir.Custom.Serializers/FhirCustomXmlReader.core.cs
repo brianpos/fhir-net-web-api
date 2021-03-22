@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using System.Xml.Serialization;
@@ -261,6 +262,124 @@ namespace Hl7.Fhir.CustomSerializer
                     break;
                 }
             }
+        }
+
+        // For Async Processing the Div Element
+        private async Task WriteNodeAsync(XmlReader reader, XmlWriter xtw, bool defattr)
+        {
+            int d = reader.NodeType == XmlNodeType.None ? -1 : reader.Depth;
+            while (await reader.ReadAsync().ConfigureAwait(false) && (d < reader.Depth))
+            {
+                switch (reader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        xtw.WriteStartElement(reader.Prefix, reader.LocalName, reader.NamespaceURI);
+                        ((XmlTextWriter)xtw).QuoteChar = reader.QuoteChar;
+                        xtw.WriteAttributes(reader, defattr);
+                        if (reader.IsEmptyElement)
+                        {
+                            xtw.WriteEndElement();
+                        }
+                        break;
+                    case XmlNodeType.Text:
+                        xtw.WriteString(await reader.GetValueAsync().ConfigureAwait(false));
+                        break;
+                    case XmlNodeType.Whitespace:
+                    case XmlNodeType.SignificantWhitespace:
+                        xtw.WriteWhitespace(await reader.GetValueAsync().ConfigureAwait(false));
+                        break;
+                    case XmlNodeType.CDATA:
+                        xtw.WriteCData(reader.Value);
+                        break;
+                    case XmlNodeType.EntityReference:
+                        xtw.WriteEntityRef(reader.Name);
+                        break;
+                    case XmlNodeType.XmlDeclaration:
+                    case XmlNodeType.ProcessingInstruction:
+                        xtw.WriteProcessingInstruction(reader.Name, reader.Value);
+                        break;
+                    case XmlNodeType.DocumentType:
+                        xtw.WriteDocType(reader.Name, reader.GetAttribute("PUBLIC"), reader.GetAttribute("SYSTEM"), reader.Value);
+                        break;
+                    case XmlNodeType.Comment:
+                        xtw.WriteComment(reader.Value);
+                        break;
+                    case XmlNodeType.EndElement:
+                        xtw.WriteFullEndElement();
+                        break;
+                }
+            }
+            if (d == reader.Depth && reader.NodeType == XmlNodeType.EndElement)
+            {
+                await reader.ReadAsync().ConfigureAwait(false);
+            }
+        }
+
+
+        // Returns the current element and its descendants or an attribute as a string.
+        public async System.Threading.Tasks.Task<string> ReadOuterXmlAsync(XmlReader reader)
+        {
+            if (reader.ReadState != ReadState.Interactive)
+            {
+                return string.Empty;
+            }
+            if ((reader.NodeType != XmlNodeType.Attribute) && (reader.NodeType != XmlNodeType.Element))
+            {
+                await reader.ReadAsync().ConfigureAwait(false);
+                return string.Empty;
+            }
+
+            StringWriter sw = new StringWriter(System.Globalization.CultureInfo.InvariantCulture);
+            XmlTextWriter xtw = new XmlTextWriter(sw);
+            if (reader is XmlTextReader tr)
+            {
+                xtw.Namespaces = tr.Namespaces;
+            }
+            try
+            {
+                if (reader.NodeType == XmlNodeType.Attribute)
+                {
+                    xtw.WriteStartAttribute(reader.Prefix, reader.LocalName, reader.NamespaceURI);
+                    WriteAttributeValue(reader, xtw);
+                    xtw.WriteEndAttribute();
+                }
+                else
+                {
+                    xtw.WriteStartElement(reader.Prefix, reader.LocalName, reader.NamespaceURI);
+                    ((XmlTextWriter)xtw).QuoteChar = reader.QuoteChar;
+                    xtw.WriteAttributes(reader, false);
+                    if (reader.IsEmptyElement)
+                    {
+                        xtw.WriteEndElement();
+                    }
+                    else
+                    {
+                        await WriteNodeAsync(reader, xtw, false);
+                    }
+                }
+            }
+            finally
+            {
+                xtw.Close();
+            }
+            return sw.ToString();
+        }
+
+        private void WriteAttributeValue(XmlReader reader, XmlWriter xtw)
+        {
+            string attrName = reader.Name;
+            while (reader.ReadAttributeValue())
+            {
+                if (reader.NodeType == XmlNodeType.EntityReference)
+                {
+                    xtw.WriteEntityRef(reader.Name);
+                }
+                else
+                {
+                    xtw.WriteString(reader.Value);
+                }
+            }
+            reader.MoveToAttribute(attrName);
         }
     }
 }

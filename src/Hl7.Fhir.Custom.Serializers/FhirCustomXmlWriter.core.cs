@@ -62,11 +62,24 @@ namespace Hl7.Fhir.CustomSerializer
                 // through the collection
                 if (cancellationToken.IsCancellationRequested)
                     return;
-                if (propName == "contained" && item is Resource)
-                    writer.WriteStartElement(propName, XmlNs.FHIR);
+                //if (propName == "contained" && item is Resource)
+                //    writer.WriteStartElement(propName, XmlNs.FHIR);
                 WriteBase(item, writer, propName, cancellationToken);
-                if (propName == "contained" && item is Resource)
-                    writer.WriteEndElement();
+                //if (propName == "contained" && item is Resource)
+                //    writer.WriteEndElement();
+            }
+        }
+
+        public static void Write<T>(IEnumerable<Code<T>> items, XmlWriter writer, string propName, CancellationToken cancellationToken)
+            where T : struct
+        {
+            foreach (Code<T> item in items)
+            {
+                // Check if the serialization is canceled before continuing 
+                // through the collection
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+                Write(item, writer, propName, cancellationToken);
             }
         }
 

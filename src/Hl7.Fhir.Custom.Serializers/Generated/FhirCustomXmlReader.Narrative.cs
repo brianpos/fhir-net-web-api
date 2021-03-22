@@ -120,7 +120,8 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						// Xml Serialization: XHtml
 						case "div":
-							result.Div = SerializationUtil.SanitizeXml(reader.ReadOuterXml()?.Trim());  // Validation required
+							var innerXML = await ReadOuterXmlAsync(reader);
+							result.Div = SerializationUtil.SanitizeXml(innerXML);  // Validation required
 							if (reader.NodeType == XmlNodeType.EndElement)
 								return;
 							break;

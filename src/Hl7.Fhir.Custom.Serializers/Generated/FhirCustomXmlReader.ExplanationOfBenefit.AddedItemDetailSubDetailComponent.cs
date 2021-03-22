@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ExplanationOfBenefit.AddedItemDetailSubDetailComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ExplanationOfBenefit.AddedItemDetailSubDetailComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,53 +42,55 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "productOrService":
 							result.ProductOrService = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.ProductOrService as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".productOrService"); // 40
+							Parse(result.ProductOrService as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".productOrService", cancellationToken); // 40
 							break;
 						case "modifier":
 							var newItem_modifier = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_modifier, reader, outcome, locationPath + ".modifier["+result.Modifier.Count+"]"); // 50
+							Parse(newItem_modifier, reader, outcome, locationPath + ".modifier["+result.Modifier.Count+"]", cancellationToken); // 50
 							result.Modifier.Add(newItem_modifier);
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 60
+							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();
-							Parse(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".unitPrice"); // 70
+							Parse(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".unitPrice", cancellationToken); // 70
 							break;
 						case "factor":
 							result.FactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor"); // 80
+							Parse(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor", cancellationToken); // 80
 							break;
 						case "net":
 							result.Net = new Hl7.Fhir.Model.Money();
-							Parse(result.Net as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".net"); // 90
+							Parse(result.Net as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".net", cancellationToken); // 90
 							break;
 						case "noteNumber":
 							var newItem_noteNumber = new Hl7.Fhir.Model.PositiveInt();
-							Parse(newItem_noteNumber, reader, outcome, locationPath + ".noteNumber["+result.NoteNumberElement.Count+"]"); // 100
+							Parse(newItem_noteNumber, reader, outcome, locationPath + ".noteNumber["+result.NoteNumberElement.Count+"]", cancellationToken); // 100
 							result.NoteNumberElement.Add(newItem_noteNumber);
 							break;
 						case "adjudication":
 							var newItem_adjudication = new Hl7.Fhir.Model.ExplanationOfBenefit.AdjudicationComponent();
-							Parse(newItem_adjudication, reader, outcome, locationPath + ".adjudication["+result.Adjudication.Count+"]"); // 110
+							Parse(newItem_adjudication, reader, outcome, locationPath + ".adjudication["+result.Adjudication.Count+"]", cancellationToken); // 110
 							result.Adjudication.Add(newItem_adjudication);
 							break;
 						default:
@@ -104,7 +106,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ExplanationOfBenefit.AddedItemDetailSubDetailComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ExplanationOfBenefit.AddedItemDetailSubDetailComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -131,53 +133,55 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "productOrService":
 							result.ProductOrService = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.ProductOrService as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".productOrService"); // 40
+							await ParseAsync(result.ProductOrService as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".productOrService", cancellationToken); // 40
 							break;
 						case "modifier":
 							var newItem_modifier = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_modifier, reader, outcome, locationPath + ".modifier["+result.Modifier.Count+"]"); // 50
+							await ParseAsync(newItem_modifier, reader, outcome, locationPath + ".modifier["+result.Modifier.Count+"]", cancellationToken); // 50
 							result.Modifier.Add(newItem_modifier);
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity"); // 60
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();
-							await ParseAsync(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".unitPrice"); // 70
+							await ParseAsync(result.UnitPrice as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".unitPrice", cancellationToken); // 70
 							break;
 						case "factor":
 							result.FactorElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor"); // 80
+							await ParseAsync(result.FactorElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".factor", cancellationToken); // 80
 							break;
 						case "net":
 							result.Net = new Hl7.Fhir.Model.Money();
-							await ParseAsync(result.Net as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".net"); // 90
+							await ParseAsync(result.Net as Hl7.Fhir.Model.Money, reader, outcome, locationPath + ".net", cancellationToken); // 90
 							break;
 						case "noteNumber":
 							var newItem_noteNumber = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(newItem_noteNumber, reader, outcome, locationPath + ".noteNumber["+result.NoteNumberElement.Count+"]"); // 100
+							await ParseAsync(newItem_noteNumber, reader, outcome, locationPath + ".noteNumber["+result.NoteNumberElement.Count+"]", cancellationToken); // 100
 							result.NoteNumberElement.Add(newItem_noteNumber);
 							break;
 						case "adjudication":
 							var newItem_adjudication = new Hl7.Fhir.Model.ExplanationOfBenefit.AdjudicationComponent();
-							await ParseAsync(newItem_adjudication, reader, outcome, locationPath + ".adjudication["+result.Adjudication.Count+"]"); // 110
+							await ParseAsync(newItem_adjudication, reader, outcome, locationPath + ".adjudication["+result.Adjudication.Count+"]", cancellationToken); // 110
 							result.Adjudication.Add(newItem_adjudication);
 							break;
 						default:

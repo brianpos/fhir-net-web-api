@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SubstanceSpecification.StructureComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.SubstanceSpecification.StructureComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,53 +42,55 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "stereochemistry":
 							result.Stereochemistry = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Stereochemistry as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".stereochemistry"); // 40
+							Parse(result.Stereochemistry as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".stereochemistry", cancellationToken); // 40
 							break;
 						case "opticalActivity":
 							result.OpticalActivity = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.OpticalActivity as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".opticalActivity"); // 50
+							Parse(result.OpticalActivity as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".opticalActivity", cancellationToken); // 50
 							break;
 						case "molecularFormula":
 							result.MolecularFormulaElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MolecularFormulaElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormula"); // 60
+							Parse(result.MolecularFormulaElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormula", cancellationToken); // 60
 							break;
 						case "molecularFormulaByMoiety":
 							result.MolecularFormulaByMoietyElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MolecularFormulaByMoietyElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormulaByMoiety"); // 70
+							Parse(result.MolecularFormulaByMoietyElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormulaByMoiety", cancellationToken); // 70
 							break;
 						case "isotope":
 							var newItem_isotope = new Hl7.Fhir.Model.SubstanceSpecification.IsotopeComponent();
-							Parse(newItem_isotope, reader, outcome, locationPath + ".isotope["+result.Isotope.Count+"]"); // 80
+							Parse(newItem_isotope, reader, outcome, locationPath + ".isotope["+result.Isotope.Count+"]", cancellationToken); // 80
 							result.Isotope.Add(newItem_isotope);
 							break;
 						case "molecularWeight":
 							result.MolecularWeight = new Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent();
-							Parse(result.MolecularWeight as Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent, reader, outcome, locationPath + ".molecularWeight"); // 90
+							Parse(result.MolecularWeight as Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent, reader, outcome, locationPath + ".molecularWeight", cancellationToken); // 90
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 100
+							Parse(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]", cancellationToken); // 100
 							result.Source.Add(newItem_source);
 							break;
 						case "representation":
 							var newItem_representation = new Hl7.Fhir.Model.SubstanceSpecification.RepresentationComponent();
-							Parse(newItem_representation, reader, outcome, locationPath + ".representation["+result.Representation.Count+"]"); // 110
+							Parse(newItem_representation, reader, outcome, locationPath + ".representation["+result.Representation.Count+"]", cancellationToken); // 110
 							result.Representation.Add(newItem_representation);
 							break;
 						default:
@@ -104,7 +106,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceSpecification.StructureComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceSpecification.StructureComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -131,53 +133,55 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "stereochemistry":
 							result.Stereochemistry = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Stereochemistry as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".stereochemistry"); // 40
+							await ParseAsync(result.Stereochemistry as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".stereochemistry", cancellationToken); // 40
 							break;
 						case "opticalActivity":
 							result.OpticalActivity = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.OpticalActivity as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".opticalActivity"); // 50
+							await ParseAsync(result.OpticalActivity as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".opticalActivity", cancellationToken); // 50
 							break;
 						case "molecularFormula":
 							result.MolecularFormulaElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MolecularFormulaElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormula"); // 60
+							await ParseAsync(result.MolecularFormulaElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormula", cancellationToken); // 60
 							break;
 						case "molecularFormulaByMoiety":
 							result.MolecularFormulaByMoietyElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MolecularFormulaByMoietyElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormulaByMoiety"); // 70
+							await ParseAsync(result.MolecularFormulaByMoietyElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".molecularFormulaByMoiety", cancellationToken); // 70
 							break;
 						case "isotope":
 							var newItem_isotope = new Hl7.Fhir.Model.SubstanceSpecification.IsotopeComponent();
-							await ParseAsync(newItem_isotope, reader, outcome, locationPath + ".isotope["+result.Isotope.Count+"]"); // 80
+							await ParseAsync(newItem_isotope, reader, outcome, locationPath + ".isotope["+result.Isotope.Count+"]", cancellationToken); // 80
 							result.Isotope.Add(newItem_isotope);
 							break;
 						case "molecularWeight":
 							result.MolecularWeight = new Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent();
-							await ParseAsync(result.MolecularWeight as Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent, reader, outcome, locationPath + ".molecularWeight"); // 90
+							await ParseAsync(result.MolecularWeight as Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent, reader, outcome, locationPath + ".molecularWeight", cancellationToken); // 90
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 100
+							await ParseAsync(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]", cancellationToken); // 100
 							result.Source.Add(newItem_source);
 							break;
 						case "representation":
 							var newItem_representation = new Hl7.Fhir.Model.SubstanceSpecification.RepresentationComponent();
-							await ParseAsync(newItem_representation, reader, outcome, locationPath + ".representation["+result.Representation.Count+"]"); // 110
+							await ParseAsync(newItem_representation, reader, outcome, locationPath + ".representation["+result.Representation.Count+"]", cancellationToken); // 110
 							result.Representation.Add(newItem_representation);
 							break;
 						default:

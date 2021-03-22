@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.UsageContext result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.UsageContext result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,34 +42,36 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.Coding();
-							Parse(result.Code as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".code"); // 30
+							Parse(result.Code as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".code", cancellationToken); // 30
 							break;
 						case "valueCodeableConcept":
 							result.Value = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueQuantity":
 							result.Value = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueRange":
 							result.Value = new Hl7.Fhir.Model.Range();
-							Parse(result.Value as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueReference":
 							result.Value = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						default:
 							// Property not found
@@ -84,7 +86,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.UsageContext result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.UsageContext result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -111,34 +113,36 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(result.Code as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".code"); // 30
+							await ParseAsync(result.Code as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".code", cancellationToken); // 30
 							break;
 						case "valueCodeableConcept":
 							result.Value = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueQuantity":
 							result.Value = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueRange":
 							result.Value = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueReference":
 							result.Value = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						default:
 							// Property not found

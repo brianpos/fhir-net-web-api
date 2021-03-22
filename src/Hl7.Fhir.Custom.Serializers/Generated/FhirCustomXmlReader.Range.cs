@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Range result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.Range result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,22 +42,24 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "low":
 							result.Low = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low"); // 30
+							Parse(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low", cancellationToken); // 30
 							break;
 						case "high":
 							result.High = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high"); // 40
+							Parse(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high", cancellationToken); // 40
 							break;
 						default:
 							// Property not found
@@ -72,7 +74,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Range result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Range result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -99,22 +101,24 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "low":
 							result.Low = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low"); // 30
+							await ParseAsync(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low", cancellationToken); // 30
 							break;
 						case "high":
 							result.High = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high"); // 40
+							await ParseAsync(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high", cancellationToken); // 40
 							break;
 						default:
 							// Property not found

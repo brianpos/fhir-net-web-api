@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ExampleScenario.ProcessComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ExampleScenario.ProcessComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,39 +42,41 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "title":
 							result.TitleElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title"); // 40
+							Parse(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title", cancellationToken); // 40
 							break;
 						case "description":
 							result.Description = new Hl7.Fhir.Model.Markdown();
-							Parse(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description"); // 50
+							Parse(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description", cancellationToken); // 50
 							break;
 						case "preConditions":
 							result.PreConditions = new Hl7.Fhir.Model.Markdown();
-							Parse(result.PreConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".preConditions"); // 60
+							Parse(result.PreConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".preConditions", cancellationToken); // 60
 							break;
 						case "postConditions":
 							result.PostConditions = new Hl7.Fhir.Model.Markdown();
-							Parse(result.PostConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".postConditions"); // 70
+							Parse(result.PostConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".postConditions", cancellationToken); // 70
 							break;
 						case "step":
 							var newItem_step = new Hl7.Fhir.Model.ExampleScenario.StepComponent();
-							Parse(newItem_step, reader, outcome, locationPath + ".step["+result.Step.Count+"]"); // 80
+							Parse(newItem_step, reader, outcome, locationPath + ".step["+result.Step.Count+"]", cancellationToken); // 80
 							result.Step.Add(newItem_step);
 							break;
 						default:
@@ -90,7 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ExampleScenario.ProcessComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ExampleScenario.ProcessComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -117,39 +119,41 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "title":
 							result.TitleElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title"); // 40
+							await ParseAsync(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title", cancellationToken); // 40
 							break;
 						case "description":
 							result.Description = new Hl7.Fhir.Model.Markdown();
-							await ParseAsync(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description"); // 50
+							await ParseAsync(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description", cancellationToken); // 50
 							break;
 						case "preConditions":
 							result.PreConditions = new Hl7.Fhir.Model.Markdown();
-							await ParseAsync(result.PreConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".preConditions"); // 60
+							await ParseAsync(result.PreConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".preConditions", cancellationToken); // 60
 							break;
 						case "postConditions":
 							result.PostConditions = new Hl7.Fhir.Model.Markdown();
-							await ParseAsync(result.PostConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".postConditions"); // 70
+							await ParseAsync(result.PostConditions as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".postConditions", cancellationToken); // 70
 							break;
 						case "step":
 							var newItem_step = new Hl7.Fhir.Model.ExampleScenario.StepComponent();
-							await ParseAsync(newItem_step, reader, outcome, locationPath + ".step["+result.Step.Count+"]"); // 80
+							await ParseAsync(newItem_step, reader, outcome, locationPath + ".step["+result.Step.Count+"]", cancellationToken); // 80
 							result.Step.Add(newItem_step);
 							break;
 						default:

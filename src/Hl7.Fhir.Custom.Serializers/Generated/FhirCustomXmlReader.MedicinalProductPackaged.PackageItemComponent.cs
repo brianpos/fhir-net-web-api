@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,75 +42,77 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							var newItem_identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]"); // 40
+							Parse(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]", cancellationToken); // 40
 							result.Identifier.Add(newItem_identifier);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity"); // 60
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
 							break;
 						case "material":
 							var newItem_material = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_material, reader, outcome, locationPath + ".material["+result.Material.Count+"]"); // 70
+							Parse(newItem_material, reader, outcome, locationPath + ".material["+result.Material.Count+"]", cancellationToken); // 70
 							result.Material.Add(newItem_material);
 							break;
 						case "alternateMaterial":
 							var newItem_alternateMaterial = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_alternateMaterial, reader, outcome, locationPath + ".alternateMaterial["+result.AlternateMaterial.Count+"]"); // 80
+							Parse(newItem_alternateMaterial, reader, outcome, locationPath + ".alternateMaterial["+result.AlternateMaterial.Count+"]", cancellationToken); // 80
 							result.AlternateMaterial.Add(newItem_alternateMaterial);
 							break;
 						case "device":
 							var newItem_device = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_device, reader, outcome, locationPath + ".device["+result.Device.Count+"]"); // 90
+							Parse(newItem_device, reader, outcome, locationPath + ".device["+result.Device.Count+"]", cancellationToken); // 90
 							result.Device.Add(newItem_device);
 							break;
 						case "manufacturedItem":
 							var newItem_manufacturedItem = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_manufacturedItem, reader, outcome, locationPath + ".manufacturedItem["+result.ManufacturedItem.Count+"]"); // 100
+							Parse(newItem_manufacturedItem, reader, outcome, locationPath + ".manufacturedItem["+result.ManufacturedItem.Count+"]", cancellationToken); // 100
 							result.ManufacturedItem.Add(newItem_manufacturedItem);
 							break;
 						case "packageItem":
 							var newItem_packageItem = new Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent();
-							Parse(newItem_packageItem, reader, outcome, locationPath + ".packageItem["+result.PackageItem.Count+"]"); // 110
+							Parse(newItem_packageItem, reader, outcome, locationPath + ".packageItem["+result.PackageItem.Count+"]", cancellationToken); // 110
 							result.PackageItem.Add(newItem_packageItem);
 							break;
 						case "physicalCharacteristics":
 							result.PhysicalCharacteristics = new Hl7.Fhir.Model.ProdCharacteristic();
-							Parse(result.PhysicalCharacteristics as Hl7.Fhir.Model.ProdCharacteristic, reader, outcome, locationPath + ".physicalCharacteristics"); // 120
+							Parse(result.PhysicalCharacteristics as Hl7.Fhir.Model.ProdCharacteristic, reader, outcome, locationPath + ".physicalCharacteristics", cancellationToken); // 120
 							break;
 						case "otherCharacteristics":
 							var newItem_otherCharacteristics = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_otherCharacteristics, reader, outcome, locationPath + ".otherCharacteristics["+result.OtherCharacteristics.Count+"]"); // 130
+							Parse(newItem_otherCharacteristics, reader, outcome, locationPath + ".otherCharacteristics["+result.OtherCharacteristics.Count+"]", cancellationToken); // 130
 							result.OtherCharacteristics.Add(newItem_otherCharacteristics);
 							break;
 						case "shelfLifeStorage":
 							var newItem_shelfLifeStorage = new Hl7.Fhir.Model.ProductShelfLife();
-							Parse(newItem_shelfLifeStorage, reader, outcome, locationPath + ".shelfLifeStorage["+result.ShelfLifeStorage.Count+"]"); // 140
+							Parse(newItem_shelfLifeStorage, reader, outcome, locationPath + ".shelfLifeStorage["+result.ShelfLifeStorage.Count+"]", cancellationToken); // 140
 							result.ShelfLifeStorage.Add(newItem_shelfLifeStorage);
 							break;
 						case "manufacturer":
 							var newItem_manufacturer = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]"); // 150
+							Parse(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]", cancellationToken); // 150
 							result.Manufacturer.Add(newItem_manufacturer);
 							break;
 						default:
@@ -126,7 +128,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -153,75 +155,77 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							var newItem_identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]"); // 40
+							await ParseAsync(newItem_identifier, reader, outcome, locationPath + ".identifier["+result.Identifier.Count+"]", cancellationToken); // 40
 							result.Identifier.Add(newItem_identifier);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "quantity":
 							result.Quantity = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity"); // 60
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
 							break;
 						case "material":
 							var newItem_material = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_material, reader, outcome, locationPath + ".material["+result.Material.Count+"]"); // 70
+							await ParseAsync(newItem_material, reader, outcome, locationPath + ".material["+result.Material.Count+"]", cancellationToken); // 70
 							result.Material.Add(newItem_material);
 							break;
 						case "alternateMaterial":
 							var newItem_alternateMaterial = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_alternateMaterial, reader, outcome, locationPath + ".alternateMaterial["+result.AlternateMaterial.Count+"]"); // 80
+							await ParseAsync(newItem_alternateMaterial, reader, outcome, locationPath + ".alternateMaterial["+result.AlternateMaterial.Count+"]", cancellationToken); // 80
 							result.AlternateMaterial.Add(newItem_alternateMaterial);
 							break;
 						case "device":
 							var newItem_device = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_device, reader, outcome, locationPath + ".device["+result.Device.Count+"]"); // 90
+							await ParseAsync(newItem_device, reader, outcome, locationPath + ".device["+result.Device.Count+"]", cancellationToken); // 90
 							result.Device.Add(newItem_device);
 							break;
 						case "manufacturedItem":
 							var newItem_manufacturedItem = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_manufacturedItem, reader, outcome, locationPath + ".manufacturedItem["+result.ManufacturedItem.Count+"]"); // 100
+							await ParseAsync(newItem_manufacturedItem, reader, outcome, locationPath + ".manufacturedItem["+result.ManufacturedItem.Count+"]", cancellationToken); // 100
 							result.ManufacturedItem.Add(newItem_manufacturedItem);
 							break;
 						case "packageItem":
 							var newItem_packageItem = new Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent();
-							await ParseAsync(newItem_packageItem, reader, outcome, locationPath + ".packageItem["+result.PackageItem.Count+"]"); // 110
+							await ParseAsync(newItem_packageItem, reader, outcome, locationPath + ".packageItem["+result.PackageItem.Count+"]", cancellationToken); // 110
 							result.PackageItem.Add(newItem_packageItem);
 							break;
 						case "physicalCharacteristics":
 							result.PhysicalCharacteristics = new Hl7.Fhir.Model.ProdCharacteristic();
-							await ParseAsync(result.PhysicalCharacteristics as Hl7.Fhir.Model.ProdCharacteristic, reader, outcome, locationPath + ".physicalCharacteristics"); // 120
+							await ParseAsync(result.PhysicalCharacteristics as Hl7.Fhir.Model.ProdCharacteristic, reader, outcome, locationPath + ".physicalCharacteristics", cancellationToken); // 120
 							break;
 						case "otherCharacteristics":
 							var newItem_otherCharacteristics = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_otherCharacteristics, reader, outcome, locationPath + ".otherCharacteristics["+result.OtherCharacteristics.Count+"]"); // 130
+							await ParseAsync(newItem_otherCharacteristics, reader, outcome, locationPath + ".otherCharacteristics["+result.OtherCharacteristics.Count+"]", cancellationToken); // 130
 							result.OtherCharacteristics.Add(newItem_otherCharacteristics);
 							break;
 						case "shelfLifeStorage":
 							var newItem_shelfLifeStorage = new Hl7.Fhir.Model.ProductShelfLife();
-							await ParseAsync(newItem_shelfLifeStorage, reader, outcome, locationPath + ".shelfLifeStorage["+result.ShelfLifeStorage.Count+"]"); // 140
+							await ParseAsync(newItem_shelfLifeStorage, reader, outcome, locationPath + ".shelfLifeStorage["+result.ShelfLifeStorage.Count+"]", cancellationToken); // 140
 							result.ShelfLifeStorage.Add(newItem_shelfLifeStorage);
 							break;
 						case "manufacturer":
 							var newItem_manufacturer = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]"); // 150
+							await ParseAsync(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]", cancellationToken); // 150
 							result.Manufacturer.Add(newItem_manufacturer);
 							break;
 						default:

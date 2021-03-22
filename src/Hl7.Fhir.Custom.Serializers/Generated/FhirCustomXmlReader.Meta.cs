@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Meta result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.Meta result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,40 +42,42 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "versionId":
 							result.VersionIdElement = new Hl7.Fhir.Model.Id();
-							Parse(result.VersionIdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".versionId"); // 30
+							Parse(result.VersionIdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".versionId", cancellationToken); // 30
 							break;
 						case "lastUpdated":
 							result.LastUpdatedElement = new Hl7.Fhir.Model.Instant();
-							Parse(result.LastUpdatedElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".lastUpdated"); // 40
+							Parse(result.LastUpdatedElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".lastUpdated", cancellationToken); // 40
 							break;
 						case "source":
 							result.SourceElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.SourceElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".source"); // 50
+							Parse(result.SourceElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".source", cancellationToken); // 50
 							break;
 						case "profile":
 							var newItem_profile = new Hl7.Fhir.Model.Canonical();
-							Parse(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]"); // 60
+							Parse(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 60
 							result.ProfileElement.Add(newItem_profile);
 							break;
 						case "security":
 							var newItem_security = new Hl7.Fhir.Model.Coding();
-							Parse(newItem_security, reader, outcome, locationPath + ".security["+result.Security.Count+"]"); // 70
+							Parse(newItem_security, reader, outcome, locationPath + ".security["+result.Security.Count+"]", cancellationToken); // 70
 							result.Security.Add(newItem_security);
 							break;
 						case "tag":
 							var newItem_tag = new Hl7.Fhir.Model.Coding();
-							Parse(newItem_tag, reader, outcome, locationPath + ".tag["+result.Tag.Count+"]"); // 80
+							Parse(newItem_tag, reader, outcome, locationPath + ".tag["+result.Tag.Count+"]", cancellationToken); // 80
 							result.Tag.Add(newItem_tag);
 							break;
 						default:
@@ -91,7 +93,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Meta result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Meta result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -118,40 +120,42 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "versionId":
 							result.VersionIdElement = new Hl7.Fhir.Model.Id();
-							await ParseAsync(result.VersionIdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".versionId"); // 30
+							await ParseAsync(result.VersionIdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".versionId", cancellationToken); // 30
 							break;
 						case "lastUpdated":
 							result.LastUpdatedElement = new Hl7.Fhir.Model.Instant();
-							await ParseAsync(result.LastUpdatedElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".lastUpdated"); // 40
+							await ParseAsync(result.LastUpdatedElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".lastUpdated", cancellationToken); // 40
 							break;
 						case "source":
 							result.SourceElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.SourceElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".source"); // 50
+							await ParseAsync(result.SourceElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".source", cancellationToken); // 50
 							break;
 						case "profile":
 							var newItem_profile = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]"); // 60
+							await ParseAsync(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 60
 							result.ProfileElement.Add(newItem_profile);
 							break;
 						case "security":
 							var newItem_security = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(newItem_security, reader, outcome, locationPath + ".security["+result.Security.Count+"]"); // 70
+							await ParseAsync(newItem_security, reader, outcome, locationPath + ".security["+result.Security.Count+"]", cancellationToken); // 70
 							result.Security.Add(newItem_security);
 							break;
 						case "tag":
 							var newItem_tag = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(newItem_tag, reader, outcome, locationPath + ".tag["+result.Tag.Count+"]"); // 80
+							await ParseAsync(newItem_tag, reader, outcome, locationPath + ".tag["+result.Tag.Count+"]", cancellationToken); // 80
 							result.Tag.Add(newItem_tag);
 							break;
 						default:

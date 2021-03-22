@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Signature result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.Signature result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,43 +42,45 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "type":
 							var newItem_type = new Hl7.Fhir.Model.Coding();
-							Parse(newItem_type, reader, outcome, locationPath + ".type["+result.Type.Count+"]"); // 30
+							Parse(newItem_type, reader, outcome, locationPath + ".type["+result.Type.Count+"]", cancellationToken); // 30
 							result.Type.Add(newItem_type);
 							break;
 						case "when":
 							result.WhenElement = new Hl7.Fhir.Model.Instant();
-							Parse(result.WhenElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".when"); // 40
+							Parse(result.WhenElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".when", cancellationToken); // 40
 							break;
 						case "who":
 							result.Who = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who"); // 50
+							Parse(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who", cancellationToken); // 50
 							break;
 						case "onBehalfOf":
 							result.OnBehalfOf = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf"); // 60
+							Parse(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf", cancellationToken); // 60
 							break;
 						case "targetFormat":
 							result.TargetFormatElement = new Hl7.Fhir.Model.Code();
-							Parse(result.TargetFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".targetFormat"); // 70
+							Parse(result.TargetFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".targetFormat", cancellationToken); // 70
 							break;
 						case "sigFormat":
 							result.SigFormatElement = new Hl7.Fhir.Model.Code();
-							Parse(result.SigFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".sigFormat"); // 80
+							Parse(result.SigFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".sigFormat", cancellationToken); // 80
 							break;
 						case "data":
 							result.DataElement = new Hl7.Fhir.Model.Base64Binary();
-							Parse(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".data"); // 90
+							Parse(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".data", cancellationToken); // 90
 							break;
 						default:
 							// Property not found
@@ -93,7 +95,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Signature result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Signature result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -120,43 +122,45 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "type":
 							var newItem_type = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(newItem_type, reader, outcome, locationPath + ".type["+result.Type.Count+"]"); // 30
+							await ParseAsync(newItem_type, reader, outcome, locationPath + ".type["+result.Type.Count+"]", cancellationToken); // 30
 							result.Type.Add(newItem_type);
 							break;
 						case "when":
 							result.WhenElement = new Hl7.Fhir.Model.Instant();
-							await ParseAsync(result.WhenElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".when"); // 40
+							await ParseAsync(result.WhenElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".when", cancellationToken); // 40
 							break;
 						case "who":
 							result.Who = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who"); // 50
+							await ParseAsync(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who", cancellationToken); // 50
 							break;
 						case "onBehalfOf":
 							result.OnBehalfOf = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf"); // 60
+							await ParseAsync(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf", cancellationToken); // 60
 							break;
 						case "targetFormat":
 							result.TargetFormatElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.TargetFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".targetFormat"); // 70
+							await ParseAsync(result.TargetFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".targetFormat", cancellationToken); // 70
 							break;
 						case "sigFormat":
 							result.SigFormatElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.SigFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".sigFormat"); // 80
+							await ParseAsync(result.SigFormatElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".sigFormat", cancellationToken); // 80
 							break;
 						case "data":
 							result.DataElement = new Hl7.Fhir.Model.Base64Binary();
-							await ParseAsync(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".data"); // 90
+							await ParseAsync(result.DataElement as Hl7.Fhir.Model.Base64Binary, reader, outcome, locationPath + ".data", cancellationToken); // 90
 							break;
 						default:
 							// Property not found

@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicinalProduct.ManufacturingBusinessOperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.MedicinalProduct.ManufacturingBusinessOperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,44 +42,46 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "operationType":
 							result.OperationType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.OperationType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".operationType"); // 40
+							Parse(result.OperationType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".operationType", cancellationToken); // 40
 							break;
 						case "authorisationReferenceNumber":
 							result.AuthorisationReferenceNumber = new Hl7.Fhir.Model.Identifier();
-							Parse(result.AuthorisationReferenceNumber as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".authorisationReferenceNumber"); // 50
+							Parse(result.AuthorisationReferenceNumber as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".authorisationReferenceNumber", cancellationToken); // 50
 							break;
 						case "effectiveDate":
 							result.EffectiveDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.EffectiveDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveDate"); // 60
+							Parse(result.EffectiveDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveDate", cancellationToken); // 60
 							break;
 						case "confidentialityIndicator":
 							result.ConfidentialityIndicator = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.ConfidentialityIndicator as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".confidentialityIndicator"); // 70
+							Parse(result.ConfidentialityIndicator as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".confidentialityIndicator", cancellationToken); // 70
 							break;
 						case "manufacturer":
 							var newItem_manufacturer = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]"); // 80
+							Parse(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]", cancellationToken); // 80
 							result.Manufacturer.Add(newItem_manufacturer);
 							break;
 						case "regulator":
 							result.Regulator = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Regulator as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".regulator"); // 90
+							Parse(result.Regulator as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".regulator", cancellationToken); // 90
 							break;
 						default:
 							// Property not found
@@ -94,7 +96,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProduct.ManufacturingBusinessOperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProduct.ManufacturingBusinessOperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -121,44 +123,46 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "operationType":
 							result.OperationType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.OperationType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".operationType"); // 40
+							await ParseAsync(result.OperationType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".operationType", cancellationToken); // 40
 							break;
 						case "authorisationReferenceNumber":
 							result.AuthorisationReferenceNumber = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.AuthorisationReferenceNumber as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".authorisationReferenceNumber"); // 50
+							await ParseAsync(result.AuthorisationReferenceNumber as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".authorisationReferenceNumber", cancellationToken); // 50
 							break;
 						case "effectiveDate":
 							result.EffectiveDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.EffectiveDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveDate"); // 60
+							await ParseAsync(result.EffectiveDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveDate", cancellationToken); // 60
 							break;
 						case "confidentialityIndicator":
 							result.ConfidentialityIndicator = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.ConfidentialityIndicator as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".confidentialityIndicator"); // 70
+							await ParseAsync(result.ConfidentialityIndicator as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".confidentialityIndicator", cancellationToken); // 70
 							break;
 						case "manufacturer":
 							var newItem_manufacturer = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]"); // 80
+							await ParseAsync(newItem_manufacturer, reader, outcome, locationPath + ".manufacturer["+result.Manufacturer.Count+"]", cancellationToken); // 80
 							result.Manufacturer.Add(newItem_manufacturer);
 							break;
 						case "regulator":
 							result.Regulator = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Regulator as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".regulator"); // 90
+							await ParseAsync(result.Regulator as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".regulator", cancellationToken); // 90
 							break;
 						default:
 							// Property not found

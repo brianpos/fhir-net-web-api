@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,26 +42,28 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "strength":
 							result.StrengthElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>();
-							Parse(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength"); // 40
+							Parse(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength", cancellationToken); // 40
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 50
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 50
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet"); // 60
+							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -76,7 +78,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -103,26 +105,28 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "strength":
 							result.StrengthElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>();
-							await ParseAsync(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength"); // 40
+							await ParseAsync(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength", cancellationToken); // 40
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 50
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 50
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet"); // 60
+							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

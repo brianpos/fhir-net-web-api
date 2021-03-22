@@ -42,7 +42,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-        public Resource Parse(XmlReader reader, OperationOutcome outcome, string locationPath = null)
+        public Resource Parse(XmlReader reader, OperationOutcome outcome, string locationPath = null, CancellationToken cancellationToken = new CancellationToken())
         {
 			while (reader.Read())
 			{
@@ -59,7 +59,7 @@ namespace Hl7.Fhir.CustomSerializer
     {
 #>                case "<#= ResourceName #>":
                     result = new <#= ResourceName #>();
-                    Parse(result as <#= ResourceName #>, reader, outcome, locationPath);
+                    Parse(result as <#= ResourceName #>, reader, outcome, locationPath, cancellationToken);
                     break;
 <#	}
 #>
@@ -70,7 +70,7 @@ namespace Hl7.Fhir.CustomSerializer
             return result;
         }
 
-        public async System.Threading.Tasks.Task<Resource> ParseAsync(XmlReader reader, OperationOutcome outcome, string locationPath = null)
+        public async System.Threading.Tasks.Task<Resource> ParseAsync(XmlReader reader, OperationOutcome outcome, string locationPath = null, CancellationToken cancellationToken = new CancellationToken())
         {
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
@@ -87,7 +87,7 @@ namespace Hl7.Fhir.CustomSerializer
     {
 #>                case "<#= ResourceName #>":
                     result = new <#= ResourceName #>();
-                    await ParseAsync(result as <#= ResourceName #>, reader, outcome, locationPath);
+                    await ParseAsync(result as <#= ResourceName #>, reader, outcome, locationPath, cancellationToken);
                     break;
 <#	}
 #>
@@ -162,7 +162,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		private void Parse(<#= tr.Name #> result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		private void Parse(<#= tr.Name #> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -175,6 +175,8 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
@@ -208,7 +210,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		private async System.Threading.Tasks.Task ParseAsync(<#= tr.Name #> result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		private async System.Threading.Tasks.Task ParseAsync(<#= tr.Name #> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -221,6 +223,8 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
@@ -295,7 +299,7 @@ namespace Hl7.Fhir.CustomSerializer
 <#		if (typeName == "Hl7.Fhir.Model.BackboneElement")
 			WriteLine("\t\t[Obsolete(\"This should not be used\",false)]");
 #>
-		public void Parse(<#= typeName#> result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(<#= typeName#> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -339,6 +343,8 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
@@ -372,7 +378,7 @@ WriteElementProperties(tr, false);
 <#		if (typeName == "Hl7.Fhir.Model.BackboneElement")
 			WriteLine("\t\t[Obsolete(\"This should not be used\",false)]");
 #>
-		public async System.Threading.Tasks.Task ParseAsync(<#= typeName#> result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(<#= typeName#> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -416,6 +422,8 @@ WriteElementProperties(tr, false);
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
@@ -543,7 +551,7 @@ WriteElementProperties(tr, true);
 		{
 			WriteLine($"\tcase \"{fea.Name}\":");
 			WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
-			WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem_{fea.Name}, reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\"); // {fea.Order}");
+			WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem_{fea.Name}, reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\", cancellationToken); // {fea.Order}");
 			WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
 			WriteLine($"\t\tbreak;");
 			return;
@@ -571,13 +579,13 @@ WriteElementProperties(tr, true);
 					WriteLine($"\t\t// FirstChildOf(reader); // {fea.Order}");
 					if (GetTypeName(prop.PropertyType).StartsWith("System.Collections.Generic.List"))
 					{
-						WriteLine($"\t\tvar {prop.Name}Resource = {awaitText}Parse{asyncText}(reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\");");
+						WriteLine($"\t\tvar {prop.Name}Resource = {awaitText}Parse{asyncText}(reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\", cancellationToken);");
 						WriteLine($"\t\tif ({prop.Name}Resource != null)");
 						WriteLine($"\t\t\tresult.{prop.Name}.Add({prop.Name}Resource);");
 					}
 					else
 					{
-						WriteLine($"\t\tvar {prop.Name}Resource = {awaitText}Parse{asyncText}(reader, outcome, locationPath + \".{fea.Name}\");");
+						WriteLine($"\t\tvar {prop.Name}Resource = {awaitText}Parse{asyncText}(reader, outcome, locationPath + \".{fea.Name}\", cancellationToken);");
 						WriteLine($"\t\tresult.{prop.Name} = {prop.Name}Resource;");
 					}
 					WriteLine($"\t\tif (!reader.Read()) return;");
@@ -589,7 +597,7 @@ WriteElementProperties(tr, true);
 					{
 						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
 						WriteLine($"\t\tvar newItem = new {GetTypeName(t)}();");
-						WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem, reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\"); // {fea.Order}");
+						WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem, reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\", cancellationToken); // {fea.Order}");
 						WriteLine($"\t\tresult.{prop.Name}.Add(newItem);");
 						WriteLine($"\t\tbreak;");
 					}
@@ -597,7 +605,7 @@ WriteElementProperties(tr, true);
 					{
 						WriteLine($"\tcase \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\":");
 						WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(t)}();");
-						WriteLine($"\t\t{awaitText}Parse{asyncText}(result.{prop.Name} as {GetTypeName(t)}, reader, outcome, locationPath + \".{fea.Name}\"); // {fea.Order}");
+						WriteLine($"\t\t{awaitText}Parse{asyncText}(result.{prop.Name} as {GetTypeName(t)}, reader, outcome, locationPath + \".{fea.Name}\", cancellationToken); // {fea.Order}");
 						WriteLine($"\t\tbreak;");
 					}
 				}
@@ -658,7 +666,7 @@ WriteElementProperties(tr, true);
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\tvar newItem_{fea.Name} = new {GetTypeName(prop.PropertyType.GenericTypeArguments[0])}();");
-					WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem_{fea.Name}, reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\"); // {fea.Order}");
+					WriteLine($"\t\t{awaitText}Parse{asyncText}(newItem_{fea.Name}, reader, outcome, locationPath + \".{fea.Name}[\"+result.{prop.Name}.Count+\"]\", cancellationToken); // {fea.Order}");
 					WriteLine($"\t\tresult.{prop.Name}.Add(newItem_{fea.Name});");
 					WriteLine($"\t\tbreak;");
 				}
@@ -666,7 +674,7 @@ WriteElementProperties(tr, true);
 				{
 					WriteLine($"\tcase \"{fea.Name}\":");
 					WriteLine($"\t\tresult.{prop.Name} = new {GetTypeName(prop.PropertyType)}();");
-					WriteLine($"\t\t{awaitText}Parse{asyncText}(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome, locationPath + \".{fea.Name}\"); // {fea.Order}");
+					WriteLine($"\t\t{awaitText}Parse{asyncText}(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome, locationPath + \".{fea.Name}\", cancellationToken); // {fea.Order}");
 					WriteLine($"\t\tbreak;");
 				}
 			}
@@ -690,7 +698,7 @@ WriteElementProperties(tr, true);
 			return;
 		WriteLine($"\tcase \"{fea.Name}\":");
 		WriteLine($"\t\t// result.{prop.Name} = new {GetTypeName(prop.PropertyType)}();");
-		WriteLine($"\t\t// Parse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome, locationPath + \".{fea.Name}\"); // {fea.Order}");
+		WriteLine($"\t\t// Parse(result.{prop.Name} as {GetTypeName(prop.PropertyType)}, reader, outcome, locationPath + \".{fea.Name}\", cancellationToken); // {fea.Order}");
 		WriteLine($"\t\tbreak;");
 	}
 

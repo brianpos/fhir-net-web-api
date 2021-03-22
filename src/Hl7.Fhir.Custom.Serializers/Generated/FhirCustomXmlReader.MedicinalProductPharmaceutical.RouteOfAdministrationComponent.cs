@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicinalProductPharmaceutical.RouteOfAdministrationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.MedicinalProductPharmaceutical.RouteOfAdministrationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,47 +42,49 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code"); // 40
+							Parse(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code", cancellationToken); // 40
 							break;
 						case "firstDose":
 							result.FirstDose = new Hl7.Fhir.Model.Quantity();
-							Parse(result.FirstDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".firstDose"); // 50
+							Parse(result.FirstDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".firstDose", cancellationToken); // 50
 							break;
 						case "maxSingleDose":
 							result.MaxSingleDose = new Hl7.Fhir.Model.Quantity();
-							Parse(result.MaxSingleDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxSingleDose"); // 60
+							Parse(result.MaxSingleDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxSingleDose", cancellationToken); // 60
 							break;
 						case "maxDosePerDay":
 							result.MaxDosePerDay = new Hl7.Fhir.Model.Quantity();
-							Parse(result.MaxDosePerDay as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerDay"); // 70
+							Parse(result.MaxDosePerDay as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerDay", cancellationToken); // 70
 							break;
 						case "maxDosePerTreatmentPeriod":
 							result.MaxDosePerTreatmentPeriod = new Hl7.Fhir.Model.Ratio();
-							Parse(result.MaxDosePerTreatmentPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerTreatmentPeriod"); // 80
+							Parse(result.MaxDosePerTreatmentPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerTreatmentPeriod", cancellationToken); // 80
 							break;
 						case "maxTreatmentPeriod":
 							result.MaxTreatmentPeriod = new Hl7.Fhir.Model.Duration();
-							Parse(result.MaxTreatmentPeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".maxTreatmentPeriod"); // 90
+							Parse(result.MaxTreatmentPeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".maxTreatmentPeriod", cancellationToken); // 90
 							break;
 						case "targetSpecies":
 							var newItem_targetSpecies = new Hl7.Fhir.Model.MedicinalProductPharmaceutical.TargetSpeciesComponent();
-							Parse(newItem_targetSpecies, reader, outcome, locationPath + ".targetSpecies["+result.TargetSpecies.Count+"]"); // 100
+							Parse(newItem_targetSpecies, reader, outcome, locationPath + ".targetSpecies["+result.TargetSpecies.Count+"]", cancellationToken); // 100
 							result.TargetSpecies.Add(newItem_targetSpecies);
 							break;
 						default:
@@ -98,7 +100,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductPharmaceutical.RouteOfAdministrationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductPharmaceutical.RouteOfAdministrationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -125,47 +127,49 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code"); // 40
+							await ParseAsync(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code", cancellationToken); // 40
 							break;
 						case "firstDose":
 							result.FirstDose = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.FirstDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".firstDose"); // 50
+							await ParseAsync(result.FirstDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".firstDose", cancellationToken); // 50
 							break;
 						case "maxSingleDose":
 							result.MaxSingleDose = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.MaxSingleDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxSingleDose"); // 60
+							await ParseAsync(result.MaxSingleDose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxSingleDose", cancellationToken); // 60
 							break;
 						case "maxDosePerDay":
 							result.MaxDosePerDay = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.MaxDosePerDay as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerDay"); // 70
+							await ParseAsync(result.MaxDosePerDay as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerDay", cancellationToken); // 70
 							break;
 						case "maxDosePerTreatmentPeriod":
 							result.MaxDosePerTreatmentPeriod = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.MaxDosePerTreatmentPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerTreatmentPeriod"); // 80
+							await ParseAsync(result.MaxDosePerTreatmentPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerTreatmentPeriod", cancellationToken); // 80
 							break;
 						case "maxTreatmentPeriod":
 							result.MaxTreatmentPeriod = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.MaxTreatmentPeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".maxTreatmentPeriod"); // 90
+							await ParseAsync(result.MaxTreatmentPeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".maxTreatmentPeriod", cancellationToken); // 90
 							break;
 						case "targetSpecies":
 							var newItem_targetSpecies = new Hl7.Fhir.Model.MedicinalProductPharmaceutical.TargetSpeciesComponent();
-							await ParseAsync(newItem_targetSpecies, reader, outcome, locationPath + ".targetSpecies["+result.TargetSpecies.Count+"]"); // 100
+							await ParseAsync(newItem_targetSpecies, reader, outcome, locationPath + ".targetSpecies["+result.TargetSpecies.Count+"]", cancellationToken); // 100
 							result.TargetSpecies.Add(newItem_targetSpecies);
 							break;
 						default:

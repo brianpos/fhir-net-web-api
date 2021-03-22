@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ObservationDefinition.QualifiedIntervalComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ObservationDefinition.QualifiedIntervalComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,52 +42,54 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "category":
 							result.CategoryElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ObservationDefinition.ObservationRangeCategory>();
-							Parse(result.CategoryElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ObservationDefinition.ObservationRangeCategory>, reader, outcome, locationPath + ".category"); // 40
+							Parse(result.CategoryElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ObservationDefinition.ObservationRangeCategory>, reader, outcome, locationPath + ".category", cancellationToken); // 40
 							break;
 						case "range":
 							result.Range = new Hl7.Fhir.Model.Range();
-							Parse(result.Range as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".range"); // 50
+							Parse(result.Range as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".range", cancellationToken); // 50
 							break;
 						case "context":
 							result.Context = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Context as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".context"); // 60
+							Parse(result.Context as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".context", cancellationToken); // 60
 							break;
 						case "appliesTo":
 							var newItem_appliesTo = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_appliesTo, reader, outcome, locationPath + ".appliesTo["+result.AppliesTo.Count+"]"); // 70
+							Parse(newItem_appliesTo, reader, outcome, locationPath + ".appliesTo["+result.AppliesTo.Count+"]", cancellationToken); // 70
 							result.AppliesTo.Add(newItem_appliesTo);
 							break;
 						case "gender":
 							result.GenderElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>();
-							Parse(result.GenderElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>, reader, outcome, locationPath + ".gender"); // 80
+							Parse(result.GenderElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>, reader, outcome, locationPath + ".gender", cancellationToken); // 80
 							break;
 						case "age":
 							result.Age = new Hl7.Fhir.Model.Range();
-							Parse(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age"); // 90
+							Parse(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age", cancellationToken); // 90
 							break;
 						case "gestationalAge":
 							result.GestationalAge = new Hl7.Fhir.Model.Range();
-							Parse(result.GestationalAge as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".gestationalAge"); // 100
+							Parse(result.GestationalAge as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".gestationalAge", cancellationToken); // 100
 							break;
 						case "condition":
 							result.ConditionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ConditionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".condition"); // 110
+							Parse(result.ConditionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".condition", cancellationToken); // 110
 							break;
 						default:
 							// Property not found
@@ -102,7 +104,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ObservationDefinition.QualifiedIntervalComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ObservationDefinition.QualifiedIntervalComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -129,52 +131,54 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "category":
 							result.CategoryElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ObservationDefinition.ObservationRangeCategory>();
-							await ParseAsync(result.CategoryElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ObservationDefinition.ObservationRangeCategory>, reader, outcome, locationPath + ".category"); // 40
+							await ParseAsync(result.CategoryElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ObservationDefinition.ObservationRangeCategory>, reader, outcome, locationPath + ".category", cancellationToken); // 40
 							break;
 						case "range":
 							result.Range = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Range as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".range"); // 50
+							await ParseAsync(result.Range as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".range", cancellationToken); // 50
 							break;
 						case "context":
 							result.Context = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Context as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".context"); // 60
+							await ParseAsync(result.Context as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".context", cancellationToken); // 60
 							break;
 						case "appliesTo":
 							var newItem_appliesTo = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_appliesTo, reader, outcome, locationPath + ".appliesTo["+result.AppliesTo.Count+"]"); // 70
+							await ParseAsync(newItem_appliesTo, reader, outcome, locationPath + ".appliesTo["+result.AppliesTo.Count+"]", cancellationToken); // 70
 							result.AppliesTo.Add(newItem_appliesTo);
 							break;
 						case "gender":
 							result.GenderElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>();
-							await ParseAsync(result.GenderElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>, reader, outcome, locationPath + ".gender"); // 80
+							await ParseAsync(result.GenderElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AdministrativeGender>, reader, outcome, locationPath + ".gender", cancellationToken); // 80
 							break;
 						case "age":
 							result.Age = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age"); // 90
+							await ParseAsync(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age", cancellationToken); // 90
 							break;
 						case "gestationalAge":
 							result.GestationalAge = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.GestationalAge as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".gestationalAge"); // 100
+							await ParseAsync(result.GestationalAge as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".gestationalAge", cancellationToken); // 100
 							break;
 						case "condition":
 							result.ConditionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ConditionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".condition"); // 110
+							await ParseAsync(result.ConditionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".condition", cancellationToken); // 110
 							break;
 						default:
 							// Property not found

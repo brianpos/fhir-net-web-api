@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ElementDefinition.MappingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ElementDefinition.MappingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,30 +42,32 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "identity":
 							result.IdentityElement = new Hl7.Fhir.Model.Id();
-							Parse(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity"); // 40
+							Parse(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity", cancellationToken); // 40
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 50
+							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 50
 							break;
 						case "map":
 							result.MapElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map"); // 60
+							Parse(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map", cancellationToken); // 60
 							break;
 						case "comment":
 							result.CommentElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment"); // 70
+							Parse(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment", cancellationToken); // 70
 							break;
 						default:
 							// Property not found
@@ -80,7 +82,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ElementDefinition.MappingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ElementDefinition.MappingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -107,30 +109,32 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "identity":
 							result.IdentityElement = new Hl7.Fhir.Model.Id();
-							await ParseAsync(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity"); // 40
+							await ParseAsync(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity", cancellationToken); // 40
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 50
+							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 50
 							break;
 						case "map":
 							result.MapElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map"); // 60
+							await ParseAsync(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map", cancellationToken); // 60
 							break;
 						case "comment":
 							result.CommentElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment"); // 70
+							await ParseAsync(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment", cancellationToken); // 70
 							break;
 						default:
 							// Property not found

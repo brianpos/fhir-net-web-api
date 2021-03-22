@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.NutritionOrder.EnteralFormulaComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.NutritionOrder.EnteralFormulaComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,56 +42,58 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "baseFormulaType":
 							result.BaseFormulaType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.BaseFormulaType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".baseFormulaType"); // 40
+							Parse(result.BaseFormulaType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".baseFormulaType", cancellationToken); // 40
 							break;
 						case "baseFormulaProductName":
 							result.BaseFormulaProductNameElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.BaseFormulaProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".baseFormulaProductName"); // 50
+							Parse(result.BaseFormulaProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".baseFormulaProductName", cancellationToken); // 50
 							break;
 						case "additiveType":
 							result.AdditiveType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.AdditiveType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".additiveType"); // 60
+							Parse(result.AdditiveType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".additiveType", cancellationToken); // 60
 							break;
 						case "additiveProductName":
 							result.AdditiveProductNameElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.AdditiveProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".additiveProductName"); // 70
+							Parse(result.AdditiveProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".additiveProductName", cancellationToken); // 70
 							break;
 						case "caloricDensity":
 							result.CaloricDensity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.CaloricDensity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".caloricDensity"); // 80
+							Parse(result.CaloricDensity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".caloricDensity", cancellationToken); // 80
 							break;
 						case "routeofAdministration":
 							result.RouteofAdministration = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.RouteofAdministration as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".routeofAdministration"); // 90
+							Parse(result.RouteofAdministration as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".routeofAdministration", cancellationToken); // 90
 							break;
 						case "administration":
 							var newItem_administration = new Hl7.Fhir.Model.NutritionOrder.AdministrationComponent();
-							Parse(newItem_administration, reader, outcome, locationPath + ".administration["+result.Administration.Count+"]"); // 100
+							Parse(newItem_administration, reader, outcome, locationPath + ".administration["+result.Administration.Count+"]", cancellationToken); // 100
 							result.Administration.Add(newItem_administration);
 							break;
 						case "maxVolumeToDeliver":
 							result.MaxVolumeToDeliver = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.MaxVolumeToDeliver as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxVolumeToDeliver"); // 110
+							Parse(result.MaxVolumeToDeliver as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxVolumeToDeliver", cancellationToken); // 110
 							break;
 						case "administrationInstruction":
 							result.AdministrationInstructionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.AdministrationInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".administrationInstruction"); // 120
+							Parse(result.AdministrationInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".administrationInstruction", cancellationToken); // 120
 							break;
 						default:
 							// Property not found
@@ -106,7 +108,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.NutritionOrder.EnteralFormulaComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.NutritionOrder.EnteralFormulaComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -133,56 +135,58 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "baseFormulaType":
 							result.BaseFormulaType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.BaseFormulaType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".baseFormulaType"); // 40
+							await ParseAsync(result.BaseFormulaType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".baseFormulaType", cancellationToken); // 40
 							break;
 						case "baseFormulaProductName":
 							result.BaseFormulaProductNameElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.BaseFormulaProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".baseFormulaProductName"); // 50
+							await ParseAsync(result.BaseFormulaProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".baseFormulaProductName", cancellationToken); // 50
 							break;
 						case "additiveType":
 							result.AdditiveType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.AdditiveType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".additiveType"); // 60
+							await ParseAsync(result.AdditiveType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".additiveType", cancellationToken); // 60
 							break;
 						case "additiveProductName":
 							result.AdditiveProductNameElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.AdditiveProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".additiveProductName"); // 70
+							await ParseAsync(result.AdditiveProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".additiveProductName", cancellationToken); // 70
 							break;
 						case "caloricDensity":
 							result.CaloricDensity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.CaloricDensity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".caloricDensity"); // 80
+							await ParseAsync(result.CaloricDensity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".caloricDensity", cancellationToken); // 80
 							break;
 						case "routeofAdministration":
 							result.RouteofAdministration = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.RouteofAdministration as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".routeofAdministration"); // 90
+							await ParseAsync(result.RouteofAdministration as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".routeofAdministration", cancellationToken); // 90
 							break;
 						case "administration":
 							var newItem_administration = new Hl7.Fhir.Model.NutritionOrder.AdministrationComponent();
-							await ParseAsync(newItem_administration, reader, outcome, locationPath + ".administration["+result.Administration.Count+"]"); // 100
+							await ParseAsync(newItem_administration, reader, outcome, locationPath + ".administration["+result.Administration.Count+"]", cancellationToken); // 100
 							result.Administration.Add(newItem_administration);
 							break;
 						case "maxVolumeToDeliver":
 							result.MaxVolumeToDeliver = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.MaxVolumeToDeliver as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxVolumeToDeliver"); // 110
+							await ParseAsync(result.MaxVolumeToDeliver as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxVolumeToDeliver", cancellationToken); // 110
 							break;
 						case "administrationInstruction":
 							result.AdministrationInstructionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.AdministrationInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".administrationInstruction"); // 120
+							await ParseAsync(result.AdministrationInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".administrationInstruction", cancellationToken); // 120
 							break;
 						default:
 							// Property not found

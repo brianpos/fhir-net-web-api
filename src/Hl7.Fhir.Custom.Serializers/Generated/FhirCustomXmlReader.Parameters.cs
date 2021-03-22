@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		private void Parse(Parameters result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		private void Parse(Parameters result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -28,29 +28,31 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "id":
 							result.IdElement = new Hl7.Fhir.Model.Id();
-							Parse(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id"); // 10
+							Parse(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id", cancellationToken); // 10
 							break;
 						case "meta":
 							result.Meta = new Hl7.Fhir.Model.Meta();
-							Parse(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta"); // 20
+							Parse(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta", cancellationToken); // 20
 							break;
 						case "implicitRules":
 							result.ImplicitRulesElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules"); // 30
+							Parse(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules", cancellationToken); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
+							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 40
 							break;
 						case "parameter":
 							var newItem_parameter = new Hl7.Fhir.Model.Parameters.ParameterComponent();
-							Parse(newItem_parameter, reader, outcome, locationPath + ".parameter["+result.Parameter.Count+"]"); // 50
+							Parse(newItem_parameter, reader, outcome, locationPath + ".parameter["+result.Parameter.Count+"]", cancellationToken); // 50
 							result.Parameter.Add(newItem_parameter);
 							break;
 						default:
@@ -68,7 +70,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		private async System.Threading.Tasks.Task ParseAsync(Parameters result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		private async System.Threading.Tasks.Task ParseAsync(Parameters result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -81,29 +83,31 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "id":
 							result.IdElement = new Hl7.Fhir.Model.Id();
-							await ParseAsync(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id"); // 10
+							await ParseAsync(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id", cancellationToken); // 10
 							break;
 						case "meta":
 							result.Meta = new Hl7.Fhir.Model.Meta();
-							await ParseAsync(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta"); // 20
+							await ParseAsync(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta", cancellationToken); // 20
 							break;
 						case "implicitRules":
 							result.ImplicitRulesElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules"); // 30
+							await ParseAsync(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules", cancellationToken); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
+							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 40
 							break;
 						case "parameter":
 							var newItem_parameter = new Hl7.Fhir.Model.Parameters.ParameterComponent();
-							await ParseAsync(newItem_parameter, reader, outcome, locationPath + ".parameter["+result.Parameter.Count+"]"); // 50
+							await ParseAsync(newItem_parameter, reader, outcome, locationPath + ".parameter["+result.Parameter.Count+"]", cancellationToken); // 50
 							result.Parameter.Add(newItem_parameter);
 							break;
 						default:

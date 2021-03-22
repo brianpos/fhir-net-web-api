@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		private void Parse(Bundle result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		private void Parse(Bundle result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -28,55 +28,57 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "id":
 							result.IdElement = new Hl7.Fhir.Model.Id();
-							Parse(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id"); // 10
+							Parse(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id", cancellationToken); // 10
 							break;
 						case "meta":
 							result.Meta = new Hl7.Fhir.Model.Meta();
-							Parse(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta"); // 20
+							Parse(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta", cancellationToken); // 20
 							break;
 						case "implicitRules":
 							result.ImplicitRulesElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules"); // 30
+							Parse(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules", cancellationToken); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
+							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 40
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 50
+							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 50
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.BundleType>();
-							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.BundleType>, reader, outcome, locationPath + ".type"); // 60
+							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.BundleType>, reader, outcome, locationPath + ".type", cancellationToken); // 60
 							break;
 						case "timestamp":
 							result.TimestampElement = new Hl7.Fhir.Model.Instant();
-							Parse(result.TimestampElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".timestamp"); // 70
+							Parse(result.TimestampElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".timestamp", cancellationToken); // 70
 							break;
 						case "total":
 							result.TotalElement = new Hl7.Fhir.Model.UnsignedInt();
-							Parse(result.TotalElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".total"); // 80
+							Parse(result.TotalElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".total", cancellationToken); // 80
 							break;
 						case "link":
 							var newItem_link = new Hl7.Fhir.Model.Bundle.LinkComponent();
-							Parse(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]"); // 90
+							Parse(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]", cancellationToken); // 90
 							result.Link.Add(newItem_link);
 							break;
 						case "entry":
 							var newItem_entry = new Hl7.Fhir.Model.Bundle.EntryComponent();
-							Parse(newItem_entry, reader, outcome, locationPath + ".entry["+result.Entry.Count+"]"); // 100
+							Parse(newItem_entry, reader, outcome, locationPath + ".entry["+result.Entry.Count+"]", cancellationToken); // 100
 							result.Entry.Add(newItem_entry);
 							break;
 						case "signature":
 							result.Signature = new Hl7.Fhir.Model.Signature();
-							Parse(result.Signature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".signature"); // 110
+							Parse(result.Signature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".signature", cancellationToken); // 110
 							break;
 						default:
 							// Property not found
@@ -93,7 +95,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		private async System.Threading.Tasks.Task ParseAsync(Bundle result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		private async System.Threading.Tasks.Task ParseAsync(Bundle result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -106,55 +108,57 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "id":
 							result.IdElement = new Hl7.Fhir.Model.Id();
-							await ParseAsync(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id"); // 10
+							await ParseAsync(result.IdElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".id", cancellationToken); // 10
 							break;
 						case "meta":
 							result.Meta = new Hl7.Fhir.Model.Meta();
-							await ParseAsync(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta"); // 20
+							await ParseAsync(result.Meta as Hl7.Fhir.Model.Meta, reader, outcome, locationPath + ".meta", cancellationToken); // 20
 							break;
 						case "implicitRules":
 							result.ImplicitRulesElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules"); // 30
+							await ParseAsync(result.ImplicitRulesElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".implicitRules", cancellationToken); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language"); // 40
+							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 40
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 50
+							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 50
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.BundleType>();
-							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.BundleType>, reader, outcome, locationPath + ".type"); // 60
+							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Bundle.BundleType>, reader, outcome, locationPath + ".type", cancellationToken); // 60
 							break;
 						case "timestamp":
 							result.TimestampElement = new Hl7.Fhir.Model.Instant();
-							await ParseAsync(result.TimestampElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".timestamp"); // 70
+							await ParseAsync(result.TimestampElement as Hl7.Fhir.Model.Instant, reader, outcome, locationPath + ".timestamp", cancellationToken); // 70
 							break;
 						case "total":
 							result.TotalElement = new Hl7.Fhir.Model.UnsignedInt();
-							await ParseAsync(result.TotalElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".total"); // 80
+							await ParseAsync(result.TotalElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".total", cancellationToken); // 80
 							break;
 						case "link":
 							var newItem_link = new Hl7.Fhir.Model.Bundle.LinkComponent();
-							await ParseAsync(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]"); // 90
+							await ParseAsync(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]", cancellationToken); // 90
 							result.Link.Add(newItem_link);
 							break;
 						case "entry":
 							var newItem_entry = new Hl7.Fhir.Model.Bundle.EntryComponent();
-							await ParseAsync(newItem_entry, reader, outcome, locationPath + ".entry["+result.Entry.Count+"]"); // 100
+							await ParseAsync(newItem_entry, reader, outcome, locationPath + ".entry["+result.Entry.Count+"]", cancellationToken); // 100
 							result.Entry.Add(newItem_entry);
 							break;
 						case "signature":
 							result.Signature = new Hl7.Fhir.Model.Signature();
-							await ParseAsync(result.Signature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".signature"); // 110
+							await ParseAsync(result.Signature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".signature", cancellationToken); // 110
 							break;
 						default:
 							// Property not found

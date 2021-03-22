@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SimpleQuantity result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.SimpleQuantity result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,34 +42,36 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "value":
 							result.ValueElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.ValueElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value"); // 30
+							Parse(result.ValueElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value", cancellationToken); // 30
 							break;
 						case "comparator":
 							result.ComparatorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Quantity.QuantityComparator>();
-							Parse(result.ComparatorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Quantity.QuantityComparator>, reader, outcome, locationPath + ".comparator"); // 40
+							Parse(result.ComparatorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Quantity.QuantityComparator>, reader, outcome, locationPath + ".comparator", cancellationToken); // 40
 							break;
 						case "unit":
 							result.UnitElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.UnitElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".unit"); // 50
+							Parse(result.UnitElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".unit", cancellationToken); // 50
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system"); // 60
+							Parse(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system", cancellationToken); // 60
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.Code();
-							Parse(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".code"); // 70
+							Parse(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".code", cancellationToken); // 70
 							break;
 						default:
 							// Property not found
@@ -84,7 +86,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SimpleQuantity result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SimpleQuantity result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -111,34 +113,36 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "value":
 							result.ValueElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.ValueElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value"); // 30
+							await ParseAsync(result.ValueElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value", cancellationToken); // 30
 							break;
 						case "comparator":
 							result.ComparatorElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Quantity.QuantityComparator>();
-							await ParseAsync(result.ComparatorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Quantity.QuantityComparator>, reader, outcome, locationPath + ".comparator"); // 40
+							await ParseAsync(result.ComparatorElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Quantity.QuantityComparator>, reader, outcome, locationPath + ".comparator", cancellationToken); // 40
 							break;
 						case "unit":
 							result.UnitElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.UnitElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".unit"); // 50
+							await ParseAsync(result.UnitElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".unit", cancellationToken); // 50
 							break;
 						case "system":
 							result.SystemElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system"); // 60
+							await ParseAsync(result.SystemElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".system", cancellationToken); // 60
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".code"); // 70
+							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".code", cancellationToken); // 70
 							break;
 						default:
 							// Property not found

@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.RelatedArtifact result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.RelatedArtifact result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,42 +42,44 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RelatedArtifact.RelatedArtifactType>();
-							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RelatedArtifact.RelatedArtifactType>, reader, outcome, locationPath + ".type"); // 30
+							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RelatedArtifact.RelatedArtifactType>, reader, outcome, locationPath + ".type", cancellationToken); // 30
 							break;
 						case "label":
 							result.LabelElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.LabelElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".label"); // 40
+							Parse(result.LabelElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".label", cancellationToken); // 40
 							break;
 						case "display":
 							result.DisplayElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display"); // 50
+							Parse(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display", cancellationToken); // 50
 							break;
 						case "citation":
 							result.Citation = new Hl7.Fhir.Model.Markdown();
-							Parse(result.Citation as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".citation"); // 60
+							Parse(result.Citation as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".citation", cancellationToken); // 60
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUrl();
-							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".url"); // 70
+							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".url", cancellationToken); // 70
 							break;
 						case "document":
 							result.Document = new Hl7.Fhir.Model.Attachment();
-							Parse(result.Document as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".document"); // 80
+							Parse(result.Document as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".document", cancellationToken); // 80
 							break;
 						case "resource":
 							result.ResourceElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.ResourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".resource"); // 90
+							Parse(result.ResourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".resource", cancellationToken); // 90
 							break;
 						default:
 							// Property not found
@@ -92,7 +94,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.RelatedArtifact result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.RelatedArtifact result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -119,42 +121,44 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RelatedArtifact.RelatedArtifactType>();
-							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RelatedArtifact.RelatedArtifactType>, reader, outcome, locationPath + ".type"); // 30
+							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RelatedArtifact.RelatedArtifactType>, reader, outcome, locationPath + ".type", cancellationToken); // 30
 							break;
 						case "label":
 							result.LabelElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.LabelElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".label"); // 40
+							await ParseAsync(result.LabelElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".label", cancellationToken); // 40
 							break;
 						case "display":
 							result.DisplayElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display"); // 50
+							await ParseAsync(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display", cancellationToken); // 50
 							break;
 						case "citation":
 							result.Citation = new Hl7.Fhir.Model.Markdown();
-							await ParseAsync(result.Citation as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".citation"); // 60
+							await ParseAsync(result.Citation as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".citation", cancellationToken); // 60
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUrl();
-							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".url"); // 70
+							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUrl, reader, outcome, locationPath + ".url", cancellationToken); // 70
 							break;
 						case "document":
 							result.Document = new Hl7.Fhir.Model.Attachment();
-							await ParseAsync(result.Document as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".document"); // 80
+							await ParseAsync(result.Document as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".document", cancellationToken); // 80
 							break;
 						case "resource":
 							result.ResourceElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.ResourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".resource"); // 90
+							await ParseAsync(result.ResourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".resource", cancellationToken); // 90
 							break;
 						default:
 							// Property not found

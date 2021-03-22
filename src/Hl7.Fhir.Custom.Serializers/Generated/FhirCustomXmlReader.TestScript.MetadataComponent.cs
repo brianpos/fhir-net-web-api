@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.TestScript.MetadataComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.TestScript.MetadataComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,28 +42,30 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "link":
 							var newItem_link = new Hl7.Fhir.Model.TestScript.LinkComponent();
-							Parse(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]"); // 40
+							Parse(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]", cancellationToken); // 40
 							result.Link.Add(newItem_link);
 							break;
 						case "capability":
 							var newItem_capability = new Hl7.Fhir.Model.TestScript.CapabilityComponent();
-							Parse(newItem_capability, reader, outcome, locationPath + ".capability["+result.Capability.Count+"]"); // 50
+							Parse(newItem_capability, reader, outcome, locationPath + ".capability["+result.Capability.Count+"]", cancellationToken); // 50
 							result.Capability.Add(newItem_capability);
 							break;
 						default:
@@ -79,7 +81,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.TestScript.MetadataComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.TestScript.MetadataComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -106,28 +108,30 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "link":
 							var newItem_link = new Hl7.Fhir.Model.TestScript.LinkComponent();
-							await ParseAsync(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]"); // 40
+							await ParseAsync(newItem_link, reader, outcome, locationPath + ".link["+result.Link.Count+"]", cancellationToken); // 40
 							result.Link.Add(newItem_link);
 							break;
 						case "capability":
 							var newItem_capability = new Hl7.Fhir.Model.TestScript.CapabilityComponent();
-							await ParseAsync(newItem_capability, reader, outcome, locationPath + ".capability["+result.Capability.Count+"]"); // 50
+							await ParseAsync(newItem_capability, reader, outcome, locationPath + ".capability["+result.Capability.Count+"]", cancellationToken); // 50
 							result.Capability.Add(newItem_capability);
 							break;
 						default:

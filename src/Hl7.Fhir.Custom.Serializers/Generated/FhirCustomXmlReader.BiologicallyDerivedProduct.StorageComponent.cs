@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.BiologicallyDerivedProduct.StorageComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.BiologicallyDerivedProduct.StorageComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,35 +42,37 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 40
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "temperature":
 							result.TemperatureElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.TemperatureElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".temperature"); // 50
+							Parse(result.TemperatureElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".temperature", cancellationToken); // 50
 							break;
 						case "scale":
 							result.ScaleElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStorageScale>();
-							Parse(result.ScaleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStorageScale>, reader, outcome, locationPath + ".scale"); // 60
+							Parse(result.ScaleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStorageScale>, reader, outcome, locationPath + ".scale", cancellationToken); // 60
 							break;
 						case "duration":
 							result.Duration = new Hl7.Fhir.Model.Period();
-							Parse(result.Duration as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".duration"); // 70
+							Parse(result.Duration as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".duration", cancellationToken); // 70
 							break;
 						default:
 							// Property not found
@@ -85,7 +87,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.BiologicallyDerivedProduct.StorageComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.BiologicallyDerivedProduct.StorageComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -112,35 +114,37 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 40
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "temperature":
 							result.TemperatureElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.TemperatureElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".temperature"); // 50
+							await ParseAsync(result.TemperatureElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".temperature", cancellationToken); // 50
 							break;
 						case "scale":
 							result.ScaleElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStorageScale>();
-							await ParseAsync(result.ScaleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStorageScale>, reader, outcome, locationPath + ".scale"); // 60
+							await ParseAsync(result.ScaleElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BiologicallyDerivedProduct.BiologicallyDerivedProductStorageScale>, reader, outcome, locationPath + ".scale", cancellationToken); // 60
 							break;
 						case "duration":
 							result.Duration = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Duration as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".duration"); // 70
+							await ParseAsync(result.Duration as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".duration", cancellationToken); // 70
 							break;
 						default:
 							// Property not found

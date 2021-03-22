@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.AllergyIntolerance.ReactionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.AllergyIntolerance.ReactionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,48 +42,50 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "substance":
 							result.Substance = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance"); // 40
+							Parse(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance", cancellationToken); // 40
 							break;
 						case "manifestation":
 							var newItem_manifestation = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_manifestation, reader, outcome, locationPath + ".manifestation["+result.Manifestation.Count+"]"); // 50
+							Parse(newItem_manifestation, reader, outcome, locationPath + ".manifestation["+result.Manifestation.Count+"]", cancellationToken); // 50
 							result.Manifestation.Add(newItem_manifestation);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 60
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 60
 							break;
 						case "onset":
 							result.OnsetElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.OnsetElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".onset"); // 70
+							Parse(result.OnsetElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".onset", cancellationToken); // 70
 							break;
 						case "severity":
 							result.SeverityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceSeverity>();
-							Parse(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceSeverity>, reader, outcome, locationPath + ".severity"); // 80
+							Parse(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceSeverity>, reader, outcome, locationPath + ".severity", cancellationToken); // 80
 							break;
 						case "exposureRoute":
 							result.ExposureRoute = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.ExposureRoute as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".exposureRoute"); // 90
+							Parse(result.ExposureRoute as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".exposureRoute", cancellationToken); // 90
 							break;
 						case "note":
 							var newItem_note = new Hl7.Fhir.Model.Annotation();
-							Parse(newItem_note, reader, outcome, locationPath + ".note["+result.Note.Count+"]"); // 100
+							Parse(newItem_note, reader, outcome, locationPath + ".note["+result.Note.Count+"]", cancellationToken); // 100
 							result.Note.Add(newItem_note);
 							break;
 						default:
@@ -99,7 +101,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.AllergyIntolerance.ReactionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.AllergyIntolerance.ReactionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -126,48 +128,50 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "substance":
 							result.Substance = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance"); // 40
+							await ParseAsync(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance", cancellationToken); // 40
 							break;
 						case "manifestation":
 							var newItem_manifestation = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_manifestation, reader, outcome, locationPath + ".manifestation["+result.Manifestation.Count+"]"); // 50
+							await ParseAsync(newItem_manifestation, reader, outcome, locationPath + ".manifestation["+result.Manifestation.Count+"]", cancellationToken); // 50
 							result.Manifestation.Add(newItem_manifestation);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 60
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 60
 							break;
 						case "onset":
 							result.OnsetElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.OnsetElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".onset"); // 70
+							await ParseAsync(result.OnsetElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".onset", cancellationToken); // 70
 							break;
 						case "severity":
 							result.SeverityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceSeverity>();
-							await ParseAsync(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceSeverity>, reader, outcome, locationPath + ".severity"); // 80
+							await ParseAsync(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.AllergyIntolerance.AllergyIntoleranceSeverity>, reader, outcome, locationPath + ".severity", cancellationToken); // 80
 							break;
 						case "exposureRoute":
 							result.ExposureRoute = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.ExposureRoute as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".exposureRoute"); // 90
+							await ParseAsync(result.ExposureRoute as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".exposureRoute", cancellationToken); // 90
 							break;
 						case "note":
 							var newItem_note = new Hl7.Fhir.Model.Annotation();
-							await ParseAsync(newItem_note, reader, outcome, locationPath + ".note["+result.Note.Count+"]"); // 100
+							await ParseAsync(newItem_note, reader, outcome, locationPath + ".note["+result.Note.Count+"]", cancellationToken); // 100
 							result.Note.Add(newItem_note);
 							break;
 						default:

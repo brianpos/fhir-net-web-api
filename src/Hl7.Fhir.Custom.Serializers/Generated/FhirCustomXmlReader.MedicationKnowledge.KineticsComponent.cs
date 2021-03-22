@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicationKnowledge.KineticsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.MedicationKnowledge.KineticsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,33 +42,35 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "areaUnderCurve":
 							var newItem_areaUnderCurve = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(newItem_areaUnderCurve, reader, outcome, locationPath + ".areaUnderCurve["+result.AreaUnderCurve.Count+"]"); // 40
+							Parse(newItem_areaUnderCurve, reader, outcome, locationPath + ".areaUnderCurve["+result.AreaUnderCurve.Count+"]", cancellationToken); // 40
 							result.AreaUnderCurve.Add(newItem_areaUnderCurve);
 							break;
 						case "lethalDose50":
 							var newItem_lethalDose50 = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(newItem_lethalDose50, reader, outcome, locationPath + ".lethalDose50["+result.LethalDose50.Count+"]"); // 50
+							Parse(newItem_lethalDose50, reader, outcome, locationPath + ".lethalDose50["+result.LethalDose50.Count+"]", cancellationToken); // 50
 							result.LethalDose50.Add(newItem_lethalDose50);
 							break;
 						case "halfLifePeriod":
 							result.HalfLifePeriod = new Hl7.Fhir.Model.Duration();
-							Parse(result.HalfLifePeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".halfLifePeriod"); // 60
+							Parse(result.HalfLifePeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".halfLifePeriod", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -83,7 +85,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicationKnowledge.KineticsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicationKnowledge.KineticsComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -110,33 +112,35 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "areaUnderCurve":
 							var newItem_areaUnderCurve = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(newItem_areaUnderCurve, reader, outcome, locationPath + ".areaUnderCurve["+result.AreaUnderCurve.Count+"]"); // 40
+							await ParseAsync(newItem_areaUnderCurve, reader, outcome, locationPath + ".areaUnderCurve["+result.AreaUnderCurve.Count+"]", cancellationToken); // 40
 							result.AreaUnderCurve.Add(newItem_areaUnderCurve);
 							break;
 						case "lethalDose50":
 							var newItem_lethalDose50 = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(newItem_lethalDose50, reader, outcome, locationPath + ".lethalDose50["+result.LethalDose50.Count+"]"); // 50
+							await ParseAsync(newItem_lethalDose50, reader, outcome, locationPath + ".lethalDose50["+result.LethalDose50.Count+"]", cancellationToken); // 50
 							result.LethalDose50.Add(newItem_lethalDose50);
 							break;
 						case "halfLifePeriod":
 							result.HalfLifePeriod = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.HalfLifePeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".halfLifePeriod"); // 60
+							await ParseAsync(result.HalfLifePeriod as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".halfLifePeriod", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

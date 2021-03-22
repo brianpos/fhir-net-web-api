@@ -132,7 +132,7 @@ namespace Hl7.Fhir.CustomSerializer
             });
         }
 
-        public void Parse<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath)
+        public void Parse<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
             where T : struct
         {
             // skip ignored elements
@@ -169,13 +169,15 @@ namespace Hl7.Fhir.CustomSerializer
             // otherwise proceed to read all the other nodes
             while (reader.Read())
             {
+                if (cancellationToken.IsCancellationRequested)
+                    return;
                 if (reader.IsStartElement())
                 {
                     switch (reader.Name)
                     {
                         case "extension":
                             var newItem_extension = new Hl7.Fhir.Model.Extension();
-                            Parse(newItem_extension, reader, outcome, locationPath + ".extension[" + result.Extension.Count + "]"); // 20
+                            Parse(newItem_extension, reader, outcome, locationPath + ".extension[" + result.Extension.Count + "]", cancellationToken); // 20
                             result.Extension.Add(newItem_extension);
                             break;
                         default:
@@ -191,7 +193,7 @@ namespace Hl7.Fhir.CustomSerializer
             }
         }
 
-        public async Task ParseAsync<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath)
+        public async Task ParseAsync<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
             where T : struct
         {
             // skip ignored elements
@@ -228,13 +230,15 @@ namespace Hl7.Fhir.CustomSerializer
             // otherwise proceed to read all the other nodes
             while (await reader.ReadAsync().ConfigureAwait(false))
             {
+                if (cancellationToken.IsCancellationRequested)
+                    return;
                 if (reader.IsStartElement())
                 {
                     switch (reader.Name)
                     {
                         case "extension":
                             var newItem_extension = new Hl7.Fhir.Model.Extension();
-                            await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension[" + result.Extension.Count + "]"); // 20
+                            await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension[" + result.Extension.Count + "]", cancellationToken); // 20
                             result.Extension.Add(newItem_extension);
                             break;
                         default:

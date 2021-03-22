@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SubstanceReferenceInformation.TargetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.SubstanceReferenceInformation.TargetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,59 +42,61 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "target":
 							result.Target = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Target as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".target"); // 40
+							Parse(result.Target as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".target", cancellationToken); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "interaction":
 							result.Interaction = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Interaction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".interaction"); // 60
+							Parse(result.Interaction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".interaction", cancellationToken); // 60
 							break;
 						case "organism":
 							result.Organism = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Organism as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organism"); // 70
+							Parse(result.Organism as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organism", cancellationToken); // 70
 							break;
 						case "organismType":
 							result.OrganismType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.OrganismType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organismType"); // 80
+							Parse(result.OrganismType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organismType", cancellationToken); // 80
 							break;
 						case "amountQuantity":
 							result.Amount = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount"); // 90
+							Parse(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount", cancellationToken); // 90
 							break;
 						case "amountRange":
 							result.Amount = new Hl7.Fhir.Model.Range();
-							Parse(result.Amount as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".amount"); // 90
+							Parse(result.Amount as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".amount", cancellationToken); // 90
 							break;
 						case "amountString":
 							result.Amount = new Hl7.Fhir.Model.FhirString();
-							Parse(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".amount"); // 90
+							Parse(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".amount", cancellationToken); // 90
 							break;
 						case "amountType":
 							result.AmountType = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".amountType"); // 100
+							Parse(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".amountType", cancellationToken); // 100
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 110
+							Parse(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]", cancellationToken); // 110
 							result.Source.Add(newItem_source);
 							break;
 						default:
@@ -110,7 +112,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceReferenceInformation.TargetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SubstanceReferenceInformation.TargetComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -137,59 +139,61 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "target":
 							result.Target = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Target as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".target"); // 40
+							await ParseAsync(result.Target as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".target", cancellationToken); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "interaction":
 							result.Interaction = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Interaction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".interaction"); // 60
+							await ParseAsync(result.Interaction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".interaction", cancellationToken); // 60
 							break;
 						case "organism":
 							result.Organism = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Organism as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organism"); // 70
+							await ParseAsync(result.Organism as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organism", cancellationToken); // 70
 							break;
 						case "organismType":
 							result.OrganismType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.OrganismType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organismType"); // 80
+							await ParseAsync(result.OrganismType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".organismType", cancellationToken); // 80
 							break;
 						case "amountQuantity":
 							result.Amount = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount"); // 90
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount", cancellationToken); // 90
 							break;
 						case "amountRange":
 							result.Amount = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".amount"); // 90
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".amount", cancellationToken); // 90
 							break;
 						case "amountString":
 							result.Amount = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".amount"); // 90
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".amount", cancellationToken); // 90
 							break;
 						case "amountType":
 							result.AmountType = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".amountType"); // 100
+							await ParseAsync(result.AmountType as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".amountType", cancellationToken); // 100
 							break;
 						case "source":
 							var newItem_source = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]"); // 110
+							await ParseAsync(newItem_source, reader, outcome, locationPath + ".source["+result.Source.Count+"]", cancellationToken); // 110
 							result.Source.Add(newItem_source);
 							break;
 						default:

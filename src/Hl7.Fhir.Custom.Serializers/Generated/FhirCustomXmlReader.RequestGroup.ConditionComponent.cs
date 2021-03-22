@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.RequestGroup.ConditionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.RequestGroup.ConditionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,27 +42,29 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "kind":
 							result.KindElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionConditionKind>();
-							Parse(result.KindElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionConditionKind>, reader, outcome, locationPath + ".kind"); // 40
+							Parse(result.KindElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionConditionKind>, reader, outcome, locationPath + ".kind", cancellationToken); // 40
 							break;
 						case "expression":
 							result.Expression = new Hl7.Fhir.Model.Expression();
-							Parse(result.Expression as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".expression"); // 50
+							Parse(result.Expression as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".expression", cancellationToken); // 50
 							break;
 						default:
 							// Property not found
@@ -77,7 +79,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.RequestGroup.ConditionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.RequestGroup.ConditionComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -104,27 +106,29 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "kind":
 							result.KindElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionConditionKind>();
-							await ParseAsync(result.KindElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionConditionKind>, reader, outcome, locationPath + ".kind"); // 40
+							await ParseAsync(result.KindElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ActionConditionKind>, reader, outcome, locationPath + ".kind", cancellationToken); // 40
 							break;
 						case "expression":
 							result.Expression = new Hl7.Fhir.Model.Expression();
-							await ParseAsync(result.Expression as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".expression"); // 50
+							await ParseAsync(result.Expression as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".expression", cancellationToken); // 50
 							break;
 						default:
 							// Property not found

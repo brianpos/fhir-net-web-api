@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.VerificationResult.AttestationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.VerificationResult.AttestationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,51 +42,53 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "who":
 							result.Who = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who"); // 40
+							Parse(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who", cancellationToken); // 40
 							break;
 						case "onBehalfOf":
 							result.OnBehalfOf = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf"); // 50
+							Parse(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf", cancellationToken); // 50
 							break;
 						case "communicationMethod":
 							result.CommunicationMethod = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.CommunicationMethod as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".communicationMethod"); // 60
+							Parse(result.CommunicationMethod as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".communicationMethod", cancellationToken); // 60
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.Date();
-							Parse(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".date"); // 70
+							Parse(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".date", cancellationToken); // 70
 							break;
 						case "sourceIdentityCertificate":
 							result.SourceIdentityCertificateElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.SourceIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sourceIdentityCertificate"); // 80
+							Parse(result.SourceIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sourceIdentityCertificate", cancellationToken); // 80
 							break;
 						case "proxyIdentityCertificate":
 							result.ProxyIdentityCertificateElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ProxyIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".proxyIdentityCertificate"); // 90
+							Parse(result.ProxyIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".proxyIdentityCertificate", cancellationToken); // 90
 							break;
 						case "proxySignature":
 							result.ProxySignature = new Hl7.Fhir.Model.Signature();
-							Parse(result.ProxySignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".proxySignature"); // 100
+							Parse(result.ProxySignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".proxySignature", cancellationToken); // 100
 							break;
 						case "sourceSignature":
 							result.SourceSignature = new Hl7.Fhir.Model.Signature();
-							Parse(result.SourceSignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".sourceSignature"); // 110
+							Parse(result.SourceSignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".sourceSignature", cancellationToken); // 110
 							break;
 						default:
 							// Property not found
@@ -101,7 +103,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.VerificationResult.AttestationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.VerificationResult.AttestationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -128,51 +130,53 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "who":
 							result.Who = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who"); // 40
+							await ParseAsync(result.Who as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".who", cancellationToken); // 40
 							break;
 						case "onBehalfOf":
 							result.OnBehalfOf = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf"); // 50
+							await ParseAsync(result.OnBehalfOf as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".onBehalfOf", cancellationToken); // 50
 							break;
 						case "communicationMethod":
 							result.CommunicationMethod = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.CommunicationMethod as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".communicationMethod"); // 60
+							await ParseAsync(result.CommunicationMethod as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".communicationMethod", cancellationToken); // 60
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.Date();
-							await ParseAsync(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".date"); // 70
+							await ParseAsync(result.DateElement as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".date", cancellationToken); // 70
 							break;
 						case "sourceIdentityCertificate":
 							result.SourceIdentityCertificateElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.SourceIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sourceIdentityCertificate"); // 80
+							await ParseAsync(result.SourceIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".sourceIdentityCertificate", cancellationToken); // 80
 							break;
 						case "proxyIdentityCertificate":
 							result.ProxyIdentityCertificateElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ProxyIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".proxyIdentityCertificate"); // 90
+							await ParseAsync(result.ProxyIdentityCertificateElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".proxyIdentityCertificate", cancellationToken); // 90
 							break;
 						case "proxySignature":
 							result.ProxySignature = new Hl7.Fhir.Model.Signature();
-							await ParseAsync(result.ProxySignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".proxySignature"); // 100
+							await ParseAsync(result.ProxySignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".proxySignature", cancellationToken); // 100
 							break;
 						case "sourceSignature":
 							result.SourceSignature = new Hl7.Fhir.Model.Signature();
-							await ParseAsync(result.SourceSignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".sourceSignature"); // 110
+							await ParseAsync(result.SourceSignature as Hl7.Fhir.Model.Signature, reader, outcome, locationPath + ".sourceSignature", cancellationToken); // 110
 							break;
 						default:
 							// Property not found

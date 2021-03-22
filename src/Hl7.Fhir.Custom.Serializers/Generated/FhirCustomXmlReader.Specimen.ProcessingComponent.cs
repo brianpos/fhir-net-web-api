@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Specimen.ProcessingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.Specimen.ProcessingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,40 +42,42 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 40
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "procedure":
 							result.Procedure = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Procedure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".procedure"); // 50
+							Parse(result.Procedure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".procedure", cancellationToken); // 50
 							break;
 						case "additive":
 							var newItem_additive = new Hl7.Fhir.Model.ResourceReference();
-							Parse(newItem_additive, reader, outcome, locationPath + ".additive["+result.Additive.Count+"]"); // 60
+							Parse(newItem_additive, reader, outcome, locationPath + ".additive["+result.Additive.Count+"]", cancellationToken); // 60
 							result.Additive.Add(newItem_additive);
 							break;
 						case "timeDateTime":
 							result.Time = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.Time as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".time"); // 70
+							Parse(result.Time as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".time", cancellationToken); // 70
 							break;
 						case "timePeriod":
 							result.Time = new Hl7.Fhir.Model.Period();
-							Parse(result.Time as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".time"); // 70
+							Parse(result.Time as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".time", cancellationToken); // 70
 							break;
 						default:
 							// Property not found
@@ -90,7 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Specimen.ProcessingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Specimen.ProcessingComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -117,40 +119,42 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description"); // 40
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "procedure":
 							result.Procedure = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Procedure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".procedure"); // 50
+							await ParseAsync(result.Procedure as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".procedure", cancellationToken); // 50
 							break;
 						case "additive":
 							var newItem_additive = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(newItem_additive, reader, outcome, locationPath + ".additive["+result.Additive.Count+"]"); // 60
+							await ParseAsync(newItem_additive, reader, outcome, locationPath + ".additive["+result.Additive.Count+"]", cancellationToken); // 60
 							result.Additive.Add(newItem_additive);
 							break;
 						case "timeDateTime":
 							result.Time = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.Time as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".time"); // 70
+							await ParseAsync(result.Time as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".time", cancellationToken); // 70
 							break;
 						case "timePeriod":
 							result.Time = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Time as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".time"); // 70
+							await ParseAsync(result.Time as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".time", cancellationToken); // 70
 							break;
 						default:
 							// Property not found

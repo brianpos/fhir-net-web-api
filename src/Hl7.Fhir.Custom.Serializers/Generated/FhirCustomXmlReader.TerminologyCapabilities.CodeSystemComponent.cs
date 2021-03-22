@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.TerminologyCapabilities.CodeSystemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.TerminologyCapabilities.CodeSystemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,32 +42,34 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "uri":
 							result.UriElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.UriElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".uri"); // 40
+							Parse(result.UriElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".uri", cancellationToken); // 40
 							break;
 						case "version":
 							var newItem_version = new Hl7.Fhir.Model.TerminologyCapabilities.VersionComponent();
-							Parse(newItem_version, reader, outcome, locationPath + ".version["+result.Version.Count+"]"); // 50
+							Parse(newItem_version, reader, outcome, locationPath + ".version["+result.Version.Count+"]", cancellationToken); // 50
 							result.Version.Add(newItem_version);
 							break;
 						case "subsumption":
 							result.SubsumptionElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.SubsumptionElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".subsumption"); // 60
+							Parse(result.SubsumptionElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".subsumption", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -82,7 +84,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.TerminologyCapabilities.CodeSystemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.TerminologyCapabilities.CodeSystemComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -109,32 +111,34 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "uri":
 							result.UriElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.UriElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".uri"); // 40
+							await ParseAsync(result.UriElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".uri", cancellationToken); // 40
 							break;
 						case "version":
 							var newItem_version = new Hl7.Fhir.Model.TerminologyCapabilities.VersionComponent();
-							await ParseAsync(newItem_version, reader, outcome, locationPath + ".version["+result.Version.Count+"]"); // 50
+							await ParseAsync(newItem_version, reader, outcome, locationPath + ".version["+result.Version.Count+"]", cancellationToken); // 50
 							result.Version.Add(newItem_version);
 							break;
 						case "subsumption":
 							result.SubsumptionElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.SubsumptionElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".subsumption"); // 60
+							await ParseAsync(result.SubsumptionElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".subsumption", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

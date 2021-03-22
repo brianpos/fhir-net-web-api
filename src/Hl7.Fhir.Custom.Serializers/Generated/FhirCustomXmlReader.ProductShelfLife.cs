@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ProductShelfLife result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ProductShelfLife result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,35 +42,37 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 90
+							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 90
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 100
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 100
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period"); // 110
+							Parse(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period", cancellationToken); // 110
 							break;
 						case "specialPrecautionsForStorage":
 							var newItem_specialPrecautionsForStorage = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]"); // 120
+							Parse(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]", cancellationToken); // 120
 							result.SpecialPrecautionsForStorage.Add(newItem_specialPrecautionsForStorage);
 							break;
 						default:
@@ -86,7 +88,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ProductShelfLife result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ProductShelfLife result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -113,35 +115,37 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier"); // 90
+							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 90
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 100
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 100
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period"); // 110
+							await ParseAsync(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period", cancellationToken); // 110
 							break;
 						case "specialPrecautionsForStorage":
 							var newItem_specialPrecautionsForStorage = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]"); // 120
+							await ParseAsync(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]", cancellationToken); // 120
 							result.SpecialPrecautionsForStorage.Add(newItem_specialPrecautionsForStorage);
 							break;
 						default:

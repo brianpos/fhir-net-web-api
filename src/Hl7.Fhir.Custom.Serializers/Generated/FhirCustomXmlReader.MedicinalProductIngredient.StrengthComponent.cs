@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicinalProductIngredient.StrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.MedicinalProductIngredient.StrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,48 +42,50 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "presentation":
 							result.Presentation = new Hl7.Fhir.Model.Ratio();
-							Parse(result.Presentation as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentation"); // 40
+							Parse(result.Presentation as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentation", cancellationToken); // 40
 							break;
 						case "presentationLowLimit":
 							result.PresentationLowLimit = new Hl7.Fhir.Model.Ratio();
-							Parse(result.PresentationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentationLowLimit"); // 50
+							Parse(result.PresentationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentationLowLimit", cancellationToken); // 50
 							break;
 						case "concentration":
 							result.Concentration = new Hl7.Fhir.Model.Ratio();
-							Parse(result.Concentration as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentration"); // 60
+							Parse(result.Concentration as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentration", cancellationToken); // 60
 							break;
 						case "concentrationLowLimit":
 							result.ConcentrationLowLimit = new Hl7.Fhir.Model.Ratio();
-							Parse(result.ConcentrationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentrationLowLimit"); // 70
+							Parse(result.ConcentrationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentrationLowLimit", cancellationToken); // 70
 							break;
 						case "measurementPoint":
 							result.MeasurementPointElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint"); // 80
+							Parse(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint", cancellationToken); // 80
 							break;
 						case "country":
 							var newItem_country = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]"); // 90
+							Parse(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]", cancellationToken); // 90
 							result.Country.Add(newItem_country);
 							break;
 						case "referenceStrength":
 							var newItem_referenceStrength = new Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent();
-							Parse(newItem_referenceStrength, reader, outcome, locationPath + ".referenceStrength["+result.ReferenceStrength.Count+"]"); // 100
+							Parse(newItem_referenceStrength, reader, outcome, locationPath + ".referenceStrength["+result.ReferenceStrength.Count+"]", cancellationToken); // 100
 							result.ReferenceStrength.Add(newItem_referenceStrength);
 							break;
 						default:
@@ -99,7 +101,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductIngredient.StrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductIngredient.StrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -126,48 +128,50 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "presentation":
 							result.Presentation = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.Presentation as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentation"); // 40
+							await ParseAsync(result.Presentation as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentation", cancellationToken); // 40
 							break;
 						case "presentationLowLimit":
 							result.PresentationLowLimit = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.PresentationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentationLowLimit"); // 50
+							await ParseAsync(result.PresentationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".presentationLowLimit", cancellationToken); // 50
 							break;
 						case "concentration":
 							result.Concentration = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.Concentration as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentration"); // 60
+							await ParseAsync(result.Concentration as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentration", cancellationToken); // 60
 							break;
 						case "concentrationLowLimit":
 							result.ConcentrationLowLimit = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.ConcentrationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentrationLowLimit"); // 70
+							await ParseAsync(result.ConcentrationLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".concentrationLowLimit", cancellationToken); // 70
 							break;
 						case "measurementPoint":
 							result.MeasurementPointElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint"); // 80
+							await ParseAsync(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint", cancellationToken); // 80
 							break;
 						case "country":
 							var newItem_country = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]"); // 90
+							await ParseAsync(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]", cancellationToken); // 90
 							result.Country.Add(newItem_country);
 							break;
 						case "referenceStrength":
 							var newItem_referenceStrength = new Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent();
-							await ParseAsync(newItem_referenceStrength, reader, outcome, locationPath + ".referenceStrength["+result.ReferenceStrength.Count+"]"); // 100
+							await ParseAsync(newItem_referenceStrength, reader, outcome, locationPath + ".referenceStrength["+result.ReferenceStrength.Count+"]", cancellationToken); // 100
 							result.ReferenceStrength.Add(newItem_referenceStrength);
 							break;
 						default:

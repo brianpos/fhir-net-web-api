@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.QuestionnaireResponse.AnswerComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.QuestionnaireResponse.AnswerComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,71 +42,73 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "valueBoolean":
 							result.Value = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueDecimal":
 							result.Value = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.Value as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueInteger":
 							result.Value = new Hl7.Fhir.Model.Integer();
-							Parse(result.Value as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueDate":
 							result.Value = new Hl7.Fhir.Model.Date();
-							Parse(result.Value as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueDateTime":
 							result.Value = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueTime":
 							result.Value = new Hl7.Fhir.Model.Time();
-							Parse(result.Value as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueString":
 							result.Value = new Hl7.Fhir.Model.FhirString();
-							Parse(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueUri":
 							result.Value = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.Value as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueAttachment":
 							result.Value = new Hl7.Fhir.Model.Attachment();
-							Parse(result.Value as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueCoding":
 							result.Value = new Hl7.Fhir.Model.Coding();
-							Parse(result.Value as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueQuantity":
 							result.Value = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueReference":
 							result.Value = new Hl7.Fhir.Model.ResourceReference();
-							Parse(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value"); // 40
+							Parse(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "item":
 							var newItem_item = new Hl7.Fhir.Model.QuestionnaireResponse.ItemComponent();
-							Parse(newItem_item, reader, outcome, locationPath + ".item["+result.Item.Count+"]"); // 50
+							Parse(newItem_item, reader, outcome, locationPath + ".item["+result.Item.Count+"]", cancellationToken); // 50
 							result.Item.Add(newItem_item);
 							break;
 						default:
@@ -122,7 +124,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.QuestionnaireResponse.AnswerComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.QuestionnaireResponse.AnswerComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -149,71 +151,73 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "valueBoolean":
 							result.Value = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueDecimal":
 							result.Value = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueInteger":
 							result.Value = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueDate":
 							result.Value = new Hl7.Fhir.Model.Date();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Date, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueDateTime":
 							result.Value = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueTime":
 							result.Value = new Hl7.Fhir.Model.Time();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Time, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueString":
 							result.Value = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueUri":
 							result.Value = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueAttachment":
 							result.Value = new Hl7.Fhir.Model.Attachment();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Attachment, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueCoding":
 							result.Value = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueQuantity":
 							result.Value = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "valueReference":
 							result.Value = new Hl7.Fhir.Model.ResourceReference();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value"); // 40
+							await ParseAsync(result.Value as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".value", cancellationToken); // 40
 							break;
 						case "item":
 							var newItem_item = new Hl7.Fhir.Model.QuestionnaireResponse.ItemComponent();
-							await ParseAsync(newItem_item, reader, outcome, locationPath + ".item["+result.Item.Count+"]"); // 50
+							await ParseAsync(newItem_item, reader, outcome, locationPath + ".item["+result.Item.Count+"]", cancellationToken); // 50
 							result.Item.Add(newItem_item);
 							break;
 						default:

@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.Dosage.DoseAndRateComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.Dosage.DoseAndRateComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,38 +42,40 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 40
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "doseRange":
 							result.Dose = new Hl7.Fhir.Model.Range();
-							Parse(result.Dose as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".dose"); // 50
+							Parse(result.Dose as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".dose", cancellationToken); // 50
 							break;
 						case "doseQuantity":
 							result.Dose = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Dose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dose"); // 50
+							Parse(result.Dose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dose", cancellationToken); // 50
 							break;
 						case "rateRatio":
 							result.Rate = new Hl7.Fhir.Model.Ratio();
-							Parse(result.Rate as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".rate"); // 60
+							Parse(result.Rate as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".rate", cancellationToken); // 60
 							break;
 						case "rateRange":
 							result.Rate = new Hl7.Fhir.Model.Range();
-							Parse(result.Rate as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".rate"); // 60
+							Parse(result.Rate as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".rate", cancellationToken); // 60
 							break;
 						case "rateQuantity":
 							result.Rate = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Rate as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".rate"); // 60
+							Parse(result.Rate as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".rate", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -88,7 +90,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Dosage.DoseAndRateComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.Dosage.DoseAndRateComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -115,38 +117,40 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 40
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "doseRange":
 							result.Dose = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Dose as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".dose"); // 50
+							await ParseAsync(result.Dose as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".dose", cancellationToken); // 50
 							break;
 						case "doseQuantity":
 							result.Dose = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Dose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dose"); // 50
+							await ParseAsync(result.Dose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dose", cancellationToken); // 50
 							break;
 						case "rateRatio":
 							result.Rate = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.Rate as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".rate"); // 60
+							await ParseAsync(result.Rate as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".rate", cancellationToken); // 60
 							break;
 						case "rateRange":
 							result.Rate = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Rate as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".rate"); // 60
+							await ParseAsync(result.Rate as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".rate", cancellationToken); // 60
 							break;
 						case "rateQuantity":
 							result.Rate = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Rate as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".rate"); // 60
+							await ParseAsync(result.Rate as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".rate", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

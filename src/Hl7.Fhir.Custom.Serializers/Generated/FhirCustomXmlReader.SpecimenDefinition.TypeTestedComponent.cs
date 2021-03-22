@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.SpecimenDefinition.TypeTestedComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.SpecimenDefinition.TypeTestedComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,52 +42,54 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "isDerived":
 							result.IsDerivedElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.IsDerivedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".isDerived"); // 40
+							Parse(result.IsDerivedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".isDerived", cancellationToken); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "preference":
 							result.PreferenceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SpecimenDefinition.SpecimenContainedPreference>();
-							Parse(result.PreferenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SpecimenDefinition.SpecimenContainedPreference>, reader, outcome, locationPath + ".preference"); // 60
+							Parse(result.PreferenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SpecimenDefinition.SpecimenContainedPreference>, reader, outcome, locationPath + ".preference", cancellationToken); // 60
 							break;
 						case "container":
 							result.Container = new Hl7.Fhir.Model.SpecimenDefinition.ContainerComponent();
-							Parse(result.Container as Hl7.Fhir.Model.SpecimenDefinition.ContainerComponent, reader, outcome, locationPath + ".container"); // 70
+							Parse(result.Container as Hl7.Fhir.Model.SpecimenDefinition.ContainerComponent, reader, outcome, locationPath + ".container", cancellationToken); // 70
 							break;
 						case "requirement":
 							result.RequirementElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.RequirementElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirement"); // 80
+							Parse(result.RequirementElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirement", cancellationToken); // 80
 							break;
 						case "retentionTime":
 							result.RetentionTime = new Hl7.Fhir.Model.Duration();
-							Parse(result.RetentionTime as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".retentionTime"); // 90
+							Parse(result.RetentionTime as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".retentionTime", cancellationToken); // 90
 							break;
 						case "rejectionCriterion":
 							var newItem_rejectionCriterion = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_rejectionCriterion, reader, outcome, locationPath + ".rejectionCriterion["+result.RejectionCriterion.Count+"]"); // 100
+							Parse(newItem_rejectionCriterion, reader, outcome, locationPath + ".rejectionCriterion["+result.RejectionCriterion.Count+"]", cancellationToken); // 100
 							result.RejectionCriterion.Add(newItem_rejectionCriterion);
 							break;
 						case "handling":
 							var newItem_handling = new Hl7.Fhir.Model.SpecimenDefinition.HandlingComponent();
-							Parse(newItem_handling, reader, outcome, locationPath + ".handling["+result.Handling.Count+"]"); // 110
+							Parse(newItem_handling, reader, outcome, locationPath + ".handling["+result.Handling.Count+"]", cancellationToken); // 110
 							result.Handling.Add(newItem_handling);
 							break;
 						default:
@@ -103,7 +105,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SpecimenDefinition.TypeTestedComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.SpecimenDefinition.TypeTestedComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -130,52 +132,54 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "isDerived":
 							result.IsDerivedElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.IsDerivedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".isDerived"); // 40
+							await ParseAsync(result.IsDerivedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".isDerived", cancellationToken); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type"); // 50
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "preference":
 							result.PreferenceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SpecimenDefinition.SpecimenContainedPreference>();
-							await ParseAsync(result.PreferenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SpecimenDefinition.SpecimenContainedPreference>, reader, outcome, locationPath + ".preference"); // 60
+							await ParseAsync(result.PreferenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SpecimenDefinition.SpecimenContainedPreference>, reader, outcome, locationPath + ".preference", cancellationToken); // 60
 							break;
 						case "container":
 							result.Container = new Hl7.Fhir.Model.SpecimenDefinition.ContainerComponent();
-							await ParseAsync(result.Container as Hl7.Fhir.Model.SpecimenDefinition.ContainerComponent, reader, outcome, locationPath + ".container"); // 70
+							await ParseAsync(result.Container as Hl7.Fhir.Model.SpecimenDefinition.ContainerComponent, reader, outcome, locationPath + ".container", cancellationToken); // 70
 							break;
 						case "requirement":
 							result.RequirementElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.RequirementElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirement"); // 80
+							await ParseAsync(result.RequirementElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirement", cancellationToken); // 80
 							break;
 						case "retentionTime":
 							result.RetentionTime = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.RetentionTime as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".retentionTime"); // 90
+							await ParseAsync(result.RetentionTime as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".retentionTime", cancellationToken); // 90
 							break;
 						case "rejectionCriterion":
 							var newItem_rejectionCriterion = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_rejectionCriterion, reader, outcome, locationPath + ".rejectionCriterion["+result.RejectionCriterion.Count+"]"); // 100
+							await ParseAsync(newItem_rejectionCriterion, reader, outcome, locationPath + ".rejectionCriterion["+result.RejectionCriterion.Count+"]", cancellationToken); // 100
 							result.RejectionCriterion.Add(newItem_rejectionCriterion);
 							break;
 						case "handling":
 							var newItem_handling = new Hl7.Fhir.Model.SpecimenDefinition.HandlingComponent();
-							await ParseAsync(newItem_handling, reader, outcome, locationPath + ".handling["+result.Handling.Count+"]"); // 110
+							await ParseAsync(newItem_handling, reader, outcome, locationPath + ".handling["+result.Handling.Count+"]", cancellationToken); // 110
 							result.Handling.Add(newItem_handling);
 							break;
 						default:

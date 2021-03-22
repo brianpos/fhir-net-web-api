@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,42 +42,44 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "key":
 							result.KeyElement = new Hl7.Fhir.Model.Id();
-							Parse(result.KeyElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".key"); // 40
+							Parse(result.KeyElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".key", cancellationToken); // 40
 							break;
 						case "requirements":
 							result.RequirementsElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.RequirementsElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirements"); // 50
+							Parse(result.RequirementsElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirements", cancellationToken); // 50
 							break;
 						case "severity":
 							result.SeverityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ConstraintSeverity>();
-							Parse(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ConstraintSeverity>, reader, outcome, locationPath + ".severity"); // 60
+							Parse(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ConstraintSeverity>, reader, outcome, locationPath + ".severity", cancellationToken); // 60
 							break;
 						case "human":
 							result.HumanElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.HumanElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".human"); // 70
+							Parse(result.HumanElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".human", cancellationToken); // 70
 							break;
 						case "expression":
 							result.ExpressionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ExpressionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".expression"); // 80
+							Parse(result.ExpressionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".expression", cancellationToken); // 80
 							break;
 						case "xpath":
 							result.XpathElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.XpathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".xpath"); // 90
+							Parse(result.XpathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".xpath", cancellationToken); // 90
 							break;
 						case "source":
 							result.SourceElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.SourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".source"); // 100
+							Parse(result.SourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".source", cancellationToken); // 100
 							break;
 						default:
 							// Property not found
@@ -92,7 +94,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -119,42 +121,44 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "key":
 							result.KeyElement = new Hl7.Fhir.Model.Id();
-							await ParseAsync(result.KeyElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".key"); // 40
+							await ParseAsync(result.KeyElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".key", cancellationToken); // 40
 							break;
 						case "requirements":
 							result.RequirementsElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.RequirementsElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirements"); // 50
+							await ParseAsync(result.RequirementsElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requirements", cancellationToken); // 50
 							break;
 						case "severity":
 							result.SeverityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ConstraintSeverity>();
-							await ParseAsync(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ConstraintSeverity>, reader, outcome, locationPath + ".severity"); // 60
+							await ParseAsync(result.SeverityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ConstraintSeverity>, reader, outcome, locationPath + ".severity", cancellationToken); // 60
 							break;
 						case "human":
 							result.HumanElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.HumanElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".human"); // 70
+							await ParseAsync(result.HumanElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".human", cancellationToken); // 70
 							break;
 						case "expression":
 							result.ExpressionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ExpressionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".expression"); // 80
+							await ParseAsync(result.ExpressionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".expression", cancellationToken); // 80
 							break;
 						case "xpath":
 							result.XpathElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.XpathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".xpath"); // 90
+							await ParseAsync(result.XpathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".xpath", cancellationToken); // 90
 							break;
 						case "source":
 							result.SourceElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.SourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".source"); // 100
+							await ParseAsync(result.SourceElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".source", cancellationToken); // 100
 							break;
 						default:
 							// Property not found

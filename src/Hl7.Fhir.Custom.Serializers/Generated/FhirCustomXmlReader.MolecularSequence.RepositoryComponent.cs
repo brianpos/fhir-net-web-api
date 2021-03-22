@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MolecularSequence.RepositoryComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.MolecularSequence.RepositoryComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,43 +42,45 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.repositoryType>();
-							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.repositoryType>, reader, outcome, locationPath + ".type"); // 40
+							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.repositoryType>, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".url"); // 50
+							Parse(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".url", cancellationToken); // 50
 							break;
 						case "name":
 							result.NameElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name"); // 60
+							Parse(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name", cancellationToken); // 60
 							break;
 						case "datasetId":
 							result.DatasetIdElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DatasetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".datasetId"); // 70
+							Parse(result.DatasetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".datasetId", cancellationToken); // 70
 							break;
 						case "variantsetId":
 							result.VariantsetIdElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.VariantsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".variantsetId"); // 80
+							Parse(result.VariantsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".variantsetId", cancellationToken); // 80
 							break;
 						case "readsetId":
 							result.ReadsetIdElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ReadsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".readsetId"); // 90
+							Parse(result.ReadsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".readsetId", cancellationToken); // 90
 							break;
 						default:
 							// Property not found
@@ -93,7 +95,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MolecularSequence.RepositoryComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MolecularSequence.RepositoryComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -120,43 +122,45 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.repositoryType>();
-							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.repositoryType>, reader, outcome, locationPath + ".type"); // 40
+							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.repositoryType>, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "url":
 							result.UrlElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".url"); // 50
+							await ParseAsync(result.UrlElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".url", cancellationToken); // 50
 							break;
 						case "name":
 							result.NameElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name"); // 60
+							await ParseAsync(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name", cancellationToken); // 60
 							break;
 						case "datasetId":
 							result.DatasetIdElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DatasetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".datasetId"); // 70
+							await ParseAsync(result.DatasetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".datasetId", cancellationToken); // 70
 							break;
 						case "variantsetId":
 							result.VariantsetIdElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.VariantsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".variantsetId"); // 80
+							await ParseAsync(result.VariantsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".variantsetId", cancellationToken); // 80
 							break;
 						case "readsetId":
 							result.ReadsetIdElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ReadsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".readsetId"); // 90
+							await ParseAsync(result.ReadsetIdElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".readsetId", cancellationToken); // 90
 							break;
 						default:
 							// Property not found

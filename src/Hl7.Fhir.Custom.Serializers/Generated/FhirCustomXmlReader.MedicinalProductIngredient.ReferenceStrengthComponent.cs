@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,39 +42,41 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "substance":
 							result.Substance = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance"); // 40
+							Parse(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance", cancellationToken); // 40
 							break;
 						case "strength":
 							result.Strength = new Hl7.Fhir.Model.Ratio();
-							Parse(result.Strength as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strength"); // 50
+							Parse(result.Strength as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strength", cancellationToken); // 50
 							break;
 						case "strengthLowLimit":
 							result.StrengthLowLimit = new Hl7.Fhir.Model.Ratio();
-							Parse(result.StrengthLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strengthLowLimit"); // 60
+							Parse(result.StrengthLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strengthLowLimit", cancellationToken); // 60
 							break;
 						case "measurementPoint":
 							result.MeasurementPointElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint"); // 70
+							Parse(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint", cancellationToken); // 70
 							break;
 						case "country":
 							var newItem_country = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]"); // 80
+							Parse(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]", cancellationToken); // 80
 							result.Country.Add(newItem_country);
 							break;
 						default:
@@ -90,7 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -117,39 +119,41 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "substance":
 							result.Substance = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance"); // 40
+							await ParseAsync(result.Substance as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".substance", cancellationToken); // 40
 							break;
 						case "strength":
 							result.Strength = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.Strength as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strength"); // 50
+							await ParseAsync(result.Strength as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strength", cancellationToken); // 50
 							break;
 						case "strengthLowLimit":
 							result.StrengthLowLimit = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.StrengthLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strengthLowLimit"); // 60
+							await ParseAsync(result.StrengthLowLimit as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".strengthLowLimit", cancellationToken); // 60
 							break;
 						case "measurementPoint":
 							result.MeasurementPointElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint"); // 70
+							await ParseAsync(result.MeasurementPointElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".measurementPoint", cancellationToken); // 70
 							break;
 						case "country":
 							var newItem_country = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]"); // 80
+							await ParseAsync(newItem_country, reader, outcome, locationPath + ".country["+result.Country.Count+"]", cancellationToken); // 80
 							result.Country.Add(newItem_country);
 							break;
 						default:

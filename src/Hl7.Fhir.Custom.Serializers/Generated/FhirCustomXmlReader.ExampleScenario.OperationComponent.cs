@@ -15,7 +15,7 @@ namespace Hl7.Fhir.CustomSerializer
 {
     public partial class FhirCustomXmlReader
     {
-		public void Parse(Hl7.Fhir.Model.ExampleScenario.OperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public void Parse(Hl7.Fhir.Model.ExampleScenario.OperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -42,59 +42,61 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (reader.Read())
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							Parse(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							Parse(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "number":
 							result.NumberElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.NumberElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".number"); // 40
+							Parse(result.NumberElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".number", cancellationToken); // 40
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TypeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".type"); // 50
+							Parse(result.TypeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "name":
 							result.NameElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name"); // 60
+							Parse(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name", cancellationToken); // 60
 							break;
 						case "initiator":
 							result.InitiatorElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.InitiatorElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".initiator"); // 70
+							Parse(result.InitiatorElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".initiator", cancellationToken); // 70
 							break;
 						case "receiver":
 							result.ReceiverElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ReceiverElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".receiver"); // 80
+							Parse(result.ReceiverElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".receiver", cancellationToken); // 80
 							break;
 						case "description":
 							result.Description = new Hl7.Fhir.Model.Markdown();
-							Parse(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description"); // 90
+							Parse(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description", cancellationToken); // 90
 							break;
 						case "initiatorActive":
 							result.InitiatorActiveElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.InitiatorActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".initiatorActive"); // 100
+							Parse(result.InitiatorActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".initiatorActive", cancellationToken); // 100
 							break;
 						case "receiverActive":
 							result.ReceiverActiveElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.ReceiverActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".receiverActive"); // 110
+							Parse(result.ReceiverActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".receiverActive", cancellationToken); // 110
 							break;
 						case "request":
 							result.Request = new Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent();
-							Parse(result.Request as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".request"); // 120
+							Parse(result.Request as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".request", cancellationToken); // 120
 							break;
 						case "response":
 							result.Response = new Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent();
-							Parse(result.Response as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".response"); // 130
+							Parse(result.Response as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".response", cancellationToken); // 130
 							break;
 						default:
 							// Property not found
@@ -109,7 +111,7 @@ namespace Hl7.Fhir.CustomSerializer
 			}
 		}
 
-		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ExampleScenario.OperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath)
+		public async System.Threading.Tasks.Task ParseAsync(Hl7.Fhir.Model.ExampleScenario.OperationComponent result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
 		{
 			// skip ignored elements
 			while (ShouldSkipNodeType(reader.NodeType))
@@ -136,59 +138,61 @@ namespace Hl7.Fhir.CustomSerializer
 			// otherwise proceed to read all the other nodes
 			while (await reader.ReadAsync().ConfigureAwait(false))
 			{
+				if (cancellationToken.IsCancellationRequested)
+					return;
 				if (reader.IsStartElement())
 				{
 					switch (reader.Name)
 					{
 						case "extension":
 							var newItem_extension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]"); // 20
+							await ParseAsync(newItem_extension, reader, outcome, locationPath + ".extension["+result.Extension.Count+"]", cancellationToken); // 20
 							result.Extension.Add(newItem_extension);
 							break;
 						case "modifierExtension":
 							var newItem_modifierExtension = new Hl7.Fhir.Model.Extension();
-							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]"); // 30
+							await ParseAsync(newItem_modifierExtension, reader, outcome, locationPath + ".modifierExtension["+result.ModifierExtension.Count+"]", cancellationToken); // 30
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "number":
 							result.NumberElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.NumberElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".number"); // 40
+							await ParseAsync(result.NumberElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".number", cancellationToken); // 40
 							break;
 						case "type":
 							result.TypeElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".type"); // 50
+							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "name":
 							result.NameElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name"); // 60
+							await ParseAsync(result.NameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".name", cancellationToken); // 60
 							break;
 						case "initiator":
 							result.InitiatorElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.InitiatorElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".initiator"); // 70
+							await ParseAsync(result.InitiatorElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".initiator", cancellationToken); // 70
 							break;
 						case "receiver":
 							result.ReceiverElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ReceiverElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".receiver"); // 80
+							await ParseAsync(result.ReceiverElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".receiver", cancellationToken); // 80
 							break;
 						case "description":
 							result.Description = new Hl7.Fhir.Model.Markdown();
-							await ParseAsync(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description"); // 90
+							await ParseAsync(result.Description as Hl7.Fhir.Model.Markdown, reader, outcome, locationPath + ".description", cancellationToken); // 90
 							break;
 						case "initiatorActive":
 							result.InitiatorActiveElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.InitiatorActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".initiatorActive"); // 100
+							await ParseAsync(result.InitiatorActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".initiatorActive", cancellationToken); // 100
 							break;
 						case "receiverActive":
 							result.ReceiverActiveElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.ReceiverActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".receiverActive"); // 110
+							await ParseAsync(result.ReceiverActiveElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".receiverActive", cancellationToken); // 110
 							break;
 						case "request":
 							result.Request = new Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent();
-							await ParseAsync(result.Request as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".request"); // 120
+							await ParseAsync(result.Request as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".request", cancellationToken); // 120
 							break;
 						case "response":
 							result.Response = new Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent();
-							await ParseAsync(result.Response as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".response"); // 130
+							await ParseAsync(result.Response as Hl7.Fhir.Model.ExampleScenario.ContainedInstanceComponent, reader, outcome, locationPath + ".response", cancellationToken); // 130
 							break;
 						default:
 							// Property not found

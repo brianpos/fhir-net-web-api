@@ -150,7 +150,7 @@ namespace Hl7.DemoFileSystemFhirServer
                     ResourceIdentity.Build(RequestDetails.BaseUri,
                         item.TypeName,
                         item.Id,
-                        item.Meta.VersionId).OriginalString).Search = new Bundle.SearchComponent()
+                        item.Meta?.VersionId).OriginalString).Search = new Bundle.SearchComponent()
                         {
                             Mode = Bundle.SearchEntryMode.Include
                         };

@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections.Generic;
 using Hl7.Fhir.Model;
+using System.Threading;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -127,6 +128,8 @@ namespace Hl7.Fhir.WebApi
         /// The request URI
         /// </summary>
         public Uri BaseUri { get; private set; }
+
+        public CancellationToken CancellationToken { get; set; }
 
         // Header properties that we care about
         // ETag

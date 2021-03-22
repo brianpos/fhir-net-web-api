@@ -38,7 +38,8 @@ namespace Hl7.Fhir.NetCoreApi.R4
                 !(context.HttpContext.Request.Headers[HeaderNames.Accept] == FhirMediaType.XmlResource
                 || context.HttpContext.Request.Headers[HeaderNames.Accept] == FhirMediaType.JsonResource))
             {
-                foreach(var accept in context.HttpContext.Request.Headers[HeaderNames.Accept].Select(i => MediaTypeHeaderValue.Parse(i)))
+                var acceptHeader = context.HttpContext.Request.Headers[HeaderNames.Accept].SelectMany(h => h.Split(','));
+                foreach (var accept in acceptHeader.Select(i => MediaTypeHeaderValue.Parse(i)))
                 {
                     if (FhirMediaType.StrictFormats.Contains(accept.MediaType.Value)) 
                         return;

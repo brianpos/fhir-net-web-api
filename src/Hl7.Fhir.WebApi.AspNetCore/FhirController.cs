@@ -93,6 +93,7 @@ namespace Hl7.Fhir.WebApi
                 inputs.X_CorelationId = Guid.NewGuid().ToFhirId();
             }
             Request.HttpContext.Items.Add("fhir-inputs", inputs);
+            inputs.CancellationToken = Request.HttpContext.RequestAborted;
             return inputs;
         }
 

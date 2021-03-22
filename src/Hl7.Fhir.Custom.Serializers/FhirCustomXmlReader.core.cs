@@ -93,14 +93,13 @@ namespace Hl7.Fhir.CustomSerializer
             // Scan over the erroneous property
             if (!reader.IsEmptyElement)
             {
-                using (var readerChild = reader.ReadSubtree())
+                int depth = reader.Depth;
+                do
                 {
-                    if (await readerChild.ReadAsync().ConfigureAwait(false))
-                    {
-                        issue.Diagnostics = await readerChild.ReadOuterXmlAsync().ConfigureAwait(false);
-                    }
-                    readerChild.Close();
+                    await reader.ReadAsync().ConfigureAwait(false);
                 }
+                while (reader.Depth > depth);
+                // issue.Diagnostics = await reader.ReadOuterXmlAsync();
                 info = reader as IXmlLineInfo;
                 locations[1] += $" to {info.LineNumber},{info.LinePosition}";
                 issue.Location = locations;

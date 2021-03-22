@@ -112,6 +112,12 @@ namespace Hl7.DemoFileSystemFhirServer
             // essentially permits dud certs being used
             // unchecked.
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender2, cert2, chain, sslPolicyErrors) => true;
+
+            // Strip out all of the markdown search parameter descriptions from memory as they do nothing for us
+            foreach (var sp in Hl7.Fhir.Model.ModelInfo.SearchParameters)
+            {
+                sp.Description = null;
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

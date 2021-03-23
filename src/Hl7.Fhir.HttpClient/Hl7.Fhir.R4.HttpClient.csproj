@@ -25,4 +25,8 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Hl7.Fhir.Custom.Serializers\Hl7.Fhir.Custom.Serializers.csproj" />
+  </ItemGroup>
+
 </Project>

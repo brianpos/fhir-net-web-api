@@ -1,9 +1,13 @@
-﻿using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.CustomSerializer;
+using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Hl7.Fhir.Rest
 {
@@ -11,9 +15,36 @@ namespace Hl7.Fhir.Rest
     {
         private bool _ownsHttpClient;
         private HttpClient _httpClient;
-        private readonly Hl7.Fhir.Serialization.FhirXmlParser _xmlParser = new Hl7.Fhir.Serialization.FhirXmlParser();
-        private readonly Hl7.Fhir.Serialization.FhirXmlSerializer _xmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();
+        private readonly Hl7.Fhir.CustomSerializer.FhirCustomXmlReader _xmlParser = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
         private readonly string _baseAddress;
+        private CancellationTokenSource _source = new CancellationTokenSource();
+
+        private HttpContent CreatePostConent(Resource resource)
+        {
+            MemoryStream stream = new MemoryStream();
+            using (XmlWriter writer = XmlWriter.Create(stream, FhirCustomXmlWriter.Settings))
+            {
+                FhirCustomXmlWriter.WriteBase(resource, writer, "root", _source.Token);
+                writer.Flush();
+                stream.Position = 0;
+                var postContent = new ByteArrayContent(stream.ToArray());
+                postContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ContentType.XML_CONTENT_HEADER);
+                return postContent;
+            }
+        }
+
+        private async Task<Resource> ParseResponseAsync<T>(HttpResponseMessage response, OperationOutcome outcomeParsingErrors)
+            where T : Resource
+        {
+            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+            {
+                using (var xr = XmlReader.Create(stream, FhirCustomXmlReader.Settings))
+                {
+                    Resource resource = await _xmlParser.ParseAsync(xr, outcomeParsingErrors, null, _source.Token) as Resource;
+                    return resource;
+                }
+            }
+        }
 
         public FhirHttpClient(string baseAddress, HttpClient httpClient)
         {
@@ -79,21 +110,20 @@ namespace Hl7.Fhir.Rest
              where TResource : Resource
         {
             string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}";
-            var postContent = new System.Net.Http.ByteArrayContent(_xmlSerializer.SerializeToBytes(resource));
-            postContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ContentType.XML_CONTENT_HEADER);
+
             var msg = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
-            msg.Content = postContent;
+            msg.Content = CreatePostConent(resource);
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<TResource>(xr);
+                var result = await ParseResponseAsync<TResource>(response, outcomeParsingErrors);
+                return result as TResource;
             }
             // Check for an operation outcome returned
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Create", response.StatusCode, outcome);
         }
 
@@ -103,12 +133,11 @@ namespace Hl7.Fhir.Rest
             var msg = new HttpRequestMessage(HttpMethod.Delete, requestUrl);
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (!response.IsSuccessStatusCode)
             {
                 // serialize the result
-                var stream = await response.Content.ReadAsStreamAsync();
-                var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
-                var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+                var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
                 throw BuildFhirOperationException("Delete", response.StatusCode, outcome);
             }
         }
@@ -124,12 +153,11 @@ namespace Hl7.Fhir.Rest
             var msg = new HttpRequestMessage(HttpMethod.Delete, requestUrl);
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (!response.IsSuccessStatusCode)
             {
                 // serialize the result
-                var stream = await response.Content.ReadAsStreamAsync();
-                var xr = SerializationUtil.XmlReaderFromStream(stream);
-                var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+                var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
                 throw BuildFhirOperationException("Delete", response.StatusCode, outcome);
             }
         }
@@ -148,8 +176,9 @@ namespace Hl7.Fhir.Rest
                         _httpClient.Dispose();
                         _httpClient = null;
                     }
+                    _source.Cancel();
+                    _source.Dispose();
                 }
-
                 _disposed = true;
             }
         }
@@ -168,15 +197,15 @@ namespace Hl7.Fhir.Rest
             if (resourceId.StartsWith($"{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}/"))
                 requestUrl = $"{_baseAddress}/{resourceId}";
             var response = await _httpClient.GetAsync(requestUrl).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<TResource>(xr);
+                var result = await ParseResponseAsync<TResource>(response, outcomeParsingErrors);
+                return result as TResource;
             }
             // Check for an operation outcome returned
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Read", response.StatusCode, outcome);
         }
 
@@ -188,15 +217,14 @@ namespace Hl7.Fhir.Rest
                 uri = HttpUtil.MakeAbsoluteToBase(uri, new Uri(_baseAddress));
 
             var response = await _httpClient.GetAsync(uri).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<Resource>(xr);
+                return await ParseResponseAsync<Resource>(response, outcomeParsingErrors);
             }
             // Check for an operation outcome returned
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Get", response.StatusCode, outcome);
         }
 
@@ -210,14 +238,14 @@ namespace Hl7.Fhir.Rest
                 requestUrl += "?" + spd.ToQueryString();
             }
             var response = await _httpClient.GetAsync(requestUrl).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<Bundle>(xr);
+                var result = await ParseResponseAsync<Bundle>(response, outcomeParsingErrors);
+                return result as Bundle;
             }
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Search", response.StatusCode, outcome);
         }
 
@@ -231,14 +259,14 @@ namespace Hl7.Fhir.Rest
                 requestUrl += "?" + spd.ToQueryString();
             }
             var response = await _httpClient.GetAsync(requestUrl).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<Bundle>(xr);
+                var result = await ParseResponseAsync<Bundle>(response, outcomeParsingErrors);
+                return result as Bundle;
             }
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Search", response.StatusCode, outcome);
         }
 
@@ -246,20 +274,18 @@ namespace Hl7.Fhir.Rest
             where TResource : Resource
         {
             string requestUrl = $"{_baseAddress}/{Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(typeof(TResource))}/{resource.Id}";
-            var postContent = new System.Net.Http.ByteArrayContent(_xmlSerializer.SerializeToBytes(resource));
-            postContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ContentType.XML_CONTENT_HEADER);
             var msg = new HttpRequestMessage(HttpMethod.Put, requestUrl);
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
-            msg.Content = postContent;
+            msg.Content = CreatePostConent(resource);
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<TResource>(xr);
+                var result = await ParseResponseAsync<TResource>(response, outcomeParsingErrors);
+                return result as TResource;
             }
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Update", response.StatusCode, outcome);
         }
 
@@ -287,14 +313,14 @@ namespace Hl7.Fhir.Rest
                 var msg = new HttpRequestMessage(HttpMethod.Get, continueAt);
                 msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
                 var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
-                var stream = await response.Content.ReadAsStreamAsync();
-                var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+                OperationOutcome outcomeParsingErrors = new OperationOutcome();
                 if (response.IsSuccessStatusCode)
                 {
                     // serialize the result
-                    return _xmlParser.Parse<Bundle>(xr);
+                    var result = await ParseResponseAsync<Bundle>(response, outcomeParsingErrors);
+                    return result as Bundle;
                 }
-                var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+                var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
                 throw BuildFhirOperationException("Continue", response.StatusCode, outcome);
             }
             // Return a null bundle, can not return simply null because this is a task
@@ -310,14 +336,14 @@ namespace Hl7.Fhir.Rest
             var msg = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<CapabilityStatement>(xr);
+                var result = await ParseResponseAsync<CapabilityStatement>(response, outcomeParsingErrors);
+                return result as CapabilityStatement;
             }
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("CapabilityStatement", response.StatusCode, outcome);
         }
 
@@ -341,7 +367,7 @@ namespace Hl7.Fhir.Rest
             //     to provide an empty body in POST operations. In that case the line of code can be deleted.
             if (parameters == null && !useGet) parameters = new Parameters();
 
-            System.Net.Http.ByteArrayContent postContent = null;
+            HttpContent postContent = null;
             if (useGet)
             {
                 if (parameters != null)
@@ -356,8 +382,7 @@ namespace Hl7.Fhir.Rest
             {
                 if (parameters != null)
                 {
-                    postContent = new System.Net.Http.ByteArrayContent(_xmlSerializer.SerializeToBytes(parameters));
-                    postContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ContentType.XML_CONTENT_HEADER);
+                    postContent = CreatePostConent(parameters);
                 }
             }
 
@@ -365,14 +390,13 @@ namespace Hl7.Fhir.Rest
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
             msg.Content = postContent;
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<Resource>(xr);
+                return await ParseResponseAsync<Resource>(response, outcomeParsingErrors);
             }
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Operation", response.StatusCode, outcome);
         }
 
@@ -392,7 +416,7 @@ namespace Hl7.Fhir.Rest
             //     to provide an empty body in POST operations. In that case the line of code can be deleted.
             if (parameters == null && !useGet) parameters = new Parameters();
 
-            System.Net.Http.ByteArrayContent postContent = null;
+            HttpContent postContent = null;
             if (useGet)
             {
                 if (parameters != null)
@@ -407,8 +431,7 @@ namespace Hl7.Fhir.Rest
             {
                 if (parameters != null)
                 {
-                    postContent = new System.Net.Http.ByteArrayContent(_xmlSerializer.SerializeToBytes(parameters));
-                    postContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(ContentType.XML_CONTENT_HEADER);
+                    postContent = CreatePostConent(parameters);
                 }
             }
 
@@ -416,14 +439,13 @@ namespace Hl7.Fhir.Rest
             msg.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType.XML_CONTENT_HEADER));
             msg.Content = postContent;
             var response = await _httpClient.SendAsync(msg).ConfigureAwait(false);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+            OperationOutcome outcomeParsingErrors = new OperationOutcome();
             if (response.IsSuccessStatusCode)
             {
                 // serialize the result
-                return _xmlParser.Parse<Resource>(xr);
+                return await ParseResponseAsync<Resource>(response, outcomeParsingErrors);
             }
-            var outcome = _xmlParser.Parse<OperationOutcome>(xr);
+            var outcome = await ParseResponseAsync<OperationOutcome>(response, outcomeParsingErrors);
             throw BuildFhirOperationException("Operation", response.StatusCode, outcome);
         }
 

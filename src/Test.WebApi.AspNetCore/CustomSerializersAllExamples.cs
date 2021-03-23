@@ -57,15 +57,7 @@ namespace UnitTestWebApi
             long failures = 0;
             var sw = Stopwatch.StartNew();
 
-            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
-            var settings = new XmlReaderSettings
-            {
-                IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                IgnoreWhitespace = true,
-                DtdProcessing = DtdProcessing.Ignore, //Prohibit,
-                NameTable = new NameTable()
-            };
+            var xrc = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
 
             System.Threading.Tasks.Parallel.ForEach(files,
                 new System.Threading.Tasks.ParallelOptions() { MaxDegreeOfParallelism = 100 },
@@ -96,9 +88,14 @@ namespace UnitTestWebApi
                         if (exampleName.EndsWith(".xml"))
                         {
                             // Debug.WriteLine($"Uploading {exampleName} [xml]");
-                            using (var xr = XmlReader.Create(stream, settings))
+                            using (var xr = XmlReader.Create(stream, Hl7.Fhir.CustomSerializer.FhirCustomXmlReader.Settings))
                             {
-                                resourceNew = xmlParserCustom.Deserialize(xr) as Resource;
+                                var outcome = new OperationOutcome();
+                                resourceNew = xrc.Parse(xr, outcome) as Patient;
+                                if (outcome.Success)
+                                    System.Threading.Interlocked.Increment(ref successes);
+                                else
+                                    System.Threading.Interlocked.Increment(ref failures);
                             }
                         }
                         else
@@ -109,7 +106,6 @@ namespace UnitTestWebApi
                             // resource = new FhirJsonParser().Parse<Resource>(jr);
                         }
                     }
-                    System.Threading.Interlocked.Increment(ref successes);
                 });
 
             sw.Stop();
@@ -137,20 +133,11 @@ namespace UnitTestWebApi
             var sw = Stopwatch.StartNew();
 
             var xmlParserCustom = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
-            var settings = new XmlReaderSettings
-            {
-                Async = true,
-                IgnoreComments = true,
-                IgnoreProcessingInstructions = true,
-                IgnoreWhitespace = true,
-                DtdProcessing = DtdProcessing.Ignore, //Prohibit,
-                NameTable = new NameTable()
-            };
 
             List<System.Threading.Tasks.Task> listOfTasks = new List<System.Threading.Tasks.Task>();
             foreach (ZipArchiveEntry file in files)
             {
-                listOfTasks.Add(ExtractFileAsync(examplesZipPath, xmlParserCustom, settings, file));
+                listOfTasks.Add(ExtractFileAsync(examplesZipPath, xmlParserCustom, file));
             }
             await System.Threading.Tasks.Task.WhenAll(listOfTasks).ConfigureAwait(false);
             foreach (System.Threading.Tasks.Task<bool> item in listOfTasks)
@@ -171,7 +158,7 @@ namespace UnitTestWebApi
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
         }
 
-        private static async System.Threading.Tasks.Task<bool> ExtractFileAsync(string examplesZipPath, Hl7.Fhir.CustomSerializer.FhirCustomXmlReader xmlParserCustom, XmlReaderSettings settings, ZipArchiveEntry file)
+        private static async System.Threading.Tasks.Task<bool> ExtractFileAsync(string examplesZipPath, Hl7.Fhir.CustomSerializer.FhirCustomXmlReader xmlParserCustom, ZipArchiveEntry file)
         {
             var exampleName = file.Name;
             Resource resourceNew;
@@ -198,7 +185,7 @@ namespace UnitTestWebApi
                 if (exampleName.EndsWith(".xml"))
                 {
                     // Debug.WriteLine($"Uploading {exampleName} [xml]");
-                    using (var xr = XmlReader.Create(stream, settings))
+                    using (var xr = XmlReader.Create(stream, Hl7.Fhir.CustomSerializer.FhirCustomXmlReader.Settings))
                     {
                         var outcome = new OperationOutcome();
                         resourceNew = await xmlParserCustom.ParseAsync(xr, outcome) as Resource;

@@ -30,6 +30,10 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "value":
 							result.Value = reader.Value;
+							if (!Date.IsValidValue(reader.Value))
+							{
+								HandleAttributeInvalidValue(reader, "date", outcome, locationPath, null);
+							}
 							break;
 						case "id":
 							result.ElementId = reader.Value;
@@ -84,6 +88,10 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "value":
 							result.Value = reader.Value;
+							if (!Date.IsValidValue(reader.Value))
+							{
+								HandleAttributeInvalidValue(reader, "date", outcome, locationPath, null);
+							}
 							break;
 						case "id":
 							result.ElementId = reader.Value;

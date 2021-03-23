@@ -138,7 +138,7 @@ namespace Hl7.Fhir.CustomSerializer
                 Code = OperationOutcome.IssueType.Value,
                 Details = new CodeableConcept() { Text = $"Invalid {dataFormatType} value '{reader.Value}'" },
                 Location = new string[] { locationPath, $"xml position: {info.LineNumber},{info.LinePosition}" },
-                Diagnostics = ex.Message
+                Diagnostics = ex?.Message
             });
         }
 
@@ -315,7 +315,8 @@ namespace Hl7.Fhir.CustomSerializer
             }
         }
 
-
+        // Workaround from an async bug in the XML Core assembly
+        // https://github.com/dotnet/runtime/blob/release/5.0/src/libraries/System.Private.Xml/src/System/Xml/Core/XmlReaderAsync.cs#L301
         // Returns the current element and its descendants or an attribute as a string.
         public async System.Threading.Tasks.Task<string> ReadOuterXmlAsync(XmlReader reader)
         {

@@ -7,13 +7,12 @@
     <Version>1.9.0-beta2</Version>
     <Title>HL7 Fhir Custom Serializers</Title>
     <Summary>A code generated set of serializers tuned for performance</Summary>
-    <Description>
-      The standard FHIR Serializers use either reflection on the class models or a custom provider to feed serialization information into generic parser/serializer.
+    <Description>The standard FHIR Serializers use either reflection on the class models or a custom provider to feed serialization information into generic parser/serializer.
       The reflection getter/setter approach has overheads on initial call (preparing all this processing data).
       This library sacrifices this approach with explicit functions for each type.
-    </Description>
+</Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
-    <Product>Hl7.Fhir.R4.WebApi.Support</Product>
+    <Product>Hl7.Fhir.R4.WebApi.Serializers</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
   </PropertyGroup>
 

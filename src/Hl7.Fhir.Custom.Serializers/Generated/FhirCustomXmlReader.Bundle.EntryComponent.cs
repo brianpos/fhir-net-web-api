@@ -154,7 +154,7 @@ namespace Hl7.Fhir.CustomSerializer
 							// FirstChildOf(reader); // 60
 							var ResourceResource = await ParseAsync(reader, outcome, locationPath + ".resource", cancellationToken);
 							result.Resource = ResourceResource;
-							if (!reader.Read()) return;
+							if (!await reader.ReadAsync().ConfigureAwait(false)) return;
 							break;
 						case "search":
 							result.Search = new Hl7.Fhir.Model.Bundle.SearchComponent();

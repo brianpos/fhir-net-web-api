@@ -14,6 +14,8 @@ using Hl7.Fhir.Serialization;
 using System.Text;
 using Hl7.Fhir.Utility;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Hl7.Fhir.CustomSerializer;
+using System.Xml;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -57,10 +59,17 @@ namespace Hl7.Fhir.WebApi
                     sb.AppendLine("<div>(null)</div>");
                 else
                 {
-                    var doc = System.Xml.Linq.XDocument.Parse(new FhirXmlSerializer().SerializeToString(resource));
-                    sb.AppendLine("<pre>");
-                    sb.AppendLine(System.Web.HttpUtility.HtmlEncode(doc.ToString(System.Xml.Linq.SaveOptions.None)));
-                    sb.AppendLine("</pre>");
+                    MemoryStream stream = new MemoryStream();
+                    using (XmlWriter xw = XmlWriter.Create(stream, FhirCustomXmlWriter.Settings))
+                    {
+                        FhirCustomXmlWriter.WriteBase(resource, xw, "root", context.HttpContext.RequestAborted);
+                        xw.Flush();
+                        stream.Position = 0;
+                        StreamReader sr = new StreamReader(stream);
+                        sb.AppendLine("<pre>");
+                        sb.AppendLine(System.Web.HttpUtility.HtmlEncode(sr.ReadToEnd()));
+                        sb.AppendLine("</pre>");
+                    }
                 }
             }
 

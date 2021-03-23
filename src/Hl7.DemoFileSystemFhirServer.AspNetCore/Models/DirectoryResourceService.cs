@@ -6,6 +6,10 @@ using Hl7.Fhir.WebApi;
 using Hl7.Fhir.Utility;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Xml;
+using System.Threading;
+using Hl7.Fhir.CustomSerializer;
+using System.IO;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
@@ -25,9 +29,16 @@ namespace Hl7.DemoFileSystemFhirServer
                 resource.Meta = new Meta();
             resource.Meta.LastUpdated = DateTime.Now;
             string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{resource.TypeName}.{resource.Id}.{resource.Meta.VersionId}.xml");
-            System.IO.File.WriteAllText(
-                path,
-                new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
+            using (var stream = System.IO.File.Create(path))
+            {
+                using (XmlWriter xw = XmlWriter.Create(stream, FhirCustomXmlWriter.Settings))
+                {
+                    FhirCustomXmlWriter.WriteBase(resource, xw, "root", RequestDetails.CancellationToken);
+                }
+            }
+            //System.IO.File.WriteAllText(
+            //    path,
+            //    new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
             resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
             return System.Threading.Tasks.Task.FromResult(resource);
         }
@@ -40,13 +51,23 @@ namespace Hl7.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult<string>(null);
         }
 
-        public Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
+        public async Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-get");
+            string filename = $"{this.ResourceName}.{resourceId}.{VersionId}.xml";
 
-            string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
+            string path = System.IO.Path.Combine(DirectorySystemService.Directory, filename);
             if (System.IO.File.Exists(path))
-                return System.Threading.Tasks.Task.FromResult(new Fhir.Serialization.FhirXmlParser().Parse<Resource>(System.IO.File.ReadAllText(path)));
+            {
+                using (var stream = System.IO.File.OpenRead(path))
+                {
+                    var xrc = new FhirCustomXmlReader();
+                    var xr = XmlReader.Create(stream, FhirCustomXmlReader.Settings);
+                    var outcome = new OperationOutcome();
+                    var result = await xrc.ParseAsync(xr, outcome, null, RequestDetails.CancellationToken) as Resource;
+                    return result;
+                }
+            }
             throw new FhirServerException(System.Net.HttpStatusCode.Gone, "It might have been deleted!");
         }
 
@@ -109,7 +130,7 @@ namespace Hl7.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
+        public async Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
         {
             // This is a Brute force search implementation - just scan all the files
             Bundle resource = new Bundle();
@@ -121,7 +142,7 @@ namespace Hl7.DemoFileSystemFhirServer
             resource.ResourceBase = RequestDetails.BaseUri;
 
             Dictionary<string, Resource> entries = new Dictionary<string, Resource>();
-            var parser = new Hl7.Fhir.Serialization.FhirXmlParser();
+            //var parser = new Hl7.Fhir.Serialization.FhirXmlParser();
             string filter = $"{ResourceName}.*.*.xml";
             var idparam = parameters.Where(kp => kp.Key == "_id");
             if (idparam.Any())
@@ -129,12 +150,19 @@ namespace Hl7.DemoFileSystemFhirServer
                 // Even though this is a trashy demo app, don't permit walking the file system
                 filter = $"{ResourceName}.{idparam.First().Value.Replace("/", "")}.*.xml";
             }
+
+            var xrc = new FhirCustomXmlReader();
+
             foreach (var filename in System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, filter))
             {
                 using (System.IO.FileStream stream = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
                 {
-                    var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
-                    var resourceEntry = parser.Parse<Resource>(xr);
+                    var xr = XmlReader.Create(stream, FhirCustomXmlReader.Settings);
+                    var outcome = new OperationOutcome();
+                    var resourceEntry = await xrc.ParseAsync(xr, outcome, null, RequestDetails.CancellationToken) as Resource;
+
+                    // var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
+                    // var resourceEntry = parser.Parse<Resource>(xr);
                     if (entries.ContainsKey(resourceEntry.Id))
                     {
                         if (String.Compare(entries[resourceEntry.Id].Meta.VersionId, resourceEntry.Meta.VersionId) < 0)
@@ -173,10 +201,10 @@ namespace Hl7.DemoFileSystemFhirServer
                         Mode = Bundle.SearchEntryMode.Outcome
                     };
             }
-            return System.Threading.Tasks.Task.FromResult(resource);
+            return resource;
         }
 
-        public Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public async Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta()
@@ -186,11 +214,18 @@ namespace Hl7.DemoFileSystemFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var parser = new Fhir.Serialization.FhirXmlParser();
+            var xrc = new FhirCustomXmlReader();
             var files = System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"{ResourceName}.*.xml");
             foreach (var filename in files)
             {
-                var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
+                Resource resource;
+                using (var stream = System.IO.File.OpenRead(filename))
+                {
+                    var xr = XmlReader.Create(stream, FhirCustomXmlReader.Settings);
+                    var outcome = new OperationOutcome();
+                    resource = await xrc.ParseAsync(xr, outcome, null, RequestDetails.CancellationToken) as Resource;
+                }
+                // var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(RequestDetails.BaseUri,
                         resource.TypeName,
@@ -201,7 +236,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
             // also need to set the page links
 
-            return System.Threading.Tasks.Task.FromResult(result);
+            return result;
         }
     }
 }

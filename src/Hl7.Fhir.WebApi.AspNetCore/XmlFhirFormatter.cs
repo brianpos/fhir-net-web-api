@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Hl7.Fhir.ElementModel;
+using Hl7.Fhir.CustomSerializer;
 #if NETCOREAPP2_2
 using Microsoft.AspNetCore.Http.Internal;
 #endif
@@ -38,8 +39,6 @@ namespace Hl7.Fhir.WebApi
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));
         }
 
-        static ParserSettings _settings = new ParserSettings() { AllowUnrecognizedEnums = true, PermissiveParsing = true };
-
         public override async Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context, Encoding encoding)
         {
             if (context == null)
@@ -51,32 +50,15 @@ namespace Hl7.Fhir.WebApi
             if (encoding.EncodingName != Encoding.UTF8.EncodingName)
                 throw new FhirServerException(HttpStatusCode.BadRequest, "FHIR supports UTF-8 encoding exclusively, not " + encoding.WebName);
 
-            var request = context.HttpContext.Request;
-
-            // TODO: Brian: Would like to know what the issue is here? Will this be resolved by the Async update to the core?
-            if (!request.Body.CanSeek)
+            // stream out the content
+            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+            using (var xr = XmlReader.Create(context.HttpContext.Request.Body, FhirCustomXmlReader.Settings))
             {
-                // To avoid blocking on the stream, we asynchronously read everything 
-                // into a buffer, and then seek back to the beginning.
-                request.EnableBuffering();
-                Debug.Assert(request.Body.CanSeek);
-
-                // no timeout configuration on this? or does that happen at another layer?
-                await request.Body.DrainAsync(CancellationToken.None);
-                request.Body.Seek(0L, SeekOrigin.Begin);
-            }
-
-            using (var reader = SerializationUtil.XmlReaderFromStream(request.Body))
-            {
-                try
-                {
-                    Resource resource = new FhirXmlParser(_settings).Parse<Resource>(reader);
-                    return InputFormatterResult.Success(resource);
-                }
-                catch (FormatException exception)
-                {
-                    throw HandleBodyParsingFormatException(exception);
-                }
+                var outcome = new OperationOutcome();
+                Resource resource = await xmlParserCustom.ParseAsync(xr, outcome, null, context.HttpContext.RequestAborted) as Resource;
+                if (!outcome.Success)
+                    throw new FhirServerException(HttpStatusCode.BadRequest, outcome);
+                return InputFormatterResult.Success(resource);
             }
         }
     }
@@ -107,25 +89,9 @@ namespace Hl7.Fhir.WebApi
 
             if (context.ObjectType != null)
             {
-                XmlWriterSettings settings = new XmlWriterSettings
+                MemoryStream stream = new MemoryStream();
+                using (XmlWriter writer = XmlWriter.Create(stream, FhirCustomXmlWriter.Settings))
                 {
-                    Encoding = new UTF8Encoding(false),
-                    OmitXmlDeclaration = true,
-                    Async = true,
-                    CloseOutput = true,
-                    Indent = true,
-                    NewLineHandling = NewLineHandling.Entitize,
-                    IndentChars = "  "
-                };
-                using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
-                {
-                    // netcore default is for async only
-                    var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
-                    if (syncIOFeature != null)
-                    {
-                        syncIOFeature.AllowSynchronousIO = true;
-                    }
-
                     SummaryType st = SummaryType.False;
                     if (context.ObjectType == typeof(OperationOutcome))
                     {
@@ -134,7 +100,10 @@ namespace Hl7.Fhir.WebApi
                         OperationOutcome resource = (OperationOutcome)context.Object;
                         if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
                             st = resource.Annotation<SummaryType>();
-                        new FhirXmlSerializer().Serialize(resource, writer, st);
+                        if (st == SummaryType.False)
+                            FhirCustomXmlWriter.WriteBase(resource, writer, "root", context.HttpContext.RequestAborted);
+                        else
+                            new FhirXmlSerializer().Serialize(resource, writer, st);
                     }
                     else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
                     {
@@ -143,10 +112,16 @@ namespace Hl7.Fhir.WebApi
                             Resource r = context.Object as Resource;
                             if (r.HasAnnotation<SummaryType>())
                                 st = r.Annotation<SummaryType>();
-                            new FhirXmlSerializer().Serialize(r, writer, st);
+                            if (st == SummaryType.False)
+                                FhirCustomXmlWriter.WriteBase(r, writer, "root", context.HttpContext.RequestAborted);
+                            else
+                                new FhirXmlSerializer().Serialize(r, writer, st);
                         }
                     }
-                    return writer.FlushAsync();
+                    writer.Flush();
+                    stream.Position = 0;
+                    // Write out the content to the output stream
+                    return stream.CopyToAsync(context.HttpContext.Response.Body, context.HttpContext.RequestAborted);
                 }
             }
             return System.Threading.Tasks.Task.CompletedTask;

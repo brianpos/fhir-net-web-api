@@ -157,6 +157,32 @@ namespace UnitTestWebApi
             p.BirthDate = new DateTime(1970, 3, 1).ToFhirDate(); // yes there are extensions to convert to FHIR format
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
+            p.GeneralPractitioner.Add(new ResourceReference("#prac"));
+            p.Contained.Add(new Practitioner
+            {
+                Id = "prac",
+                Gender = AdministrativeGender.Male,
+                Active = true,
+                Text = new Narrative()
+                {
+                    Status = Narrative.NarrativeStatus.Generated,
+                    Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">Turkey <b>Dinner</b> smile\r\n</div>"
+                }
+            });
+            var parameters = new Parameters();
+            parameters.Parameter.Add(new Parameters.ParameterComponent() 
+            {
+                Resource = new RelatedPerson()
+                {
+                    Id = "rp1",
+                    Text = new Narrative()
+                    {
+                        Status = Narrative.NarrativeStatus.Generated,
+                        Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">Related Person example</div>"
+                    }
+                }
+            });
+            p.Contained.Add(parameters);
 
             var clientFhir = new Hl7.Fhir.Rest.FhirHttpClient(_baseAddress);
             var result = await clientFhir.UpdateAsync<Patient>(p);
@@ -315,7 +341,7 @@ namespace UnitTestWebApi
                 DebugDumpOutputXml(result);
                 Assert.Fail("expected it to throw");
             }
-            catch(FhirOperationException ex)
+            catch (FhirOperationException ex)
             {
                 DebugDumpOutputXml(ex.Outcome);
                 Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status);
@@ -384,7 +410,7 @@ namespace UnitTestWebApi
             Assert.IsInstanceOfType(result, typeof(Bundle));
             while (result != null)
             {
-                nTotal += result.Entry.Count; 
+                nTotal += result.Entry.Count;
                 nPages++;
                 result = await clientFhir.ContinueAsync(result);
             }
@@ -419,7 +445,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public async System.Threading.Tasks.Task Http_PerformCustomOperation()
         {
-            Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient(_baseAddress);
+            var clientFhir = new FhirHttpClient(_baseAddress);
             var exampleQuery = new Uri($"{_baseAddress}Patient/45");
             var result = await clientFhir.InstanceOperationAsync(exampleQuery, "send-activation-code") as OperationOutcome;
             DebugDumpOutputXml(result);

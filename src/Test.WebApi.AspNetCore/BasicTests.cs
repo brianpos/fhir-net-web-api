@@ -517,7 +517,7 @@ namespace UnitTestWebApi
             b.Id = "bin1"; // if you support this format for the IDs (client allocated ID)
             b.SecurityContext = new ResourceReference("Organization/2", "Other Org");
             b.ContentType = "image/gif";
-            b.Data = System.IO.File.ReadAllBytes(@"C:\git\fhir-net-web-api\src\Hl7.DemoFileSystemFhirServer.AspNetCore\wwwroot\content\icon_choice.gif");
+            b.Data = System.IO.File.ReadAllBytes(@"TestData/icon_choice.gif");
             int dataLen = b.Data.Length;
             Console.WriteLine("Updating this resource content:");
             DebugDumpOutputXml(b);

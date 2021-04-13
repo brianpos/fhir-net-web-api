@@ -9,6 +9,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
+using Hl7.Fhir.WebApi;
 #if NETCOREAPP3_0 || NETCOREAPP3_1
 using Microsoft.Extensions.Hosting;
 #endif
@@ -62,6 +63,22 @@ namespace Hl7.DemoFileSystemFhirServer
                .AddEnvironmentVariables();
             Configuration = configBuilder.Build();
             var settings = Configuration.GetOption<ServerSettings>("ServerSettings");
+
+            services.AddTransient<FhirSmartAppLaunchConfiguration>(options =>
+            {
+                var result = new FhirSmartAppLaunchConfiguration();
+                var authBaseAddress = "https://localhost:5001/connect/";
+                result.authorization_endpoint = $"{authBaseAddress}authorize";
+                result.token_endpoint = $"{authBaseAddress}token";
+
+                result.introspection_endpoint = $"{authBaseAddress}introspect";
+                result.revocation_endpoint = $"{authBaseAddress}revocation";
+                result.token_endpoint_auth_methods_supported = new string[] { "client_secret_basic", "client_secret_post" };
+                result.scopes_supported = new string[] { "openid", "profile", "launch", "patient/*.*", "user/*.*", "offline_access" };
+                result.response_types_supported = new string[] { "code", "code id_token", "id_token", "refresh_token" };
+                result.capabilities = new string[] { "launch-ehr", "launch-standalone", "client-public", "client-confidential-symmetric" };
+                return result;
+            });
 
             // CORS Support
             services.AddCors(o => o.AddDefaultPolicy(builder =>
@@ -151,6 +168,7 @@ namespace Hl7.DemoFileSystemFhirServer
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapFhirSmartAppLaunchController();
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
                 endpoints.MapFallbackToFile(System.IO.Path.Combine(env.WebRootPath, "content"));

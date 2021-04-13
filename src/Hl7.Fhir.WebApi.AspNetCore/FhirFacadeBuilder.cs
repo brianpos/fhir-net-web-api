@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Hl7.Fhir.NetCoreApi.R4;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace Hl7.Fhir.NetCoreApi
 {
@@ -39,8 +42,7 @@ namespace Hl7.Fhir.NetCoreApi
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonInputFormatter>();
                 // Note there is a default implementation of the json patch in here, need to know how to hook into that
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
             services.AddControllers(options =>
             {
                 // remove the default formatters
@@ -73,10 +75,36 @@ namespace Hl7.Fhir.NetCoreApi
                 setupAction(options);
 #if NETCOREAPP2_2
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
             }).AddApplicationPart(typeof(FhirR4Controller).Assembly);
 #endif
         }
+
+
+        //
+        // Summary:
+        //     Adds endpoints for controller actions to the Microsoft.AspNetCore.Routing.IEndpointRouteBuilder
+        //     without specifying any routes.
+        //
+        // Parameters:
+        //   endpoints:
+        //     The Microsoft.AspNetCore.Routing.IEndpointRouteBuilder.
+        //
+        // Returns:
+        //     An Microsoft.AspNetCore.Builder.ControllerActionEndpointConventionBuilder for
+        //     endpoints associated with controller actions.
+#if !NETCOREAPP2_2
+        public static void MapFhirSmartAppLaunchController(this IEndpointRouteBuilder endpoints)
+        {
+            endpoints.MapGet(".well-known/smart-configuration", async context =>
+            {
+                var config = context.RequestServices.GetService<FhirSmartAppLaunchConfiguration>();
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = 200;
+                var jsonSettings = new Newtonsoft.Json.JsonSerializerSettings() { NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore };
+                await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(config, settings: jsonSettings));
+            });
+        }
+#endif
     }
 }

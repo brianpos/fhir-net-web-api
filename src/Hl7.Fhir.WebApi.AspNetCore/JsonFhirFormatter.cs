@@ -26,8 +26,7 @@ using System.Buffers;
 #if NETCOREAPP2_2
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 #endif
@@ -63,8 +62,7 @@ namespace Hl7.Fhir.WebApi
                 // into a buffer, and then seek back to the beginning.
 #if NETCOREAPP2_2
                 request.EnableRewind();
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
                 request.EnableBuffering();
 #endif
                 Debug.Assert(request.Body.CanSeek);
@@ -95,7 +93,7 @@ namespace Hl7.Fhir.WebApi
         }
     }
 
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#if !NETCOREAPP2_2
     class ArrayPool : IArrayPool<char>
     {
         internal ArrayPool(ArrayPool<char> pool)
@@ -125,8 +123,7 @@ namespace Hl7.Fhir.WebApi
 
 #if NETCOREAPP2_2
             _charPool = new JsonArrayPool<char>(charPool);
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
             _charPool = new ArrayPool(charPool);
 #endif
 
@@ -156,7 +153,7 @@ namespace Hl7.Fhir.WebApi
             {
                 using (StreamWriter writer = new StreamWriter(context.HttpContext.Response.Body))
                 {
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#if !NETCOREAPP2_2
                     // netcore default is for async only
                     var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
                     if (syncIOFeature != null)

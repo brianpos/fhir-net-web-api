@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net50;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.Custom.Serializers</AssemblyName>
     <PackageId>brianpos.Fhir.R4.Custom.Serializers</PackageId>
     <Version>1.9.0-beta2</Version>

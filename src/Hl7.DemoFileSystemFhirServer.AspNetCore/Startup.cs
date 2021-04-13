@@ -10,7 +10,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Hl7.Fhir.WebApi;
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#if !NETCOREAPP2_2
 using Microsoft.Extensions.Hosting;
 #endif
 
@@ -18,7 +18,7 @@ namespace Hl7.DemoFileSystemFhirServer
 {
     public class Startup
     {
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#if !NETCOREAPP2_2
         public Startup(IWebHostEnvironment env)
         {
             _env = env;
@@ -30,7 +30,6 @@ namespace Hl7.DemoFileSystemFhirServer
             _env = env;
         }
         private IHostingEnvironment _env;
-        
 #endif
 
         public IConfiguration Configuration { get; set; }
@@ -54,7 +53,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
             // Load the configuration settings
             var configBuilder = new ConfigurationBuilder()
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#if !NETCOREAPP2_2
                .SetBasePath(_env.ContentRootPath)
 #else
                .SetBasePath(_env.ContentRootPath)
@@ -114,8 +113,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 options.FileProviders.Clear();
                 options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
             });
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
             services.AddRazorPages(options =>
             {
                 options.RootDirectory = "/wwwroot";
@@ -140,8 +138,7 @@ namespace Hl7.DemoFileSystemFhirServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 #if NETCOREAPP2_2
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 #endif
         {
@@ -163,8 +160,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
 #if NETCOREAPP2_2
             app.UseMvc();
-#endif
-#if NETCOREAPP3_0 || NETCOREAPP3_1
+#else
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

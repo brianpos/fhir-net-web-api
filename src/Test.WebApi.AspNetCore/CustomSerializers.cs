@@ -266,13 +266,20 @@ namespace Test.WebApi.AspNetCore
             writer.WriteLine(System.IO.File.ReadAllText("TestPatientWithErrors.xml"));
             writer.Flush();
 
-            Patient p = null;
-            for (int n = 0; n < sampleSize; n++)
+            try
             {
-                stream.Position = 0;
-                p = fs.Parse<Patient>(SerializationUtil.XmlReaderFromStream(stream));
+                Patient p = null;
+                for (int n = 0; n < sampleSize; n++)
+                {
+                    stream.Position = 0;
+                    p = fs.Parse<Patient>(SerializationUtil.XmlReaderFromStream(stream));
+                }
+                UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
             }
-            UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
+            catch(System.FormatException ex)
+            {
+                Assert.AreEqual("Type checking the data: Literal 'chicken' cannot be interpreted as a decimal: 'Input string was not in a correct format.'. (at Patient.extension[2].valueDecimal[0])", ex.Message);
+            }
         }
 
         Coding ParseCoding(XmlReader reader, Stack<string> contextLocation)

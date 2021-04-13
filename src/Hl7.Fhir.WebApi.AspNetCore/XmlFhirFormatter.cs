@@ -117,15 +117,9 @@ namespace Hl7.Fhir.WebApi
                     NewLineHandling = NewLineHandling.Entitize,
                     IndentChars = "  "
                 };
-                using (XmlWriter writer = XmlWriter.Create(context.HttpContext.Response.Body, settings))
+                MemoryStream stream = new MemoryStream();
+                using (XmlWriter writer = XmlWriter.Create(stream, settings))
                 {
-                    // netcore default is for async only
-                    var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
-                    if (syncIOFeature != null)
-                    {
-                        syncIOFeature.AllowSynchronousIO = true;
-                    }
-
                     SummaryType st = SummaryType.False;
                     if (context.ObjectType == typeof(OperationOutcome))
                     {
@@ -146,7 +140,11 @@ namespace Hl7.Fhir.WebApi
                             new FhirXmlSerializer().Serialize(r, writer, st);
                         }
                     }
-                    return writer.FlushAsync();
+                    writer.Flush();
+                    stream.Position = 0;
+
+                    // Write out the content to the output stream
+                    return stream.CopyToAsync(context.HttpContext.Response.Body, context.HttpContext.RequestAborted);
                 }
             }
             return System.Threading.Tasks.Task.CompletedTask;

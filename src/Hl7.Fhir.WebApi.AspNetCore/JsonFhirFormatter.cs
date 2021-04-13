@@ -151,17 +151,9 @@ namespace Hl7.Fhir.WebApi
 
             if (context.ObjectType != null)
             {
-                using (StreamWriter writer = new StreamWriter(context.HttpContext.Response.Body))
+                MemoryStream stream = new MemoryStream();
+                using (StreamWriter writer = new StreamWriter(stream))
                 {
-#if !NETCOREAPP2_2
-                    // netcore default is for async only
-                    var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
-                    if (syncIOFeature != null)
-                    {
-                        syncIOFeature.AllowSynchronousIO = true;
-                    }
-#endif
-
                     JsonTextWriter jsonwriter = (JsonTextWriter)SerializationUtil.CreateJsonTextWriter(writer); // This will use the BetterJsonWriter which handles precision correctly
                     using (jsonwriter)
                     {
@@ -188,7 +180,11 @@ namespace Hl7.Fhir.WebApi
                                 new FhirJsonSerializer().Serialize(r, jsonwriter, st);
                             }
                         }
-                        return writer.FlushAsync();
+                        jsonwriter.Flush();
+                        stream.Position = 0;
+
+                        // Write out the content to the output stream
+                        return stream.CopyToAsync(context.HttpContext.Response.Body, context.HttpContext.RequestAborted);
                     }
                 }
             }

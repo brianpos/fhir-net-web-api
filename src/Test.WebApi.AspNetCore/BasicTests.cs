@@ -286,6 +286,7 @@ namespace UnitTestWebApi
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.PreferredFormat = ResourceFormat.Json;
             var result = clientFhir.Update<Patient>(p);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");

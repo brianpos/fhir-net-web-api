@@ -80,20 +80,12 @@ namespace Hl7.Fhir.NetCoreApi
 #endif
         }
 
-
-        //
-        // Summary:
-        //     Adds endpoints for controller actions to the Microsoft.AspNetCore.Routing.IEndpointRouteBuilder
-        //     without specifying any routes.
-        //
-        // Parameters:
-        //   endpoints:
-        //     The Microsoft.AspNetCore.Routing.IEndpointRouteBuilder.
-        //
-        // Returns:
-        //     An Microsoft.AspNetCore.Builder.ControllerActionEndpointConventionBuilder for
-        //     endpoints associated with controller actions.
 #if !NETCOREAPP2_2
+        /// <summary>
+        /// Register the FHIR SMART App Launch Configuration route
+        /// (requires the FhirSmartAppLaunchConfiguration type to be registered in the DI)
+        /// </summary>
+        /// <param name="endpoints"></param>
         public static void MapFhirSmartAppLaunchController(this IEndpointRouteBuilder endpoints)
         {
             endpoints.MapGet(".well-known/smart-configuration.json", async context =>

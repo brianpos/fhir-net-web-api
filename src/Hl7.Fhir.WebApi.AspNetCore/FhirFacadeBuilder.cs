@@ -88,7 +88,7 @@ namespace Hl7.Fhir.NetCoreApi
         /// <param name="endpoints"></param>
         public static void MapFhirSmartAppLaunchController(this IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet(".well-known/smart-configuration.json", async context =>
+            endpoints.MapGet(".well-known/smart-configuration", async context =>
             {
                 var config = context.RequestServices.GetService<FhirSmartAppLaunchConfiguration>();
                 context.Response.ContentType = "application/json";

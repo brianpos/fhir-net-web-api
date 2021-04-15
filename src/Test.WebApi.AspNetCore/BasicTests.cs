@@ -161,7 +161,7 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
-        public void CreatePatientWithInvalidDate()
+        public async Task CreatePatientWithInvalidDate()
         {
             Patient p = new Patient();
             p.Name = new System.Collections.Generic.List<HumanName>();
@@ -171,7 +171,9 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            var clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            clientFhir.ParserSettings.AllowUnrecognizedEnums = true;
+
             //clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             //clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
@@ -188,7 +190,8 @@ namespace UnitTestWebApi
             // with the default XML
             try
             {
-                var result = clientFhir.Create<Patient>(p);
+                // clientFhir.ParserSettings.AllowUnrecognizedEnums = true;
+                var result = await clientFhir.CreateAsync<Patient>(p);
 
                 Assert.Fail("Version1.9 of the fhir client fails parsing - even if I disagree with it");
                 Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
@@ -208,7 +211,7 @@ namespace UnitTestWebApi
             try
             {
                 clientFhir.PreferredFormat = ResourceFormat.Json;
-                var result = clientFhir.Create<Patient>(p);
+                var result = await clientFhir.CreateAsync<Patient>(p);
 
                 Assert.Fail("Version1.9 of the fhir client fails parsing - even if I disagree with it");
                 Assert.IsNotNull(result.Id, "Newly created patient should have an ID");

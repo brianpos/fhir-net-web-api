@@ -74,7 +74,7 @@ namespace Test.WebApi.AspNetCore
         }
 
         [TestMethod]
-        public void XmlParserCustom()
+        public void XmlParserCustomWithDeserialize()
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream, Encoding.UTF8);

@@ -141,7 +141,7 @@ namespace Hl7.Fhir.WebApi
             //   headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = "fhir.resource.json" };
         }
 
-        public override System.Threading.Tasks.Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+        public override async System.Threading.Tasks.Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -151,6 +151,9 @@ namespace Hl7.Fhir.WebApi
 
             if (context.ObjectType != null)
             {
+                // The content is serialized into a memory stream not direct onto the http stream
+                // as the FHIR serializer does not support async writing, however the http body
+                // doesn't support sync writing
                 MemoryStream stream = new MemoryStream();
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
@@ -184,11 +187,10 @@ namespace Hl7.Fhir.WebApi
                         stream.Position = 0;
 
                         // Write out the content to the output stream
-                        return stream.CopyToAsync(context.HttpContext.Response.Body, context.HttpContext.RequestAborted);
+                        await stream.CopyToAsync(context.HttpContext.Response.Body, context.HttpContext.RequestAborted);
                     }
                 }
             }
-            return System.Threading.Tasks.Task.CompletedTask;
         }
     }
 }

@@ -129,22 +129,32 @@ namespace Hl7.Fhir.WebApi
         /// </summary>
         public Uri BaseUri { get; private set; }
 
+        /// <summary>
+        /// The cancellation token read from the API Controller so that if performing any async operations
+        /// that support cancellation, you can also pass the context on, potentially reducing resource usage faster
+        /// </summary>
+        /// <remarks>The value is set by the FHIR Controller, changing it will not update it internally</remarks>
         public CancellationToken CancellationToken { get; set; }
-
-        // Header properties that we care about
-        // ETag
-        // RequestedFormat (propagated from accept of format parameter)
-        // Id-Modified-Since
-        // If-None-Match
-        // If-None-Exist
-        // If-Match
-        // Prefer (return=minimal or return=representation)
 
         /// <summary>
         /// The x-api-key from the headers of the request
         /// </summary>
         public string X_Api_Key { get; private set; }
 
+        /// <summary>
+        /// The set of headers that are in the raw request
+        /// Header properties that we care about
+        /// ETag
+        /// RequestedFormat (propagated from accept of format parameter)
+        /// Id-Modified-Since
+        /// If-None-Match
+        /// If-None-Exist
+        /// If-Match
+        /// Prefer (return=minimal or return=representation)
+        /// </summary>
+        /// <remarks>
+        /// We also extract the <b>x-api-key</b> and <b>X_CorelationId</b> into specific properties
+        /// </remarks>
         public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; private set; }
 
         public Dictionary<string, List<string>> ResponseHeaders { get; private set; } = new Dictionary<string, List<string>>(StringComparer.CurrentCultureIgnoreCase);

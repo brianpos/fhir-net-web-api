@@ -332,15 +332,15 @@ namespace UnitTestWebApi
         public async System.Threading.Tasks.Task Http_SearchAzure()
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
-            var result = await clientFhir.SearchAsync<Patient>(new[] { "name=brian" });
+            var result = await clientFhir.SearchAsync<Patient>(new[] { "name=Kaitlin" });
             DebugDumpOutputXml(result);
             Assert.IsInstanceOfType(result, typeof(Bundle));
-            Assert.AreEqual(1, result.Total.Value, "Expect only 1 brian");
+            Assert.AreEqual(1, result.Total.Value, "Expect only 1 Kaitlin");
 
-            result = await clientFhir.SearchAsync<Patient>(new[] { "name=b" });
+            result = await clientFhir.SearchAsync<Patient>(new[] { "name=k" });
             DebugDumpOutputXml(result);
             Assert.IsInstanceOfType(result, typeof(Bundle));
-            Assert.AreEqual(3, result.Total.Value, "Expect only 1 brian");
+            Assert.AreEqual(2, result.Total.Value, "Expect 2 k patients");
         }
 
         [TestMethod]
@@ -350,7 +350,7 @@ namespace UnitTestWebApi
             var result = await clientFhir.SearchAsync<Patient>();
             DebugDumpOutputXml(result);
             Assert.IsInstanceOfType(result, typeof(Bundle));
-            Assert.AreEqual(48, result.Total.Value, "volume on test server");
+            Assert.AreEqual(31, result.Total.Value, "volume on test server");
         }
 
         [TestMethod]
@@ -358,18 +358,18 @@ namespace UnitTestWebApi
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
             var sp = new SearchParams();
-            sp.Add("name", "brian");
+            sp.Add("name", "Kaitlin");
             var result = await clientFhir.SearchAsync<Patient>(sp);
             DebugDumpOutputXml(result);
             Assert.IsInstanceOfType(result, typeof(Bundle));
-            Assert.AreEqual(1, result.Total.Value, "Expect only 1 brian");
+            Assert.AreEqual(1, result.Total.Value, "Expect only 1 Kaitlin");
 
             sp = new SearchParams();
-            sp.Add("name", "b");
+            sp.Add("name", "k");
             result = await clientFhir.SearchAsync<Patient>(sp);
             DebugDumpOutputXml(result);
             Assert.IsInstanceOfType(result, typeof(Bundle));
-            Assert.AreEqual(3, result.Total.Value, "Expect only 1 brian");
+            Assert.AreEqual(2, result.Total.Value, "Expect 2 ks");
         }
 
         [TestMethod]
@@ -388,9 +388,9 @@ namespace UnitTestWebApi
                 nPages++;
                 result = await clientFhir.ContinueAsync(result);
             }
-            Assert.AreEqual(48, nTotal, "entry count incorrect");
-            Assert.AreEqual(48, nTotalBundleReport, "server calculation of count incorrect");
-            Assert.AreEqual(3, nPages);
+            Assert.AreEqual(31, nTotal, "entry count incorrect");
+            Assert.AreEqual(31, nTotalBundleReport, "server calculation of count incorrect");
+            Assert.AreEqual(2, nPages);
         }
 
         //[TestMethod]

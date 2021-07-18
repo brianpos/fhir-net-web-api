@@ -57,7 +57,6 @@ namespace Hl7.Fhir.CustomSerializer
             // report the issue
             IXmlLineInfo info = reader as IXmlLineInfo;
             var locations = new List<string>();
-            locations.Add(locationPath);
             locations.Add($"xml position: {info.LineNumber},{info.LinePosition}");
 
             var issue = new OperationOutcome.IssueComponent()
@@ -65,7 +64,8 @@ namespace Hl7.Fhir.CustomSerializer
                 Severity = OperationOutcome.IssueSeverity.Error,
                 Code = OperationOutcome.IssueType.Structure,
                 Details = new CodeableConcept() { Text = $"Unexpected element found {reader.Name}" },
-                Location = locations
+                Location = locations,
+                Expression = new string[] { locationPath }
             };
             outcome.Issue.Add(issue);
 
@@ -89,7 +89,6 @@ namespace Hl7.Fhir.CustomSerializer
             // report the issue
             IXmlLineInfo info = reader as IXmlLineInfo;
             var locations = new List<string>();
-            locations.Add(locationPath);
             locations.Add($"xml position: {info.LineNumber},{info.LinePosition}");
 
             var issue = new OperationOutcome.IssueComponent()
@@ -97,7 +96,8 @@ namespace Hl7.Fhir.CustomSerializer
                 Severity = OperationOutcome.IssueSeverity.Error,
                 Code = OperationOutcome.IssueType.Structure,
                 Details = new CodeableConcept() { Text = $"Unexpected element found {reader.Name}" },
-                Location = locations
+                Location = locations,
+                Expression = new string[] { locationPath }
             };
             outcome.Issue.Add(issue);
 
@@ -110,7 +110,7 @@ namespace Hl7.Fhir.CustomSerializer
                     await reader.ReadAsync().ConfigureAwait(false);
                 }
                 while (reader.Depth > depth);
-                // issue.Diagnostics = await reader.ReadOuterXmlAsync();
+                // issue.Diagnostics = await reader.ReadOuterXmlAsync(); // this call has the dotnetcore bug in it where it calls a sync operation
                 info = reader as IXmlLineInfo;
                 locations[1] += $" to {info.LineNumber},{info.LinePosition}";
                 issue.Location = locations;
@@ -125,7 +125,8 @@ namespace Hl7.Fhir.CustomSerializer
                 Severity = OperationOutcome.IssueSeverity.Error,
                 Code = OperationOutcome.IssueType.Structure,
                 Details = new CodeableConcept() { Text = $"Unexpected attribute found {reader.Name}" },
-                Location = new string[] { locationPath, $"xml position: {info.LineNumber},{info.LinePosition}" }
+                Location = new string[] { $"xml position: {info.LineNumber},{info.LinePosition}" },
+                Expression = new string[] { locationPath }
             });
         }
 
@@ -137,7 +138,8 @@ namespace Hl7.Fhir.CustomSerializer
                 Severity = OperationOutcome.IssueSeverity.Error,
                 Code = OperationOutcome.IssueType.Value,
                 Details = new CodeableConcept() { Text = $"Invalid {dataFormatType} value '{reader.Value}'" },
-                Location = new string[] { locationPath, $"xml position: {info.LineNumber},{info.LinePosition}" },
+                Location = new string[] { $"xml position: {info.LineNumber},{info.LinePosition}" },
+                Expression = new string[] { locationPath },
                 Diagnostics = ex?.Message
             });
         }

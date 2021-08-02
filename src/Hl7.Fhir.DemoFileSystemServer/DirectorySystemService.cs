@@ -5,7 +5,7 @@ using Hl7.Fhir.Rest;
 using Hl7.Fhir.WebApi;
 using System.Linq;
 
-namespace Hl7.DemoFileSystemFhirServer
+namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system

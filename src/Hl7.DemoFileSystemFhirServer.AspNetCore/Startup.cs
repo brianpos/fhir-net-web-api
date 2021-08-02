@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Hl7.Fhir.WebApi;
+using Hl7.Fhir.DemoFileSystemFhirServer;
 #if !NETCOREAPP2_2
 using Microsoft.Extensions.Hosting;
 #endif

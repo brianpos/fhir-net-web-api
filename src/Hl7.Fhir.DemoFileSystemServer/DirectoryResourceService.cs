@@ -6,8 +6,9 @@ using Hl7.Fhir.WebApi;
 using Hl7.Fhir.Utility;
 using System.Threading.Tasks;
 using System.Linq;
+using Hl7.Fhir.Support;
 
-namespace Hl7.DemoFileSystemFhirServer
+namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
     public class DirectoryResourceService : Hl7.Fhir.WebApi.IFhirResourceServiceR4<IServiceProvider>
     {

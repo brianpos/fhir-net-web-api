@@ -6,10 +6,8 @@
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
 
-using Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin;
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Extensions.Compression.Core.Compressors;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
@@ -26,9 +24,6 @@ namespace Hl7.Fhir.WebApi
 		{
             _systemService = systemService;
             _supportedForwardedForSystems = supportedForwardedForSystems;
-
-            // https://github.com/azzlack/Microsoft.AspNet.WebApi.MessageHandlers.Compression
-            config.MessageHandlers.Insert(0, new OwinServerCompressionHandler(4096, new GZipCompressor(), new DeflateCompressor()));
 
             config.MessageHandlers.Add(new InterceptBodyHandler());
             config.MessageHandlers.Add(new MediaTypeHandler());

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.Specification.R4" Version="1.9.0" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.1.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="Microsoft.Owin.Host.HttpListener" Version="4.2.0" />
     <PackageReference Include="Microsoft.Owin.Hosting" Version="4.2.0" />

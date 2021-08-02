@@ -32,7 +32,9 @@ namespace Hl7.DemoFileSystemFhirServer
             reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
             reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
 
-            WebApiConfig.Register(config, new DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>(), reverseProxyAddresses); // this is from the actual WebAPI Project
+            var systemService = new DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>();
+            systemService.InitializeIndexes();
+            WebApiConfig.Register(config, systemService, reverseProxyAddresses); // this is from the actual WebAPI Project
             config.Formatters.Add(new SimpleHtmlFhirOutputFormatter());
 
             // https://github.com/azzlack/Microsoft.AspNet.WebApi.MessageHandlers.Compression

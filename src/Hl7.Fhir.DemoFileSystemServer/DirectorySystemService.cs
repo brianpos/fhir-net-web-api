@@ -15,16 +15,18 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
     {
         public DirectorySystemService()
         {
-            InitializeIndexes();
         }
 
         /// <summary>
         /// The File system directory that will be scanned for the storage of FHIR resources
         /// </summary>
         public static string Directory { get; set; }
+        private SearchIndexer _indexer;
 
         public void InitializeIndexes()
         {
+            _indexer = new SearchIndexer();
+            _indexer.Initialize(Directory);
         }
 
         public async System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<TSP> request, SummaryType summary)
@@ -70,7 +72,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
-            return new DirectoryResourceService<TSP>() { RequestDetails = request, ResourceName = resourceName, Directory = Directory };
+            return new DirectoryResourceService<TSP>() { RequestDetails = request, ResourceName = resourceName, ResourceDirectory = Directory, Indexer = _indexer };
         }
 
         public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, SummaryType summary)
@@ -96,6 +98,42 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 }
                 return System.Threading.Tasks.Task.FromResult<Resource>(result);
             }
+            if (operation == "search-cache-write")
+            {
+                _indexer.WriteCache(Directory);
+                var result = new OperationOutcome();
+                result.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, $"Search Cache updated")
+                });
+                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+            }
+            if (operation == "search-cache-rescan")
+            {
+                _indexer.ScanDirectory(Directory);
+                var result = new OperationOutcome();
+                result.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, $"Search Cache re-scanned")
+                });
+                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+            }
+            if (operation == "search-cache-delete")
+            {
+                _indexer.DeleteSearchCache(Directory);
+                var result = new OperationOutcome();
+                result.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, $"Search Cache deleted")
+                });
+                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+            }
 
             throw new NotImplementedException();
         }
@@ -119,9 +157,11 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Type = Bundle.BundleType.History;
 
             var parser = new Fhir.Serialization.FhirXmlParser();
-            var files = System.IO.Directory.EnumerateFiles(Directory);
+            var files = System.IO.Directory.EnumerateFiles(Directory, "*.*.*.xml");
             foreach (var filename in files)
             {
+                if (filename.EndsWith("..xml")) // this is the current version file, the version number file will have the real data
+                    continue;
                 var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(request.BaseUri,

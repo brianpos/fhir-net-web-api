@@ -10,11 +10,13 @@ using Hl7.Fhir.Support;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
-    public class DirectoryResourceService : Hl7.Fhir.WebApi.IFhirResourceServiceR4<IServiceProvider>
+    public class DirectoryResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
+        where TSP : class
     {
-        public ModelBaseInputs<IServiceProvider> RequestDetails { get; set; }
+        public ModelBaseInputs<TSP> RequestDetails { get; set; }
 
         public string ResourceName { get; set; }
+        public string Directory { get; set; }
 
         public Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
@@ -25,7 +27,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             if (resource.Meta == null)
                 resource.Meta = new Meta();
             resource.Meta.LastUpdated = DateTime.Now;
-            string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{resource.TypeName}.{resource.Id}.{resource.Meta.VersionId}.xml");
+            string path = System.IO.Path.Combine(DirectorySystemService<TSP>.Directory, $"{resource.TypeName}.{resource.Id}.{resource.Meta.VersionId}.xml");
             System.IO.File.WriteAllText(
                 path,
                 new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
@@ -35,7 +37,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public Task<string> Delete(string id, string ifMatch)
         {
-            string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{this.ResourceName}.{id}..xml");
+            string path = System.IO.Path.Combine(DirectorySystemService<TSP>.Directory, $"{this.ResourceName}.{id}..xml");
             if (System.IO.File.Exists(path))
                 System.IO.File.Delete(path);
             return System.Threading.Tasks.Task.FromResult<string>(null);
@@ -45,7 +47,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-get");
 
-            string path = System.IO.Path.Combine(DirectorySystemService.Directory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
+            string path = System.IO.Path.Combine(Directory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
             if (System.IO.File.Exists(path))
                 return System.Threading.Tasks.Task.FromResult(new Fhir.Serialization.FhirXmlParser().Parse<Resource>(System.IO.File.ReadAllText(path)));
             throw new FhirServerException(System.Net.HttpStatusCode.Gone, "It might have been deleted!");
@@ -91,7 +93,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 {
                     Code = OperationOutcome.IssueType.Informational,
                     Severity = OperationOutcome.IssueSeverity.Information,
-                    Details = new CodeableConcept(null, null, $"{ResourceName} resource instances: {System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"{ResourceName}.*.xml").Count()}")
+                    Details = new CodeableConcept(null, null, $"{ResourceName} resource instances: {System.IO.Directory.EnumerateFiles(Directory, $"{ResourceName}.*.xml").Count()}")
                 });
                 return System.Threading.Tasks.Task.FromResult<Resource>(result);
             }
@@ -107,6 +109,18 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
         {
+            if (operation == "send-activation-code")
+            {
+                // Test operation that isn't really anything just for a specific unit test
+                OperationOutcome outcome = new OperationOutcome() { Id = operationParameters?.GetString("id") };
+                outcome.Issue.Add(new OperationOutcome.IssueComponent
+                {
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Code = OperationOutcome.IssueType.Informational,
+                    Details = new CodeableConcept() { Text = $"Send an activation code to {ResourceName}/{id}" }
+                });
+                return System.Threading.Tasks.Task.FromResult<Resource>(outcome);
+            }
             throw new NotImplementedException();
         }
 
@@ -130,7 +144,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 // Even though this is a trashy demo app, don't permit walking the file system
                 filter = $"{ResourceName}.{idparam.First().Value.Replace("/", "")}.*.xml";
             }
-            foreach (var filename in System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, filter))
+            foreach (var filename in System.IO.Directory.EnumerateFiles(Directory, filter))
             {
                 using (System.IO.FileStream stream = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
                 {
@@ -174,6 +188,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                         Mode = Bundle.SearchEntryMode.Outcome
                     };
             }
+
             return System.Threading.Tasks.Task.FromResult(resource);
         }
 
@@ -188,7 +203,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Type = Bundle.BundleType.History;
 
             var parser = new Fhir.Serialization.FhirXmlParser();
-            var files = System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"{ResourceName}.*.xml");
+            var files = System.IO.Directory.EnumerateFiles(Directory, $"{ResourceName}.*.xml");
             foreach (var filename in files)
             {
                 var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));

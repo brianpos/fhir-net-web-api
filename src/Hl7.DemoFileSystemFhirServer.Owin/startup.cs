@@ -8,6 +8,9 @@ using System.Net;
 using Owin;
 using System.Web.Http;
 using Hl7.Fhir.WebApi;
+using Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin;
+using System.Net.Http.Extensions.Compression.Core.Compressors;
+using Hl7.Fhir.DemoFileSystemFhirServer;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
@@ -19,9 +22,9 @@ namespace Hl7.DemoFileSystemFhirServer
         // parameter in the WebApp.Start method.
         public void Configuration(IAppBuilder appBuilder)
         {
-            DirectorySystemService.Directory = @"c:\temp\demoserver";
-            if (!System.IO.Directory.Exists(DirectorySystemService.Directory))
-                System.IO.Directory.CreateDirectory(DirectorySystemService.Directory);
+            DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = @"c:\temp\demoserver";
+            if (!System.IO.Directory.Exists(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory))
+                System.IO.Directory.CreateDirectory(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory);
 
             // Configure Web API for self-host.
             HttpConfiguration config = new HttpConfiguration();
@@ -29,8 +32,12 @@ namespace Hl7.DemoFileSystemFhirServer
             reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
             reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
 
-            WebApiConfig.Register(config, new DirectorySystemService(), reverseProxyAddresses); // this is from the actual WebAPI Project
+            WebApiConfig.Register(config, new DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>(), reverseProxyAddresses); // this is from the actual WebAPI Project
             config.Formatters.Add(new SimpleHtmlFhirOutputFormatter());
+
+            // https://github.com/azzlack/Microsoft.AspNet.WebApi.MessageHandlers.Compression
+            config.MessageHandlers.Insert(0, new OwinServerCompressionHandler(4096, new GZipCompressor(), new DeflateCompressor()));
+
             appBuilder.UseWebApi(config);
         }
     }

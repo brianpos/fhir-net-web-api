@@ -10,7 +10,8 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system
     /// </summary>
-    public class DirectorySystemService : Hl7.Fhir.WebApi.IFhirSystemServiceR4<IServiceProvider>
+    public class DirectorySystemService<TSP> : Hl7.Fhir.WebApi.IFhirSystemServiceR4<TSP>
+        where TSP : class
     {
         public DirectorySystemService()
         {
@@ -26,17 +27,17 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         {
         }
 
-        public async System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<IServiceProvider> request, SummaryType summary)
+        public async System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<TSP> request, SummaryType summary)
         {
             Hl7.Fhir.Model.CapabilityStatement con = new Hl7.Fhir.Model.CapabilityStatement();
             con.Url = request.BaseUri + "metadata";
-            con.Description = new Markdown("Demonstration Directory based FHIR server (aspnetcore)");
+            con.Description = new Markdown("Demonstration Directory based FHIR server");
             con.DateElement = new Hl7.Fhir.Model.FhirDateTime("2017-04-30");
             con.Version = "1.0.0.0";
             con.Name = "demoCapStmt";
             con.Experimental = true;
             con.Status = PublicationStatus.Active;
-            con.FhirVersion = FHIRVersion.N4_0_0;
+            con.FhirVersion = FHIRVersion.N4_0_1;
             // con.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
             con.Format = new string[] { "xml", "json" };
             con.Kind = CapabilityStatementKind.Instance;
@@ -67,12 +68,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return con;
         }
 
-        public IFhirResourceServiceR4<IServiceProvider> GetResourceService(ModelBaseInputs<IServiceProvider> request, string resourceName)
+        public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
-            return new DirectoryResourceService() { RequestDetails = request, ResourceName = resourceName };
+            return new DirectoryResourceService<TSP>() { RequestDetails = request, ResourceName = resourceName, Directory = Directory };
         }
 
-        public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<IServiceProvider> request, string operation, Parameters operationParameters, SummaryType summary)
+        public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, SummaryType summary)
         {
             if (operation == "count-em")
             {
@@ -81,7 +82,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 {
                     Code = OperationOutcome.IssueType.Informational,
                     Severity = OperationOutcome.IssueSeverity.Information,
-                    Details = new CodeableConcept(null, null, $"All resource type instances: {System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory, $"*.xml").Count()}")
+                    Details = new CodeableConcept(null, null, $"All resource type instances: {System.IO.Directory.EnumerateFiles(Directory, $"*.xml").Count()}")
                 });
                 if (request.Headers.Any())
                 {
@@ -99,17 +100,17 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<Bundle> ProcessBatch(ModelBaseInputs<IServiceProvider> request, Bundle bundle)
+        public System.Threading.Tasks.Task<Bundle> ProcessBatch(ModelBaseInputs<TSP> request, Bundle bundle)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<Bundle> Search(ModelBaseInputs<IServiceProvider> request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
+        public System.Threading.Tasks.Task<Bundle> Search(ModelBaseInputs<TSP> request, IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<Bundle> SystemHistory(ModelBaseInputs<IServiceProvider> request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public System.Threading.Tasks.Task<Bundle> SystemHistory(ModelBaseInputs<TSP> request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta();
@@ -118,14 +119,14 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Type = Bundle.BundleType.History;
 
             var parser = new Fhir.Serialization.FhirXmlParser();
-            var files = System.IO.Directory.EnumerateFiles(DirectorySystemService.Directory);
+            var files = System.IO.Directory.EnumerateFiles(Directory);
             foreach (var filename in files)
             {
                 var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
-                result.AddResourceEntry(resource, 
-                    ResourceIdentity.Build(request.BaseUri, 
-                        resource.TypeName, 
-                        resource.Id, 
+                result.AddResourceEntry(resource,
+                    ResourceIdentity.Build(request.BaseUri,
+                        resource.TypeName,
+                        resource.Id,
                         resource.Meta.VersionId).OriginalString);
             }
             result.Total = result.Entry.Count;

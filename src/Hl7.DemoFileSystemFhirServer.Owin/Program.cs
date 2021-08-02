@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Hl7.Fhir.DemoFileSystemFhirServer;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
@@ -34,7 +35,7 @@ namespace Hl7.DemoFileSystemFhirServer
             // Inititalize the server
             Console.WriteLine($"Initialize the FHIR server");
             Console.WriteLine($"BaseURI: {_baseAddress}");
-            Console.WriteLine($"Path: {DirectorySystemService.Directory}");
+            Console.WriteLine($"Path: {DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory}");
 
 
             // Wait for the console to be Completed

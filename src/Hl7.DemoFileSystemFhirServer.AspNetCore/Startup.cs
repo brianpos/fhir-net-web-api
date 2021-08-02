@@ -92,11 +92,11 @@ namespace Hl7.DemoFileSystemFhirServer
                 builder.WithExposedHeaders(new[] { "Content-Location", "Location", "Etag" });
             }));
 
-            DirectorySystemService.Directory = settings.ServerBaseDirectory;
-            if (!System.IO.Directory.Exists(DirectorySystemService.Directory))
-                System.IO.Directory.CreateDirectory(DirectorySystemService.Directory);
+            DirectorySystemService<System.IServiceProvider>.Directory = settings.ServerBaseDirectory;
+            if (!System.IO.Directory.Exists(DirectorySystemService<System.IServiceProvider>.Directory))
+                System.IO.Directory.CreateDirectory(DirectorySystemService<System.IServiceProvider>.Directory);
 
-            var systemService = new DirectorySystemService();
+            var systemService = new DirectorySystemService<System.IServiceProvider>();
             var reverseProxyAddresses = new System.Collections.Generic.Dictionary<string, System.Uri>();
             reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
             reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));

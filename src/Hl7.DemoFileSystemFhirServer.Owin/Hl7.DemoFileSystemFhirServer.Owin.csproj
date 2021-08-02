@@ -137,8 +137,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectoryResourceService.cs" />
-    <Compile Include="DirectorySystemService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="startup.cs" />
@@ -152,6 +150,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj">
+      <Project>{1b81b226-5e4e-41c4-b85c-d6605d60c918}</Project>
+      <Name>Hl7.Fhir.R4.DemoFileSystemServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Hl7.Fhir.WebApi.Owin\Hl7.Fhir.R4.WebApi.Owin.csproj">
       <Project>{f219eef4-570c-4dfe-9ee4-d11d5d093d5b}</Project>
       <Name>Hl7.Fhir.R4.WebApi.Owin</Name>

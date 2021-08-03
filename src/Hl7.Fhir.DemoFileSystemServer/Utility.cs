@@ -198,5 +198,108 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return null;
         }
         #endregion
+
+        #region << Resource Extension Methods >>
+        public static List<String> ReservedSearchParams = new List<string>() { "_id", "_language", "_lastUpdated", "_profile", "_security", "_tag", "_has" };
+
+        public static IEnumerable<KeyValuePair<string, string>> TupledParameters(this System.Collections.Specialized.NameValueCollection query, bool filterReservedParameters)
+        {
+            var list = new List<KeyValuePair<string, string>>();
+
+            if (query.HasKeys())
+            {
+                foreach (string key in query.Keys)
+                {
+                    if (!filterReservedParameters || !key.StartsWith("_") || ReservedSearchParams.Contains(key))
+                        list.Add(new KeyValuePair<string, string>(key, query[key]));
+                }
+            }
+            return list;
+        }
+
+        public static List<ResourceReference> AllReferences(this Base resource)
+        {
+            List<ResourceReference> results = new List<ResourceReference>();
+            if (resource == null)
+                return results;
+
+            if (resource is IExtendable extendable)
+            {
+                foreach (var i in extendable.Extension)
+                {
+                    if (i.Value is ResourceReference resRef)
+                        results.Add(resRef);
+                }
+            }
+            if (resource is IModifierExtendable modExtendable)
+            {
+                foreach (var i in modExtendable.ModifierExtension)
+                {
+                    if (i.Value is ResourceReference resRef)
+                        results.Add(resRef);
+                }
+            }
+
+            var mapping = BaseFhirParser.Inspector.ImportType(resource.GetType());
+            var propMappings = mapping.PropertyMappings.Where(t => t.ElementType.Name == "ResourceReference" || t.ElementType.Name == "Resource" || t.ElementType.BaseType.Name == "BackboneElement" || t.Choice == Hl7.Fhir.Introspection.ChoiceType.DatatypeChoice);
+            foreach (var item in propMappings)
+            {
+                if (item.ElementType.BaseType.Name == "BackboneElement")
+                {
+                    if (item.IsCollection)
+                    {
+                        System.Collections.IEnumerable col = item.GetValue(resource) as System.Collections.IEnumerable;
+                        foreach (var e in col)
+                        {
+                            BackboneElement be = e as BackboneElement;
+                            results.AddRange(be.AllReferences());
+                        }
+                    }
+                    else
+                    {
+                        BackboneElement be = item.GetValue(resource) as BackboneElement;
+                        results.AddRange(be.AllReferences());
+                    }
+                }
+                else if (item.ElementType.Name == "Resource")
+                {
+                    if (item.IsCollection)
+                    {
+                        System.Collections.IEnumerable col = item.GetValue(resource) as System.Collections.IEnumerable;
+                        foreach (var e in col)
+                        {
+                            Resource r = e as Resource;
+                            results.AddRange(r.AllReferences());
+                        }
+                    }
+                    else
+                    {
+                        Resource r = item.GetValue(resource) as Resource;
+                        results.AddRange(r.AllReferences());
+                    }
+                }
+                else
+                {
+                    if (item.IsCollection)
+                    {
+                        System.Collections.IEnumerable col = item.GetValue(resource) as System.Collections.IEnumerable;
+                        foreach (var e in col)
+                        {
+                            ResourceReference rr = e as ResourceReference;
+                            if (rr != null)
+                                results.Add(rr);
+                        }
+                    }
+                    else
+                    {
+                        ResourceReference rr = item.GetValue(resource) as ResourceReference;
+                        if (rr != null)
+                            results.Add(rr);
+                    }
+                }
+            }
+            return results;
+        }
+        #endregion
     }
 }

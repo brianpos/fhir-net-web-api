@@ -13233,20 +13233,20 @@ namespace Hl7.Fhir.CustomSerializer
 		}
 
 		// Hl7.Fhir.Model.SimpleQuantity
-		public static void Write(Hl7.Fhir.Model.SimpleQuantity name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ValueElement, writer, "value", cancellationToken); // 30
-			Write(name.ComparatorElement, writer, "comparator", cancellationToken); // 40
-			Write(name.UnitElement, writer, "unit", cancellationToken); // 50
-			Write(name.SystemElement, writer, "system", cancellationToken); // 60
-			Write(name.CodeElement, writer, "code", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
+		//public static void Write(SimpleQuantity name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		//{
+		//	if (cancellationToken.IsCancellationRequested) return;
+		//	if (name == null) return;
+		//	writer.WriteStartElement(propertyName, XmlNs.FHIR);
+		//	Write(name.ElementId, writer, "id", cancellationToken); // 10
+		//	Write(name.Extension, writer, "extension", cancellationToken); // 20
+		//	Write(name.ValueElement, writer, "value", cancellationToken); // 30
+		//	Write(name.ComparatorElement, writer, "comparator", cancellationToken); // 40
+		//	Write(name.UnitElement, writer, "unit", cancellationToken); // 50
+		//	Write(name.SystemElement, writer, "system", cancellationToken); // 60
+		//	Write(name.CodeElement, writer, "code", cancellationToken); // 70
+		//	writer.WriteEndElement();
+		//}
 
 		// ---------------------------
 		public static void WriteBase(Base value, XmlWriter writer, string propertyName, CancellationToken cancellationToken)

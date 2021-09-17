@@ -128,11 +128,11 @@ namespace Hl7.Fhir.WebApi
         public void ScanResource(Resource resource, string filename)
         {
             // Extract the search properties
-            var searchparameters = ModelInfo.SearchParameters.Where(r => r.Resource == resource.ResourceType.ToString() && !String.IsNullOrEmpty(r.Expression));
+            var searchparameters = ModelInfo.SearchParameters.Where(r => r.Resource == resource.TypeName && !String.IsNullOrEmpty(r.Expression));
             foreach (var index in searchparameters.AsParallel())
             {
                 // prepare the search data cache
-                string key = resource.ResourceType.ToString() + "#" + index.Name;
+                string key = resource.TypeName + "#" + index.Name;
                 if (!MemoryIndex.ContainsKey(key))
                 {
                     MemoryIndex.TryAdd(key, new ConcurrentDictionary<string, List<string>>());

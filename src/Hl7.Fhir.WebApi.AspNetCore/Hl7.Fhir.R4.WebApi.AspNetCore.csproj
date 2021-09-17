@@ -4,7 +4,7 @@
     <TargetFrameworks>net50;netcoreapp3.1;netcoreapp3.0;netcoreapp2.2</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.AspNetCore</AssemblyName>
     <PackageId>brianpos.Fhir.R4.WebApi.AspNetCore</PackageId>
-    <Version>1.9.1-beta1</Version>
+    <Version>3.4.0-beta1</Version>
     <Title>HL7 Fhir WebApi (AspNetCore) Facade Layer</Title>
     <Summary>AspNetCore based FHIR WebApi Facade layer</Summary>
     <Description>This library Implements a FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>
@@ -21,7 +21,7 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="1.9.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net50'">

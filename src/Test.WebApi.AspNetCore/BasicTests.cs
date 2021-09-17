@@ -16,6 +16,7 @@ using Hl7.Fhir.Serialization;
 using System.Linq;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
+using Hl7.Fhir.Rest.Legacy;
 
 namespace UnitTestWebApi
 {
@@ -101,7 +102,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public async Task GetCapabilityStatement()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
 
             var result = clientFhir.CapabilityStatement();
             string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
@@ -138,7 +139,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
@@ -171,7 +172,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            var clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            var clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.ParserSettings.AllowUnrecognizedEnums = true;
 
             //clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
@@ -204,7 +205,7 @@ namespace UnitTestWebApi
                 System.Diagnostics.Trace.WriteLine(ex.Message);
                 DebugDumpOutputXml(ex.Outcome);
                 Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status, "Expected a bad request due to parsing the date");
-                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be interpreted as a date"));
+                Assert.IsTrue(ex.Message.Contains("Type checking the data: Literal '01-03-1970' cannot be parsed as a date."));
             }
 
             // and try again with JSON
@@ -224,7 +225,7 @@ namespace UnitTestWebApi
                 System.Diagnostics.Trace.WriteLine(ex.Message);
                 DebugDumpOutputXml(ex.Outcome);
                 Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status, "Expected a bad request due to parsing the date");
-                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be interpreted as a date"));
+                Assert.IsTrue(ex.Message.Contains("Type checking the data: Literal '01-03-1970' cannot be parsed as a date."));
             }
         }
 
@@ -249,7 +250,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.PreferredFormat = ResourceFormat.Json;
             var result = clientFhir.Update<Patient>(p);
 
@@ -288,7 +289,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.PreferredFormat = ResourceFormat.Json;
             var result = clientFhir.Update<Patient>(p);
 
@@ -308,7 +309,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             var result = clientFhir.Create<Patient>(p);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
@@ -335,7 +336,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void WholeSystemHistory()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
 
             // Create a Patient
             Patient p = new Patient();
@@ -389,7 +390,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void AlternateHostOperations()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_AlternateHost;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
             {
@@ -476,7 +477,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationCountResourceTypeInstances()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             var result = clientFhir.TypeOperation<Patient>("count-em", null, true) as OperationOutcome;
             Assert.IsNotNull(result, "Should be a capability statement returned");
             string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
@@ -488,7 +489,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationCountAllResourceInstances()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
             var result = clientFhir.WholeSystemOperation("count-em", null, true) as OperationOutcome;
             Assert.IsNotNull(result, "Should be a capability statement returned");
@@ -502,7 +503,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationWithIdParameter()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
             string exampleQuery = $"{_baseAddress}NamingSystem/$preferred-id?id=45&type=uri";
             var result = clientFhir.Get(exampleQuery) as NamingSystem;
@@ -571,7 +572,7 @@ namespace UnitTestWebApi
 
             try
             {
-                Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+                LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
                 clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
                 clientFhir.Timeout = 50000;
                 // This method uses the BINARY stream approach (which has issues - no security context passed through)

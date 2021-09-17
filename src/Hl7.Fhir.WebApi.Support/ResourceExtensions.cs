@@ -6,6 +6,7 @@
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
 
+using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
@@ -87,11 +88,12 @@ namespace Hl7.Fhir.WebApi
                 }
             }
 
-            var mapping = BaseFhirParser.Inspector.ImportType(resource.GetType());
-            var propMappings = mapping.PropertyMappings.Where(t => t.ElementType.Name == "ResourceReference" || t.ElementType.Name == "Resource" || t.ElementType.BaseType.Name == "BackboneElement" || t.Choice == Hl7.Fhir.Introspection.ChoiceType.DatatypeChoice);
+            ClassMapping mapping;
+            ClassMapping.TryGetMappingForType(resource.GetType(), Specification.FhirRelease.R4, out mapping);
+            var propMappings = mapping.PropertyMappings.Where(t => t.ImplementingType.Name == "ResourceReference" || t.ImplementingType.Name == "Resource" || t.ImplementingType.BaseType.Name == "BackboneElement" || t.Choice == Hl7.Fhir.Introspection.ChoiceType.DatatypeChoice);
             foreach (var item in propMappings)
             {
-                if (item.ElementType.BaseType.Name == "BackboneElement")
+                if (item.ImplementingType.BaseType.Name == "BackboneElement")
                 {
                     if (item.IsCollection)
                     {
@@ -108,7 +110,7 @@ namespace Hl7.Fhir.WebApi
                         results.AddRange(be.AllReferences());
                     }
                 }
-                else if (item.ElementType.Name == "Resource")
+                else if (item.ImplementingType.Name == "Resource")
                 {
                     if (item.IsCollection)
                     {

@@ -21,8 +21,8 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="1.9.0" />
-    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="1.9.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="3.4.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="3.4.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
   </ItemGroup>
 

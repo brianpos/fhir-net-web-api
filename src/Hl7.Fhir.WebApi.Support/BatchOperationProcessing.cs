@@ -70,7 +70,7 @@ namespace Hl7.Fhir.WebApi
                 if (!string.IsNullOrEmpty(entry.Resource.Id))
                 {
                     entry.Request.Method = Bundle.HTTPVerb.PUT;
-                    entry.Request.Url = entry.Resource.ResourceType + "/" + entry.Resource.Id;
+                    entry.Request.Url = entry.Resource.TypeName + "/" + entry.Resource.Id;
                 }
                 else
                     entry.Request.Method = Bundle.HTTPVerb.POST;
@@ -84,7 +84,7 @@ namespace Hl7.Fhir.WebApi
                 string resourceType = null;
                 if (entry.Resource != null)
                 {
-                    resourceType = entry.Resource.ResourceType.ToString();
+                    resourceType = entry.Resource.TypeName;
                 }
                 else if (!string.IsNullOrEmpty(entry.Request.Url))
                 {

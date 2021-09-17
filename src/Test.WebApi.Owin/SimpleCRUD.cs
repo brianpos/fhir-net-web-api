@@ -9,6 +9,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
 using System.Net.Http;
+using Hl7.Fhir.Rest.Legacy;
 
 namespace UnitTestWebApi
 {
@@ -75,7 +76,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
@@ -109,7 +110,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             //clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             //clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
@@ -174,7 +175,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             var result = clientFhir.Update<Patient>(p);
             DebugDumpOutputXml(result);
 
@@ -214,7 +215,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             var result = clientFhir.Update<Patient>(p);
             DebugDumpOutputXml(result);
 
@@ -234,7 +235,7 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             var result = clientFhir.Create<Patient>(p);
             DebugDumpOutputXml(result);
 
@@ -290,7 +291,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public async System.Threading.Tasks.Task GetCapabilityStatement()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             var result = clientFhir.CapabilityStatement();
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");
@@ -317,7 +318,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void WholeSystemHistory()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
 
             // Create a Patient
             Patient p = new Patient();
@@ -371,7 +372,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void AlternateHostOperations()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_AlternateHost;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
             {
@@ -458,7 +459,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationCountResourceTypeInstances()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             var result = clientFhir.TypeOperation<Patient>("count-em", null, true) as OperationOutcome;
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");
@@ -469,7 +470,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationCountAllResourceInstances()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
             var result = clientFhir.WholeSystemOperation("count-em", null, true) as OperationOutcome;
             DebugDumpOutputXml(result);
@@ -482,7 +483,7 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationWithIdParameter()
         {
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
             string exampleQuery = $"{_baseAddress}NamingSystem/$preferred-id?id=45&type=uri";
             var result = clientFhir.Get(exampleQuery) as NamingSystem;

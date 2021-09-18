@@ -148,7 +148,7 @@ namespace Hl7.Fhir.WebApi.DemoEntityModels
         public byte[] contentXML { get; set; }
     }
 
-    [System.ComponentModel.DataAnnotations.Schema.Table("index_string", Schema = "pfhir")]
+    [System.ComponentModel.DataAnnotations.Schema.Table("index_string")]
     public class IndexString
     {
         [System.ComponentModel.DataAnnotations.Key()]

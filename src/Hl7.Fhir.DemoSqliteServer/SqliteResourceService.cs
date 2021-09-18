@@ -9,6 +9,7 @@ using System.Linq;
 using Hl7.Fhir.Support;
 using System.IO;
 using Hl7.Fhir.WebApi.DemoEntityModels;
+using static Hl7.Fhir.WebApi.DemoSearchIndexer;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
@@ -24,6 +25,8 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
+            RequestDetails.SetResponseHeaderValue("test", "wild-turkey-create");
+
             // and update the search index
             await Indexer.StoreResource(db, resource);
             resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
@@ -42,6 +45,8 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public async Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
         {
+            RequestDetails.SetResponseHeaderValue("test", "wild-turkey-get");
+
             var result = await Indexer.Get(db, ResourceName, resourceId, VersionId);
             if (result == null)
                 throw new FhirServerException(System.Net.HttpStatusCode.NotFound, "Resource ID/Version not found");
@@ -88,16 +93,16 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
             var resources = await Indexer.InstanceHistory(db, ResourceName, ResourceId, since, Till, Count);
 
-            foreach (Resource resource in resources)
+            foreach (SearchResourceResult item in resources)
             {
-                result.AddResourceEntry(resource,
-                    ResourceIdentity.Build(RequestDetails.BaseUri,
-                        resource.TypeName,
-                        resource.Id,
-                        resource.Meta.VersionId).OriginalString);
+                result.Entry.Add(new Bundle.EntryComponent()
+                {
+                    Resource = item.Resource,
+                    FullUrl = ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    Request = item.Request
+                });
             }
             result.Total = result.Entry.Count;
-            result.Entry.Sort((x, y) => { return y.Resource.Meta.VersionId.CompareTo(x.Resource.Meta.VersionId); });
 
             // also need to set the page links
 
@@ -233,16 +238,16 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
             var resources = await Indexer.TypeHistory(db, ResourceName, since, Till, Count);
 
-            foreach (Resource resource in resources)
+            foreach (SearchResourceResult item in resources)
             {
-                result.AddResourceEntry(resource,
-                    ResourceIdentity.Build(RequestDetails.BaseUri,
-                        resource.TypeName,
-                        resource.Id,
-                        resource.Meta.VersionId).OriginalString);
+                result.Entry.Add(new Bundle.EntryComponent()
+                {
+                    Resource = item.Resource,
+                    FullUrl = ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    Request = item.Request
+                });
             }
             result.Total = result.Entry.Count;
-            result.Entry.Sort((x, y) => { return y.Resource.Meta.LastUpdated.Value.CompareTo(x.Resource.Meta.LastUpdated.Value); });
 
             // also need to set the page links
 

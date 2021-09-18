@@ -11,6 +11,7 @@ using Hl7.Fhir.WebApi.DemoEntityModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static Hl7.Fhir.WebApi.DemoSearchIndexer;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
@@ -112,11 +113,34 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 });
                 return outcome as Resource;
             }
+            if (operation == "count-em")
+            {
+                var result = new OperationOutcome();
+                FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
+                long items = db.Resource_Header.Count(); // yes not async, the other non async call - only used in unit tests
+                result.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, $"All resource type instances: {items}")
+                });
+                if (request.Headers.Any())
+                {
+                    string headers = String.Join("\r\n", request.Headers.Select(h => $"{h.Key}: {String.Join(",", h.Value)}"));
+                    result.Issue.Add(new OperationOutcome.IssueComponent()
+                    {
+                        Code = OperationOutcome.IssueType.Informational,
+                        Severity = OperationOutcome.IssueSeverity.Information,
+                        Details = new CodeableConcept(null, null, headers)
+                    });
+                }
+                return result;
+            }
             if (operation == "search-cache-rescan")
             {
                 FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
-                db.Database.EnsureDeleted();
-                db.Database.EnsureCreated();
+                await db.Database.EnsureDeletedAsync();
+                await db.Database.EnsureCreatedAsync();
 
                 await _indexer.ScanDirectory(db, Directory);
                 var result = new OperationOutcome();
@@ -169,13 +193,14 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
             var resources = await _indexer.SystemHistory(db, since, Till, Count);
 
-            foreach (Resource resource in resources)
+            foreach (SearchResourceResult item in resources)
             {
-                result.AddResourceEntry(resource,
-                    ResourceIdentity.Build(request.BaseUri,
-                        resource.TypeName,
-                        resource.Id,
-                        resource.Meta.VersionId).OriginalString);
+                result.Entry.Add(new Bundle.EntryComponent()
+                {
+                    Resource = item.Resource,
+                    FullUrl = ResourceIdentity.Build(request.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    Request = item.Request
+                });
             }
             result.Total = result.Entry.Count;
 

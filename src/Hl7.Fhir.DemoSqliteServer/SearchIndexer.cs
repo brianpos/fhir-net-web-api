@@ -40,9 +40,21 @@ namespace Hl7.Fhir.WebApi
             public bool IsDeleted { get; private set; }
         }
 
+        public class SearchResourceResult
+        {
+            internal SearchResourceResult(Resource resource, Bundle.RequestComponent request)
+            {
+                Resource = resource;
+                Request = request;
+            }
+            public Resource Resource { get; }
+            public Bundle.RequestComponent Request { get; private set; }
+        }
+
         public void Initialize(FhirDbContext db)
         {
             Hl7.Fhir.FhirPath.ElementNavFhirExtensions.PrepareFhirSymbolTableFunctions();
+            // Yes this is the one place that we aren't async
             db.Database.EnsureCreated();
         }
 
@@ -121,9 +133,9 @@ namespace Hl7.Fhir.WebApi
             return null;
         }
 
-        internal async Task<IEnumerable<Resource>> InstanceHistory(FhirDbContext db, string resourceName, string resourceId, DateTimeOffset? since, DateTimeOffset? till, int? count)
+        internal async Task<IEnumerable<SearchResourceResult>> InstanceHistory(FhirDbContext db, string resourceName, string resourceId, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
-            List<Resource> result = new List<Resource>();
+            List<SearchResourceResult> result = new List<SearchResourceResult>();
             var parser = new Fhir.Serialization.FhirXmlParser();
             var query = db.Resource_History.Where(r => r.ResourceType == resourceName && r.resource_id == resourceId).AsQueryable();
             if (since.HasValue)
@@ -132,23 +144,47 @@ namespace Hl7.Fhir.WebApi
                 query = query.Where(r => r.last_updated <= till.Value);
             if (count.HasValue)
                 query = query.Take(count.Value);
+            query = query.OrderByDescending(o => o.last_updated);
             var queryResults = await query.ToListAsync();
             foreach (var item in queryResults)
+            {
+                PrepareHistoryResult(result, parser, item);
+            }
+            return result;
+        }
+
+        private static void PrepareHistoryResult(List<SearchResourceResult> result, Serialization.FhirXmlParser parser, resource_history item)
+        {
+            if (item.deleted)
+            {
+                result.Add(new SearchResourceResult(null, new Bundle.RequestComponent()
+                {
+                    Method = Bundle.HTTPVerb.DELETE,
+                    Url = $"{item.ResourceType}/{item.resource_id}/_history/{item.version_id}"
+                }));
+            }
+            else
             {
                 using (var stream = new MemoryStream(item.contentXML))
                 {
                     using (var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream))
                     {
-                        result.Add(parser.Parse<Resource>(xr));
+                        Bundle.HTTPVerb method = Bundle.HTTPVerb.POST;
+                        if (item.UsedPutHttpMethod == true)
+                            method = Bundle.HTTPVerb.PUT;
+                        result.Add(new SearchResourceResult(parser.Parse<Resource>(xr), new Bundle.RequestComponent()
+                        {
+                            Method = method,
+                            Url = $"{item.ResourceType}/{item.resource_id}/_history/{item.version_id}"
+                        }));
                     }
                 }
             }
-            return result;
         }
 
-        internal async Task<IEnumerable<Resource>> TypeHistory(FhirDbContext db, string resourceName, DateTimeOffset? since, DateTimeOffset? till, int? count)
+        internal async Task<IEnumerable<SearchResourceResult>> TypeHistory(FhirDbContext db, string resourceName, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
-            List<Resource> result = new List<Resource>();
+            List<SearchResourceResult> result = new List<SearchResourceResult>();
             var parser = new Fhir.Serialization.FhirXmlParser();
             var query = db.Resource_History.Where(r => r.ResourceType == resourceName).AsQueryable();
             if (since.HasValue)
@@ -157,23 +193,18 @@ namespace Hl7.Fhir.WebApi
                 query = query.Where(r => r.last_updated <= till.Value);
             if (count.HasValue)
                 query = query.Take(count.Value);
-            var queryResults = await query.ToListAsync();
+            query = query.OrderByDescending(o => o.last_updated);
+            var queryResults = await query.Where(r => r.deleted == false).ToListAsync();
             foreach (var item in queryResults)
             {
-                using (var stream = new MemoryStream(item.contentXML))
-                {
-                    using (var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream))
-                    {
-                        result.Add(parser.Parse<Resource>(xr));
-                    }
-                }
+                PrepareHistoryResult(result, parser, item);
             }
             return result;
         }
 
-        internal async Task<IEnumerable<Resource>> SystemHistory(FhirDbContext db, DateTimeOffset? since, DateTimeOffset? till, int? count)
+        internal async Task<IEnumerable<SearchResourceResult>> SystemHistory(FhirDbContext db, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
-            List<Resource> result = new List<Resource>();
+            List<SearchResourceResult> result = new List<SearchResourceResult>();
             var parser = new Fhir.Serialization.FhirXmlParser();
             var query = db.Resource_History.AsQueryable();
             if (since.HasValue)
@@ -186,13 +217,7 @@ namespace Hl7.Fhir.WebApi
             var queryResults = await query.ToListAsync();
             foreach (var item in queryResults)
             {
-                using (var stream = new MemoryStream(item.contentXML))
-                {
-                    using (var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream))
-                    {
-                        result.Add(parser.Parse<Resource>(xr));
-                    }
-                }
+                PrepareHistoryResult(result, parser, item);
             }
             return result;
         }

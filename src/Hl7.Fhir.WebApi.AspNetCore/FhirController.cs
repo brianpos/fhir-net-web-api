@@ -141,7 +141,7 @@ namespace Hl7.Fhir.WebApi
             Bundle outcome = await GetSystemModel(inputs).ProcessBatch(inputs, batch);
             outcome.ResourceBase = inputs.BaseUri;
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
-            outcome.SetAnnotation<SummaryType>(summary);
+            PrepareResourceForOutputWithSummary(inputs, summary, outcome);
             var resultCode = HttpStatusCode.OK;
             if (outcome.HasAnnotation<HttpStatusCode>())
                 resultCode = outcome.Annotation<HttpStatusCode>();
@@ -160,7 +160,7 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             var con = await GetSystemModel(inputs).GetConformance(inputs, summary);
             con.ResourceBase = inputs.BaseUri;
-            con.SetAnnotation<SummaryType>(summary);
+            PrepareResourceForOutputWithSummary(inputs, summary, con);
             return con;
         }
 
@@ -187,6 +187,20 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             Resource resource = await model.Get(id, vid, summary);
+            PrepareResourceForOutputWithSummary(inputs, summary, resource);
+            if (resource != null)
+            {
+                if (resource.HasAnnotation<HttpStatusCode>())
+                    return new FhirObjectResult(resource.Annotation<HttpStatusCode>(), resource);
+                return new FhirObjectResult(HttpStatusCode.OK, resource);
+            }
+
+            // this request is a "you wanted what?"
+            return new NotFoundResult();
+        }
+
+        private static void PrepareResourceForOutputWithSummary(ModelBaseInputs<IServiceProvider> inputs, SummaryType summary, Resource resource)
+        {
             if (resource != null)
             {
                 resource.ResourceBase = inputs.BaseUri;
@@ -224,14 +238,8 @@ namespace Hl7.Fhir.WebApi
                             break;
                     }
                 }
-
-                if (resource.HasAnnotation<HttpStatusCode>())
-                    return new FhirObjectResult(resource.Annotation<HttpStatusCode>(), resource);
-                return new FhirObjectResult(HttpStatusCode.OK, resource);
+                resource.SetAnnotation(summary);
             }
-
-            // this request is a "you wanted what?"
-            return new NotFoundResult();
         }
 
         [HttpGet, Route("{ResourceName}/{id}/${operation}")]
@@ -246,6 +254,7 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(id, operation, operationParameters, summary);
+            PrepareResourceForOutputWithSummary(inputs, summary, resource);
             return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
@@ -278,6 +287,7 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(id, operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
             return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
@@ -293,6 +303,7 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
             return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
@@ -308,6 +319,7 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             var resource = await model.PerformOperation(operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
             return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
@@ -337,6 +349,7 @@ namespace Hl7.Fhir.WebApi
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
 
             Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
             return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
@@ -351,6 +364,7 @@ namespace Hl7.Fhir.WebApi
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
 
             Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
             return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
@@ -400,7 +414,7 @@ namespace Hl7.Fhir.WebApi
             Bundle result = await model.Search(parameters, pagesize, summary);
             result.ResourceBase = inputs.BaseUri;
 
-            result.SetAnnotation<SummaryType>(summary);
+            PrepareResourceForOutputWithSummary(inputs, summary, result);
             return result;
         }
 
@@ -433,7 +447,7 @@ namespace Hl7.Fhir.WebApi
             Bundle result = await model.Search(parameters, pagesize, summary);
             result.ResourceBase = inputs.BaseUri;
 
-            result.SetAnnotation<SummaryType>(summary);
+            PrepareResourceForOutputWithSummary(inputs, summary, result);
             return result;
         }
 
@@ -455,6 +469,7 @@ namespace Hl7.Fhir.WebApi
             Bundle result = await model.TypeHistory(since, null, pagesize, summary);
             result.ResourceBase = inputs.BaseUri;
 
+            PrepareResourceForOutputWithSummary(inputs, summary, result);
             return result;
         }
 
@@ -495,6 +510,7 @@ namespace Hl7.Fhir.WebApi
             }
 
             // this.Request.SaveEntry(result);
+            PrepareResourceForOutputWithSummary(inputs, summary, result);
             return result;
         }
 
@@ -514,6 +530,7 @@ namespace Hl7.Fhir.WebApi
             Bundle result = await model.SystemHistory(inputs, since, null, pagesize, summary);
             result.ResourceBase = inputs.BaseUri;
 
+            PrepareResourceForOutputWithSummary(inputs, summary, result);
             return result;
         }
 

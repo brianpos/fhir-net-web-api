@@ -14,6 +14,7 @@ using Hl7.Fhir.Serialization;
 using System.Text;
 using Hl7.Fhir.Utility;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Hl7.Fhir.Rest;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -38,6 +39,7 @@ namespace Hl7.Fhir.WebApi
             if (selectedEncoding == null)
                 throw new ArgumentNullException(nameof(selectedEncoding));
 
+
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("<html>");
             sb.AppendLine("<head>");
@@ -53,11 +55,14 @@ namespace Hl7.Fhir.WebApi
             sb.AppendLine($"<div>Status: {context.HttpContext.Response.StatusCode}<div>");
             if (context.Object is Resource resource)
             {
+                SummaryType st = SummaryType.False;
+                if (resource.HasAnnotation<SummaryType>() && (!(resource is OperationOutcome) || (resource as OperationOutcome).Id == null))
+                    st = resource.Annotation<SummaryType>();
                 if (resource == null)
                     sb.AppendLine("<div>(null)</div>");
                 else
                 {
-                    var doc = System.Xml.Linq.XDocument.Parse(new FhirXmlSerializer().SerializeToString(resource));
+                    var doc = System.Xml.Linq.XDocument.Parse(new FhirXmlSerializer().SerializeToString(resource, st));
                     sb.AppendLine("<pre>");
                     sb.AppendLine(System.Web.HttpUtility.HtmlEncode(doc.ToString(System.Xml.Linq.SaveOptions.None)));
                     sb.AppendLine("</pre>");

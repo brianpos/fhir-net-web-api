@@ -55,39 +55,28 @@ namespace Hl7.Fhir.WebApi
 
             var request = context.HttpContext.Request;
 
-            // TODO: Brian: Would like to know what the issue is here? Will this be resolved by the Async update to the core?
-            if (!request.Body.CanSeek)
+            using (MemoryStream ms = new MemoryStream())
             {
-                // To avoid blocking on the stream, we asynchronously read everything 
-                // into a buffer, and then seek back to the beginning.
-#if NETCOREAPP2_2
-                request.EnableRewind();
-#else
-                request.EnableBuffering();
-#endif
-                Debug.Assert(request.Body.CanSeek);
+                await request.Body.CopyToAsync(ms);
+                ms.Seek(0, SeekOrigin.Begin);
 
-                // no timeout configuration on this? or does that happen at another layer?
-                await request.Body.DrainAsync(CancellationToken.None);
-                request.Body.Seek(0L, SeekOrigin.Begin);
-            }
-
-            using (var streamReader = context.ReaderFactory(request.Body, encoding))
-            using (var jsonReader = new JsonTextReader(streamReader))
-            {
-                // need to configure these properties as is done in 
-                // HL7.Fhir.SerializationUtil.JsonReaderFromJsonText()
-                jsonReader.DateParseHandling = DateParseHandling.None;
-                jsonReader.FloatParseHandling = FloatParseHandling.Decimal;
-
-                try
+                using (var streamReader = context.ReaderFactory(ms, encoding))
+                using (var jsonReader = new JsonTextReader(streamReader))
                 {
-                    var resource = new FhirJsonParser(_settings).Parse<Resource>(jsonReader);
-                    return InputFormatterResult.Success(resource);
-                }
-                catch (FormatException exception)
-                {
-                    throw HandleBodyParsingFormatException(exception);
+                    // need to configure these properties as is done in 
+                    // HL7.Fhir.SerializationUtil.JsonReaderFromJsonText()
+                    jsonReader.DateParseHandling = DateParseHandling.None;
+                    jsonReader.FloatParseHandling = FloatParseHandling.Decimal;
+
+                    try
+                    {
+                        var resource = new FhirJsonParser(_settings).Parse<Resource>(jsonReader);
+                        return InputFormatterResult.Success(resource);
+                    }
+                    catch (FormatException exception)
+                    {
+                        throw HandleBodyParsingFormatException(exception);
+                    }
                 }
             }
         }

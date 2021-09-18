@@ -48,35 +48,6 @@ namespace Hl7.Fhir.WebApi
 
         #endregion
 
-        #region << Parameter Extractions Extensions >>
-        public static string GetString(this Parameters me, string name)
-        {
-            var value = me.Parameter.Where(s => s.Name == name).FirstOrDefault();
-            if (value == null)
-                return null;
-            if (value.Value as FhirString != null)
-                return ((FhirString)value.Value).Value;
-            if (value.Value as FhirUri != null)
-                return ((FhirUri)value.Value).Value;
-            return null;
-        }
-
-        public static Resource GetResource(this Parameters me, string name)
-        {
-            var value = me.Parameter.Where(s => s.Name == name).FirstOrDefault();
-            if (value == null)
-                return null;
-            return value.Resource;
-        }
-        #endregion
-
-        public static Uri AppendToQuery(this Uri me, string query)
-        {
-            if (string.IsNullOrEmpty(me.Query))
-                return new Uri(me.OriginalString + "?" + query.TrimStart('?').TrimEnd('&'));
-            return new Uri(me.OriginalString + "&" + query.TrimEnd('&'));
-        }
-
         #region << Div Content Formatting helpers >>
         public const string TextDivFieldType = "span";
         public const string TextDivFieldStyle = " style=\"color: gray;\"";

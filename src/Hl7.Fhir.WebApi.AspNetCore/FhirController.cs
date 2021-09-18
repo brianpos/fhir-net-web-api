@@ -249,11 +249,29 @@ namespace Hl7.Fhir.WebApi
             return PrepareOperationOutputMessage(inputs.BaseUri, resource);
         }
 
+        private static Parameters ConvertOperationParameters(string operation, Resource inputResource)
+        {
+            Parameters operationParameters;
+            if (inputResource is Parameters p)
+                operationParameters = p;
+            else
+            {
+                operationParameters = new Parameters();
+                if (operation == "convert")
+                    operationParameters.Parameter.Add(new Parameters.ParameterComponent() { Name = "input", Resource = inputResource });
+                else
+                    operationParameters.Parameter.Add(new Parameters.ParameterComponent() { Name = "resource", Resource = inputResource });
+            }
+
+            return operationParameters;
+        }
+
         [HttpPost, Route("{ResourceName}/{id}/${operation}")]
-        public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
             var inputs = GetInputs(buri);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
@@ -279,10 +297,11 @@ namespace Hl7.Fhir.WebApi
         }
 
         [HttpPost, Route("{ResourceName}/${operation}")]
-        public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
             var inputs = GetInputs(buri);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
@@ -322,11 +341,12 @@ namespace Hl7.Fhir.WebApi
         }
 
         [HttpPost, Route("${operation}")]
-        public async Task<IActionResult> PerformOperationSystem(string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationSystem(string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("${operation}");
             var inputs = GetInputs(buri);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
 

@@ -244,10 +244,10 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                         item.Id,
                         item.Meta?.VersionId).OriginalString).Search = new Bundle.SearchComponent()
                         {
-                            Mode = Bundle.SearchEntryMode.Include
+                            Mode = Bundle.SearchEntryMode.Match
                         };
             }
-            resource.Total = resource.Entry.Count(e => e.Search.Mode == Bundle.SearchEntryMode.Include);
+            resource.Total = resource.Entry.Count(e => e.Search.Mode == Bundle.SearchEntryMode.Match);
             if (Count.HasValue)
                 resource.Entry = resource.Entry.Take(Count.Value).ToList();
             if (parameters.Count(p => p.Key != "_id" && !usedParameters.Contains(p.Key)) > 0)

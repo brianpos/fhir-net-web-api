@@ -7,6 +7,7 @@ using System.Linq;
 using Hl7.Fhir.Utility;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
@@ -81,6 +82,14 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, SummaryType summary)
         {
+            if (operation == "convert")
+            {
+                Resource resource = operationParameters.GetResource("input");
+                if (resource != null)
+                    return Task<Resource>.FromResult(resource);
+                OperationOutcome outcome = new OperationOutcome();
+                return Task<Resource>.FromResult(outcome as Resource);
+            }
             if (operation == "count-em")
             {
                 var result = new OperationOutcome();

@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Hl7.Fhir.NetCoreApi.R4;
 using Hl7.FhirPath.Sprache;
+using Hl7.Fhir.Language.Debugging;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -104,11 +106,17 @@ namespace Hl7.Fhir.WebApi
 
         internal static IFhirResourceServiceR4<IServiceProvider> GetResourceModel(string ResourceName, ModelBaseInputs<IServiceProvider> inputs)
         {
-            var model = NetCoreApi.FhirFacadeBuilder._systemService.GetResourceService(inputs, ResourceName);
+            try
+            {
+                var model = NetCoreApi.FhirFacadeBuilder._systemService.GetResourceService(inputs, ResourceName);
 
-            if (model != null)
-                return model;
-
+                if (model != null)
+                    return model;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+            }
             throw new FhirServerException(HttpStatusCode.NotFound, "Resource [" + ResourceName + "] is not supported on this server");
         }
 
@@ -133,19 +141,27 @@ namespace Hl7.Fhir.WebApi
         /// http://hl7-fhir.github.io/http.html#transaction
         /// </summary>
         [HttpPost, Route("")]
-        public async Task<IActionResult> ProcessBatch([FromBody]Bundle batch)
+        public async Task<IActionResult> ProcessBatch([FromBody] Bundle batch)
         {
             var buri = this.CalculateBaseURI("metadata");
             var inputs = GetInputs(buri);
 
-            Bundle outcome = await GetSystemModel(inputs).ProcessBatch(inputs, batch);
-            outcome.ResourceBase = inputs.BaseUri;
-            Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
-            outcome.SetAnnotation<SummaryType>(summary);
-            var resultCode = HttpStatusCode.OK;
-            if (outcome.HasAnnotation<HttpStatusCode>())
-                resultCode = outcome.Annotation<HttpStatusCode>();
-            return new FhirObjectResult(resultCode, outcome);
+            try
+            {
+                Bundle outcome = await GetSystemModel(inputs).ProcessBatch(inputs, batch);
+                outcome.ResourceBase = inputs.BaseUri;
+                Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
+                PrepareResourceForOutputWithSummary(inputs, summary, outcome);
+                var resultCode = HttpStatusCode.OK;
+                if (outcome.HasAnnotation<HttpStatusCode>())
+                    resultCode = outcome.Annotation<HttpStatusCode>();
+                return new FhirObjectResult(resultCode, outcome);
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, "Batch/Transactions are not supported on this server");
+            }
         }
 
         // GET fhir/values
@@ -160,7 +176,7 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             var con = await GetSystemModel(inputs).GetConformance(inputs, summary);
             con.ResourceBase = inputs.BaseUri;
-            con.SetAnnotation<SummaryType>(summary);
+            PrepareResourceForOutputWithSummary(inputs, summary, con);
             return con;
         }
 
@@ -186,7 +202,29 @@ namespace Hl7.Fhir.WebApi
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            Resource resource = await model.Get(id, vid, summary);
+            try
+            {
+                Resource resource = await model.Get(id, vid, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
+                if (resource != null)
+                {
+                    if (resource.HasAnnotation<HttpStatusCode>())
+                        return new FhirObjectResult(resource.Annotation<HttpStatusCode>(), resource);
+                    return new FhirObjectResult(HttpStatusCode.OK, resource);
+                }
+
+                // this request is a "you wanted what?"
+                return new NotFoundResult();
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Get {ResourceName} is not supported on this server");
+            }
+        }
+
+        private static void PrepareResourceForOutputWithSummary(ModelBaseInputs<IServiceProvider> inputs, SummaryType summary, Resource resource)
+        {
             if (resource != null)
             {
                 resource.ResourceBase = inputs.BaseUri;
@@ -224,14 +262,8 @@ namespace Hl7.Fhir.WebApi
                             break;
                     }
                 }
-
-                if (resource.HasAnnotation<HttpStatusCode>())
-                    return new FhirObjectResult(resource.Annotation<HttpStatusCode>(), resource);
-                return new FhirObjectResult(HttpStatusCode.OK, resource);
+                resource.SetAnnotation(summary);
             }
-
-            // this request is a "you wanted what?"
-            return new NotFoundResult();
         }
 
         [HttpGet, Route("{ResourceName}/{id}/${operation}")]
@@ -245,22 +277,57 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
-            var resource = await model.PerformOperation(id, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            try
+            {
+                var resource = await model.PerformOperation(id, operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
+                return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
+        }
+
+        private static Parameters ConvertOperationParameters(string operation, Resource inputResource)
+        {
+            Parameters operationParameters;
+            if (inputResource is Parameters p)
+                operationParameters = p;
+            else
+            {
+                operationParameters = new Parameters();
+                if (operation == "convert")
+                    operationParameters.Parameter.Add(new Parameters.ParameterComponent() { Name = "input", Resource = inputResource });
+                else
+                    operationParameters.Parameter.Add(new Parameters.ParameterComponent() { Name = "resource", Resource = inputResource });
+            }
+
+            return operationParameters;
         }
 
         [HttpPost, Route("{ResourceName}/{id}/${operation}")]
-        public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationResourceInstance(string ResourceName, string id, string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
             var inputs = GetInputs(buri);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
-            var resource = await model.PerformOperation(id, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            try
+            {
+                var resource = await model.PerformOperation(id, operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
+                return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            }
+            catch (NotImplementedException)
+            {
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
         }
 
         [HttpGet, Route("{ResourceName}/${operation}")]
@@ -274,22 +341,39 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
-            var resource = await model.PerformOperation(operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            try
+            {
+                var resource = await model.PerformOperation(operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
+                return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            }
+            catch (NotImplementedException)
+            {
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
         }
 
         [HttpPost, Route("{ResourceName}/${operation}")]
-        public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationResourceType(string ResourceName, string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
             var inputs = GetInputs(buri);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
-            var resource = await model.PerformOperation(operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            try
+            {
+                var resource = await model.PerformOperation(operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
+                return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            }
+            catch (NotImplementedException)
+            {
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
         }
 
         private IActionResult PrepareOperationOutputMessage(Uri baseUri, Resource resource)
@@ -317,21 +401,38 @@ namespace Hl7.Fhir.WebApi
             Parameters operationParameters = new Parameters();
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
 
-            Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            try
+            {
+                Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
+                return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            }
+            catch (NotImplementedException)
+            {
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"System operation [${operation}] is not supported on this server");
+            }
         }
 
         [HttpPost, Route("${operation}")]
-        public async Task<IActionResult> PerformOperationSystem(string operation, [FromBody] Parameters operationParameters)
+        public async Task<IActionResult> PerformOperationSystem(string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("${operation}");
             var inputs = GetInputs(buri);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
 
-            Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
-            return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            try
+            {
+                Resource resource = await GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary);
+                PrepareResourceForOutputWithSummary(inputs, summary, resource);
+                return PrepareOperationOutputMessage(inputs.BaseUri, resource);
+            }
+            catch (NotImplementedException)
+            {
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"System operation [${operation}] is not supported on this server");
+            }
         }
 
         private void ExtractParametersFromUrl(ref Parameters operationParameters, IEnumerable<KeyValuePair<string, string>> enumerable)
@@ -377,11 +478,19 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
-            Bundle result = await model.Search(parameters, pagesize, summary);
-            result.ResourceBase = inputs.BaseUri;
+            try
+            {
+                Bundle result = await model.Search(parameters, pagesize, summary);
+                result.ResourceBase = inputs.BaseUri;
 
-            result.SetAnnotation<SummaryType>(summary);
-            return result;
+                PrepareResourceForOutputWithSummary(inputs, summary, result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support searching on this server");
+            }
         }
 
         // Need the POST form of search going to "{ResourceName}/_search"
@@ -410,11 +519,19 @@ namespace Hl7.Fhir.WebApi
                 }
             }
 
-            Bundle result = await model.Search(parameters, pagesize, summary);
-            result.ResourceBase = inputs.BaseUri;
+            try
+            {
+                Bundle result = await model.Search(parameters, pagesize, summary);
+                result.ResourceBase = inputs.BaseUri;
 
-            result.SetAnnotation<SummaryType>(summary);
-            return result;
+                PrepareResourceForOutputWithSummary(inputs, summary, result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support searching on this server");
+            }
         }
 
         // GET fhir/patient/_history
@@ -431,11 +548,19 @@ namespace Hl7.Fhir.WebApi
             var inputs = GetInputs(buri);
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
+            try
+            {
+                Bundle result = await model.TypeHistory(since, null, pagesize, summary);
+                result.ResourceBase = inputs.BaseUri;
 
-            Bundle result = await model.TypeHistory(since, null, pagesize, summary);
-            result.ResourceBase = inputs.BaseUri;
-
-            return result;
+                PrepareResourceForOutputWithSummary(inputs, summary, result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support type level history on this server");
+            }
         }
 
         // GET fhir/patient/5/_history
@@ -454,28 +579,37 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
-            Bundle result = await model.InstanceHistory(id, since, null, pagesize, summary);
-            result.ResourceBase = inputs.BaseUri;
-            if (result.Total == 0)
+            try
             {
-                try
+                Bundle result = await model.InstanceHistory(id, since, null, pagesize, summary);
+                result.ResourceBase = inputs.BaseUri;
+                if (result.Total == 0)
                 {
-                    // Check to see if the item itself exists
-                    if (model.Get(id, null, Hl7.Fhir.Rest.SummaryType.True) == null)
+                    try
                     {
-                        // this resource does not exist to have a history
-                        throw new FhirServerException(HttpStatusCode.NotFound, "The resource was not found");
+                        // Check to see if the item itself exists
+                        if (model.Get(id, null, Hl7.Fhir.Rest.SummaryType.True) == null)
+                        {
+                            // this resource does not exist to have a history
+                            throw new FhirServerException(HttpStatusCode.NotFound, "The resource was not found");
+                        }
+                    }
+                    catch (FhirServerException ex)
+                    {
+                        if (ex.StatusCode != HttpStatusCode.Gone)
+                            throw ex;
                     }
                 }
-                catch (FhirServerException ex)
-                {
-                    if (ex.StatusCode != HttpStatusCode.Gone)
-                        throw ex;
-                }
-            }
 
-            // this.Request.SaveEntry(result);
-            return result;
+                // this.Request.SaveEntry(result);
+                PrepareResourceForOutputWithSummary(inputs, summary, result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support instance level history on this server");
+            }
         }
 
         [HttpGet, Route("_history")]
@@ -490,11 +624,19 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             var model = GetSystemModel(inputs);
+            try
+            {
+                Bundle result = await model.SystemHistory(inputs, since, null, pagesize, summary);
+                result.ResourceBase = inputs.BaseUri;
 
-            Bundle result = await model.SystemHistory(inputs, since, null, pagesize, summary);
-            result.ResourceBase = inputs.BaseUri;
-
-            return result;
+                PrepareResourceForOutputWithSummary(inputs, summary, result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"System level history not supported on this server");
+            }
         }
 
 
@@ -531,7 +673,7 @@ namespace Hl7.Fhir.WebApi
                         Severity = OperationOutcome.IssueSeverity.Fatal
                     }
                 };
-            return new BadRequestObjectResult(oo) { StatusCode = (int)HttpStatusCode.BadRequest };
+                return new BadRequestObjectResult(oo) { StatusCode = (int)HttpStatusCode.BadRequest };
             }
 
             if (!String.IsNullOrEmpty(bodyResource.Id))
@@ -553,35 +695,36 @@ namespace Hl7.Fhir.WebApi
             }
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
-
-            var result = await model.Create(bodyResource, null, null, null);
-            result.ResourceBase = inputs.BaseUri;
-            var actualResource = result;
-
-            ResourceIdentity ri = null;
-            if (result is Bundle)
+            try
             {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
-            else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
-            {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
+                var result = await model.Create(bodyResource, null, null, null);
+                result.ResourceBase = inputs.BaseUri;
+                var actualResource = result;
 
-            // Check the prefer header
-            if (Request.Headers.ContainsKey("Prefer"))
-            {
-                string preferHeader = Request.Header("Prefer");
-                if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
+                ResourceIdentity ri = null;
+                if (result is Bundle)
                 {
-                    if (!(result is OperationOutcome))
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+                else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
+                {
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+
+                // Check the prefer header
+                if (Request.Headers.ContainsKey("Prefer"))
+                {
+                    string preferHeader = Request.Header("Prefer");
+                    if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
                     {
-                        OperationOutcome so = new OperationOutcome()
+                        if (!(result is OperationOutcome))
                         {
-                            Text = Utility.CreateNarative("Resource update")
-                        };
-                        so.Text.Status = Narrative.NarrativeStatus.Generated;
-                        so.Issue = new List<OperationOutcome.IssueComponent>
+                            OperationOutcome so = new OperationOutcome()
+                            {
+                                Text = Utility.CreateNarative("Resource update")
+                            };
+                            so.Text.Status = Narrative.NarrativeStatus.Generated;
+                            so.Issue = new List<OperationOutcome.IssueComponent>
                         {
                             new OperationOutcome.IssueComponent()
                             {
@@ -590,42 +733,48 @@ namespace Hl7.Fhir.WebApi
                                 Details = new CodeableConcept(null, null, "Update was completed")
                             }
                         };
-                        result = so;
+                            result = so;
+                        }
                     }
                 }
-            }
 
-            FhirObjectResult returnMessage;
-            if (actualResource.HasAnnotation<CreateOrUpate>())
-            {
-                if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                    returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
-                else
-                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
-            }
-            else
-            {
-                // The model didn't set the annotation, so we will just assume created is the appropriate call
-                System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
-                returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
-            }
-
-            // Check the prefer header
-            if (Request.Headers.ContainsKey("Prefer"))
-            {
-                string preferHeader = Request.Header("Prefer");
-                if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                FhirObjectResult returnMessage;
+                if (actualResource.HasAnnotation<CreateOrUpate>())
                 {
-                    returnMessage.Value = null;
+                    if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                        returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+                    else
+                        returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
                 }
+                else
+                {
+                    // The model didn't set the annotation, so we will just assume created is the appropriate call
+                    System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
+                    returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+                }
+
+                // Check the prefer header
+                if (Request.Headers.ContainsKey("Prefer"))
+                {
+                    string preferHeader = Request.Header("Prefer");
+                    if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                    {
+                        returnMessage.Value = null;
+                    }
+                }
+
+                if (bodyResource.HasAnnotation<HttpStatusCode>())
+                    returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+                if (actualResource.HasAnnotation<HttpStatusCode>())
+                    returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
+
+                return returnMessage;
             }
-
-            if (bodyResource.HasAnnotation<HttpStatusCode>())
-                returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
-            if (actualResource.HasAnnotation<HttpStatusCode>())
-                returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
-
-            return returnMessage;
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support create on this server");
+            }
         }
 
         /// <summary>
@@ -636,7 +785,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="bodyResource"></param>
         /// <returns></returns>
         [HttpPut, Route("{ResourceName}")]
-        public async Task<IActionResult> Put(string ResourceName, [FromBody]Resource bodyResource)
+        public async Task<IActionResult> Put(string ResourceName, [FromBody] Resource bodyResource)
         {
             System.Diagnostics.Debug.WriteLine("PUT: " + this.Request.GetDisplayUrl());
             var buri = this.CalculateBaseURI("{ResourceName}");
@@ -672,24 +821,26 @@ namespace Hl7.Fhir.WebApi
                 ifMatch = this.Request.RequestUri().Query;
             }
 
-            var result = await model.Create(bodyResource, ifMatch, null, null);
-            result.ResourceBase = inputs.BaseUri;
-            var actualResource = result;
-
-            // Check the prefer header
-            if (Request.Headers.ContainsKey("Prefer"))
+            try
             {
-                string preferHeader = Request.Header("Prefer");
-                if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
+                var result = await model.Create(bodyResource, ifMatch, null, null);
+                result.ResourceBase = inputs.BaseUri;
+                var actualResource = result;
+
+                // Check the prefer header
+                if (Request.Headers.ContainsKey("Prefer"))
                 {
-                    if (!(result is OperationOutcome))
+                    string preferHeader = Request.Header("Prefer");
+                    if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
                     {
-                        so = new OperationOutcome()
+                        if (!(result is OperationOutcome))
                         {
-                            Text = Utility.CreateNarative("Resource update")
-                        };
-                        so.Text.Status = Narrative.NarrativeStatus.Generated;
-                        so.Issue = new List<OperationOutcome.IssueComponent>
+                            so = new OperationOutcome()
+                            {
+                                Text = Utility.CreateNarative("Resource update")
+                            };
+                            so.Text.Status = Narrative.NarrativeStatus.Generated;
+                            so.Issue = new List<OperationOutcome.IssueComponent>
                         {
                             new OperationOutcome.IssueComponent()
                             {
@@ -698,48 +849,54 @@ namespace Hl7.Fhir.WebApi
                                 Details = new CodeableConcept(null, null, "Update was completed")
                             }
                         };
-                        result = so;
+                            result = so;
+                        }
                     }
                 }
-            }
 
-            FhirObjectResult returnMessage;
-            if (actualResource.HasAnnotation<CreateOrUpate>())
-            {
-                if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                    returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
-                else
-                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
-            }
-            else
-            {
-                // The model didn't decide, so we'll just indicate that it was ok.
-                System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
-                returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
-            }
-
-            // Check the prefer header
-            if (Request.Headers.ContainsKey("Prefer"))
-            {
-                string preferHeader = Request.Header("Prefer");
-                if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                FhirObjectResult returnMessage;
+                if (actualResource.HasAnnotation<CreateOrUpate>())
                 {
-                    returnMessage.Value = null;
+                    if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                        returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+                    else
+                        returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
                 }
+                else
+                {
+                    // The model didn't decide, so we'll just indicate that it was ok.
+                    System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
+                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+                }
+
+                // Check the prefer header
+                if (Request.Headers.ContainsKey("Prefer"))
+                {
+                    string preferHeader = Request.Header("Prefer");
+                    if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                    {
+                        returnMessage.Value = null;
+                    }
+                }
+
+                if (bodyResource.HasAnnotation<HttpStatusCode>())
+                    returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+                if (actualResource.HasAnnotation<HttpStatusCode>())
+                    returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
+
+                return returnMessage;
             }
-
-            if (bodyResource.HasAnnotation<HttpStatusCode>())
-                returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
-            if (actualResource.HasAnnotation<HttpStatusCode>())
-                returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
-
-            return returnMessage;
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support update on this server");
+            }
         }
 
 
         // PUT fhir/Patient/5
         [HttpPut, Route("{ResourceName}/{id}")]
-        public async Task<IActionResult> Put(string ResourceName, string id, [FromBody]Resource bodyResource)
+        public async Task<IActionResult> Put(string ResourceName, string id, [FromBody] Resource bodyResource)
         {
             System.Diagnostics.Debug.WriteLine("PUT: " + this.Request.GetDisplayUrl());
 
@@ -759,35 +916,36 @@ namespace Hl7.Fhir.WebApi
             }
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
-
-            var result = await model.Create(bodyResource, null, null, null);
-            result.ResourceBase = inputs.BaseUri;
-            var actualResource = result;
-
-            ResourceIdentity ri = null;
-            if (result is Bundle)
+            try
             {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
-            else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
-            {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
+                var result = await model.Create(bodyResource, null, null, null);
+                result.ResourceBase = inputs.BaseUri;
+                var actualResource = result;
 
-            // Check the prefer header
-            if (Request.Headers.ContainsKey("Prefer"))
-            {
-                string preferHeader = Request.Header("Prefer");
-                if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
+                ResourceIdentity ri = null;
+                if (result is Bundle)
                 {
-                    if (!(result is OperationOutcome))
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+                else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
+                {
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+
+                // Check the prefer header
+                if (Request.Headers.ContainsKey("Prefer"))
+                {
+                    string preferHeader = Request.Header("Prefer");
+                    if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
                     {
-                        OperationOutcome so = new OperationOutcome()
+                        if (!(result is OperationOutcome))
                         {
-                            Text = Utility.CreateNarative("Resource update")
-                        };
-                        so.Text.Status = Narrative.NarrativeStatus.Generated;
-                        so.Issue = new List<OperationOutcome.IssueComponent>
+                            OperationOutcome so = new OperationOutcome()
+                            {
+                                Text = Utility.CreateNarative("Resource update")
+                            };
+                            so.Text.Status = Narrative.NarrativeStatus.Generated;
+                            so.Issue = new List<OperationOutcome.IssueComponent>
                         {
                             new OperationOutcome.IssueComponent()
                             {
@@ -796,42 +954,48 @@ namespace Hl7.Fhir.WebApi
                                 Details = new CodeableConcept(null, null, "Update was completed")
                             }
                         };
-                        result = so;
+                            result = so;
+                        }
                     }
                 }
-            }
 
-            FhirObjectResult returnMessage;
-            if (actualResource.HasAnnotation<CreateOrUpate>())
-            {
-                if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                    returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
-                else
-                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
-            }
-            else
-            {
-                // The model didn't decide, so we'll just indicate that it was ok.
-                System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
-                returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
-            }
-
-            // Check the prefer header
-            if (Request.Headers.ContainsKey("Prefer"))
-            {
-                string preferHeader = Request.Header("Prefer");
-                if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                FhirObjectResult returnMessage;
+                if (actualResource.HasAnnotation<CreateOrUpate>())
                 {
-                    returnMessage.Value = null;
+                    if (actualResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                        returnMessage = new FhirObjectResult(HttpStatusCode.Created, result, actualResource);
+                    else
+                        returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
                 }
+                else
+                {
+                    // The model didn't decide, so we'll just indicate that it was ok.
+                    System.Diagnostics.Trace.WriteLine("The Model did not test the Annotation<CreateOrUpdate() on the returned resource");
+                    returnMessage = new FhirObjectResult(HttpStatusCode.OK, result, actualResource);
+                }
+
+                // Check the prefer header
+                if (Request.Headers.ContainsKey("Prefer"))
+                {
+                    string preferHeader = Request.Header("Prefer");
+                    if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                    {
+                        returnMessage.Value = null;
+                    }
+                }
+
+                if (bodyResource.HasAnnotation<HttpStatusCode>())
+                    returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
+                if (actualResource.HasAnnotation<HttpStatusCode>())
+                    returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
+
+                return returnMessage;
             }
-
-            if (bodyResource.HasAnnotation<HttpStatusCode>())
-                returnMessage.StatusCode = (int)bodyResource.Annotation<HttpStatusCode>();
-            if (actualResource.HasAnnotation<HttpStatusCode>())
-                returnMessage.StatusCode = (int)actualResource.Annotation<HttpStatusCode>();
-
-            return returnMessage;
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support update on this server");
+            }
         }
 
         // DELETE fhir/values/5
@@ -849,17 +1013,24 @@ namespace Hl7.Fhir.WebApi
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot DELETE a AuditEvent");
             }
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
-
-            string deletedIdentity = await model.Delete(id, null);
-            // Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
-
-            if (!string.IsNullOrEmpty(deletedIdentity))
+            try
             {
-                ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
-                return FhirObjectResult.FhirDeletedResult(ri.VersionId);
+                string deletedIdentity = await model.Delete(id, null);
+                // Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
+
+                if (!string.IsNullOrEmpty(deletedIdentity))
+                {
+                    ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
+                    return FhirObjectResult.FhirDeletedResult(ri.VersionId);
+                }
+                return FhirObjectResult.FhirDeletedResult();
+                // for an OperationOutcome return would need to return accepted
             }
-            return FhirObjectResult.FhirDeletedResult();
-            // for an OperationOutcome return would need to return accepted
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support delete on this server");
+            }
         }
 
         // DELETE fhir/Patient?identifier=http://example.org/demo|34
@@ -898,16 +1069,24 @@ namespace Hl7.Fhir.WebApi
             string ifMatch = Request.RequestUri().Query;
             if (ifMatch.StartsWith("?"))
                 ifMatch = ifMatch.Substring(1);
-            string deletedIdentity = await model.Delete(null, ifMatch);
-            // Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
-
-            if (!string.IsNullOrEmpty(deletedIdentity))
+            try
             {
-                ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
-                return FhirObjectResult.FhirDeletedResult(ri.VersionId);
+                string deletedIdentity = await model.Delete(null, ifMatch);
+                // Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
+
+                if (!string.IsNullOrEmpty(deletedIdentity))
+                {
+                    ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
+                    return FhirObjectResult.FhirDeletedResult(ri.VersionId);
+                }
+                return FhirObjectResult.FhirDeletedResult();
+                // for an OperationOutcome return would need to return accepted
             }
-            return FhirObjectResult.FhirDeletedResult();
-            // for an OperationOutcome return would need to return accepted
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support conditional delete on this server");
+            }
         }
     }
 }

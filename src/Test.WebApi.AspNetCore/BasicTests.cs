@@ -333,6 +333,38 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public async Task ConvertPatientResourceFormat()
+        {
+            Patient p = new Patient();
+            p.Id = "pat1"; // if you support this format for the IDs (client allocated ID)
+            p.Name = new System.Collections.Generic.List<HumanName>();
+            p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
+            p.BirthDate = new DateTime(1970, 3, 1).ToFhirDate(); // yes there are extensions to convert to FHIR format
+            p.Active = true;
+            p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json+fhir"));
+
+            string xml = new FhirXmlSerializer().SerializeToString(p);
+            HttpContent rawPostContent = new StringContent(xml, System.Text.Encoding.UTF8, "application/xml+fhir");
+            var rawResult = await client.PostAsync($"{_baseAddress}$convert", rawPostContent);
+            string textResult = await rawResult.Content.ReadAsStringAsync();
+            var result = new FhirJsonParser().Parse<Patient>(textResult);
+            System.Diagnostics.Trace.WriteLine($"{result.ResourceIdentity()}");
+
+            Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
+            Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+            Assert.IsTrue(p.IsExactly(result), "resources should be the same");
+        }
+
+        private void ClientFhir_OnBeforeRequest1(object sender, BeforeRequestEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        [TestMethod]
         public void WholeSystemHistory()
         {
             Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);

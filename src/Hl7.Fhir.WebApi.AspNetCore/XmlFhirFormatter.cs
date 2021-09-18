@@ -54,28 +54,22 @@ namespace Hl7.Fhir.WebApi
             var request = context.HttpContext.Request;
 
             // TODO: Brian: Would like to know what the issue is here? Will this be resolved by the Async update to the core?
-            if (!request.Body.CanSeek)
+            using (MemoryStream ms = new MemoryStream())
             {
-                // To avoid blocking on the stream, we asynchronously read everything 
-                // into a buffer, and then seek back to the beginning.
-                request.EnableBuffering();
-                Debug.Assert(request.Body.CanSeek);
+                await request.Body.CopyToAsync(ms);
+                ms.Seek(0, SeekOrigin.Begin);
 
-                // no timeout configuration on this? or does that happen at another layer?
-                await request.Body.DrainAsync(CancellationToken.None);
-                request.Body.Seek(0L, SeekOrigin.Begin);
-            }
-
-            using (var reader = SerializationUtil.XmlReaderFromStream(request.Body))
-            {
-                try
+                using (var reader = SerializationUtil.XmlReaderFromStream(ms))
                 {
-                    Resource resource = new FhirXmlParser(_settings).Parse<Resource>(reader);
-                    return InputFormatterResult.Success(resource);
-                }
-                catch (FormatException exception)
-                {
-                    throw HandleBodyParsingFormatException(exception);
+                    try
+                    {
+                        Resource resource = new FhirXmlParser(_settings).Parse<Resource>(reader);
+                        return InputFormatterResult.Success(resource);
+                    }
+                    catch (FormatException exception)
+                    {
+                        throw HandleBodyParsingFormatException(exception);
+                    }
                 }
             }
         }
@@ -126,7 +120,7 @@ namespace Hl7.Fhir.WebApi
                         // We will only honor the summary type during serialization of the outcome
                         // if the resource wasn't a stored OpOutcome we are returning
                         OperationOutcome resource = (OperationOutcome)context.Object;
-                        if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
+                        if (!string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
                             st = resource.Annotation<SummaryType>();
                         new FhirXmlSerializer().Serialize(resource, writer, st);
                     }

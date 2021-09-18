@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29411.108
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5CE27248-3050-4DA7-967A-A8CD757BBAF5}"
 	ProjectSection(SolutionItems) = preProject
@@ -32,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.HttpClient", "Hl7.Fhir.HttpClient\Hl7.Fhir.R4.HttpClient.csproj", "{0D50F573-7AF8-416D-8364-7EDD21F5503C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoFileSystemServer", "Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj", "{1B81B226-5E4E-41C4-B85C-D6605D60C918}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +81,10 @@ Global
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

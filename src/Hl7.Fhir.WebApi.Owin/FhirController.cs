@@ -105,11 +105,17 @@ namespace Hl7.Fhir.WebApi
 
         internal static IFhirResourceServiceR4<IDependencyScope> GetResourceModel(string ResourceName, ModelBaseInputs<IDependencyScope> inputs)
         {
-            var model = WebApiConfig._systemService.GetResourceService(inputs, ResourceName);
+            try
+            {
+                var model = WebApiConfig._systemService.GetResourceService(inputs, ResourceName);
 
-            if (model != null)
-                return model;
-
+                if (model != null)
+                    return model;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+            }
             throw new FhirServerException(HttpStatusCode.NotFound, "Resource [" + ResourceName + "] is not supported on this server");
         }
 
@@ -139,11 +145,19 @@ namespace Hl7.Fhir.WebApi
             var buri = this.CalculateBaseURI("metadata");
             var inputs = GetInputs(buri);
 
-            Bundle outcome = GetSystemModel(inputs).ProcessBatch(inputs, batch).Result;
-            outcome.ResourceBase = inputs.BaseUri;
-            Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
-            outcome.SetAnnotation<SummaryType>(summary);
-            return Request.ResourceResponse(outcome, HttpStatusCode.OK);
+            try
+            {
+                Bundle outcome = GetSystemModel(inputs).ProcessBatch(inputs, batch).Result;
+                outcome.ResourceBase = inputs.BaseUri;
+                Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
+                outcome.SetAnnotation<SummaryType>(summary);
+                return Request.ResourceResponse(outcome, HttpStatusCode.OK);
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, "Batch/Transactions are not supported on this server");
+            }
         }
 
         // GET fhir/values
@@ -183,81 +197,89 @@ namespace Hl7.Fhir.WebApi
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
-            Resource resource = model.Get(id, vid, summary).Result;
-            if (resource != null)
+            try
             {
-                resource.ResourceBase = inputs.BaseUri;
-
-                if (resource is DomainResource)
+                Resource resource = model.Get(id, vid, summary).Result;
+                if (resource != null)
                 {
-                    DomainResource dr = resource as DomainResource;
-                    switch (summary)
+                    resource.ResourceBase = inputs.BaseUri;
+
+                    if (resource is DomainResource)
                     {
-                        case Hl7.Fhir.Rest.SummaryType.False:
-                            break;
-                        case Hl7.Fhir.Rest.SummaryType.True:
-                            // summary doesn't have the text in it.
-                            dr.Text = null;
-                            // there are no contained references in the summary form
-                            dr.Contained = null;
-
-                            // Add in the Meta Tag that indicates that this resource is only a partial
-                            resource.Meta.Tag = new List<Coding>
-                            {
-                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
-                            };
-                            break;
-                        case Hl7.Fhir.Rest.SummaryType.Text:
-                            // what do we need to filter here
-                            break;
-                        case Hl7.Fhir.Rest.SummaryType.Data:
-                            // summary doesn't have the text in it.
-                            dr.Text = null;
-                            // Add in the Meta Tag that indicates that this resource is only a partial
-                            resource.Meta.Tag = new List<Coding>
-                            {
-                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
-                            };
-                            break;
-                    }
-                }
-
-                if (ResourceName == "Binary")
-                {
-                    // We need to reset the accepts type so that the correct formatter is used on the way out.
-                    string formatParam = this.ControllerContext.Request.GetParameter("_format");
-                    if (string.IsNullOrEmpty(formatParam))
-                    {
-                        this.ControllerContext.Request.Headers.Accept.Clear();
-                        this.ControllerContext.Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue((resource as Binary).ContentType));
-                    }
-                }
-
-                var msg = Request.ResourceResponse(resource, HttpStatusCode.OK);
-                msg.Headers.Location = resource.ResourceIdentity().WithBase(resource.ResourceBase);
-                msg.Headers.Add("ETag", String.Format("\"{0}\"", resource.Meta.VersionId));
-
-                if (ResourceName == "Binary")
-                {
-                    // We need to reset the accepts type so that the correct formatter is used on the way out.
-                    string formatParam = this.ControllerContext.Request.GetParameter("_format");
-                    if (string.IsNullOrEmpty(formatParam))
-                    {
-                        msg.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                        DomainResource dr = resource as DomainResource;
+                        switch (summary)
                         {
-                            FileName = String.Format("fhir_binary_{0}_{1}.{2}",
-                              resource.Id,
-                              resource.Meta != null ? resource.Meta.VersionId : "0",
-                              GetFileExtensionForMimeType((resource as Binary).ContentType))
-                        };
+                            case Hl7.Fhir.Rest.SummaryType.False:
+                                break;
+                            case Hl7.Fhir.Rest.SummaryType.True:
+                                // summary doesn't have the text in it.
+                                dr.Text = null;
+                                // there are no contained references in the summary form
+                                dr.Contained = null;
+
+                                // Add in the Meta Tag that indicates that this resource is only a partial
+                                resource.Meta.Tag = new List<Coding>
+                            {
+                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
+                            };
+                                break;
+                            case Hl7.Fhir.Rest.SummaryType.Text:
+                                // what do we need to filter here
+                                break;
+                            case Hl7.Fhir.Rest.SummaryType.Data:
+                                // summary doesn't have the text in it.
+                                dr.Text = null;
+                                // Add in the Meta Tag that indicates that this resource is only a partial
+                                resource.Meta.Tag = new List<Coding>
+                            {
+                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
+                            };
+                                break;
+                        }
                     }
+
+                    if (ResourceName == "Binary")
+                    {
+                        // We need to reset the accepts type so that the correct formatter is used on the way out.
+                        string formatParam = this.ControllerContext.Request.GetParameter("_format");
+                        if (string.IsNullOrEmpty(formatParam))
+                        {
+                            this.ControllerContext.Request.Headers.Accept.Clear();
+                            this.ControllerContext.Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue((resource as Binary).ContentType));
+                        }
+                    }
+
+                    var msg = Request.ResourceResponse(resource, HttpStatusCode.OK);
+                    msg.Headers.Location = resource.ResourceIdentity().WithBase(resource.ResourceBase);
+                    msg.Headers.Add("ETag", String.Format("\"{0}\"", resource.Meta.VersionId));
+
+                    if (ResourceName == "Binary")
+                    {
+                        // We need to reset the accepts type so that the correct formatter is used on the way out.
+                        string formatParam = this.ControllerContext.Request.GetParameter("_format");
+                        if (string.IsNullOrEmpty(formatParam))
+                        {
+                            msg.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                            {
+                                FileName = String.Format("fhir_binary_{0}_{1}.{2}",
+                                  resource.Id,
+                                  resource.Meta != null ? resource.Meta.VersionId : "0",
+                                  GetFileExtensionForMimeType((resource as Binary).ContentType))
+                            };
+                        }
+                    }
+
+                    return msg;
                 }
 
-                return msg;
+                // this request is a "you wanted what?"
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-
-            // this request is a "you wanted what?"
-            return Request.CreateResponse(HttpStatusCode.NotFound);
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Get {ResourceName} is not supported on this server");
+            }
         }
 
         [HttpGet, Route("{ResourceName}/{id}/${operation}")]
@@ -271,22 +293,56 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
-            var resource = model.PerformOperation(id, operation, operationParameters, summary).Result;
-            return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/{id}/${operation}", resource);
+            try
+            {
+                var resource = model.PerformOperation(id, operation, operationParameters, summary).Result;
+                return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/{id}/${operation}", resource);
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
+        }
+
+        private static Parameters ConvertOperationParameters(string operation, Resource inputResource)
+        {
+            Parameters operationParameters;
+            if (inputResource is Parameters p)
+                operationParameters = p;
+            else
+            {
+                operationParameters = new Parameters();
+                if (operation == "convert")
+                    operationParameters.Parameter.Add(new Parameters.ParameterComponent() { Name = "input", Resource = inputResource });
+                else
+                    operationParameters.Parameter.Add(new Parameters.ParameterComponent() { Name = "resource", Resource = inputResource });
+            }
+
+            return operationParameters;
         }
 
         [HttpPost, Route("{ResourceName}/{id}/${operation}")]
-        public HttpResponseMessage PerformOperation(string ResourceName, string id, string operation, [FromBody] Parameters operationParameters)
+        public HttpResponseMessage PerformOperation(string ResourceName, string id, string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
             var inputs = GetInputs(buri);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
-            var resource = model.PerformOperation(id, operation, operationParameters, summary).Result;
-            return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/{id}/${operation}", resource);
+            try
+            {
+                var resource = model.PerformOperation(id, operation, operationParameters, summary).Result;
+                return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/{id}/${operation}", resource);
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
         }
 
         [HttpGet, Route("{ResourceName}/${operation}")]
@@ -300,22 +356,38 @@ namespace Hl7.Fhir.WebApi
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
-            var resource = model.PerformOperation(operation, operationParameters, summary).Result;
-            return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/${operation}", resource);
+            try
+            {
+                var resource = model.PerformOperation(operation, operationParameters, summary).Result;
+                return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/${operation}", resource);
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
         }
 
         [HttpPost, Route("{ResourceName}/${operation}")]
-        public HttpResponseMessage PerformOperation(string ResourceName, string operation, [FromBody] Parameters operationParameters)
+        public HttpResponseMessage PerformOperation(string ResourceName, string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("{ResourceName}");
             var inputs = GetInputs(buri);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
-            var resource = model.PerformOperation(operation, operationParameters, summary).Result;
-            return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/${operation}", resource);
+            try
+            {
+                var resource = model.PerformOperation(operation, operationParameters, summary).Result;
+                return PrepareOperationOutputMessage(inputs.BaseUri, $"/{ResourceName}/${operation}", resource);
+            }
+            catch (NotImplementedException)
+            {
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support operation [${operation}] on this server");
+            }
         }
 
         private HttpResponseMessage PrepareOperationOutputMessage(Uri baseUri, string ResourceAndOperationName, Resource resource)
@@ -369,16 +441,24 @@ namespace Hl7.Fhir.WebApi
         }
 
         [HttpPost, HttpGet, Route("${operation}")]
-        public HttpResponseMessage PerformOperation(string operation, [FromBody] Parameters operationParameters)
+        public HttpResponseMessage PerformOperation(string operation, [FromBody] Resource inputResource)
         {
             var buri = this.CalculateBaseURI("${operation}");
             var inputs = GetInputs(buri);
+            Parameters operationParameters = ConvertOperationParameters(operation, inputResource);
 
             Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
             ExtractParametersFromUrl(ref operationParameters, Request.TupledParameters(OperationQueryParameterNames));
 
-            Resource resource = GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary).Result;
-            return PrepareOperationOutputMessage(inputs.BaseUri, $"/${operation}", resource);
+            try
+            {
+                Resource resource = GetSystemModel(inputs).PerformOperation(inputs, operation, operationParameters, summary).Result;
+                return PrepareOperationOutputMessage(inputs.BaseUri, $"/${operation}", resource);
+            }
+            catch (NotImplementedException)
+            {
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"System operation [${operation}] is not supported on this server");
+            }
         }
 
         private void ExtractParametersFromUrl(ref Parameters operationParameters, IEnumerable<KeyValuePair<string, string>> enumerable)
@@ -424,12 +504,20 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            Bundle result = model.Search(parameters, pagesize, summary).Result;
-            result.ResourceBase = inputs.BaseUri;
+            try
+            {
+                Bundle result = model.Search(parameters, pagesize, summary).Result;
+                result.ResourceBase = inputs.BaseUri;
 
-            this.ControllerContext.Request.SaveEntry(result);
-            result.SetAnnotation<SummaryType>(summary);
-            return result;
+                this.ControllerContext.Request.SaveEntry(result);
+                result.SetAnnotation<SummaryType>(summary);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support searching on this server");
+            }
         }
 
         // Need the POST form of search going to "{ResourceName}/_search"
@@ -459,12 +547,20 @@ namespace Hl7.Fhir.WebApi
                 }
             }
 
-            Bundle result = model.Search(parameters, pagesize, summary).Result;
-            result.ResourceBase = inputs.BaseUri;
+            try
+            {
+                Bundle result = model.Search(parameters, pagesize, summary).Result;
+                result.ResourceBase = inputs.BaseUri;
 
-            this.ControllerContext.Request.SaveEntry(result);
-            result.SetAnnotation<SummaryType>(summary);
-            return result;
+                this.ControllerContext.Request.SaveEntry(result);
+                result.SetAnnotation<SummaryType>(summary);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support searching on this server");
+            }
         }
 
         // GET fhir/patient/_history
@@ -482,12 +578,20 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            // TODO: Locate the till parameter in the history
-            Bundle result = model.TypeHistory(since, null, pagesize,  summary).Result;
-            result.ResourceBase = inputs.BaseUri;
+            try
+            {
+                // TODO: Locate the till parameter in the history
+                Bundle result = model.TypeHistory(since, null, pagesize, summary).Result;
+                result.ResourceBase = inputs.BaseUri;
 
-            this.ControllerContext.Request.SaveEntry(result);
-            return result;
+                this.ControllerContext.Request.SaveEntry(result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support type level history on this server");
+            }
         }
 
         // GET fhir/patient/5/_history
@@ -506,28 +610,36 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            Bundle result = model.InstanceHistory(id, since, null, pagesize, summary).Result;
-            result.ResourceBase = inputs.BaseUri;
-            if (result.Total == 0)
+            try
             {
-                try
+                Bundle result = model.InstanceHistory(id, since, null, pagesize, summary).Result;
+                result.ResourceBase = inputs.BaseUri;
+                if (result.Total == 0)
                 {
-                    // Check to see if the item itself exists
-                    if (model.Get(id, null, Hl7.Fhir.Rest.SummaryType.True) == null)
+                    try
                     {
-                        // this resource does not exist to have a history
-                        throw new FhirServerException(HttpStatusCode.NotFound, "The resource was not found");
+                        // Check to see if the item itself exists
+                        if (model.Get(id, null, Hl7.Fhir.Rest.SummaryType.True) == null)
+                        {
+                            // this resource does not exist to have a history
+                            throw new FhirServerException(HttpStatusCode.NotFound, "The resource was not found");
+                        }
+                    }
+                    catch (FhirServerException ex)
+                    {
+                        if (ex.StatusCode != HttpStatusCode.Gone)
+                            throw ex;
                     }
                 }
-                catch (FhirServerException ex)
-                {
-                    if (ex.StatusCode != HttpStatusCode.Gone)
-                        throw ex;
-                }
-            }
 
-            this.ControllerContext.Request.SaveEntry(result);
-            return result;
+                this.ControllerContext.Request.SaveEntry(result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support instance level history on this server");
+            }
         }
 
         [HttpGet, Route("_history")]
@@ -543,11 +655,19 @@ namespace Hl7.Fhir.WebApi
             var inputs = GetInputs(buri);
             var model = GetSystemModel(inputs);
 
-            Bundle result = model.SystemHistory(inputs, since, null, pagesize, summary).Result;
-            result.ResourceBase = inputs.BaseUri;
+            try
+            {
+                Bundle result = model.SystemHistory(inputs, since, null, pagesize, summary).Result;
+                result.ResourceBase = inputs.BaseUri;
 
-            this.ControllerContext.Request.SaveEntry(result);
-            return result;
+                this.ControllerContext.Request.SaveEntry(result);
+                return result;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"System level history not supported on this server");
+            }
         }
 
 
@@ -567,7 +687,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Trace.WriteLine("POST: " + this.ControllerContext.Request.RequestUri.OriginalString);
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
 
             if (bodyResource == null)
             {
@@ -610,35 +730,37 @@ namespace Hl7.Fhir.WebApi
             var inputs = GetInputs(buri);
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            var result = await model.Create(bodyResource, null, null, null).ConfigureAwait(false);
-            this.ControllerContext.Request.SaveEntry(bodyResource);
-            result.ResourceBase = inputs.BaseUri;
-            var actualResource = result;
+            try
+            {
+                var result = await model.Create(bodyResource, null, null, null).ConfigureAwait(false);
+                this.ControllerContext.Request.SaveEntry(bodyResource);
+                result.ResourceBase = inputs.BaseUri;
+                var actualResource = result;
 
-            ResourceIdentity ri = null;
-            if (result is Bundle)
-            {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
-            else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
-            {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
-
-            // Check the prefer header
-            if (Request.Headers.Contains("Prefer"))
-            {
-                string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
-                if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
+                ResourceIdentity ri = null;
+                if (result is Bundle)
                 {
-                    if (!(result is OperationOutcome))
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+                else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
+                {
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+
+                // Check the prefer header
+                if (Request.Headers.Contains("Prefer"))
+                {
+                    string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
+                    if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
                     {
-                        OperationOutcome so = new OperationOutcome()
+                        if (!(result is OperationOutcome))
                         {
-                            Text = Utility.CreateNarative("Resource update")
-                        };
-                        so.Text.Status = Narrative.NarrativeStatus.Generated;
-                        so.Issue = new List<OperationOutcome.IssueComponent>
+                            OperationOutcome so = new OperationOutcome()
+                            {
+                                Text = Utility.CreateNarative("Resource update")
+                            };
+                            so.Text.Status = Narrative.NarrativeStatus.Generated;
+                            so.Issue = new List<OperationOutcome.IssueComponent>
                         {
                             new OperationOutcome.IssueComponent()
                             {
@@ -647,44 +769,50 @@ namespace Hl7.Fhir.WebApi
                                 Details = new CodeableConcept(null, null, "Update was completed")
                             }
                         };
-                        result = so;
+                            result = so;
+                        }
                     }
                 }
-            }
 
-            HttpResponseMessage returnMessage;
-            if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                returnMessage = Request.CreateResponse(HttpStatusCode.Created, result);
-            else
-                returnMessage = Request.CreateResponse(HttpStatusCode.OK, result);
+                HttpResponseMessage returnMessage;
+                if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                    returnMessage = Request.CreateResponse(HttpStatusCode.Created, result);
+                else
+                    returnMessage = Request.CreateResponse(HttpStatusCode.OK, result);
 
-            // Put in the "Location" header
-            if (ri != null)
-            {
-                returnMessage.Headers.Add("Location", ri.OriginalString);
-                Request.Properties.Add(Const.ResourceIdentityKey, ri.MakeRelative().OriginalString);
-            }
-            if (actualResource.Meta != null && !string.IsNullOrEmpty(actualResource.Meta.VersionId))
-            {
-                returnMessage.Headers.Add("ETag", String.Format("W/\"{0}\"", actualResource.Meta.VersionId));
-            }
-            if (actualResource.Meta != null && actualResource.Meta.LastUpdated.HasValue)
-            {
-                returnMessage.Content.Headers.LastModified = actualResource.Meta.LastUpdated.Value;
-                // returnMessage.Headers.Add("Last-Modified", actualResource.Meta.LastUpdated.Value.ToString("r"));
-            }
-
-            // Check the prefer header
-            if (Request.Headers.Contains("Prefer"))
-            {
-                string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
-                if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                // Put in the "Location" header
+                if (ri != null)
                 {
-                    returnMessage.Content = null;
+                    returnMessage.Headers.Add("Location", ri.OriginalString);
+                    Request.Properties.Add(Const.ResourceIdentityKey, ri.MakeRelative().OriginalString);
                 }
-            }
+                if (actualResource.Meta != null && !string.IsNullOrEmpty(actualResource.Meta.VersionId))
+                {
+                    returnMessage.Headers.Add("ETag", String.Format("W/\"{0}\"", actualResource.Meta.VersionId));
+                }
+                if (actualResource.Meta != null && actualResource.Meta.LastUpdated.HasValue)
+                {
+                    returnMessage.Content.Headers.LastModified = actualResource.Meta.LastUpdated.Value;
+                    // returnMessage.Headers.Add("Last-Modified", actualResource.Meta.LastUpdated.Value.ToString("r"));
+                }
 
-            return returnMessage;
+                // Check the prefer header
+                if (Request.Headers.Contains("Prefer"))
+                {
+                    string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
+                    if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                    {
+                        returnMessage.Content = null;
+                    }
+                }
+
+                return returnMessage;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support create on this server");
+            }
         }
 
         /// <summary>
@@ -695,7 +823,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="bodyResource"></param>
         /// <returns></returns>
         [HttpPut, Route("{ResourceName}")]
-        public HttpResponseMessage Put(string ResourceName, [FromBody]Resource bodyResource)
+        public HttpResponseMessage Put(string ResourceName, [FromBody] Resource bodyResource)
         {
             System.Diagnostics.Trace.WriteLine("PUT: " + this.ControllerContext.Request.RequestUri.OriginalString);
             var buri = this.CalculateBaseURI("{ResourceName}");
@@ -724,33 +852,35 @@ namespace Hl7.Fhir.WebApi
             // so.Success();
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            string ifMatch = null;
-            var conditionalSearchParams = this.ControllerContext.Request.RequestUri.ParseQueryString().TupledParameters();
-            if (conditionalSearchParams.Count() > 0)
+            try
             {
-                ifMatch = this.ControllerContext.Request.RequestUri.Query;
-            }
-
-            var result = model.Create(bodyResource, ifMatch, null, null).Result;
-            // if (bodyResource is Binary)
-            this.ControllerContext.Request.SaveEntry(bodyResource);
-            result.ResourceBase = inputs.BaseUri;
-            var actualResource = result;
-
-            // Check the prefer header
-            if (Request.Headers.Contains("Prefer"))
-            {
-                string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
-                if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
+                string ifMatch = null;
+                var conditionalSearchParams = this.ControllerContext.Request.RequestUri.ParseQueryString().TupledParameters();
+                if (conditionalSearchParams.Count() > 0)
                 {
-                    if (!(result is OperationOutcome))
+                    ifMatch = this.ControllerContext.Request.RequestUri.Query;
+                }
+
+                var result = model.Create(bodyResource, ifMatch, null, null).Result;
+                // if (bodyResource is Binary)
+                this.ControllerContext.Request.SaveEntry(bodyResource);
+                result.ResourceBase = inputs.BaseUri;
+                var actualResource = result;
+
+                // Check the prefer header
+                if (Request.Headers.Contains("Prefer"))
+                {
+                    string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
+                    if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
                     {
-                        so = new OperationOutcome()
+                        if (!(result is OperationOutcome))
                         {
-                            Text = Utility.CreateNarative("Resource update")
-                        };
-                        so.Text.Status = Narrative.NarrativeStatus.Generated;
-                        so.Issue = new List<OperationOutcome.IssueComponent>
+                            so = new OperationOutcome()
+                            {
+                                Text = Utility.CreateNarative("Resource update")
+                            };
+                            so.Text.Status = Narrative.NarrativeStatus.Generated;
+                            so.Issue = new List<OperationOutcome.IssueComponent>
                         {
                             new OperationOutcome.IssueComponent()
                             {
@@ -759,55 +889,60 @@ namespace Hl7.Fhir.WebApi
                                 Details = new CodeableConcept(null, null, "Update was completed")
                             }
                         };
-                        result = so;
+                            result = so;
+                        }
                     }
                 }
-            }
 
-            HttpResponseMessage returnMessage;
-            if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                returnMessage = Request.CreateResponse(HttpStatusCode.Created, result);
-            else
-                returnMessage = Request.CreateResponse(HttpStatusCode.OK, result);
+                HttpResponseMessage returnMessage;
+                if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                    returnMessage = Request.CreateResponse(HttpStatusCode.Created, result);
+                else
+                    returnMessage = Request.CreateResponse(HttpStatusCode.OK, result);
 
-            // Put in the "Location" header
-            if (actualResource is Bundle)
-            {
-                returnMessage.Headers.Add("Location", result.ResourceIdentity(actualResource.ResourceBase).OriginalString);
-                Request.Properties.Add(Const.ResourceIdentityKey, actualResource.ResourceIdentity().MakeRelative().OriginalString);
-            }
-            else if (!(actualResource is OperationOutcome) && !string.IsNullOrEmpty(actualResource.Id))
-            {
-                returnMessage.Headers.Add("Location", actualResource.ResourceIdentity(actualResource.ResourceBase).OriginalString);
-                Request.Properties.Add(Const.ResourceIdentityKey, actualResource.ResourceIdentity().MakeRelative().OriginalString);
-            }
-            if (actualResource.Meta != null && !string.IsNullOrEmpty(actualResource.Meta.VersionId))
-            {
-                returnMessage.Headers.Add("ETag", String.Format("W/\"{0}\"", actualResource.Meta.VersionId));
-            }
-            if (actualResource.Meta != null && actualResource.Meta.LastUpdated.HasValue)
-            {
-                returnMessage.Content.Headers.LastModified = actualResource.Meta.LastUpdated.Value;
-                // returnMessage.Headers.Add("Last-Modified", actualResource.Meta.LastUpdated.Value.ToString("r"));
-            }
-
-            // Check the prefer header
-            if (Request.Headers.Contains("Prefer"))
-            {
-                string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
-                if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                // Put in the "Location" header
+                if (actualResource is Bundle)
                 {
-                    returnMessage.Content = null;
+                    returnMessage.Headers.Add("Location", result.ResourceIdentity(actualResource.ResourceBase).OriginalString);
+                    Request.Properties.Add(Const.ResourceIdentityKey, actualResource.ResourceIdentity().MakeRelative().OriginalString);
                 }
+                else if (!(actualResource is OperationOutcome) && !string.IsNullOrEmpty(actualResource.Id))
+                {
+                    returnMessage.Headers.Add("Location", actualResource.ResourceIdentity(actualResource.ResourceBase).OriginalString);
+                    Request.Properties.Add(Const.ResourceIdentityKey, actualResource.ResourceIdentity().MakeRelative().OriginalString);
+                }
+                if (actualResource.Meta != null && !string.IsNullOrEmpty(actualResource.Meta.VersionId))
+                {
+                    returnMessage.Headers.Add("ETag", String.Format("W/\"{0}\"", actualResource.Meta.VersionId));
+                }
+                if (actualResource.Meta != null && actualResource.Meta.LastUpdated.HasValue)
+                {
+                    returnMessage.Content.Headers.LastModified = actualResource.Meta.LastUpdated.Value;
+                    // returnMessage.Headers.Add("Last-Modified", actualResource.Meta.LastUpdated.Value.ToString("r"));
+                }
+
+                // Check the prefer header
+                if (Request.Headers.Contains("Prefer"))
+                {
+                    string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
+                    if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                    {
+                        returnMessage.Content = null;
+                    }
+                }
+
+                return returnMessage;
             }
-
-            return returnMessage;
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support update on this server");
+            }
         }
-
 
         // PUT fhir/Patient/5
         [HttpPut, Route("{ResourceName}/{id}")]
-        public HttpResponseMessage Put(string ResourceName, string id, [FromBody]Resource bodyResource)
+        public HttpResponseMessage Put(string ResourceName, string id, [FromBody] Resource bodyResource)
         {
             System.Diagnostics.Trace.WriteLine("PUT: " + this.ControllerContext.Request.RequestUri.OriginalString);
             var buri = this.CalculateBaseURI("{ResourceName}");
@@ -828,35 +963,37 @@ namespace Hl7.Fhir.WebApi
 
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            var result = model.Create(bodyResource, null, null, null).Result;
-            this.ControllerContext.Request.SaveEntry(bodyResource);
-            result.ResourceBase = inputs.BaseUri;
-            var actualResource = result;
+            try
+            {
+                var result = model.Create(bodyResource, null, null, null).Result;
+                this.ControllerContext.Request.SaveEntry(bodyResource);
+                result.ResourceBase = inputs.BaseUri;
+                var actualResource = result;
 
-            ResourceIdentity ri = null;
-            if (result is Bundle)
-            {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
-            else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
-            {
-                ri = result.ResourceIdentity(result.ResourceBase);
-            }
-
-            // Check the prefer header
-            if (Request.Headers.Contains("Prefer"))
-            {
-                string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
-                if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
+                ResourceIdentity ri = null;
+                if (result is Bundle)
                 {
-                    if (!(result is OperationOutcome))
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+                else if (!(result is OperationOutcome) && !string.IsNullOrEmpty(result.Id))
+                {
+                    ri = result.ResourceIdentity(result.ResourceBase);
+                }
+
+                // Check the prefer header
+                if (Request.Headers.Contains("Prefer"))
+                {
+                    string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
+                    if (preferHeader != null && preferHeader.ToLower() == "return=operationoutcome")
                     {
-                        OperationOutcome so = new OperationOutcome()
+                        if (!(result is OperationOutcome))
                         {
-                            Text = Utility.CreateNarative("Resource update")
-                        };
-                        so.Text.Status = Narrative.NarrativeStatus.Generated;
-                        so.Issue = new List<OperationOutcome.IssueComponent>
+                            OperationOutcome so = new OperationOutcome()
+                            {
+                                Text = Utility.CreateNarative("Resource update")
+                            };
+                            so.Text.Status = Narrative.NarrativeStatus.Generated;
+                            so.Issue = new List<OperationOutcome.IssueComponent>
                         {
                             new OperationOutcome.IssueComponent()
                             {
@@ -865,44 +1002,50 @@ namespace Hl7.Fhir.WebApi
                                 Details = new CodeableConcept(null, null, "Update was completed")
                             }
                         };
-                        result = so;
+                            result = so;
+                        }
                     }
                 }
-            }
 
-            HttpResponseMessage returnMessage;
-            if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
-                returnMessage = Request.CreateResponse(HttpStatusCode.Created, result);
-            else
-                returnMessage = Request.CreateResponse(HttpStatusCode.OK, result);
+                HttpResponseMessage returnMessage;
+                if (bodyResource.Annotation<CreateOrUpate>() == CreateOrUpate.Create)
+                    returnMessage = Request.CreateResponse(HttpStatusCode.Created, result);
+                else
+                    returnMessage = Request.CreateResponse(HttpStatusCode.OK, result);
 
-            // Put in the "Location" header
-            if (ri != null)
-            {
-                returnMessage.Headers.Add("Location", ri.OriginalString);
-                Request.Properties.Add(Const.ResourceIdentityKey, ri.MakeRelative().OriginalString);
-            }
-            if (actualResource.Meta != null && !string.IsNullOrEmpty(actualResource.Meta.VersionId))
-            {
-                returnMessage.Headers.Add("ETag", String.Format("W/\"{0}\"", actualResource.Meta.VersionId));
-            }
-            if (actualResource.Meta != null && actualResource.Meta.LastUpdated.HasValue)
-            {
-                // returnMessage.Headers.CacheControl.
-                returnMessage.Content.Headers.LastModified = actualResource.Meta.LastUpdated.Value;
-            }
-
-            // Check the prefer header
-            if (Request.Headers.Contains("Prefer"))
-            {
-                string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
-                if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                // Put in the "Location" header
+                if (ri != null)
                 {
-                    returnMessage.Content = null;
+                    returnMessage.Headers.Add("Location", ri.OriginalString);
+                    Request.Properties.Add(Const.ResourceIdentityKey, ri.MakeRelative().OriginalString);
                 }
-            }
+                if (actualResource.Meta != null && !string.IsNullOrEmpty(actualResource.Meta.VersionId))
+                {
+                    returnMessage.Headers.Add("ETag", String.Format("W/\"{0}\"", actualResource.Meta.VersionId));
+                }
+                if (actualResource.Meta != null && actualResource.Meta.LastUpdated.HasValue)
+                {
+                    // returnMessage.Headers.CacheControl.
+                    returnMessage.Content.Headers.LastModified = actualResource.Meta.LastUpdated.Value;
+                }
 
-            return returnMessage;
+                // Check the prefer header
+                if (Request.Headers.Contains("Prefer"))
+                {
+                    string preferHeader = Request.Headers.GetValues("Prefer").FirstOrDefault();
+                    if (preferHeader != null && preferHeader.ToLower() == "return=minimal")
+                    {
+                        returnMessage.Content = null;
+                    }
+                }
+
+                return returnMessage;
+            }
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support update on this server");
+            }
         }
 
         // DELETE fhir/values/5
@@ -911,7 +1054,7 @@ namespace Hl7.Fhir.WebApi
         {
             System.Diagnostics.Trace.WriteLine("DELETE: " + this.ControllerContext.Request.RequestUri.OriginalString);
             var buri = this.CalculateBaseURI("{ResourceName}");
-            
+
 
             var inputs = GetInputs(buri);
 
@@ -923,17 +1066,25 @@ namespace Hl7.Fhir.WebApi
             }
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            string deletedIdentity = model.Delete(id, null).Result;
-            Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
-
-            var msg = Request.CreateResponse(HttpStatusCode.NoContent);
-            if (!string.IsNullOrEmpty(deletedIdentity))
+            try
             {
-                ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
-                msg.Headers.Add("ETag", String.Format("W/\"{0}\"", ri.VersionId));
+                string deletedIdentity = model.Delete(id, null).Result;
+                Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
+
+                var msg = Request.CreateResponse(HttpStatusCode.NoContent);
+                if (!string.IsNullOrEmpty(deletedIdentity))
+                {
+                    ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
+                    msg.Headers.Add("ETag", String.Format("W/\"{0}\"", ri.VersionId));
+                }
+                return msg;
+                // for an OperationOutcome return would need to return accepted
             }
-            return msg;
-            // for an OperationOutcome return would need to return accepted
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support delete on this server");
+            }
         }
 
         // DELETE fhir/Patient?identifier=http://example.org/demo|34
@@ -971,20 +1122,28 @@ namespace Hl7.Fhir.WebApi
             }
             IFhirResourceServiceR4<IDependencyScope> model = GetResourceModel(ResourceName, inputs);
 
-            string ifMatch = Request.RequestUri.Query;
-            if (ifMatch.StartsWith("?"))
-                ifMatch = ifMatch.Substring(1);
-            string deletedIdentity = model.Delete(null, ifMatch).Result;
-            Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
-
-            var msg = Request.CreateResponse(HttpStatusCode.NoContent);
-            if (!string.IsNullOrEmpty(deletedIdentity))
+            try
             {
-                ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
-                msg.Headers.Add("ETag", String.Format("W/\"{0}\"", ri.VersionId));
+                string ifMatch = Request.RequestUri.Query;
+                if (ifMatch.StartsWith("?"))
+                    ifMatch = ifMatch.Substring(1);
+                string deletedIdentity = model.Delete(null, ifMatch).Result;
+                Request.Properties.Add(Const.ResourceIdentityKey, deletedIdentity);
+
+                var msg = Request.CreateResponse(HttpStatusCode.NoContent);
+                if (!string.IsNullOrEmpty(deletedIdentity))
+                {
+                    ResourceIdentity ri = new ResourceIdentity(deletedIdentity);
+                    msg.Headers.Add("ETag", String.Format("W/\"{0}\"", ri.VersionId));
+                }
+                return msg;
+                // for an OperationOutcome return would need to return accepted
             }
-            return msg;
-            // for an OperationOutcome return would need to return accepted
+            catch (NotImplementedException)
+            {
+                // This type of exception is perfectly fine and expected, don't want the exception being otherwise caught
+                throw new FhirServerException(HttpStatusCode.NotImplemented, $"Resource [{ResourceName}] does not support conditional delete on this server");
+            }
         }
     }
 }

@@ -7,17 +7,21 @@ using System.Linq;
 using Hl7.Fhir.Utility;
 using System.Net;
 using System.Runtime.CompilerServices;
+using Hl7.Fhir.WebApi.DemoEntityModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static Hl7.Fhir.WebApi.DemoSearchIndexer;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system
     /// </summary>
-    public class DirectorySystemService<TSP> : Hl7.Fhir.WebApi.IFhirSystemServiceR4<TSP>
+    public class SqliteSystemService<TSP> : Hl7.Fhir.WebApi.IFhirSystemServiceR4<TSP>
         where TSP : class
     {
-        public DirectorySystemService()
+        public SqliteSystemService()
         {
         }
 
@@ -25,13 +29,20 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         /// The File system directory that will be scanned for the storage of FHIR resources
         /// </summary>
         public static string Directory { get; set; }
-        private SearchIndexer _indexer;
+        private DemoSearchIndexer _indexer;
         public int DefaultPageSize { get; set; } = 40;
 
-        public void InitializeIndexes()
+        private FhirDbContext GetFhirDbContext(TSP services)
         {
-            _indexer = new SearchIndexer();
-            _indexer.Initialize(Directory);
+            if (services is System.IServiceProvider sp)
+            {
+                return sp.GetService<FhirDbContext>();
+            }
+            //if (services is System.Web.Http.Dependencies.IDependencyScope)
+            //{
+
+            //}
+            return null;
         }
 
         public async System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<TSP> request, SummaryType summary)
@@ -77,27 +88,41 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
-            return new DirectoryResourceService<TSP>() { RequestDetails = request, ResourceName = resourceName, ResourceDirectory = Directory, Indexer = _indexer };
+            FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
+            if (_indexer == null)
+            {
+                _indexer = new DemoSearchIndexer();
+                _indexer.Initialize(db);
+            }
+            return new SqliteResourceService<TSP>() { RequestDetails = request, ResourceName = resourceName, ResourceDirectory = Directory, Indexer = _indexer, db = db };
         }
 
-        public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, SummaryType summary)
+        public async System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, SummaryType summary)
         {
             if (operation == "convert")
             {
                 Resource resource = operationParameters.GetResource("input");
                 if (resource != null)
-                    return Task<Resource>.FromResult(resource);
+                    return resource;
                 OperationOutcome outcome = new OperationOutcome();
-                return Task<Resource>.FromResult(outcome as Resource);
+                outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Severity = OperationOutcome.IssueSeverity.Error,
+                    Code = OperationOutcome.IssueType.Value,
+                    Details = new CodeableConcept() { Text = "Missing resource to convert" }
+                });
+                return outcome as Resource;
             }
             if (operation == "count-em")
             {
                 var result = new OperationOutcome();
+                FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
+                long items = db.Resource_Header.Count(); // yes not async, the other non async call - only used in unit tests
                 result.Issue.Add(new OperationOutcome.IssueComponent()
                 {
                     Code = OperationOutcome.IssueType.Informational,
                     Severity = OperationOutcome.IssueSeverity.Information,
-                    Details = new CodeableConcept(null, null, $"All resource type instances: {System.IO.Directory.EnumerateFiles(Directory, $"*.xml").Count()}")
+                    Details = new CodeableConcept(null, null, $"All resource type instances: {items}")
                 });
                 if (request.Headers.Any())
                 {
@@ -109,23 +134,15 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                         Details = new CodeableConcept(null, null, headers)
                     });
                 }
-                return System.Threading.Tasks.Task.FromResult<Resource>(result);
-            }
-            if (operation == "search-cache-write")
-            {
-                _indexer.WriteCache(Directory);
-                var result = new OperationOutcome();
-                result.Issue.Add(new OperationOutcome.IssueComponent()
-                {
-                    Code = OperationOutcome.IssueType.Informational,
-                    Severity = OperationOutcome.IssueSeverity.Information,
-                    Details = new CodeableConcept(null, null, $"Search Cache updated")
-                });
-                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+                return result;
             }
             if (operation == "search-cache-rescan")
             {
-                _indexer.ScanDirectory(Directory);
+                FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
+                await db.Database.EnsureDeletedAsync();
+                await db.Database.EnsureCreatedAsync();
+
+                await _indexer.ScanDirectory(db, Directory);
                 var result = new OperationOutcome();
                 result.Issue.Add(new OperationOutcome.IssueComponent()
                 {
@@ -133,11 +150,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     Severity = OperationOutcome.IssueSeverity.Information,
                     Details = new CodeableConcept(null, null, $"Search Cache re-scanned")
                 });
-                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+                return result;
             }
             if (operation == "search-cache-delete")
             {
-                _indexer.DeleteSearchCache(Directory);
+                FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
+                _indexer.DeleteSearchCache(db);
                 var result = new OperationOutcome();
                 result.Issue.Add(new OperationOutcome.IssueComponent()
                 {
@@ -145,7 +163,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     Severity = OperationOutcome.IssueSeverity.Information,
                     Details = new CodeableConcept(null, null, $"Search Cache deleted")
                 });
-                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+                return result;
             }
 
             throw new NotImplementedException();
@@ -164,7 +182,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task<Bundle> SystemHistory(ModelBaseInputs<TSP> request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public async System.Threading.Tasks.Task<Bundle> SystemHistory(ModelBaseInputs<TSP> request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta();
@@ -172,24 +190,23 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var parser = new Fhir.Serialization.FhirXmlParser();
-            var files = System.IO.Directory.EnumerateFiles(Directory, "*.*.*.xml");
-            foreach (var filename in files)
+            FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
+            var resources = await _indexer.SystemHistory(db, since, Till, Count);
+
+            foreach (SearchResourceResult item in resources)
             {
-                if (filename.EndsWith("..xml")) // this is the current version file, the version number file will have the real data
-                    continue;
-                var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
-                result.AddResourceEntry(resource,
-                    ResourceIdentity.Build(request.BaseUri,
-                        resource.TypeName,
-                        resource.Id,
-                        resource.Meta.VersionId).OriginalString);
+                result.Entry.Add(new Bundle.EntryComponent()
+                {
+                    Resource = item.Resource,
+                    FullUrl = ResourceIdentity.Build(request.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    Request = item.Request
+                });
             }
             result.Total = result.Entry.Count;
 
             // also need to set the page links
 
-            return System.Threading.Tasks.Task.FromResult(result);
+            return result;
         }
     }
 }

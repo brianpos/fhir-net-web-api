@@ -8,73 +8,51 @@ using System.Threading.Tasks;
 using System.Linq;
 using Hl7.Fhir.Support;
 using System.IO;
+using Hl7.Fhir.WebApi.DemoEntityModels;
+using static Hl7.Fhir.WebApi.DemoSearchIndexer;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
-    public class DirectoryResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
+    public class SqliteResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
         where TSP : class
     {
         public ModelBaseInputs<TSP> RequestDetails { get; set; }
 
         public string ResourceName { get; set; }
         public string ResourceDirectory { get; set; }
-        public SearchIndexer Indexer { get; set; }
+        public DemoSearchIndexer Indexer { get; set; }
+        internal FhirDbContext db { get; set; }
 
-
-        public Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
+        public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-create");
 
-            if (String.IsNullOrEmpty(resource.Id))
-                resource.Id = Guid.NewGuid().ToFhirId();
-            if (resource.Meta == null)
-                resource.Meta = new Meta();
-            resource.Meta.LastUpdated = DateTime.Now;
-
-            // Get the latest version number
-            int versionNumber = 1; // default will be 1
-            foreach (var file in Directory.EnumerateFiles(ResourceDirectory, $"{resource.TypeName}.{resource.Id}.*.xml"))
-            {
-                string versionSection = file.Substring(0, file.LastIndexOf('.'));
-                versionSection = versionSection.Substring(versionSection.LastIndexOf('.') + 1);
-                int verFile;
-                if (int.TryParse(versionSection, out verFile))
-                {
-                    if (verFile >= versionNumber)
-                        versionNumber = verFile+1;
-                }
-            }
-            resource.Meta.VersionId = versionNumber.ToString();
-            string path = Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}.{resource.Meta.VersionId}.xml");
-            File.WriteAllText(
-                path,
-                new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
-            path = Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}..xml"); // the current version of the resource
-            File.WriteAllText(
-                path,
-                new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
-            resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
             // and update the search index
-            Indexer.ScanResource(resource, Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}..xml"));
-            return System.Threading.Tasks.Task.FromResult(resource);
+            await Indexer.StoreResource(db, resource);
+            resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
+            return resource;
         }
 
-        public Task<string> Delete(string id, string ifMatch)
+        public async Task<string> Delete(string id, string ifMatch)
         {
-            string path = Path.Combine(ResourceDirectory, $"{this.ResourceName}.{id}..xml");
-            if (File.Exists(path))
-                File.Delete(path);
-            return System.Threading.Tasks.Task.FromResult<string>(null);
+            int version = await Indexer.DeleteResource(db, ResourceName, id);
+            if (version == -1)
+            {
+                throw new FhirServerException(System.Net.HttpStatusCode.NotFound, "Resource ID not found");
+            }
+            return $"{ResourceName}/{id}/_history/{version}";
         }
 
-        public Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
+        public async Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-get");
 
-            string path = Path.Combine(ResourceDirectory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
-            if (File.Exists(path))
-                return System.Threading.Tasks.Task.FromResult(new Fhir.Serialization.FhirXmlParser().Parse<Resource>(File.ReadAllText(path)));
-            throw new FhirServerException(System.Net.HttpStatusCode.Gone, "It might have been deleted!");
+            var result = await Indexer.Get(db, ResourceName, resourceId, VersionId);
+            if (result == null)
+                throw new FhirServerException(System.Net.HttpStatusCode.NotFound, "Resource ID/Version not found");
+            if (result.IsDeleted)
+                throw new FhirServerException(System.Net.HttpStatusCode.Gone, $"{ResourceName}/{resourceId} has been deleted");
+            return result.Resource;
         }
 
         public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
@@ -95,7 +73,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Update },
                 new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Delete },
                 new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.SearchType },
-                //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread },
                 //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance },
                 //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryType },
             };
@@ -103,7 +81,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult(rt);
         }
 
-        public Task<Bundle> InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public async Task<Bundle> InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta()
@@ -113,25 +91,22 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var parser = new Fhir.Serialization.FhirXmlParser();
-            var files = Directory.EnumerateFiles(ResourceDirectory, $"{ResourceName}.{ResourceId}.?*.xml");
-            foreach (var filename in files)
+            var resources = await Indexer.InstanceHistory(db, ResourceName, ResourceId, since, Till, Count);
+
+            foreach (SearchResourceResult item in resources)
             {
-                if (filename.EndsWith("..xml"))
-                    continue;
-                var resource = parser.Parse<Resource>(File.ReadAllText(filename));
-                result.AddResourceEntry(resource,
-                    ResourceIdentity.Build(RequestDetails.BaseUri,
-                        resource.TypeName,
-                        resource.Id,
-                        resource.Meta.VersionId).OriginalString);
+                result.Entry.Add(new Bundle.EntryComponent()
+                {
+                    Resource = item.Resource,
+                    FullUrl = ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    Request = item.Request
+                });
             }
             result.Total = result.Entry.Count;
-            result.Entry.Sort((x, y) => { return y.Resource.Meta.VersionId.CompareTo(x.Resource.Meta.VersionId); });
 
             // also need to set the page links
 
-            return System.Threading.Tasks.Task.FromResult(result);
+            return result;
         }
 
         public Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
@@ -174,7 +149,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
+        public async Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
         {
             // This is a Brute force search implementation - just scan all the files
             Bundle resource = new Bundle();
@@ -187,20 +162,17 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
             Dictionary<string, Resource> entries = new Dictionary<string, Resource>();
             var parser = new Hl7.Fhir.Serialization.FhirXmlParser();
-            string filter = $"{ResourceName}.*..xml";
-            IEnumerable<string> filenames = null;
+            IEnumerable<long> filenames = null;
             var idparam = parameters.Where(kp => kp.Key == "_id");
             List<string> usedParameters = new List<string>();
             if (idparam.Any())
             {
                 // Even though this is a trashy demo app, don't permit walking the file system
-                filter = $"{ResourceName}.{idparam.First().Value.Replace("/", "")}.*.xml";
-                filenames = Directory.EnumerateFiles(ResourceDirectory, filter);
                 usedParameters.Add("_id");
             }
             foreach (var p in parameters)
             {
-                var r = Indexer.Search(ResourceName, p.Key, p.Value);
+                var r = await Indexer.Search(db, ResourceName, p.Key, p.Value);
                 if (r != null)
                 {
                     if (filenames == null)
@@ -210,31 +182,16 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     usedParameters.Add(p.Key);
                 }
             }
-            if (filenames == null)
-                filenames = Directory.EnumerateFiles(ResourceDirectory, filter);
-            foreach (var filename in filenames)
+            var searchResources = db.Resource_Header.AsQueryable();
+            if (filenames?.Any() == true)
+                searchResources = searchResources.Where(r => filenames.Contains(r.internal_id));
+            else
+                searchResources = searchResources.Where(r => r.ResourceType == ResourceName);
+
+            foreach (var resourceItem in searchResources)
             {
-                if (!filename.EndsWith("..xml")) // skip over the version history items
-                    continue;
-                if (File.Exists(filename))
-                {
-                    using (FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
-                        var resourceEntry = parser.Parse<Resource>(xr);
-                        if (entries.ContainsKey(resourceEntry.Id))
-                        {
-                            if (String.Compare(entries[resourceEntry.Id].Meta.VersionId, resourceEntry.Meta.VersionId) < 0)
-                                entries[resource.Id] = resourceEntry;
-                        }
-                        else
-                            entries.Add(resourceEntry.Id, resourceEntry);
-                    }
-                }
-                else
-                {
-                    System.Diagnostics.Trace.WriteLine($"Search data out of date for file likely deleted file: {filename}");
-                }
+                var resourceEntry = parser.Parse<Resource>(resourceItem.contentXML);
+                entries.Add(resourceEntry.Id, resourceEntry);
             }
             foreach (var item in entries.Values)
             {
@@ -266,10 +223,10 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     };
             }
 
-            return System.Threading.Tasks.Task.FromResult(resource);
+            return resource;
         }
 
-        public Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        public async Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta()
@@ -279,25 +236,22 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var parser = new Fhir.Serialization.FhirXmlParser();
-            var files = Directory.EnumerateFiles(ResourceDirectory, $"{ResourceName}.*.*.xml");
-            foreach (var filename in files)
+            var resources = await Indexer.TypeHistory(db, ResourceName, since, Till, Count);
+
+            foreach (SearchResourceResult item in resources)
             {
-                if (filename.EndsWith("..xml")) // this is the current version file, the version number file will have the real data
-                    continue;
-                var resource = parser.Parse<Resource>(File.ReadAllText(filename));
-                result.AddResourceEntry(resource,
-                    ResourceIdentity.Build(RequestDetails.BaseUri,
-                        resource.TypeName,
-                        resource.Id,
-                        resource.Meta.VersionId).OriginalString);
+                result.Entry.Add(new Bundle.EntryComponent()
+                {
+                    Resource = item.Resource,
+                    FullUrl = ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    Request = item.Request
+                });
             }
             result.Total = result.Entry.Count;
-            result.Entry.Sort((x, y) => { return y.Resource.Meta.LastUpdated.Value.CompareTo(x.Resource.Meta.LastUpdated.Value); });
 
             // also need to set the page links
 
-            return System.Threading.Tasks.Task.FromResult(result);
+            return result;
         }
     }
 }

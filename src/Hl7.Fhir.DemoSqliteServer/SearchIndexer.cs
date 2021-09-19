@@ -21,6 +21,7 @@ using Hl7.FhirPath.Sprache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Task = System.Threading.Tasks.Task;
+using System.Threading;
 
 namespace Hl7.Fhir.DemoSqliteFhirServer
 {
@@ -58,7 +59,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             db.Database.EnsureCreated();
         }
 
-        public async Task ScanDirectory(FhirDbContext db, string directory)
+        public async Task ScanDirectory(CancellationToken cancellationToken, FhirDbContext db, string directory)
         {
             var parser = new Fhir.Serialization.FhirXmlParser();
             var files = System.IO.Directory.EnumerateFiles(directory, "*.*.*.xml");
@@ -66,7 +67,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             {
                 if (!filename.EndsWith("..xml")) // skip over the version history items
                     continue;
-                await ScanResource(db, parser, filename);
+                await ScanResource(cancellationToken, db, parser, filename);
             }
         }
 
@@ -75,7 +76,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             db.Database.EnsureDeleted();
         }
 
-        public async Task<IEnumerable<long>> Search(FhirDbContext db, string resourceType, string parameter, string value)
+        public async Task<IEnumerable<long>> Search(CancellationToken cancellationToken, FhirDbContext db, string resourceType, string parameter, string value)
         {
             IEnumerable<long> internal_ids = new long[] { };
             var searchparameters = ModelInfo.SearchParameters.Where(r => r.Resource == resourceType && r.Name == parameter && !String.IsNullOrEmpty(r.Expression));
@@ -86,13 +87,13 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 List<string> items = new List<string>();
                 if (index.Type == SearchParamType.String)
                 {
-                    var results = await db.SearchIndexString.Where(i => i.Path == key && i.Value.StartsWith(value)).ToListAsync();
+                    var results = await db.SearchIndexString.Where(i => i.Path == key && i.Value.StartsWith(value)).ToListAsync(cancellationToken);
                     internal_ids = internal_ids.Union(results.Select(r => r.internal_id));
                     return internal_ids;
                 }
                 else
                 {
-                    var results = await db.SearchIndexString.Where(i => i.Path == key && i.Value == value).ToListAsync();
+                    var results = await db.SearchIndexString.Where(i => i.Path == key && i.Value == value).ToListAsync(cancellationToken);
                     internal_ids = internal_ids.Union(results.Select(r => r.internal_id));
                     return internal_ids;
                 }
@@ -100,11 +101,11 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             return null;
         }
 
-        public async Task<GetResourceResult> Get(FhirDbContext db, string ResourceType, string Id, string version = null)
+        public async Task<GetResourceResult> Get(CancellationToken cancellationToken, FhirDbContext db, string ResourceType, string Id, string version = null)
         {
             if (version == null)
             {
-                var record = await db.Resource_Header.FirstOrDefaultAsync(r => r.resource_id == Id && r.ResourceType == ResourceType).ConfigureAwait(false);
+                var record = await db.Resource_Header.FirstOrDefaultAsync(r => r.resource_id == Id && r.ResourceType == ResourceType, cancellationToken).ConfigureAwait(false);
                 if (record == null)
                     return null;
                 if (record.deleted)
@@ -115,7 +116,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             }
             if (int.TryParse(version, out var versionNo))
             {
-                var record = await db.Resource_History.FirstOrDefaultAsync(r => r.resource_id == Id && r.ResourceType == ResourceType && r.version_id == versionNo).ConfigureAwait(false);
+                var record = await db.Resource_History.FirstOrDefaultAsync(r => r.resource_id == Id && r.ResourceType == ResourceType && r.version_id == versionNo, cancellationToken).ConfigureAwait(false);
                 if (record == null)
                     return null;
                 if (record.deleted)
@@ -133,7 +134,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             return null;
         }
 
-        internal async Task<IEnumerable<SearchResourceResult>> InstanceHistory(FhirDbContext db, string resourceName, string resourceId, DateTimeOffset? since, DateTimeOffset? till, int? count)
+        internal async Task<IEnumerable<SearchResourceResult>> InstanceHistory(CancellationToken cancellationToken, FhirDbContext db, string resourceName, string resourceId, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
             List<SearchResourceResult> result = new List<SearchResourceResult>();
             var parser = new Fhir.Serialization.FhirXmlParser();
@@ -145,7 +146,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             query = query.OrderByDescending(o => o.internal_id);
             if (count.HasValue)
                 query = query.Take(count.Value);
-            var queryResults = await query.ToListAsync();
+            var queryResults = await query.ToListAsync(cancellationToken);
             foreach (var item in queryResults)
             {
                 PrepareHistoryResult(result, parser, item);
@@ -182,7 +183,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             }
         }
 
-        internal async Task<IEnumerable<SearchResourceResult>> TypeHistory(FhirDbContext db, string resourceName, DateTimeOffset? since, DateTimeOffset? till, int? count)
+        internal async Task<IEnumerable<SearchResourceResult>> TypeHistory(CancellationToken cancellationToken, FhirDbContext db, string resourceName, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
             List<SearchResourceResult> result = new List<SearchResourceResult>();
             var parser = new Fhir.Serialization.FhirXmlParser();
@@ -194,7 +195,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             query = query.OrderByDescending(o => o.internal_id);
             if (count.HasValue)
                 query = query.Take(count.Value);
-            var queryResults = await query.Where(r => r.deleted == false).ToListAsync();
+            var queryResults = await query.Where(r => r.deleted == false).ToListAsync(cancellationToken);
             foreach (var item in queryResults)
             {
                 PrepareHistoryResult(result, parser, item);
@@ -202,7 +203,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             return result;
         }
 
-        internal async Task<IEnumerable<SearchResourceResult>> SystemHistory(FhirDbContext db, DateTimeOffset? since, DateTimeOffset? till, int? count)
+        internal async Task<IEnumerable<SearchResourceResult>> SystemHistory(CancellationToken cancellationToken, FhirDbContext db, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
             List<SearchResourceResult> result = new List<SearchResourceResult>();
             var parser = new Fhir.Serialization.FhirXmlParser();
@@ -214,7 +215,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             query = query.OrderByDescending(o => o.internal_id);
             if (count.HasValue)
                 query = query.Take(count.Value);
-            var queryResults = await query.ToListAsync();
+            var queryResults = await query.ToListAsync(cancellationToken);
             foreach (var item in queryResults)
             {
                 PrepareHistoryResult(result, parser, item);
@@ -229,11 +230,12 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         /// <param name="db"></param>
         /// <param name="Id"></param>
         /// <param name="ResourceType"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<int> DeleteResource(FhirDbContext db, string ResourceType, string Id)
+        public async Task<int> DeleteResource(CancellationToken cancellationToken, FhirDbContext db, string ResourceType, string Id)
         {
-            await db.Database.BeginTransactionAsync();
-            var record = await db.Resource_Header.FirstOrDefaultAsync(r => r.resource_id == Id && r.ResourceType == ResourceType).ConfigureAwait(false);
+            await db.Database.BeginTransactionAsync(cancellationToken);
+            var record = await db.Resource_Header.FirstOrDefaultAsync(r => r.resource_id == Id && r.ResourceType == ResourceType, cancellationToken).ConfigureAwait(false);
             if (record == null)
                 return -1;
             record.last_updated = DateTimeOffset.Now;
@@ -249,10 +251,10 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 last_updated = DateTimeOffset.Now,
                 internal_id = record.internal_id,
                 version_id = record.current_version_id
-            });
-            var existingValues = await db.SearchIndexString.Where(v => v.internal_id == record.internal_id).ToListAsync();
+            }, cancellationToken);
+            var existingValues = await db.SearchIndexString.Where(v => v.internal_id == record.internal_id).ToListAsync(cancellationToken);
             db.SearchIndexString.RemoveRange(existingValues);
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync(cancellationToken);
             db.Database.CommitTransaction(); // interesting that there is no async form of this call
             return record.current_version_id;
         }
@@ -263,14 +265,15 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         /// <param name="db"></param>
         /// <param name="parser"></param>
         /// <param name="filename"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private async Task ScanResource(FhirDbContext db, Serialization.FhirXmlParser parser, string filename)
+        private async Task ScanResource(CancellationToken cancellationToken, FhirDbContext db, Serialization.FhirXmlParser parser, string filename)
         {
             var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
-            await StoreResource(db, resource);
+            await StoreResource(cancellationToken, db, resource);
         }
 
-        public async Task StoreResource(FhirDbContext db, Resource resource)
+        public async Task StoreResource(CancellationToken cancellationToken, FhirDbContext db, Resource resource)
         {
             bool updatingResource = true;
             if (String.IsNullOrEmpty(resource.Id))
@@ -282,7 +285,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 resource.Meta = new Meta();
             Resource oldValue = null;
             DateTimeOffset modificationTime = DateTimeOffset.Now;
-            var record = await db.Resource_Header.FirstOrDefaultAsync(r => r.resource_id == resource.Id && r.ResourceType == resource.TypeName).ConfigureAwait(false);
+            var record = await db.Resource_Header.FirstOrDefaultAsync(r => r.resource_id == resource.Id && r.ResourceType == resource.TypeName, cancellationToken);
             if (record != null)
             {
                 if (!record.deleted)
@@ -290,7 +293,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                     // do some sanity checking on this content to see if it is different
                     oldValue = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(record.contentXML);
                     // if they are the same, don't commit anything
-                    if (CompareContentForSave(oldValue, resource))
+                    if (CompareContentForSave(cancellationToken, oldValue, resource))
                     {
                         if (resource is DomainResource dr)
                         {
@@ -327,8 +330,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                     last_updated = modificationTime,
                     current_version_id = 1,
                     contentXML = xml
-                });
-                await db.SaveChangesAsync();
+                }, cancellationToken);
+                await db.SaveChangesAsync(cancellationToken);
                 record = result.Entity;
             }
             else
@@ -336,7 +339,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 record.contentXML = xml;
             }
             int versionId = record.current_version_id;
-            if (!await db.Resource_History.AnyAsync(hist => hist.resource_id == resource.Id && hist.ResourceType == resource.TypeName && hist.version_id == versionId))
+            if (!await db.Resource_History.AnyAsync(hist => hist.resource_id == resource.Id && hist.ResourceType == resource.TypeName && hist.version_id == versionId, cancellationToken))
             {
                 await db.Resource_History.AddAsync(new resource_history()
                 {
@@ -348,7 +351,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                     UsedPutHttpMethod = updatingResource,
                     version_id = record.current_version_id,
                     contentXML = xmlBytes
-                });
+                }, cancellationToken);
             }
 
             // Extract the search properties
@@ -356,12 +359,12 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             foreach (var index in searchparameters.AsParallel())
             {
                 // Extract the values from the example
-                await ExtractSearchDataFromResource(db, resource, index, record.internal_id);
+                await ExtractSearchDataFromResource(cancellationToken, db, resource, index, record.internal_id);
             }
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync(cancellationToken);
         }
 
-        private async Task ExtractSearchDataFromResource(FhirDbContext db, Resource resource, ModelInfo.SearchParamDefinition index, long internal_id)
+        private async Task ExtractSearchDataFromResource(CancellationToken cancellationToken, FhirDbContext db, Resource resource, ModelInfo.SearchParamDefinition index, long internal_id)
         {
             var resourceModel = new ScopedNode(resource.ToTypedElement());
 
@@ -388,10 +391,10 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                             // Validate the type of data returned against the type of search parameter
                             //Debug.Write(index.Resource + "." + index.Name + ": ");
                             //Debug.WriteLine(fhirval?.FhirValue.ToString());// + "\r\n";
-                            var existingValues = await db.SearchIndexString.Where(v => v.internal_id == internal_id && v.Path == key).ToListAsync();
+                            var existingValues = await db.SearchIndexString.Where(v => v.internal_id == internal_id && v.Path == key).ToListAsync(cancellationToken);
                             foreach (var val in ConvertTypeForSearch(fhirval?.FhirValue).Where(v => !string.IsNullOrEmpty(v)))
                             {
-                                await UpdateIndexTable(db, index, internal_id, existingValues, val);
+                                await UpdateIndexTable(cancellationToken, db, index, internal_id, existingValues, val);
                             }
                         }
                         //else if (t2.Value is Hl7.FhirPath.ConstantValue)
@@ -402,9 +405,9 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                         //}
                         else if (t2.Value is bool || t2.Value is string)
                         {
-                            var existingValues = await db.SearchIndexString.Where(v => v.internal_id == internal_id && v.Path == key).ToListAsync();
+                            var existingValues = await db.SearchIndexString.Where(v => v.internal_id == internal_id && v.Path == key).ToListAsync(cancellationToken);
                             var val = t2.Value.ToString();
-                            await UpdateIndexTable(db, index, internal_id, existingValues, val);
+                            await UpdateIndexTable(cancellationToken, db, index, internal_id, existingValues, val);
                         }
                         else
                         {
@@ -416,7 +419,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             }
         }
 
-        private static async Task UpdateIndexTable(FhirDbContext db, ModelInfo.SearchParamDefinition index, long internal_id, List<IndexString> existingValues, string val)
+        private static async Task UpdateIndexTable(CancellationToken cancellationToken, FhirDbContext db, ModelInfo.SearchParamDefinition index, long internal_id, List<IndexString> existingValues, string val)
         {
             if (existingValues.RemoveAll(ev => ev.Value == val) == 0)
             {
@@ -426,7 +429,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                     internal_id = internal_id,
                     Path = $"{index.Resource}.{index.Name}",
                     Value = val
-                });
+                }, cancellationToken);
             }
             db.SearchIndexString.RemoveRange(existingValues);
         }
@@ -494,7 +497,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             return null;
         }
 
-        public bool CompareContentForSave(Base resourceOld, Base resourceNew)
+        public bool CompareContentForSave(CancellationToken cancellationToken, Base resourceOld, Base resourceNew)
         {
             if (resourceOld == null && resourceNew == null)
                 return true;
@@ -529,7 +532,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                         }
                         else
                         {
-                            if (!CompareContentForSave(ov, nv))
+                            if (!CompareContentForSave(cancellationToken, ov, nv))
                                 return false;
                         }
                     }
@@ -554,7 +557,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                             {
                                 var oi = ov[n] as Base;
                                 var ni = nv[n] as Base;
-                                if (!CompareContentForSave(oi, ni))
+                                if (!CompareContentForSave(cancellationToken, oi, ni))
                                     return false;
                             }
                         }

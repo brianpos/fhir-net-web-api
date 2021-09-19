@@ -142,7 +142,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 await db.Database.EnsureDeletedAsync();
                 await db.Database.EnsureCreatedAsync();
 
-                await _indexer.ScanDirectory(db, Directory);
+                await _indexer.ScanDirectory(request.CancellationToken, db, Directory);
                 var result = new OperationOutcome();
                 result.Issue.Add(new OperationOutcome.IssueComponent()
                 {
@@ -191,7 +191,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             result.Type = Bundle.BundleType.History;
 
             FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
-            var resources = await _indexer.SystemHistory(db, since, Till, Count);
+            var resources = await _indexer.SystemHistory(request.CancellationToken, db, since, Till, Count);
 
             foreach (SearchResourceResult item in resources)
             {

@@ -28,14 +28,14 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-create");
 
             // and update the search index
-            await Indexer.StoreResource(db, resource);
+            await Indexer.StoreResource(RequestDetails.CancellationToken, db, resource);
             resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
             return resource;
         }
 
         public async Task<string> Delete(string id, string ifMatch)
         {
-            int version = await Indexer.DeleteResource(db, ResourceName, id);
+            int version = await Indexer.DeleteResource(RequestDetails.CancellationToken, db, ResourceName, id);
             if (version == -1)
             {
                 throw new FhirServerException(System.Net.HttpStatusCode.NotFound, "Resource ID not found");
@@ -47,7 +47,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-get");
 
-            var result = await Indexer.Get(db, ResourceName, resourceId, VersionId);
+            var result = await Indexer.Get(RequestDetails.CancellationToken, db, ResourceName, resourceId, VersionId);
             if (result == null)
                 throw new FhirServerException(System.Net.HttpStatusCode.NotFound, "Resource ID/Version not found");
             if (result.IsDeleted)
@@ -91,7 +91,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var resources = await Indexer.InstanceHistory(db, ResourceName, ResourceId, since, Till, Count);
+            var resources = await Indexer.InstanceHistory(RequestDetails.CancellationToken, db, ResourceName, ResourceId, since, Till, Count);
 
             foreach (SearchResourceResult item in resources)
             {
@@ -172,7 +172,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             }
             foreach (var p in parameters)
             {
-                var r = await Indexer.Search(db, ResourceName, p.Key, p.Value);
+                var r = await Indexer.Search(RequestDetails.CancellationToken, db, ResourceName, p.Key, p.Value);
                 if (r != null)
                 {
                     if (filenames == null)
@@ -237,7 +237,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var resources = await Indexer.TypeHistory(db, ResourceName, since, Till, Count);
+            var resources = await Indexer.TypeHistory(RequestDetails.CancellationToken, db, ResourceName, since, Till, Count);
 
             foreach (SearchResourceResult item in resources)
             {

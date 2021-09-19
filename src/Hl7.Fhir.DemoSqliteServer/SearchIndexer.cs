@@ -65,6 +65,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             var files = System.IO.Directory.EnumerateFiles(directory, "*.*.*.xml");
             foreach (var filename in files.AsParallel())
             {
+                if (cancellationToken.IsCancellationRequested)
+                    break;
                 if (!filename.EndsWith("..xml")) // skip over the version history items
                     continue;
                 await ScanResource(cancellationToken, db, parser, filename);
@@ -149,6 +151,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             var queryResults = await query.ToListAsync(cancellationToken);
             foreach (var item in queryResults)
             {
+                if (cancellationToken.IsCancellationRequested)
+                    break;
                 PrepareHistoryResult(result, parser, item);
             }
             return result;
@@ -198,6 +202,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             var queryResults = await query.Where(r => r.deleted == false).ToListAsync(cancellationToken);
             foreach (var item in queryResults)
             {
+                if (cancellationToken.IsCancellationRequested)
+                    break;
                 PrepareHistoryResult(result, parser, item);
             }
             return result;
@@ -218,6 +224,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             var queryResults = await query.ToListAsync(cancellationToken);
             foreach (var item in queryResults)
             {
+                if (cancellationToken.IsCancellationRequested)
+                    break;
                 PrepareHistoryResult(result, parser, item);
             }
             return result;
@@ -382,6 +390,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             {
                 foreach (var t2 in results)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
                     if (t2 != null)
                     {
                         string key = $"{index.Resource}.{index.Name}";
@@ -555,6 +565,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                         {
                             for (int n = 0; n < ov.Count; n++)
                             {
+                                if (cancellationToken.IsCancellationRequested)
+                                    cancellationToken.ThrowIfCancellationRequested();
                                 var oi = ov[n] as Base;
                                 var ni = nv[n] as Base;
                                 if (!CompareContentForSave(cancellationToken, oi, ni))

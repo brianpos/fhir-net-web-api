@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SQLite;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Hl7.Fhir.WebApi.DemoEntityModels
+namespace Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels
 {
     public class FhirDbContext : DbContext
     {

@@ -7,13 +7,13 @@ using System.Linq;
 using Hl7.Fhir.Utility;
 using System.Net;
 using System.Runtime.CompilerServices;
-using Hl7.Fhir.WebApi.DemoEntityModels;
+using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static Hl7.Fhir.WebApi.DemoSearchIndexer;
+using static Hl7.Fhir.DemoSqliteFhirServer.DemoSearchIndexer;
 
-namespace Hl7.Fhir.DemoFileSystemFhirServer
+namespace Hl7.Fhir.DemoSqliteFhirServer
 {
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system

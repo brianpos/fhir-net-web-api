@@ -15,14 +15,14 @@ using Hl7.Fhir.Language.Debugging;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Support;
-using Hl7.Fhir.WebApi.DemoEntityModels;
+using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
 using Hl7.FhirPath;
 using Hl7.FhirPath.Sprache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Task = System.Threading.Tasks.Task;
 
-namespace Hl7.Fhir.WebApi
+namespace Hl7.Fhir.DemoSqliteFhirServer
 {
     /// <summary>
     /// A DEMONSTRATION Search Indexer - not for production usage - only a sample in memory process for testing purposes
@@ -142,9 +142,9 @@ namespace Hl7.Fhir.WebApi
                 query = query.Where(r => r.last_updated >= since.Value);
             if (till.HasValue)
                 query = query.Where(r => r.last_updated <= till.Value);
+            query = query.OrderByDescending(o => o.internal_id);
             if (count.HasValue)
                 query = query.Take(count.Value);
-            query = query.OrderByDescending(o => o.last_updated);
             var queryResults = await query.ToListAsync();
             foreach (var item in queryResults)
             {
@@ -191,9 +191,9 @@ namespace Hl7.Fhir.WebApi
                 query = query.Where(r => r.last_updated >= since.Value);
             if (till.HasValue)
                 query = query.Where(r => r.last_updated <= till.Value);
+            query = query.OrderByDescending(o => o.internal_id);
             if (count.HasValue)
                 query = query.Take(count.Value);
-            query = query.OrderByDescending(o => o.last_updated);
             var queryResults = await query.Where(r => r.deleted == false).ToListAsync();
             foreach (var item in queryResults)
             {
@@ -211,9 +211,9 @@ namespace Hl7.Fhir.WebApi
                 query = query.Where(r => r.last_updated >= since.Value);
             if (till.HasValue)
                 query = query.Where(r => r.last_updated <= till.Value);
+            query = query.OrderByDescending(o => o.internal_id);
             if (count.HasValue)
                 query = query.Take(count.Value);
-            query = query.OrderByDescending(o => o.last_updated);
             var queryResults = await query.ToListAsync();
             foreach (var item in queryResults)
             {

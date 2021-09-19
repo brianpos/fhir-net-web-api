@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using System.Linq;
 using Hl7.Fhir.Support;
 using System.IO;
-using Hl7.Fhir.WebApi.DemoEntityModels;
-using static Hl7.Fhir.WebApi.DemoSearchIndexer;
+using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
+using static Hl7.Fhir.DemoSqliteFhirServer.DemoSearchIndexer;
 
-namespace Hl7.Fhir.DemoFileSystemFhirServer
+namespace Hl7.Fhir.DemoSqliteFhirServer
 {
     public class SqliteResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
         where TSP : class
@@ -187,6 +187,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 searchResources = searchResources.Where(r => filenames.Contains(r.internal_id) && r.deleted == false);
             else
                 searchResources = searchResources.Where(r => r.ResourceType == ResourceName && r.deleted == false);
+            searchResources.OrderByDescending(r => r.internal_id);
 
             foreach (var resourceItem in searchResources)
             {

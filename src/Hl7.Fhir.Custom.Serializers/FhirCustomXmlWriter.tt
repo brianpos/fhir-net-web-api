@@ -303,16 +303,21 @@ namespace Hl7.Fhir.CustomSerializer
 		if (vat != null)
 		{
 			// If there is an allowed types, then there could be other values
+			WriteLine($"\tswitch(name.{prop.Name}?.TypeName) // {fea.Order}");
+			WriteLine("\t{");
 			foreach (var t in vat.Types)
 			{
 				var pta = t.GetCustomAttribute(typeof(FhirTypeAttribute)) as FhirTypeAttribute;
+				WriteLine("\t\tcase \""+Hl7.Fhir.Model.ModelInfo.GetFhirTypeForType(t)+"\":");
 				if (pta.Name == "Resource" && prop.Name != "Contained")
 					WriteLine($"\tWriteBase(name.{prop.Name}, writer, \"{fea.Name}\", cancellationToken); // {fea.Order}");
 				else if (pta.Name == "Resource" && prop.Name == "Contained")
 					WriteLine($"\tWrite(name.{prop.Name}, writer, \"{fea.Name}\", cancellationToken); // {fea.Order}");
 				else
-					WriteLine($"\tWrite(name.{prop.Name} as {GetTypeName(t)}, writer, \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\", cancellationToken); // {fea.Order}");
+					WriteLine($"\t\t\tWrite(name.{prop.Name} as {GetTypeName(t)}, writer, \"{fea.Name}{pta.Name.Substring(0,1).ToUpper()}{pta.Name.Substring(1)}\", cancellationToken); // {fea.Order}");
+				WriteLine("\t\t\tbreak;");
 			}
+			WriteLine("\t}");
 		}
 		else
 		{

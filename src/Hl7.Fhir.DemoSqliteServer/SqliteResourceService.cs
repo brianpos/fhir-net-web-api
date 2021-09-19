@@ -98,7 +98,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 result.Entry.Add(new Bundle.EntryComponent()
                 {
                     Resource = item.Resource,
-                    FullUrl = ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    FullUrl = item.Resource != null ? ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString : null,
                     Request = item.Request
                 });
             }
@@ -184,9 +184,9 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             }
             var searchResources = db.Resource_Header.AsQueryable();
             if (filenames?.Any() == true)
-                searchResources = searchResources.Where(r => filenames.Contains(r.internal_id));
+                searchResources = searchResources.Where(r => filenames.Contains(r.internal_id) && r.deleted == false);
             else
-                searchResources = searchResources.Where(r => r.ResourceType == ResourceName);
+                searchResources = searchResources.Where(r => r.ResourceType == ResourceName && r.deleted == false);
 
             foreach (var resourceItem in searchResources)
             {
@@ -243,7 +243,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 result.Entry.Add(new Bundle.EntryComponent()
                 {
                     Resource = item.Resource,
-                    FullUrl = ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    FullUrl = item.Resource != null ? ResourceIdentity.Build(RequestDetails.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString : null,
                     Request = item.Request
                 });
             }

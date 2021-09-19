@@ -239,6 +239,7 @@ namespace Hl7.Fhir.WebApi
             record.last_updated = DateTimeOffset.Now;
             record.deleted = true;
             record.current_version_id++;
+            record.contentXML = null;
 
             await db.Resource_History.AddAsync(new resource_history()
             {

@@ -198,7 +198,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 result.Entry.Add(new Bundle.EntryComponent()
                 {
                     Resource = item.Resource,
-                    FullUrl = ResourceIdentity.Build(request.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString,
+                    FullUrl = item.Resource != null ? ResourceIdentity.Build(request.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString : null,
                     Request = item.Request
                 });
             }

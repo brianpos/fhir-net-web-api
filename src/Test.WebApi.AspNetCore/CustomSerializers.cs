@@ -32,6 +32,31 @@ namespace Test.WebApi.AspNetCore
         }
 
         [TestMethod]
+        public void XmlSerializerCustomForChoiceTypes()
+        {
+            Patient p = GenerateSamplePatient();
+
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = true,
+                NewLineHandling = NewLineHandling.Entitize,
+                Indent = true,
+                NamespaceHandling = NamespaceHandling.OmitDuplicates
+            };
+            XmlSerializer xs = new Hl7.Fhir.CustomSerializer.CustomFhirXmlSerializer2();
+            CancellationToken ct = new CancellationToken();
+            StringBuilder sb = new StringBuilder();
+            using (XmlWriter xw = XmlWriter.Create(sb, settings))
+            {
+                // xs.Serialize(xw, p);
+                Hl7.Fhir.CustomSerializer.FhirCustomXmlWriter.Write(p, xw, ct);
+            }
+            System.Diagnostics.Trace.WriteLine(sb);
+            System.Diagnostics.Trace.WriteLine("test complete");
+        }
+
+
+        [TestMethod]
         public void XmlSerializerCustom()
         {
             Patient p = GenerateSamplePatient();
@@ -545,6 +570,7 @@ namespace Test.WebApi.AspNetCore
             p.Name.Add(new HumanName().WithGiven("Brian").AndFamily("Pos"));
             p.Name[0].Given = new[] { "Brian", "Richard" };
             p.Name[0].AddExtension("http://example.org/3rd", new Coding("system", "43"));
+            p.Deceased = new FhirBoolean(false);
             p.ManagingOrganization = new ResourceReference()
             {
                 Reference = "#43",

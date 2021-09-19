@@ -79,7 +79,7 @@ namespace Hl7.Fhir.CustomSerializer
                 }
                 readerChild.Close();
                 info = reader as IXmlLineInfo;
-                locations[1] += $" to {info.LineNumber},{info.LinePosition}";
+                locations[0] += $" to {info.LineNumber},{info.LinePosition}";
                 issue.Location = locations;
             }
         }
@@ -112,7 +112,7 @@ namespace Hl7.Fhir.CustomSerializer
                 while (reader.Depth > depth);
                 // issue.Diagnostics = await reader.ReadOuterXmlAsync(); // this call has the dotnetcore bug in it where it calls a sync operation
                 info = reader as IXmlLineInfo;
-                locations[1] += $" to {info.LineNumber},{info.LinePosition}";
+                locations[0] += $" to {info.LineNumber},{info.LinePosition}";
                 issue.Location = locations;
             }
         }

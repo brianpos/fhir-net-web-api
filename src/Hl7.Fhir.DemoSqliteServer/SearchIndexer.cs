@@ -22,6 +22,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Task = System.Threading.Tasks.Task;
 using System.Threading;
+using Hl7.Fhir.Introspection;
 
 namespace Hl7.Fhir.DemoSqliteFhirServer
 {
@@ -52,11 +53,21 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             public Bundle.RequestComponent Request { get; private set; }
         }
 
+        ModelInspector _inspector;
         public void Initialize(FhirDbContext db)
         {
             Hl7.Fhir.FhirPath.ElementNavFhirExtensions.PrepareFhirSymbolTableFunctions();
             // Yes this is the one place that we aren't async
             db.Database.EnsureCreated();
+        }
+        public ModelInspector Inspector
+        {
+            get
+            {
+                if (_inspector == null)
+                    _inspector = new ModelInspector(Specification.FhirRelease.R4);
+                return _inspector;
+            }
         }
 
         public async Task ScanDirectory(CancellationToken cancellationToken, FhirDbContext db, string directory)
@@ -515,11 +526,12 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             if (resourceOld == null && resourceNew == null)
                 return true;
 
-            var cm = Hl7.Fhir.Serialization.BaseFhirParser.Inspector.FindClassMappingByType(resourceOld.GetType()) ?? Hl7.Fhir.Serialization.BaseFhirParser.Inspector.FindClassMappingByType(resourceNew.GetType());
+
+           ClassMapping cm = Inspector.FindClassMapping(resourceOld.GetType()) ?? Inspector.FindClassMapping(resourceNew.GetType());
             foreach (var pm in cm.PropertyMappings)
             {
                 // skip the narrative
-                if (pm.ElementType == typeof(Narrative))
+                if (pm.ImplementingType == typeof(Narrative))
                     continue;
                 // skip the version and last updated props
                 if (cm.NativeType == typeof(Meta) && (pm.Name == "lastUpdated" || pm.Name == "versionId"))
@@ -538,7 +550,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                     var nv = nvRaw as Base;
                     if (ov != null && nv != null)
                     {
-                        if (ov is Primitive p)
+                        if (ov is PrimitiveType p)
                         {
                             if (!ov.IsExactly(nv))
                                 return false;

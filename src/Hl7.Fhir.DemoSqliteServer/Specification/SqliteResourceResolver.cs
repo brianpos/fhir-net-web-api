@@ -15,7 +15,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Hl7.Fhir.Specification.Source
 {
-    public class SqliteConformanceResourceResolver : IConformanceSource
+    public class SqliteConformanceResourceResolver : IConformanceSource, IAsyncResourceResolver
     {
         public SqliteConformanceResourceResolver(SpecificationContext context)
         {
@@ -247,6 +247,39 @@ namespace Hl7.Fhir.Specification.Source
         public Resource ResolveByUri(string uri)
         {
             return ResolveByCanonicalUri(uri);
+        }
+
+        public async Task<Resource> ResolveByUriAsync(string uri)
+        {
+            string canonical = uri;
+            string version = null;
+            int index = canonical.IndexOf("|");
+            if (index != -1)
+            {
+                version = canonical.Substring(index + 1);
+                canonical = canonical.Substring(0, index);
+            }
+
+            var query = _context.ConformanceResource.Where(entity => entity.CanonicalUrl == canonical).AsQueryable();
+            ConformanceResourceEntity entityResource;
+            if (!string.IsNullOrEmpty(version))
+            {
+                entityResource = await query.FirstOrDefaultAsync(entity => entity.Version == version);
+                if (entityResource != null)
+                    return _parser.Parse<Resource>(entityResource.ResourceXML);
+            }
+
+            // try grabbing the current one then
+            entityResource = await query.FirstOrDefaultAsync(entity => entity.Current);
+            if (entityResource != null)
+                return _parser.Parse<Resource>(entityResource.ResourceXML);
+
+            return null;
+        }
+
+        public Task<Resource> ResolveByCanonicalUriAsync(string uri)
+        {
+            return ResolveByCanonicalUriAsync(uri);
         }
     }
 }

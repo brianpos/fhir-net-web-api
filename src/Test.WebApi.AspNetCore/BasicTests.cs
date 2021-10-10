@@ -365,6 +365,7 @@ namespace UnitTestWebApi
             Assert.IsTrue(p.IsExactly(result), "resources should be the same");
         }
 
+#if NETCOREAPP3_0_OR_GREATER
         [TestMethod]
         public void TestSqliteResolverWithValidation()
         {
@@ -375,7 +376,7 @@ namespace UnitTestWebApi
             var localTerminologyService = new LocalTerminologyService(targetResolver, new ValueSetExpanderSettings() { ValueSetSource = targetResolver });
             var validator = new Validator(new ValidationSettings() { ResourceResolver = targetResolver, TerminologyService = localTerminologyService });
 
-            FhirClient server = new FhirClient("http://sqlonfhir-r4.azurewebsites.net/fhir", false);
+            var server = new LegacyFhirClient("http://sqlonfhir-r4.azurewebsites.net/fhir", false);
             var q = server.Read<Questionnaire>("Questionnaire/enable-when-tests");
             var outcome = validator.Validate(q);
             DebugDumpOutputXml(outcome);
@@ -445,7 +446,7 @@ namespace UnitTestWebApi
             ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/regex", canonicalsRequired);
             ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/variable", canonicalsRequired);
 
-            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            var clientFhir = new LegacyFhirClient(_baseAddress, false);
             var serializer = new Hl7.Fhir.Serialization.FhirXmlSerializer(new SerializerSettings() { Pretty = true });
             foreach (var item in canonicalsRequired.Keys)
             {
@@ -477,7 +478,7 @@ namespace UnitTestWebApi
                 System.IO.File.WriteAllBytes($"c:\\temp\\{resource.TypeName}-{resource.Id}.xml", serializer.SerializeToBytes(resource));
             }
         }
-
+#endif
         private static void CleanElement(ElementDefinition element)
         {
             element.Mapping.Clear();

@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="1.9.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="3.4.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
@@ -28,16 +28,22 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net50'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.10" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.19" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.8" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.19" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.0.3" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />

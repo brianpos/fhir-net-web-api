@@ -350,7 +350,7 @@ namespace UnitTestWebApi
             var result = await clientFhir.SearchAsync<Patient>();
             DebugDumpOutputXml(result);
             Assert.IsInstanceOfType(result, typeof(Bundle));
-            Assert.AreEqual(31, result.Total.Value, "volume on test server");
+            Assert.AreEqual(32, result.Total.Value, "volume on test server");
         }
 
         [TestMethod]
@@ -388,8 +388,8 @@ namespace UnitTestWebApi
                 nPages++;
                 result = await clientFhir.ContinueAsync(result);
             }
-            Assert.AreEqual(31, nTotal, "entry count incorrect");
-            Assert.AreEqual(31, nTotalBundleReport, "server calculation of count incorrect");
+            Assert.AreEqual(32, nTotal, "entry count incorrect");
+            Assert.AreEqual(32, nTotalBundleReport, "server calculation of count incorrect");
             Assert.AreEqual(2, nPages);
         }
 

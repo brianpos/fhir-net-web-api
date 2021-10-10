@@ -140,7 +140,7 @@ namespace UnitTestWebApi
                 System.Diagnostics.Trace.WriteLine(ex.Message);
                 DebugDumpOutputXml(ex.Outcome);
                 Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status, "Expected a bad request due to parsing the date");
-                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be interpreted as a date"));
+                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be parsed as a date"));
             }
 
             // and try again with JSON
@@ -160,7 +160,7 @@ namespace UnitTestWebApi
                 System.Diagnostics.Trace.WriteLine(ex.Message);
                 DebugDumpOutputXml(ex.Outcome);
                 Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status, "Expected a bad request due to parsing the date");
-                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be interpreted as a date"));
+                Assert.IsTrue(ex.Message.Contains("Literal '01-03-1970' cannot be parsed as a date"));
             }
         }
 

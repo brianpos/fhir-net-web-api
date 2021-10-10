@@ -137,12 +137,12 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 210
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 220
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 220
 							break;
 						case "daysSupply":
-							result.DaysSupply = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.DaysSupply as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".daysSupply", cancellationToken); // 230
+							result.DaysSupply = new Hl7.Fhir.Model.Quantity();
+							Parse(result.DaysSupply as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".daysSupply", cancellationToken); // 230
 							break;
 						case "whenPrepared":
 							result.WhenPreparedElement = new Hl7.Fhir.Model.FhirDateTime();
@@ -322,12 +322,12 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 210
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 220
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 220
 							break;
 						case "daysSupply":
-							result.DaysSupply = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.DaysSupply as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".daysSupply", cancellationToken); // 230
+							result.DaysSupply = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.DaysSupply as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".daysSupply", cancellationToken); // 230
 							break;
 						case "whenPrepared":
 							result.WhenPreparedElement = new Hl7.Fhir.Model.FhirDateTime();

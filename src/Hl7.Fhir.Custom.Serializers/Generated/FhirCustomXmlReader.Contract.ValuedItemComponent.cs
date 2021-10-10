@@ -75,8 +75,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.EffectiveTimeElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveTime", cancellationToken); // 60
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();
@@ -193,8 +193,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.EffectiveTimeElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".effectiveTime", cancellationToken); // 60
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();

@@ -75,8 +75,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.NumberOfRepeatsAllowedElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".numberOfRepeatsAllowed", cancellationToken); // 70
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 80
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 80
 							break;
 						case "expectedSupplyDuration":
 							result.ExpectedSupplyDuration = new Hl7.Fhir.Model.Duration();
@@ -159,8 +159,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.NumberOfRepeatsAllowedElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".numberOfRepeatsAllowed", cancellationToken); // 70
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 80
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 80
 							break;
 						case "expectedSupplyDuration":
 							result.ExpectedSupplyDuration = new Hl7.Fhir.Model.Duration();

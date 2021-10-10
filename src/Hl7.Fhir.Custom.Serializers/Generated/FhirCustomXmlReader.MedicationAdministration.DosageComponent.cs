@@ -75,8 +75,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 70
 							break;
 						case "dose":
-							result.Dose = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Dose as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".dose", cancellationToken); // 80
+							result.Dose = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Dose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dose", cancellationToken); // 80
 							break;
 						case "rateRatio":
 							result.Rate = new Hl7.Fhir.Model.Ratio();
@@ -159,8 +159,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 70
 							break;
 						case "dose":
-							result.Dose = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Dose as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".dose", cancellationToken); // 80
+							result.Dose = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Dose as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dose", cancellationToken); // 80
 							break;
 						case "rateRatio":
 							result.Rate = new Hl7.Fhir.Model.Ratio();

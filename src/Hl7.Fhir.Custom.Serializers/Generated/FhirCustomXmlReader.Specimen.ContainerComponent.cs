@@ -72,12 +72,12 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 60
 							break;
 						case "capacity":
-							result.Capacity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Capacity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 70
+							result.Capacity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Capacity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 70
 							break;
 						case "specimenQuantity":
-							result.SpecimenQuantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.SpecimenQuantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".specimenQuantity", cancellationToken); // 80
+							result.SpecimenQuantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.SpecimenQuantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".specimenQuantity", cancellationToken); // 80
 							break;
 						case "additiveCodeableConcept":
 							result.Additive = new Hl7.Fhir.Model.CodeableConcept();
@@ -157,12 +157,12 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 60
 							break;
 						case "capacity":
-							result.Capacity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Capacity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 70
+							result.Capacity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Capacity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 70
 							break;
 						case "specimenQuantity":
-							result.SpecimenQuantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.SpecimenQuantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".specimenQuantity", cancellationToken); // 80
+							result.SpecimenQuantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.SpecimenQuantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".specimenQuantity", cancellationToken); // 80
 							break;
 						case "additiveCodeableConcept":
 							result.Additive = new Hl7.Fhir.Model.CodeableConcept();

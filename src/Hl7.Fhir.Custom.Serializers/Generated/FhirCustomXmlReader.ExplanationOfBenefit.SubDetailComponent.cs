@@ -85,8 +85,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ProgramCode.Add(newItem_programCode);
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 100
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 100
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();
@@ -198,8 +198,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ProgramCode.Add(newItem_programCode);
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 100
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 100
 							break;
 						case "unitPrice":
 							result.UnitPrice = new Hl7.Fhir.Model.Money();

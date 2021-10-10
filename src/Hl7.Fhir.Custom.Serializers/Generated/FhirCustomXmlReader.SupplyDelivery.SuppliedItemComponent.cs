@@ -59,8 +59,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 40
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 40
 							break;
 						case "itemCodeableConcept":
 							result.Item = new Hl7.Fhir.Model.CodeableConcept();
@@ -127,8 +127,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 40
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 40
 							break;
 						case "itemCodeableConcept":
 							result.Item = new Hl7.Fhir.Model.CodeableConcept();

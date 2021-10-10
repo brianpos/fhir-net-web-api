@@ -88,8 +88,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.DoseForm as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".doseForm", cancellationToken); // 120
 							break;
 						case "amount":
-							result.Amount = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Amount as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".amount", cancellationToken); // 130
+							result.Amount = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount", cancellationToken); // 130
 							break;
 						case "synonym":
 							var newItem_synonym = new Hl7.Fhir.Model.FhirString();
@@ -262,8 +262,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.DoseForm as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".doseForm", cancellationToken); // 120
 							break;
 						case "amount":
-							result.Amount = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".amount", cancellationToken); // 130
+							result.Amount = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount", cancellationToken); // 130
 							break;
 						case "synonym":
 							var newItem_synonym = new Hl7.Fhir.Model.FhirString();

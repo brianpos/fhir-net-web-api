@@ -100,8 +100,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.DiameterElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".diameter", cancellationToken); // 130
 							break;
 						case "duration":
-							result.Duration = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Duration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".duration", cancellationToken); // 140
+							result.Duration = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Duration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".duration", cancellationToken); // 140
 							break;
 						case "color":
 							result.ColorElement = new Hl7.Fhir.Model.FhirString();
@@ -214,8 +214,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.DiameterElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".diameter", cancellationToken); // 130
 							break;
 						case "duration":
-							result.Duration = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Duration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".duration", cancellationToken); // 140
+							result.Duration = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Duration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".duration", cancellationToken); // 140
 							break;
 						case "color":
 							result.ColorElement = new Hl7.Fhir.Model.FhirString();

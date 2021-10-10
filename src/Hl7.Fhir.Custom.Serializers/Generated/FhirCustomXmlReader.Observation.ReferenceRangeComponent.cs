@@ -59,12 +59,12 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "low":
-							result.Low = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low", cancellationToken); // 40
+							result.Low = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Low as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".low", cancellationToken); // 40
 							break;
 						case "high":
-							result.High = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high", cancellationToken); // 50
+							result.High = new Hl7.Fhir.Model.Quantity();
+							Parse(result.High as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".high", cancellationToken); // 50
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
@@ -140,12 +140,12 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "low":
-							result.Low = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low", cancellationToken); // 40
+							result.Low = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Low as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".low", cancellationToken); // 40
 							break;
 						case "high":
-							result.High = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high", cancellationToken); // 50
+							result.High = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.High as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".high", cancellationToken); // 50
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();

@@ -63,8 +63,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Type as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "resource":
-							result.ResourceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.TestScript.FHIRDefinedType>();
-							Parse(result.ResourceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.TestScript.FHIRDefinedType>, reader, outcome, locationPath + ".resource", cancellationToken); // 50
+							result.ResourceElement = new Hl7.Fhir.Model.Code<FHIRDefinedType>();
+							Parse(result.ResourceElement as Hl7.Fhir.Model.Code<FHIRDefinedType>, reader, outcome, locationPath + ".resource", cancellationToken); // 50
 							break;
 						case "label":
 							result.LabelElement = new Hl7.Fhir.Model.FhirString();
@@ -188,8 +188,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Type as Hl7.Fhir.Model.Coding, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "resource":
-							result.ResourceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.TestScript.FHIRDefinedType>();
-							await ParseAsync(result.ResourceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.TestScript.FHIRDefinedType>, reader, outcome, locationPath + ".resource", cancellationToken); // 50
+							result.ResourceElement = new Hl7.Fhir.Model.Code<FHIRDefinedType>();
+							await ParseAsync(result.ResourceElement as Hl7.Fhir.Model.Code<FHIRDefinedType>, reader, outcome, locationPath + ".resource", cancellationToken); // 50
 							break;
 						case "label":
 							result.LabelElement = new Hl7.Fhir.Model.FhirString();

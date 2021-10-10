@@ -86,8 +86,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Need as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".need", cancellationToken); // 110
 							break;
 						case "status":
-							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>();
-							Parse(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>, reader, outcome, locationPath + ".status", cancellationToken); // 120
+							result.Status_Element = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>();
+							Parse(result.Status_Element as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>, reader, outcome, locationPath + ".status", cancellationToken); // 120
 							break;
 						case "statusDate":
 							result.StatusDateElement = new Hl7.Fhir.Model.FhirDateTime();
@@ -218,8 +218,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Need as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".need", cancellationToken); // 110
 							break;
 						case "status":
-							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>();
-							await ParseAsync(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>, reader, outcome, locationPath + ".status", cancellationToken); // 120
+							result.Status_Element = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>();
+							await ParseAsync(result.Status_Element as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.VerificationResult.status>, reader, outcome, locationPath + ".status", cancellationToken); // 120
 							break;
 						case "statusDate":
 							result.StatusDateElement = new Hl7.Fhir.Model.FhirDateTime();

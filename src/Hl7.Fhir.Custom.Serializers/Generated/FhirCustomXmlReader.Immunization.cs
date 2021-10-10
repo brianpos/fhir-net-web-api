@@ -141,8 +141,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Route as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".route", cancellationToken); // 240
 							break;
 						case "doseQuantity":
-							result.DoseQuantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.DoseQuantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".doseQuantity", cancellationToken); // 250
+							result.DoseQuantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.DoseQuantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".doseQuantity", cancellationToken); // 250
 							break;
 						case "performer":
 							var newItem_performer = new Hl7.Fhir.Model.Immunization.PerformerComponent();
@@ -338,8 +338,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Route as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".route", cancellationToken); // 240
 							break;
 						case "doseQuantity":
-							result.DoseQuantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.DoseQuantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".doseQuantity", cancellationToken); // 250
+							result.DoseQuantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.DoseQuantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".doseQuantity", cancellationToken); // 250
 							break;
 						case "performer":
 							var newItem_performer = new Hl7.Fhir.Model.Immunization.PerformerComponent();

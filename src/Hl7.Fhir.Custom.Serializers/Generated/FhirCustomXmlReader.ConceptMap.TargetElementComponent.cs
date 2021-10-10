@@ -67,8 +67,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display", cancellationToken); // 50
 							break;
 						case "equivalence":
-							result.EquivalenceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMap.ConceptMapEquivalence>();
-							Parse(result.EquivalenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMap.ConceptMapEquivalence>, reader, outcome, locationPath + ".equivalence", cancellationToken); // 60
+							result.EquivalenceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMapEquivalence>();
+							Parse(result.EquivalenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMapEquivalence>, reader, outcome, locationPath + ".equivalence", cancellationToken); // 60
 							break;
 						case "comment":
 							result.CommentElement = new Hl7.Fhir.Model.FhirString();
@@ -149,8 +149,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.DisplayElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".display", cancellationToken); // 50
 							break;
 						case "equivalence":
-							result.EquivalenceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMap.ConceptMapEquivalence>();
-							await ParseAsync(result.EquivalenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMap.ConceptMapEquivalence>, reader, outcome, locationPath + ".equivalence", cancellationToken); // 60
+							result.EquivalenceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMapEquivalence>();
+							await ParseAsync(result.EquivalenceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ConceptMapEquivalence>, reader, outcome, locationPath + ".equivalence", cancellationToken); // 60
 							break;
 						case "comment":
 							result.CommentElement = new Hl7.Fhir.Model.FhirString();

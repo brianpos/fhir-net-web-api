@@ -75,8 +75,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Duration as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".duration", cancellationToken); // 60
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
 							break;
 						case "method":
 							result.Method = new Hl7.Fhir.Model.CodeableConcept();
@@ -167,8 +167,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Duration as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".duration", cancellationToken); // 60
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
 							break;
 						case "method":
 							result.Method = new Hl7.Fhir.Model.CodeableConcept();

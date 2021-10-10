@@ -75,8 +75,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.AdditiveProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".additiveProductName", cancellationToken); // 70
 							break;
 						case "caloricDensity":
-							result.CaloricDensity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.CaloricDensity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".caloricDensity", cancellationToken); // 80
+							result.CaloricDensity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.CaloricDensity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".caloricDensity", cancellationToken); // 80
 							break;
 						case "routeofAdministration":
 							result.RouteofAdministration = new Hl7.Fhir.Model.CodeableConcept();
@@ -88,8 +88,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Administration.Add(newItem_administration);
 							break;
 						case "maxVolumeToDeliver":
-							result.MaxVolumeToDeliver = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.MaxVolumeToDeliver as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxVolumeToDeliver", cancellationToken); // 110
+							result.MaxVolumeToDeliver = new Hl7.Fhir.Model.Quantity();
+							Parse(result.MaxVolumeToDeliver as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxVolumeToDeliver", cancellationToken); // 110
 							break;
 						case "administrationInstruction":
 							result.AdministrationInstructionElement = new Hl7.Fhir.Model.FhirString();
@@ -168,8 +168,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.AdditiveProductNameElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".additiveProductName", cancellationToken); // 70
 							break;
 						case "caloricDensity":
-							result.CaloricDensity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.CaloricDensity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".caloricDensity", cancellationToken); // 80
+							result.CaloricDensity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.CaloricDensity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".caloricDensity", cancellationToken); // 80
 							break;
 						case "routeofAdministration":
 							result.RouteofAdministration = new Hl7.Fhir.Model.CodeableConcept();
@@ -181,8 +181,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Administration.Add(newItem_administration);
 							break;
 						case "maxVolumeToDeliver":
-							result.MaxVolumeToDeliver = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.MaxVolumeToDeliver as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxVolumeToDeliver", cancellationToken); // 110
+							result.MaxVolumeToDeliver = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.MaxVolumeToDeliver as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxVolumeToDeliver", cancellationToken); // 110
 							break;
 						case "administrationInstruction":
 							result.AdministrationInstructionElement = new Hl7.Fhir.Model.FhirString();

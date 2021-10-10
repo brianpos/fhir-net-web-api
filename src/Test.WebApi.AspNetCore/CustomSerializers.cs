@@ -303,7 +303,7 @@ namespace Test.WebApi.AspNetCore
             }
             catch(System.FormatException ex)
             {
-                Assert.AreEqual("Type checking the data: Literal 'chicken' cannot be interpreted as a decimal: 'Input string was not in a correct format.'. (at Patient.extension[2].valueDecimal[0])", ex.Message);
+                Assert.AreEqual("Type checking the data: Literal 'chicken' cannot be parsed as a decimal. (at Patient.extension[2].valueDecimal[0])", ex.Message);
             }
         }
 

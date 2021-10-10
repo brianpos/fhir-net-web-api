@@ -63,8 +63,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Modifier as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".modifier", cancellationToken); // 40
 							break;
 						case "amount":
-							result.Amount = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Amount as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".amount", cancellationToken); // 50
+							result.Amount = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount", cancellationToken); // 50
 							break;
 						default:
 							// Property not found
@@ -127,8 +127,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Modifier as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".modifier", cancellationToken); // 40
 							break;
 						case "amount":
-							result.Amount = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Amount as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".amount", cancellationToken); // 50
+							result.Amount = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Amount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".amount", cancellationToken); // 50
 							break;
 						default:
 							// Property not found

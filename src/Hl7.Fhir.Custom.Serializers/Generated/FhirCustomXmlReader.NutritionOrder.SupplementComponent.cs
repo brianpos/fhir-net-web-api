@@ -72,8 +72,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Schedule.Add(newItem_schedule);
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
 							break;
 						case "instruction":
 							result.InstructionElement = new Hl7.Fhir.Model.FhirString();
@@ -149,8 +149,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Schedule.Add(newItem_schedule);
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 70
 							break;
 						case "instruction":
 							result.InstructionElement = new Hl7.Fhir.Model.FhirString();

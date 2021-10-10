@@ -4354,7 +4354,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Target, writer, "target", cancellationToken); // 90
 			Write(name.TargetLocationElement, writer, "targetLocation", cancellationToken); // 100
 			Write(name.Need, writer, "need", cancellationToken); // 110
-			Write(name.StatusElement, writer, "status", cancellationToken); // 120
+			Write(name.Status_Element, writer, "status", cancellationToken); // 120
 			Write(name.StatusDateElement, writer, "statusDate", cancellationToken); // 130
 			Write(name.ValidationType, writer, "validationType", cancellationToken); // 140
 			Write(name.ValidationProcess, writer, "validationProcess", cancellationToken); // 150
@@ -8550,8 +8550,8 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Type, writer, "type", cancellationToken); // 40
 			switch(name.Value?.TypeName) // 50
 			{
-				case "SimpleQuantity":
-					Write(name.Value as Hl7.Fhir.Model.SimpleQuantity, writer, "valueQuantity", cancellationToken); // 50
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
 					break;
 				case "Money":
 					Write(name.Value as Hl7.Fhir.Model.Money, writer, "valueMoney", cancellationToken); // 50
@@ -11215,8 +11215,8 @@ namespace Hl7.Fhir.CustomSerializer
 				case "CodeableConcept":
 					Write(name.Characteristic as Hl7.Fhir.Model.CodeableConcept, writer, "characteristicCodeableConcept", cancellationToken); // 40
 					break;
-				case "SimpleQuantity":
-					Write(name.Characteristic as Hl7.Fhir.Model.SimpleQuantity, writer, "characteristicQuantity", cancellationToken); // 40
+				case "Quantity":
+					Write(name.Characteristic as Hl7.Fhir.Model.Quantity, writer, "characteristicQuantity", cancellationToken); // 40
 					break;
 			}
 			Write(name.ValueElement, writer, "value", cancellationToken); // 50
@@ -15777,8 +15777,8 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SimpleQuantity
-		//public static void Write(SimpleQuantity name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.Quantity
+		//public static void Write(Quantity name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		//{
 		//	if (cancellationToken.IsCancellationRequested) return;
 		//	if (name == null) return;
@@ -18042,7 +18042,7 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MessageDefinition.MessageSignificanceCategory> code_messagedefinition_messagesignificancecategory:
 							Write(code_messagedefinition_messagesignificancecategory, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MessageDefinition.messageheader_response_request> code_messagedefinition_messageheader_response_request:
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.messageheader_response_request> code_messagedefinition_messageheader_response_request:
 							Write(code_messagedefinition_messageheader_response_request, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.sequenceType> code_molecularsequence_sequencetype:

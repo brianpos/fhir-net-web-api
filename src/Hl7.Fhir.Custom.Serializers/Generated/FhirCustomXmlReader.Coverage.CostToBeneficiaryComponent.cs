@@ -63,8 +63,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "valueQuantity":
-							result.Value = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Value as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".value", cancellationToken); // 50
+							result.Value = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						case "valueMoney":
 							result.Value = new Hl7.Fhir.Model.Money();
@@ -136,8 +136,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 40
 							break;
 						case "valueQuantity":
-							result.Value = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".value", cancellationToken); // 50
+							result.Value = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						case "valueMoney":
 							result.Value = new Hl7.Fhir.Model.Money();

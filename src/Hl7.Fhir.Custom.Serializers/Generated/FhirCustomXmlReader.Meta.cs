@@ -66,7 +66,7 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.SourceElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".source", cancellationToken); // 50
 							break;
 						case "profile":
-							var newItem_profile = new Hl7.Fhir.Model.Canonical();
+							var newItem_profile = new Hl7.Fhir.Model.FhirUri();
 							Parse(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 60
 							result.ProfileElement.Add(newItem_profile);
 							break;
@@ -144,7 +144,7 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.SourceElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".source", cancellationToken); // 50
 							break;
 						case "profile":
-							var newItem_profile = new Hl7.Fhir.Model.Canonical();
+							var newItem_profile = new Hl7.Fhir.Model.FhirUri();
 							await ParseAsync(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 60
 							result.ProfileElement.Add(newItem_profile);
 							break;

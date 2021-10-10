@@ -59,12 +59,12 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "areaUnderCurve":
-							var newItem_areaUnderCurve = new Hl7.Fhir.Model.SimpleQuantity();
+							var newItem_areaUnderCurve = new Hl7.Fhir.Model.Quantity();
 							Parse(newItem_areaUnderCurve, reader, outcome, locationPath + ".areaUnderCurve["+result.AreaUnderCurve.Count+"]", cancellationToken); // 40
 							result.AreaUnderCurve.Add(newItem_areaUnderCurve);
 							break;
 						case "lethalDose50":
-							var newItem_lethalDose50 = new Hl7.Fhir.Model.SimpleQuantity();
+							var newItem_lethalDose50 = new Hl7.Fhir.Model.Quantity();
 							Parse(newItem_lethalDose50, reader, outcome, locationPath + ".lethalDose50["+result.LethalDose50.Count+"]", cancellationToken); // 50
 							result.LethalDose50.Add(newItem_lethalDose50);
 							break;
@@ -129,12 +129,12 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "areaUnderCurve":
-							var newItem_areaUnderCurve = new Hl7.Fhir.Model.SimpleQuantity();
+							var newItem_areaUnderCurve = new Hl7.Fhir.Model.Quantity();
 							await ParseAsync(newItem_areaUnderCurve, reader, outcome, locationPath + ".areaUnderCurve["+result.AreaUnderCurve.Count+"]", cancellationToken); // 40
 							result.AreaUnderCurve.Add(newItem_areaUnderCurve);
 							break;
 						case "lethalDose50":
-							var newItem_lethalDose50 = new Hl7.Fhir.Model.SimpleQuantity();
+							var newItem_lethalDose50 = new Hl7.Fhir.Model.Quantity();
 							await ParseAsync(newItem_lethalDose50, reader, outcome, locationPath + ".lethalDose50["+result.LethalDose50.Count+"]", cancellationToken); // 50
 							result.LethalDose50.Add(newItem_lethalDose50);
 							break;

@@ -167,8 +167,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Focus.Add(newItem_focus);
 							break;
 						case "responseRequired":
-							result.ResponseRequiredElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MessageDefinition.messageheader_response_request>();
-							Parse(result.ResponseRequiredElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MessageDefinition.messageheader_response_request>, reader, outcome, locationPath + ".responseRequired", cancellationToken); // 300
+							result.ResponseRequiredElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.messageheader_response_request>();
+							Parse(result.ResponseRequiredElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.messageheader_response_request>, reader, outcome, locationPath + ".responseRequired", cancellationToken); // 300
 							break;
 						case "allowedResponse":
 							var newItem_allowedResponse = new Hl7.Fhir.Model.MessageDefinition.AllowedResponseComponent();
@@ -347,8 +347,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Focus.Add(newItem_focus);
 							break;
 						case "responseRequired":
-							result.ResponseRequiredElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MessageDefinition.messageheader_response_request>();
-							await ParseAsync(result.ResponseRequiredElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MessageDefinition.messageheader_response_request>, reader, outcome, locationPath + ".responseRequired", cancellationToken); // 300
+							result.ResponseRequiredElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.messageheader_response_request>();
+							await ParseAsync(result.ResponseRequiredElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.messageheader_response_request>, reader, outcome, locationPath + ".responseRequired", cancellationToken); // 300
 							break;
 						case "allowedResponse":
 							var newItem_allowedResponse = new Hl7.Fhir.Model.MessageDefinition.AllowedResponseComponent();

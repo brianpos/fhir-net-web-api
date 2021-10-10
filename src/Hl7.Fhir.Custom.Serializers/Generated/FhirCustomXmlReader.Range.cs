@@ -54,12 +54,12 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Extension.Add(newItem_extension);
 							break;
 						case "low":
-							result.Low = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low", cancellationToken); // 30
+							result.Low = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Low as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".low", cancellationToken); // 30
 							break;
 						case "high":
-							result.High = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high", cancellationToken); // 40
+							result.High = new Hl7.Fhir.Model.Quantity();
+							Parse(result.High as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".high", cancellationToken); // 40
 							break;
 						default:
 							// Property not found
@@ -113,12 +113,12 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Extension.Add(newItem_extension);
 							break;
 						case "low":
-							result.Low = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Low as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".low", cancellationToken); // 30
+							result.Low = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Low as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".low", cancellationToken); // 30
 							break;
 						case "high":
-							result.High = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.High as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".high", cancellationToken); // 40
+							result.High = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.High as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".high", cancellationToken); // 40
 							break;
 						default:
 							// Property not found

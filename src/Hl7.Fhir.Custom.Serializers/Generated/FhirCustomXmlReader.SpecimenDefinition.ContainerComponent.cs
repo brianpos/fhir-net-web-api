@@ -75,8 +75,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 70
 							break;
 						case "capacity":
-							result.Capacity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Capacity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 80
+							result.Capacity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Capacity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 80
 							break;
 						case "minimumVolumeQuantity":
 							result.MinimumVolume = new Hl7.Fhir.Model.Quantity();
@@ -168,8 +168,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 70
 							break;
 						case "capacity":
-							result.Capacity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Capacity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 80
+							result.Capacity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Capacity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".capacity", cancellationToken); // 80
 							break;
 						case "minimumVolumeQuantity":
 							result.MinimumVolume = new Hl7.Fhir.Model.Quantity();

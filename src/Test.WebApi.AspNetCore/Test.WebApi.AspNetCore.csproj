@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CustomSerializers.cs" />
-    <Compile Remove="CustomSerializersAllExamples.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="..\Hl7.DemoFileSystemFhirServer.AspNetCore\wwwroot\content\icon_choice.gif" Link="TestData\icon_choice.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

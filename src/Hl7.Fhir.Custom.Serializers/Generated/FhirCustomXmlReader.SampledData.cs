@@ -54,8 +54,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Extension.Add(newItem_extension);
 							break;
 						case "origin":
-							result.Origin = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Origin as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".origin", cancellationToken); // 30
+							result.Origin = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Origin as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".origin", cancellationToken); // 30
 							break;
 						case "period":
 							result.PeriodElement = new Hl7.Fhir.Model.FhirDecimal();
@@ -133,8 +133,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Extension.Add(newItem_extension);
 							break;
 						case "origin":
-							result.Origin = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Origin as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".origin", cancellationToken); // 30
+							result.Origin = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Origin as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".origin", cancellationToken); // 30
 							break;
 						case "period":
 							result.PeriodElement = new Hl7.Fhir.Model.FhirDecimal();

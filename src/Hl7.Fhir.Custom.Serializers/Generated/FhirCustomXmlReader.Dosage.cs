@@ -109,12 +109,12 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.MaxDosePerPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerPeriod", cancellationToken); // 190
 							break;
 						case "maxDosePerAdministration":
-							result.MaxDosePerAdministration = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.MaxDosePerAdministration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 200
+							result.MaxDosePerAdministration = new Hl7.Fhir.Model.Quantity();
+							Parse(result.MaxDosePerAdministration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 200
 							break;
 						case "maxDosePerLifetime":
-							result.MaxDosePerLifetime = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.MaxDosePerLifetime as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 210
+							result.MaxDosePerLifetime = new Hl7.Fhir.Model.Quantity();
+							Parse(result.MaxDosePerLifetime as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 210
 							break;
 						default:
 							// Property not found
@@ -223,12 +223,12 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.MaxDosePerPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerPeriod", cancellationToken); // 190
 							break;
 						case "maxDosePerAdministration":
-							result.MaxDosePerAdministration = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.MaxDosePerAdministration as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 200
+							result.MaxDosePerAdministration = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.MaxDosePerAdministration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 200
 							break;
 						case "maxDosePerLifetime":
-							result.MaxDosePerLifetime = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.MaxDosePerLifetime as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 210
+							result.MaxDosePerLifetime = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.MaxDosePerLifetime as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 210
 							break;
 						default:
 							// Property not found

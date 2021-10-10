@@ -133,12 +133,12 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Product as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".product", cancellationToken); // 170
 							break;
 						case "dailyAmount":
-							result.DailyAmount = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.DailyAmount as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".dailyAmount", cancellationToken); // 180
+							result.DailyAmount = new Hl7.Fhir.Model.Quantity();
+							Parse(result.DailyAmount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dailyAmount", cancellationToken); // 180
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 190
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 190
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
@@ -275,12 +275,12 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Product as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".product", cancellationToken); // 170
 							break;
 						case "dailyAmount":
-							result.DailyAmount = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.DailyAmount as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".dailyAmount", cancellationToken); // 180
+							result.DailyAmount = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.DailyAmount as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".dailyAmount", cancellationToken); // 180
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 190
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 190
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();

@@ -67,8 +67,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.ExpiryElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".expiry", cancellationToken); // 50
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -135,8 +135,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.ExpiryElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".expiry", cancellationToken); // 50
 							break;
 						case "quantity":
-							result.Quantity = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Quantity as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
+							result.Quantity = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Quantity as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".quantity", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

@@ -63,8 +63,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Characteristic as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".characteristic", cancellationToken); // 40
 							break;
 						case "characteristicQuantity":
-							result.Characteristic = new Hl7.Fhir.Model.SimpleQuantity();
-							Parse(result.Characteristic as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".characteristic", cancellationToken); // 40
+							result.Characteristic = new Hl7.Fhir.Model.Quantity();
+							Parse(result.Characteristic as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".characteristic", cancellationToken); // 40
 							break;
 						case "value":
 							var newItem_value = new Hl7.Fhir.Model.FhirString();
@@ -132,8 +132,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Characteristic as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".characteristic", cancellationToken); // 40
 							break;
 						case "characteristicQuantity":
-							result.Characteristic = new Hl7.Fhir.Model.SimpleQuantity();
-							await ParseAsync(result.Characteristic as Hl7.Fhir.Model.SimpleQuantity, reader, outcome, locationPath + ".characteristic", cancellationToken); // 40
+							result.Characteristic = new Hl7.Fhir.Model.Quantity();
+							await ParseAsync(result.Characteristic as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".characteristic", cancellationToken); // 40
 							break;
 						case "value":
 							var newItem_value = new Hl7.Fhir.Model.FhirString();

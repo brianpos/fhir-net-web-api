@@ -610,12 +610,14 @@ namespace Test.WebApi.AspNetCore
                 return;
             generatedTypes.Add(type.FullName, type);
 
-            var cm = ClassMapping.Create(type);
-            System.Diagnostics.Trace.WriteLine($">> {type.FullName} ({type.Name})");
-            foreach (var pm in cm.PropertyMappings)
+            if (ClassMapping.TryCreate(type, out var cm, Hl7.Fhir.Specification.FhirRelease.R4))
             {
-                if (ModelInfo.GetFhirTypeNameForType(pm.ElementType) != null)
-                    ScanTypes(pm.ElementType, generatedTypes);
+                System.Diagnostics.Trace.WriteLine($">> {type.FullName} ({type.Name})");
+                foreach (var pm in cm.PropertyMappings)
+                {
+                    if (ModelInfo.GetFhirTypeNameForType(pm.ImplementingType) != null)
+                        ScanTypes(pm.ImplementingType, generatedTypes);
+                }
             }
         }
 

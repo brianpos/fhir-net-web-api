@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="1.9.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="3.5.0" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.1.3" />
     <PackageReference Include="Hl7.Fhir.Specification.R4" Version="3.5.0" />
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.1.2" />

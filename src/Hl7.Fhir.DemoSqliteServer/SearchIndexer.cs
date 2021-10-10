@@ -61,7 +61,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
 
         public async Task ScanDirectory(CancellationToken cancellationToken, FhirDbContext db, string directory)
         {
-            var parser = new Fhir.Serialization.FhirXmlParser();
+            ILocalXmlSerializer parser = new LocalXmlSerializer();
             var files = System.IO.Directory.EnumerateFiles(directory, "*.*.*.xml");
             foreach (var filename in files.AsParallel())
             {
@@ -105,6 +105,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
 
         public async Task<GetResourceResult> Get(CancellationToken cancellationToken, FhirDbContext db, string ResourceType, string Id, string version = null)
         {
+            ILocalXmlSerializer parser = new LocalXmlSerializer();
             if (version == null)
             {
                 var record = await db.Resource_Header.FirstOrDefaultAsync(r => r.resource_id == Id && r.ResourceType == ResourceType, cancellationToken).ConfigureAwait(false);
@@ -114,7 +115,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 {
                     return GetResourceResult.Deleted;
                 }
-                return new GetResourceResult(new Serialization.FhirXmlParser().Parse<Resource>(record.contentXML));
+                return new GetResourceResult(parser.Parse<Resource>(record.contentXML));
             }
             if (int.TryParse(version, out var versionNo))
             {
@@ -129,7 +130,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 {
                     using (var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream))
                     {
-                        return new GetResourceResult(new Serialization.FhirXmlParser().Parse<Resource>(xr));
+                        return new GetResourceResult(parser.Parse<Resource>(xr));
                     }
                 }
             }
@@ -139,7 +140,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         internal async Task<IEnumerable<SearchResourceResult>> InstanceHistory(CancellationToken cancellationToken, FhirDbContext db, string resourceName, string resourceId, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
             List<SearchResourceResult> result = new List<SearchResourceResult>();
-            var parser = new Fhir.Serialization.FhirXmlParser();
+            ILocalXmlSerializer parser = new LocalXmlSerializer();
             var query = db.Resource_History.Where(r => r.ResourceType == resourceName && r.resource_id == resourceId).AsQueryable();
             if (since.HasValue)
                 query = query.Where(r => r.last_updated >= since.Value);
@@ -158,7 +159,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             return result;
         }
 
-        private static void PrepareHistoryResult(List<SearchResourceResult> result, Serialization.FhirXmlParser parser, resource_history item)
+        private static void PrepareHistoryResult(List<SearchResourceResult> result, ILocalXmlSerializer parser, resource_history item)
         {
             if (item.deleted)
             {
@@ -190,7 +191,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         internal async Task<IEnumerable<SearchResourceResult>> TypeHistory(CancellationToken cancellationToken, FhirDbContext db, string resourceName, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
             List<SearchResourceResult> result = new List<SearchResourceResult>();
-            var parser = new Fhir.Serialization.FhirXmlParser();
+            ILocalXmlSerializer parser = new LocalXmlSerializer();
             var query = db.Resource_History.Where(r => r.ResourceType == resourceName).AsQueryable();
             if (since.HasValue)
                 query = query.Where(r => r.last_updated >= since.Value);
@@ -212,7 +213,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         internal async Task<IEnumerable<SearchResourceResult>> SystemHistory(CancellationToken cancellationToken, FhirDbContext db, DateTimeOffset? since, DateTimeOffset? till, int? count)
         {
             List<SearchResourceResult> result = new List<SearchResourceResult>();
-            var parser = new Fhir.Serialization.FhirXmlParser();
+            ILocalXmlSerializer parser = new LocalXmlSerializer();
             var query = db.Resource_History.AsQueryable();
             if (since.HasValue)
                 query = query.Where(r => r.last_updated >= since.Value);
@@ -275,7 +276,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         /// <param name="filename"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private async Task ScanResource(CancellationToken cancellationToken, FhirDbContext db, Serialization.FhirXmlParser parser, string filename)
+        private async Task ScanResource(CancellationToken cancellationToken, FhirDbContext db, ILocalXmlSerializer parser, string filename)
         {
             var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
             await StoreResource(cancellationToken, db, resource);
@@ -299,7 +300,8 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 if (!record.deleted)
                 {
                     // do some sanity checking on this content to see if it is different
-                    oldValue = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(record.contentXML);
+                    ILocalXmlSerializer parser = new LocalXmlSerializer();
+                    oldValue = parser.Parse<Resource>(record.contentXML);
                     // if they are the same, don't commit anything
                     if (CompareContentForSave(cancellationToken, oldValue, resource))
                     {
@@ -326,8 +328,9 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 resource.Meta.LastUpdated = modificationTime;
             }
 
-            var xml = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings { Pretty = true }).SerializeToString(resource);
-            var xmlBytes = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings { Pretty = true }).SerializeToBytes(resource);
+            var serializer = new LocalXmlSerializer();
+            var xml = serializer.SerializeToString(resource);
+            var xmlBytes = serializer.SerializeToBytes(resource);
             if (record == null)
             {
                 var result = await db.Resource_Header.AddAsync(new resource_header()

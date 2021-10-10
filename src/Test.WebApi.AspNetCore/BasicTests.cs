@@ -16,6 +16,11 @@ using Hl7.Fhir.Serialization;
 using System.Linq;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
+using System.Collections.Generic;
+using Hl7.Fhir.Specification.Source;
+using Microsoft.EntityFrameworkCore;
+using Hl7.Fhir.Validation;
+using Hl7.Fhir.Specification.Terminology;
 
 namespace UnitTestWebApi
 {
@@ -357,6 +362,181 @@ namespace UnitTestWebApi
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
             Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
             Assert.IsTrue(p.IsExactly(result), "resources should be the same");
+        }
+
+        [TestMethod]
+        public void TestSqliteResolverWithValidation()
+        {
+            var builder = new DbContextOptionsBuilder<SpecificationContext>().UseSqlite(@"Data Source=c:\temp\Sqlite-specification.db");
+            var dbContext = new SpecificationContext(builder.Options);
+            dbContext.Database.EnsureCreated();
+            var targetResolver = new SqliteConformanceResourceResolver(dbContext);
+            var localTerminologyService = new LocalTerminologyService(targetResolver, new ValueSetExpanderSettings() { ValueSetSource = targetResolver });
+            var validator = new Validator(new ValidationSettings() { ResourceResolver = targetResolver, TerminologyService = localTerminologyService });
+
+            FhirClient server = new FhirClient("http://sqlonfhir-r4.azurewebsites.net/fhir", false);
+            var q = server.Read<Questionnaire>("Questionnaire/enable-when-tests");
+            var outcome = validator.Validate(q);
+            DebugDumpOutputXml(outcome);
+
+            q = server.Read<Questionnaire>("Questionnaire/mbs715");
+            outcome = validator.Validate(q);
+            DebugDumpOutputXml(outcome);
+
+            q = server.Read<Questionnaire>("Questionnaire/pre-pop-test2");
+            outcome = validator.Validate(q);
+            DebugDumpOutputXml(outcome);
+        }
+
+        [TestMethod]
+        public void ExportSpecificationZipToSqlite()
+        {
+            var source = Hl7.Fhir.Specification.Source.ZipSource.CreateValidationSource();
+            Dictionary<string, Resource> canonicalsRequired = new Dictionary<string, Resource>();
+    
+            var builder = new DbContextOptionsBuilder<SpecificationContext>().UseSqlite(@"Data Source=c:\temp\Sqlite-specification.db");
+            var dbContext = new SpecificationContext(builder.Options);
+            dbContext.Database.EnsureCreated();
+            var targetResolver = new SqliteConformanceResourceResolver(dbContext);
+            var sourceSDC = new ZipSource(@"E:\git\brianpos\QForms\Test.WebApi.AspNetCore\TestData\sdc-ig.zip");
+            var outcome = targetResolver.MigrateFrom(sourceSDC, (issue, canonical, resource) =>
+            {
+                System.Diagnostics.Trace.WriteLine($"{issue.Severity}/{issue.Code}: {issue.Details?.Text}");
+                if (resource != null)
+                    ScanResource(source, canonical, canonicalsRequired, resource);
+            }).GetAwaiter().GetResult();
+
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/Questionnaire", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/ValueSet", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/CodeSystem", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/StructureDefinition", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/Patient", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/Practitioner", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/PractitionerRole", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/Organization", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/Observation", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/Bundle", canonicalsRequired);
+
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/entryFormat", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/maxDecimalPlaces", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/maxSize", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/maxValue", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/mimeType", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/minLength", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/minValue", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/ordinalValue", canonicalsRequired);
+
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-constraint", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-fhirType", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-optionPrefix", canonicalsRequired);
+
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-unit", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/questionnaire-optionUnit", canonicalsRequired);
+
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/regex", canonicalsRequired);
+            ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/variable", canonicalsRequired);
+
+            Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(_baseAddress, false);
+            var serializer = new Hl7.Fhir.Serialization.FhirXmlSerializer(new SerializerSettings() { Pretty = true });
+            foreach (var item in canonicalsRequired.Keys)
+            {
+                System.Diagnostics.Trace.WriteLine(item);
+                var resource = canonicalsRequired[item] as DomainResource;
+                resource.Extension.Clear();
+                resource.Text = null;
+                if (resource is IConformanceResource cr)
+                {
+                    cr.Contact.Clear();
+                    cr.Description = null;
+                    cr.Purpose = null;
+                    cr.Publisher = null;
+                }
+                if (resource is StructureDefinition sd)
+                {
+                    sd.Mapping.Clear();
+                    foreach (var element in sd.Differential.Element)
+                    {
+                        CleanElement(element);
+                    }
+                    foreach (var element in sd.Snapshot.Element)
+                    {
+                        CleanElement(element);
+                    }
+                }
+                targetResolver.IncludeCanonicalResource(resource);
+                // var result = clientFhir.Update(resource);
+                System.IO.File.WriteAllBytes($"c:\\temp\\{resource.TypeName}-{resource.Id}.xml", serializer.SerializeToBytes(resource));
+            }
+        }
+
+        private static void CleanElement(ElementDefinition element)
+        {
+            element.Mapping.Clear();
+            element.Definition = null;
+            element.Comment = null;
+            element.Alias = null;
+            element.Requirements = null;
+        }
+
+        private static void ScanCanonical(IResourceResolver source, string canonicalUri, Dictionary<string, Resource> canonicalsRequired)
+        {
+            if (string.IsNullOrEmpty(canonicalUri))
+                return;
+            if (canonicalsRequired.ContainsKey(canonicalUri))
+                return;
+            if (canonicalUri.Contains("|"))
+                canonicalUri = canonicalUri.Substring(0, canonicalUri.IndexOf("|"));
+            var requiredResource = source.ResolveByCanonicalUri(canonicalUri);
+            if (requiredResource == null)
+                requiredResource = source.ResolveByUri(canonicalUri);
+            ScanResource(source, canonicalUri, canonicalsRequired, requiredResource);
+        }
+
+        private static void ScanResource(IResourceResolver source, string canonicalUri, Dictionary<string, Resource> canonicalsRequired, Resource requiredResource)
+        {
+            if (requiredResource == null)
+            {
+                System.Diagnostics.Trace.WriteLine($"Failed to resolve {canonicalUri}");
+                return;
+            }
+            if (requiredResource is StructureDefinition sd)
+            {
+                canonicalsRequired.Add(canonicalUri, requiredResource);
+                ScanCanonical(source, sd.BaseDefinition, canonicalsRequired);
+                foreach (var element in sd.Differential.Element)
+                {
+                    foreach (var type in element.Type)
+                    {
+                        string typeUri = type.Code;
+                        if (!typeUri.Contains("/"))
+                            typeUri = "http://hl7.org/fhir/StructureDefinition/" + typeUri;
+                        ScanCanonical(source, typeUri, canonicalsRequired);
+                    }
+                    // need the type URL and valueset bindings
+                    ScanCanonical(source, element.Binding?.ValueSet, canonicalsRequired);
+                }
+            }
+            if (requiredResource is ValueSet vs)
+            {
+                if (!canonicalsRequired.ContainsKey(canonicalUri))
+                    canonicalsRequired.Add(canonicalUri, requiredResource);
+                foreach (var include in vs.Compose.Include)
+                {
+                    ScanCanonical(source, include.System, canonicalsRequired);
+                }
+            }
+            if (requiredResource is CodeSystem cs)
+            {
+                canonicalsRequired.Add(canonicalUri, requiredResource);
+            }
         }
 
         private void ClientFhir_OnBeforeRequest1(object sender, BeforeRequestEventArgs e)

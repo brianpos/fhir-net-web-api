@@ -161,7 +161,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             resource.ResourceBase = RequestDetails.BaseUri;
 
             Dictionary<string, Resource> entries = new Dictionary<string, Resource>();
-            var parser = new Hl7.Fhir.Serialization.FhirXmlParser();
+            var parser = new LocalXmlSerializer();
             IEnumerable<long> filenames = null;
             var idparam = parameters.Where(kp => kp.Key == "_id");
             List<string> usedParameters = new List<string>();

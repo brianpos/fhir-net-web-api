@@ -4,7 +4,7 @@
     <TargetFrameworks>net50;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.Custom.Serializers</AssemblyName>
     <PackageId>brianpos.Fhir.R4.Custom.Serializers</PackageId>
-    <Version>3.5.0-beta1</Version>
+    <Version>3.6.0-beta1</Version>
     <Title>HL7 Fhir R4 Custom Serializers (NOT FOR PRODUCTION USAGE)</Title>
     <Summary>A code generated set of serializers tuned for performance</Summary>
     <Description>The standard FHIR Serializers use either reflection on the class models or a custom provider to feed serialization information into generic parser/serializer.
@@ -14,6 +14,10 @@
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
     <Product>Hl7.Fhir.R4.WebApi.Serializers</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <Import Project="..\platforms.props" />
@@ -34,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="3.5.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="3.6.0" />
   </ItemGroup>
 
   <ItemGroup>

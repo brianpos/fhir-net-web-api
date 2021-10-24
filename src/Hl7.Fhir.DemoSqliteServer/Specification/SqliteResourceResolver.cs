@@ -279,7 +279,7 @@ namespace Hl7.Fhir.Specification.Source
 
         public Task<Resource> ResolveByCanonicalUriAsync(string uri)
         {
-            return ResolveByCanonicalUriAsync(uri);
+            return ResolveByUriAsync(uri);
         }
     }
 }

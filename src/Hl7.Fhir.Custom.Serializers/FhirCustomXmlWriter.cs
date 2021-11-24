@@ -5663,8 +5663,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.Url, writer, "url", cancellationToken); // 30
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			switch(name.Value?.TypeName) // 40
 			{
 				case "base64Binary":

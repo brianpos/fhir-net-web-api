@@ -149,7 +149,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             throw new NotImplementedException();
         }
 
-        public async Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
+        public async Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary, string orderby)
         {
             // This is a Brute force search implementation - just scan all the files
             Bundle resource = new Bundle();
@@ -172,7 +172,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             }
             foreach (var p in parameters)
             {
-                var r = await Indexer.Search(RequestDetails.CancellationToken, db, ResourceName, p.Key, p.Value);
+                var r = await Indexer.Search(RequestDetails.CancellationToken, db, ResourceName, p.Key, p.Value, orderby);
                 if (r != null)
                 {
                     if (filenames == null)

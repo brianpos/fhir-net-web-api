@@ -89,7 +89,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             db.Database.EnsureDeleted();
         }
 
-        public async Task<IEnumerable<long>> Search(CancellationToken cancellationToken, FhirDbContext db, string resourceType, string parameter, string value)
+        public async Task<IEnumerable<long>> Search(CancellationToken cancellationToken, FhirDbContext db, string resourceType, string parameter, string value, string orderby)
         {
             IEnumerable<long> internal_ids = new long[] { };
             var searchparameters = ModelInfo.SearchParameters.Where(r => r.Resource == resourceType && r.Name == parameter && !String.IsNullOrEmpty(r.Expression));

@@ -4,7 +4,7 @@
     <TargetFrameworks>net50;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.DemoSqliteFhirServer</AssemblyName>
     <PackageId>brianpos.Fhir.R4.DemoSqliteFhirServer</PackageId>
-    <Version>3.6.0-beta4</Version>
+    <Version>3.7.0-beta1</Version>
     <Title>Demonstration R4 FHIR File System Facade</Title>
     <Summary>Demonstration R4 FHIR File System Facade</Summary>
     <Description>Demonstration implementation of a FHIR R4 Facade using Sqlite as a simple storage provider</Description>
@@ -21,8 +21,8 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="3.6.0" />
-    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="3.6.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="3.7.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="3.7.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
   </ItemGroup>
 
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.19"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.19" />
   </ItemGroup>
 
 </Project>

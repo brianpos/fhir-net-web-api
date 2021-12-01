@@ -174,7 +174,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary)
+        public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary, string sortby)
         {
             // This is a Brute force search implementation - just scan all the files
             Bundle resource = new Bundle();

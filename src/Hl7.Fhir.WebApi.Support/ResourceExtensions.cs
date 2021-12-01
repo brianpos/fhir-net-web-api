@@ -38,6 +38,23 @@ namespace Hl7.Fhir.WebApi
                 return null;
             return value.Resource;
         }
+
+        public static Hl7.Fhir.Rest.SummaryType? GetSummaryParameter(this IEnumerable<KeyValuePair<string, string>> parameters)
+        {
+            string s = parameters.Where(k => k.Key == "_summary").FirstOrDefault().Value;
+            if (s == null)
+                return Hl7.Fhir.Rest.SummaryType.False;
+
+            switch (s.ToLower())
+            {
+                case "true": return Hl7.Fhir.Rest.SummaryType.True;
+                case "false": return Hl7.Fhir.Rest.SummaryType.False;
+                case "text": return Hl7.Fhir.Rest.SummaryType.Text;
+                case "data": return Hl7.Fhir.Rest.SummaryType.Data;
+                case "count": return Hl7.Fhir.Rest.SummaryType.Count;
+            }
+            return null;
+        }
         #endregion
 
         public static Uri AppendToQuery(this Uri me, string query)

@@ -89,8 +89,9 @@ namespace Hl7.Fhir.WebApi
         /// <param name="parameters"></param>
         /// <param name="Count"></param>
         /// <param name="summary"></param>
+        /// <param name="sortby"></param>
         /// <returns></returns>
-        Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary);
+        Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, Rest.SummaryType summary, string sortby);
 
         /// <summary>
         /// Perform a Resource Instance based Operation

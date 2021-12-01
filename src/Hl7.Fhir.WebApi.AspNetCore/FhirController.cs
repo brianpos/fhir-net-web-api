@@ -480,7 +480,7 @@ namespace Hl7.Fhir.WebApi
 
             try
             {
-                Bundle result = await model.Search(parameters, pagesize, summary);
+                Bundle result = await model.Search(parameters, pagesize, summary, sortby);
                 result.ResourceBase = inputs.BaseUri;
 
                 PrepareResourceForOutputWithSummary(inputs, summary, result);
@@ -500,9 +500,6 @@ namespace Hl7.Fhir.WebApi
             System.Diagnostics.Debug.WriteLine("GET: " + this.Request.GetDisplayUrl());
 
             var parameters = Request.TupledParameters(SearchQueryParameterNames).ToList();
-            Hl7.Fhir.Rest.SummaryType summary = GetSummaryParameter(Request);
-            string sortby = Request.GetParameter(FhirParameter.SORT);
-            int pagesize = Request.GetIntParameter(FhirParameter.COUNT) ?? Const.DEFAULT_PAGE_SIZE;
 
             var buri = this.CalculateBaseURI("{ResourceName}");
             var inputs = GetInputs(buri);
@@ -519,9 +516,15 @@ namespace Hl7.Fhir.WebApi
                 }
             }
 
+            Hl7.Fhir.Rest.SummaryType summary = parameters.GetSummaryParameter() ?? SummaryType.False;
+            string pageSizeString = parameters.Where(k => k.Key == FhirParameter.COUNT).FirstOrDefault().Value;
+            string sortby = parameters.Where(k => k.Key == FhirParameter.SORT).FirstOrDefault().Value;
+            if (string.IsNullOrEmpty(pageSizeString) || !int.TryParse(pageSizeString, out int pagesize))
+                pagesize = Const.DEFAULT_PAGE_SIZE;
+
             try
             {
-                Bundle result = await model.Search(parameters, pagesize, summary);
+                Bundle result = await model.Search(parameters, pagesize, summary, sortby);
                 result.ResourceBase = inputs.BaseUri;
 
                 PrepareResourceForOutputWithSummary(inputs, summary, result);

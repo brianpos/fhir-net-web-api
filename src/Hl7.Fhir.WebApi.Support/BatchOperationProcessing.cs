@@ -223,9 +223,10 @@ namespace Hl7.Fhir.WebApi
                                 var parameters = System.Web.HttpUtility.ParseQueryString(new Uri(request.BaseUri + entry.Request.Url).Query).TupledParameters(false);
                                 int pagesize;
                                 string pageSizeString = parameters.Where(k => k.Key == "_count").FirstOrDefault().Value;
+                                string sortby = parameters.Where(k => k.Key == "_sort").FirstOrDefault().Value;
                                 if (string.IsNullOrEmpty(pageSizeString) || !int.TryParse(pageSizeString, out pagesize))
                                     pagesize = DefaultPageSize;
-                                Bundle result = await model.Search(parameters, pagesize, SummaryType.False);
+                                Bundle result = await model.Search(parameters, pagesize, parameters.GetSummaryParameter() ?? SummaryType.False, sortby);
                                 // result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
                                 itemResult.Resource = result;
                                 itemResult.Response.Status = ((int)HttpStatusCode.OK).ToString();

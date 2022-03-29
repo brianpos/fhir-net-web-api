@@ -1,32 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net.Sockets;
-using System.Net;
-using Hl7.Fhir.WebApi;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Microsoft.AspNetCore;
-using Hl7.DemoFileSystemFhirServer;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using System.IO;
-using System.Net.Http;
-using Microsoft.Extensions.Configuration;
 using Hl7.Fhir.Serialization;
 using System.Linq;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
-using System.Collections.Generic;
-using Hl7.Fhir.Specification.Source;
-using Microsoft.EntityFrameworkCore;
-using Hl7.Fhir.Validation;
-using Hl7.Fhir.Specification.Terminology;
-using Hl7.Fhir.Rest.Legacy;
-using Microsoft.Extensions.Caching.Memory;
-using System.Xml.Linq;
-using System.Text;
-using Hl7.Fhir.Utility;
-using System.Threading;
 
 namespace UnitTestWebApi
 {

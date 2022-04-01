@@ -71,23 +71,37 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
             return con;
         }
 
+        internal static Dictionary<string, Dictionary<string, short>> ResourceSearchParameterCache = new Dictionary<string, Dictionary<string, short>>();
+        internal static Dictionary<string, int> ResourceTypeIds;
+
         public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
             var msDB = GetMsFhirDbContext(request.ServiceProvider);
-            var rtID = msDB.ResourceType.Where(rt => rt.Name == resourceName).Select(rt => rt.ResourceTypeId).FirstOrDefault();
-            var sps = ModelInfo.SearchParameters.Where(sp => sp.Resource == resourceName).Select(sp => new { sp.Url, sp.Name }).ToDictionary(d => d.Url);
-            Dictionary<string, short> spIdcache = new Dictionary<string, short>();
-            foreach (var sp in msDB.SearchParam.Where(sp => sps.Values.Select(t => t.Url).Contains(sp.Uri) && sp.Status == "Enabled"))
+            if (ResourceTypeIds == null)
             {
-                spIdcache.Add(sps[sp.Uri].Name, sp.SearchParamId);
+                ResourceTypeIds = new Dictionary<string, int>();
+                foreach (var rt in msDB.ResourceType.Select(rt => new { rt.ResourceTypeId, rt.Name }))
+                {
+                    ResourceTypeIds.Add(rt.Name, rt.ResourceTypeId);
+                }
+            }
+            if (!ResourceSearchParameterCache.ContainsKey(resourceName))
+            {
+                var sps = ModelInfo.SearchParameters.Where(sp => sp.Resource == resourceName).Select(sp => new { sp.Url, sp.Name }).ToDictionary(d => d.Url);
+                Dictionary<string, short> spIdcache = new Dictionary<string, short>();
+                foreach (var sp in msDB.SearchParam.Where(sp => sps.Values.Select(t => t.Url).Contains(sp.Uri) && sp.Status == "Enabled"))
+                {
+                    spIdcache.Add(sps[sp.Uri].Name, sp.SearchParamId);
+                }
+                ResourceSearchParameterCache.Add(resourceName, spIdcache);
             }
             return new MSR_ResourceService<TSP>()
             {
                 RequestDetails = request,
                 ResourceName = resourceName,
                 dbMS = msDB,
-                ResourceTypeId = rtID,
-                SearchParamIdCache = spIdcache
+                ResourceTypeId = ResourceTypeIds[resourceName],
+                SearchParamIdCache = ResourceSearchParameterCache[resourceName]
             };
         }
 

@@ -4,15 +4,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Hl7.Fhir.NetCoreApi;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
-using System.IO;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
 using Hl7.Fhir.WebApi;
 using Microsoft.Health.Fhir.Facade.SqlServer;
 using Microsoft.Extensions.Hosting;
-using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Health.Fhir.Facade.SqlServer.EntityModels;
 
@@ -81,12 +77,10 @@ namespace Hl7.DemoFileSystemFhirServer
                 builder.WithExposedHeaders(new[] { "Content-Location", "Location", "Etag" });
             }));
 
-            services.AddDbContext<FhirDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<FHIR_R4Context>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<FhirDbContext, FhirDbContext>();
+            services.AddScoped<FHIR_R4Context, FHIR_R4Context>();
 
 
             var systemService = new MSR_SystemService<System.IServiceProvider>();

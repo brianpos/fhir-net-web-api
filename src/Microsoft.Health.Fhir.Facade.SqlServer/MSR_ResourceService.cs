@@ -1,5 +1,4 @@
-﻿using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
-using Hl7.Fhir.ElementModel.Types;
+﻿using Hl7.Fhir.ElementModel.Types;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Support;
@@ -25,7 +24,6 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
         public ModelBaseInputs<TSP> RequestDetails { get; set; }
 
         public string ResourceName { get; set; }
-        internal FhirDbContext db { get; set; }
 
         internal FHIR_R4Context dbMS { get; set; }
         internal int ResourceTypeId { get; set; }

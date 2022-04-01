@@ -1,5 +1,4 @@
-﻿using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
-using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Utility;

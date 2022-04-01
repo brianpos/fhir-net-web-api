@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Microsoft.Health.Fhir.Facade.SqlServer.EF
 {
     [Index(nameof(SystemId), Name = "UQ_System_SystemId", IsUnique = true)]
-    public partial class System
+    [Table("System")]
+    public partial class SystemTable
     {
         public int SystemId { get; set; }
         [Key]

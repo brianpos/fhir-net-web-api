@@ -19,10 +19,10 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer.EntityModels
         {
         }
 
-        public virtual DbSet<Resource> Resource { get; set; }
+        public virtual DbSet<ResourceTable> Resource { get; set; }
         public virtual DbSet<ResourceType> ResourceType { get; set; }
         public virtual DbSet<SearchParam> SearchParam { get; set; }
-        public virtual DbSet<Microsoft.Health.Fhir.Facade.SqlServer.EF.System> System { get; set; }
+        public virtual DbSet<Microsoft.Health.Fhir.Facade.SqlServer.EF.SystemTable> System { get; set; }
         public virtual DbSet<TokenSearchParam> TokenSearchParam { get; set; }
 
         // Add in the Prototype Closure tables
@@ -36,7 +36,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer.EntityModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Resource>(entity =>
+            modelBuilder.Entity<ResourceTable>(entity =>
             {
                 entity.HasKey(e => new { e.ResourceTypeId, e.ResourceSurrogateId })
                     .HasName("PKC_Resource");
@@ -72,7 +72,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer.EntityModels
                 entity.Property(e => e.SearchParamId).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<Microsoft.Health.Fhir.Facade.SqlServer.EF.System>(entity =>
+            modelBuilder.Entity<Microsoft.Health.Fhir.Facade.SqlServer.EF.SystemTable>(entity =>
             {
                 entity.HasKey(e => e.Value)
                     .HasName("PKC_System");

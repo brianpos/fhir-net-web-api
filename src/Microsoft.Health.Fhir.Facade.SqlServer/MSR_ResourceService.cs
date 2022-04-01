@@ -57,7 +57,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
 
         public async Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
         {
-            EF.Resource resourceRow;
+            EF.ResourceTable resourceRow;
             if (!string.IsNullOrEmpty(VersionId) && int.TryParse(VersionId, out int version)) // versioned request or not
                 resourceRow = await dbMS.Resource.FirstOrDefaultAsync(r => r.ResourceTypeId == this.ResourceTypeId && r.ResourceId == resourceId && r.Version == version, RequestDetails.CancellationToken);
             else
@@ -123,7 +123,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 // code:below=http://loinc.org|LP415675-0,http://loinc.org|LP416421-8
                 if (modifier == "below")
                 {
-                    System.Linq.Expressions.Expression<Func<EF.Resource, bool>> predicate = null;
+                    System.Linq.Expressions.Expression<Func<EF.ResourceTable, bool>> predicate = null;
                     foreach (string value in values.Distinct())
                     {
                         // this one needs to check against the specific table
@@ -143,7 +143,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                             if (systemId.HasValue && closureId.HasValue)
                             {
                                 // reach into the Closure Table
-                                System.Linq.Expressions.Expression<Func<EF.Resource, bool>> iterationPredicate = (sop) => dbMS.TokenSearchParam
+                                System.Linq.Expressions.Expression<Func<EF.ResourceTable, bool>> iterationPredicate = (sop) => dbMS.TokenSearchParam
                                                             .Join(dbMS.ClosureRelationships, tsp => tsp.Code, cr => cr.ChildCode, (tsp, cr) => new { tsp, cr })
                                                             .Any(v => v.cr.ClosureId == closureId && v.tsp.SystemId == systemId.Value && v.tsp.ResourceSurrogateId == sop.ResourceSurrogateId
                                                                         && v.cr.ParentCode == coding[1] && v.tsp.SearchParamId == spId);
@@ -160,7 +160,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 }
                 else
                 {
-                    System.Linq.Expressions.Expression<Func<EF.Resource, bool>> predicate = null;
+                    System.Linq.Expressions.Expression<Func<EF.ResourceTable, bool>> predicate = null;
                     foreach (string value in values)
                     {
                         // this one needs to check against the specific table

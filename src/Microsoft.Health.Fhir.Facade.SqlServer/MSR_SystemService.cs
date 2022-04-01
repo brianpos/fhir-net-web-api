@@ -136,7 +136,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
 
             using (var msDB = GetMsFhirDbContext(request.ServiceProvider))
             {
-                var table = msDB.Resource.Take(Count ?? 20); // Default Table Size if none requested
+                var table = msDB.Resource.Join(msDB.ResourceType, r => r.ResourceTypeId, rt => rt.ResourceTypeId, (r, rt) => new { TypeName = rt.Name, r.IsDeleted, r.ResourceId, r.Version, r.RawResource, r.RequestMethod }).Take(Count ?? 20); // Default Table Size if none requested
                 foreach (var row in await table.ToArrayAsync(request.CancellationToken))
                 {
                     Resource resource = null;
@@ -145,7 +145,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                         resource = RawResourceSerializer.Deserialize(row.RawResource);
                         resource.Meta.VersionId = row.Version.ToString(); // why is not the version in the raw data...
                     }
-                    var ri = ResourceIdentity.Build(request.BaseUri, resource.TypeName, row.ResourceId, row.Version.ToString());
+                    var ri = ResourceIdentity.Build(request.BaseUri, row.TypeName, row.ResourceId, row.Version.ToString());
                     result.Entry.Add(new Bundle.EntryComponent()
                     {
                         Resource = resource,
@@ -153,7 +153,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                         Request = new Bundle.RequestComponent()
                         {
                             Method = row.IsDeleted ? Bundle.HTTPVerb.DELETE : Hl7.Fhir.Utility.EnumUtility.ParseLiteral<Bundle.HTTPVerb>(row.RequestMethod),
-                            Url = $"{resource.TypeName}/{row.ResourceId}/_history/{row.Version}"
+                            Url = $"{row.TypeName}/{row.ResourceId}/_history/{row.Version}"
                         },
                     });
                 }

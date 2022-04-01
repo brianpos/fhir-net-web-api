@@ -9,7 +9,8 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer.EF
 {
     [Index(nameof(ResourceSurrogateId), Name = "IX_Resource_ResourceSurrogateId", IsUnique = true)]
     [Index(nameof(ResourceTypeId), nameof(ResourceId), nameof(Version), Name = "IX_Resource_ResourceTypeId_ResourceId_Version", IsUnique = true)]
-    public partial class Resource
+    [Table("Resource")]
+    public partial class ResourceTable
     {
         [Key]
         public short ResourceTypeId { get; set; }

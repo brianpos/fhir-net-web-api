@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -67,7 +67,7 @@ namespace Hl7.Fhir.WebApi
         //    request.SaveEntry(entry);
 
         //    HttpResponseMessage msg;
-            
+
         //    if(code != null)
         //        msg = request.CreateResponse<Resource>(code.Value,entry);
         //    else
@@ -103,7 +103,7 @@ namespace Hl7.Fhir.WebApi
 
         public static bool? GetBooleanParameter(this HttpRequest request, string name)
         {
-            string s = request.GetParameter(name);           
+            string s = request.GetParameter(name);
             if(s == null) return null;
 
             bool b;

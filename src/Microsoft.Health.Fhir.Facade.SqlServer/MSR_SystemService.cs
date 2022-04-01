@@ -1,13 +1,12 @@
-﻿using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
-using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.WebApi;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Microsoft.Health.Fhir.Facade.SqlServer.DemoSearchIndexer;
 
 namespace Microsoft.Health.Fhir.Facade.SqlServer
 {
@@ -24,18 +23,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
         /// <summary>
         /// The File system directory that will be scanned for the storage of FHIR resources
         /// </summary>
-        public static string Directory { get; set; }
-        private DemoSearchIndexer _indexer;
         public int DefaultPageSize { get; set; } = 40;
-
-        private FhirDbContext GetFhirDbContext(TSP services)
-        {
-            if (services is System.IServiceProvider sp)
-            {
-                return sp.GetService<FhirDbContext>();
-            }
-            return null;
-        }
 
         private EntityModels.FHIR_R4Context GetMsFhirDbContext(TSP services)
         {
@@ -85,14 +73,6 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
 
         public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
-            FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
-            db.Database.EnsureCreated();
-            if (_indexer == null)
-            {
-                _indexer = new DemoSearchIndexer();
-                _indexer.Initialize(db);
-            }
-
             var msDB = GetMsFhirDbContext(request.ServiceProvider);
             var rtID = msDB.ResourceType.Where(rt => rt.Name == resourceName).Select(rt => rt.ResourceTypeId).FirstOrDefault();
             var sps = ModelInfo.SearchParameters.Where(sp => sp.Resource == resourceName).Select(sp => new { sp.Url, sp.Name }).ToDictionary(d => d.Url);
@@ -105,7 +85,6 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
             {
                 RequestDetails = request,
                 ResourceName = resourceName,
-                db = db,
                 dbMS = msDB,
                 ResourceTypeId = rtID,
                 SearchParamIdCache = spIdcache
@@ -148,26 +127,38 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
         public async System.Threading.Tasks.Task<Bundle> SystemHistory(ModelBaseInputs<TSP> request, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
-            result.Meta = new Meta();
-            result.Meta.LastUpdated = DateTime.Now;
+            result.Meta = new Meta()
+            {
+                LastUpdated = System.DateTime.Now
+            };
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
-            var resources = await _indexer.SystemHistory(request.CancellationToken, db, since, Till, Count);
-
-            foreach (SearchResourceResult item in resources)
+            using (var msDB = GetMsFhirDbContext(request.ServiceProvider))
             {
-                result.Entry.Add(new Bundle.EntryComponent()
+                var table = msDB.Resource.Take(Count ?? 20); // Default Table Size if none requested
+                foreach (var row in await table.ToArrayAsync(request.CancellationToken))
                 {
-                    Resource = item.Resource,
-                    FullUrl = item.Resource != null ? ResourceIdentity.Build(request.BaseUri, item.Resource.TypeName, item.Resource.Id, item.Resource.Meta.VersionId).OriginalString : null,
-                    Request = item.Request
-                });
+                    Resource resource = null;
+                    if (!row.IsDeleted)
+                    {
+                        resource = RawResourceSerializer.Deserialize(row.RawResource);
+                        resource.Meta.VersionId = row.Version.ToString(); // why is not the version in the raw data...
+                    }
+                    var ri = ResourceIdentity.Build(request.BaseUri, resource.TypeName, row.ResourceId, row.Version.ToString());
+                    result.Entry.Add(new Bundle.EntryComponent()
+                    {
+                        Resource = resource,
+                        FullUrl = ri.OriginalString,
+                        Request = new Bundle.RequestComponent()
+                        {
+                            Method = row.IsDeleted ? Bundle.HTTPVerb.DELETE : Hl7.Fhir.Utility.EnumUtility.ParseLiteral<Bundle.HTTPVerb>(row.RequestMethod),
+                            Url = $"{resource.TypeName}/{row.ResourceId}/_history/{row.Version}"
+                        },
+                    });
+                }
+                // also need to set the page links
             }
-            result.Total = result.Entry.Count;
-
-            // also need to set the page links
 
             return result;
         }

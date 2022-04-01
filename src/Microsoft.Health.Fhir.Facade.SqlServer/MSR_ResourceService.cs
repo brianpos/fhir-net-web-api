@@ -69,7 +69,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 throw new FhirServerException(System.Net.HttpStatusCode.NotFound, "Resource ID/Version not found");
             if (resourceRow.IsDeleted)
                 throw new FhirServerException(System.Net.HttpStatusCode.Gone, $"{ResourceName}/{resourceId} has been deleted");
-            return DeserializeRawResource(resourceRow.RawResource);
+            return RawResourceSerializer.Deserialize(resourceRow.RawResource);
         }
 
         public async Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary, string orderby)
@@ -193,7 +193,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
             var selectedData = await table.ToListAsync(RequestDetails.CancellationToken);
             foreach (var row in selectedData)
             {
-                var rv = DeserializeRawResource(row.RawResource);
+                var rv = RawResourceSerializer.Deserialize(row.RawResource);
                 rv.Meta.VersionId = row.Version.ToString(); // why is not the version in the raw data...
                 result.AddResourceEntry(rv,
                     new Uri(ResourceIdentity.Build(RequestDetails.BaseUri, ResourceName, rv.Id).OriginalString).OriginalString).Search = new Bundle.SearchComponent()
@@ -240,9 +240,13 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 .Take(Count ?? 20); // Default Table Size if none requested
             foreach (var row in await table.ToArrayAsync(RequestDetails.CancellationToken))
             {
-                var resource = !row.IsDeleted ? DeserializeRawResource(row.RawResource) : null;
-                resource.Meta.VersionId = row.Version.ToString(); // why is not the version in the raw data...
-                var ri = ResourceIdentity.Build(RequestDetails.BaseUri, resource.TypeName, row.ResourceId, row.Version.ToString());
+                Resource resource = null;
+                if (!row.IsDeleted)
+                {
+                    resource = RawResourceSerializer.Deserialize(row.RawResource);
+                    resource.Meta.VersionId = row.Version.ToString(); // why is not the version in the raw data...
+                }
+                var ri = ResourceIdentity.Build(RequestDetails.BaseUri, ResourceName, row.ResourceId, row.Version.ToString());
                 result.Entry.Add(new Bundle.EntryComponent()
                 {
                     Resource = resource,
@@ -250,7 +254,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                     Request = new Bundle.RequestComponent()
                     {
                         Method = row.IsDeleted ? Bundle.HTTPVerb.DELETE : Hl7.Fhir.Utility.EnumUtility.ParseLiteral<Bundle.HTTPVerb>(row.RequestMethod),
-                        Url = $"{resource.TypeName}/{row.ResourceId}/_history/{row.Version}"
+                        Url = $"{ResourceName}/{row.ResourceId}/_history/{row.Version}"
                     },
                 });
             }
@@ -274,9 +278,13 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
             var table = dbMS.Resource.Where(r => r.ResourceTypeId == this.ResourceTypeId).Take(Count ?? 20); // Default Table Size if none requested
             foreach (var row in await table.ToArrayAsync(RequestDetails.CancellationToken))
             {
-                var resource = !row.IsDeleted ? DeserializeRawResource(row.RawResource) : null;
-                resource.Meta.VersionId = row.Version.ToString(); // why is not the version in the raw data...
-                var ri = ResourceIdentity.Build(RequestDetails.BaseUri, resource.TypeName, row.ResourceId, row.Version.ToString());
+                Resource resource = null;
+                if (!row.IsDeleted)
+                {
+                    resource = RawResourceSerializer.Deserialize(row.RawResource);
+                    resource.Meta.VersionId = row.Version.ToString(); // why is not the version in the raw data...
+                }
+                var ri = ResourceIdentity.Build(RequestDetails.BaseUri, ResourceName, row.ResourceId, row.Version.ToString());
                 result.Entry.Add(new Bundle.EntryComponent()
                 {
                     Resource = resource,
@@ -284,7 +292,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                     Request = new Bundle.RequestComponent()
                     {
                         Method = row.IsDeleted ? Bundle.HTTPVerb.DELETE : Hl7.Fhir.Utility.EnumUtility.ParseLiteral<Bundle.HTTPVerb>(row.RequestMethod),
-                        Url = $"{resource.TypeName}/{row.ResourceId}/_history/{row.Version}"
+                        Url = $"{ResourceName}/{row.ResourceId}/_history/{row.Version}"
                     },
                 });
             }
@@ -341,21 +349,6 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
             }
 
             throw new NotImplementedException();
-        }
-
-
-        private Resource DeserializeRawResource(byte[] data)
-        {
-            using (var stream = new MemoryStream(data))
-            {
-                using (var gzipStream = new GZipStream(stream, CompressionMode.Decompress))
-                {
-                    using (var rdr = Hl7.Fhir.Utility.SerializationUtil.JsonReaderFromStream(gzipStream))
-                    {
-                        return new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Resource>(rdr);
-                    }
-                }
-            }
         }
 
         #region << This demo proxy does not support these things >>

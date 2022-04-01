@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Resource = Hl7.Fhir.Model.Resource;
+using LinqKit;
 
 namespace Microsoft.Health.Fhir.Facade.SqlServer
 {
@@ -124,12 +126,14 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 if (modifier == "below")
                 {
                     System.Linq.Expressions.Expression<Func<EF.Resource, bool>> predicate = null;
-                    foreach (string value in values)
+                    foreach (string value in values.Distinct())
                     {
                         // this one needs to check against the specific table
                         var coding = value.Split("|");
                         if (coding.Length == 2)
                         {
+                            System.Diagnostics.Trace.WriteLine($"Searching below {value}");
+
                             var cm = new ClosureMaintainer("https://r4.ontoserver.csiro.au/fhir");
                             cm.CancellationToken = RequestDetails.CancellationToken;
                             await cm.InitializeAsync("Data Source=.;Initial Catalog=FHIR_R4;Integrated Security=True;Application Name=FHIR_Server;MultipleActiveResultSets=true;");
@@ -138,16 +142,18 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                             int? systemId = dbMS.System.FirstOrDefault(s => s.Value == coding[0])?.SystemId;
                             long? closureId = dbMS.ClosureTable.FirstOrDefault(s => s.Name == $"brian_test")?.Id; // name should be the property name instead (combined with a system prefix)
 
-                            if (predicate == null && systemId.HasValue && closureId.HasValue)
+                            if (systemId.HasValue && closureId.HasValue)
                             {
                                 // reach into the Closure Table
-                                predicate = (sop) => dbMS.TokenSearchParam
-                                                        .Join(dbMS.ClosureRelationships, tsp => tsp.Code, cr => cr.ChildCode, (tsp, cr) => new { tsp, cr })
-                                                        .Any(v => v.cr.ClosureId == closureId &&  v.tsp.SystemId == systemId.Value && v.tsp.ResourceSurrogateId == sop.ResourceSurrogateId
-                                                                    && v.cr.ParentCode == coding[1] && v.tsp.SearchParamId == spId);
+                                System.Linq.Expressions.Expression<Func<EF.Resource, bool>> iterationPredicate = (sop) => dbMS.TokenSearchParam
+                                                            .Join(dbMS.ClosureRelationships, tsp => tsp.Code, cr => cr.ChildCode, (tsp, cr) => new { tsp, cr })
+                                                            .Any(v => v.cr.ClosureId == closureId && v.tsp.SystemId == systemId.Value && v.tsp.ResourceSurrogateId == sop.ResourceSurrogateId
+                                                                        && v.cr.ParentCode == coding[1] && v.tsp.SearchParamId == spId);
+                                if (predicate == null)
+                                    predicate = iterationPredicate;
+                                else
+                                    predicate = predicate.Or(iterationPredicate);
                             }
-                            //else
-                            //    predicate = predicate.Or(sop => dbMS.TokenSearchParam.Any(tsp => tsp.ResourceTypeId == this.ResourceTypeId && tsp.SearchParamId == spId && tsp.ResourceSurrogateId == sop.ResourceSurrogateId));
 
                         }
                     }

@@ -37,6 +37,15 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
             return null;
         }
 
+        private EntityModels.FHIR_R4Context GetMsFhirDbContext(TSP services)
+        {
+            if (services is System.IServiceProvider sp)
+            {
+                return sp.GetService<EntityModels.FHIR_R4Context>();
+            }
+            return null;
+        }
+
         public async System.Threading.Tasks.Task<CapabilityStatement> GetConformance(ModelBaseInputs<TSP> request, SummaryType summary)
         {
             Hl7.Fhir.Model.CapabilityStatement con = new Hl7.Fhir.Model.CapabilityStatement();
@@ -84,7 +93,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 _indexer.Initialize(db);
             }
 
-            var msDB = new EntityModels.FHIR_R4Context();
+            var msDB = GetMsFhirDbContext(request.ServiceProvider);
             var rtID = msDB.ResourceType.Where(rt => rt.Name == resourceName).Select(rt => rt.ResourceTypeId).FirstOrDefault();
             var sps = ModelInfo.SearchParameters.Where(sp => sp.Resource == resourceName).Select(sp => new { sp.Url, sp.Name }).ToDictionary(d => d.Url);
             Dictionary<string, short> spIdcache = new Dictionary<string, short>();

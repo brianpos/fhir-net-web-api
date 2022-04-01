@@ -14,6 +14,7 @@ using Microsoft.Health.Fhir.Facade.SqlServer;
 using Microsoft.Extensions.Hosting;
 using Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Health.Fhir.Facade.SqlServer.EntityModels;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
@@ -81,6 +82,8 @@ namespace Hl7.DemoFileSystemFhirServer
             }));
 
             services.AddDbContext<FhirDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<FHIR_R4Context>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<FhirDbContext, FhirDbContext>();

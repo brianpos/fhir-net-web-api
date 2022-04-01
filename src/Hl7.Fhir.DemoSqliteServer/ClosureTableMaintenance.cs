@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using System.Linq;
-using Hl7.Fhir.Utility;
-using System.Threading.Tasks;
 using Hl7.Fhir.Serialization;
+using Hl7.Fhir.Utility;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
-using Newtonsoft.Json.Linq;
-using System.Text;
 
 namespace Hl7.Fhir.DemoSqliteFhirServer
 {
@@ -231,19 +229,74 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         /// <param name="codings"></param>
         public async Task FhirServerUsesConcepts(string namePrefix, IEnumerable<Coding> codings)
         {
-            var ct2 = await cache.GetOrCreateAsync<Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureTable>(codings.First().System, async (cacheEntry) =>
+            var ctable = await cache.GetOrCreateAsync<Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureTable>(codings.First().System, async (cacheEntry) =>
             {
                 var ct = await InitializeClosureTable(namePrefix, codings.First().System);
                 cacheEntry.SetValue(ct);
                 cacheEntry.SetSize(1);
                 return ct;
             });
-            // Find codes not already in the database
-            // DbContext.Database.ExecuteSqlInterpolated($"select {d}", CancellationToken);
+
+            FhirClient terminologyServer = new FhirClient(TerminologyServer);
+            var parameters = new Parameters();
+            parameters.Add("name", new FhirString(namePrefix));
+
+            foreach (var coding in codings)
+            {
+                // Find codes not already in the database
+                if (!DbContext.ClosureConcepts.Any(cv => cv.ClosureId == ctable.Id && cv.Code == coding.Code))
+                {
+                    // The Search concepts don't exist in the raw FHIR Data, so don't add these in specifically
+                    DbContext.ClosureConcepts.Add(new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureConcept() { ClosureId = ctable.Id, Code = coding.Code, Display = coding.Display, ActualDataValue = false });
+                    parameters.Add("concept", new Coding(coding.System, coding.Code));
+                }
+            }
+
+            if (parameters.Parameter.Count == 1)
+                return;
+
+            // needs to be added into the closure
+            // Call the closure operation on the Ontoserver database
+            try
+            {
+                // update the closure table
+                var closureResult = await terminologyServer.WholeSystemOperationAsync("closure", parameters);
+                if (closureResult is ConceptMap cm)
+                {
+                    // Update the closure table version
+                    ctable.SyncVersion = cm.Version;
+
+                    // add the returned concepts into the closure table values
+                    foreach (var element in cm.Group.SelectMany(g => g.Element))
+                    {
+                        foreach (var target in element.Target)
+                        {
+                            if (target.Equivalence != ConceptMapEquivalence.Unmatched)
+                            {
+                                var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
+                                {
+                                    ClosureId = ctable.Id,
+                                    ChildCode = element.Code,
+                                    ParentCode = target.Code,
+                                    ConceptJson = element.ToJson()
+                                };
+                                DbContext.ClosureRelationships.Add(relationship);
+                                Console.WriteLine(element.ToJson());
+                            }
+                        }
+                    }
+                    await DbContext.SaveChangesAsync(CancellationToken);
+                }
+            }
+            catch (FhirOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                // DebugDumpOutputXml(ex.Outcome);
+            }
         }
 
         /// <summary>
-        /// This is required when someone 
+        /// This is required when someone
         /// </summary>
         /// <returns></returns>
         public async Task ReInitializeClosureTable(string name)

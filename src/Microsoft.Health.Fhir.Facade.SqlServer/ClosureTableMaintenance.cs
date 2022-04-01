@@ -12,6 +12,7 @@ using System.Threading;
 using Task = System.Threading.Tasks.Task;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using Microsoft.Health.Fhir.Facade.SqlServer.DemoEntityModels;
 
 namespace Microsoft.Health.Fhir.Facade.SqlServer
 {
@@ -237,7 +238,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
         /// <param name="codings"></param>
         public async Task FhirServerUsesConcepts(string namePrefix, IEnumerable<Coding> codings)
         {
-            var ctable = await cache.GetOrCreateAsync<Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureTable>(codings.First().System, async (cacheEntry) =>
+            var ctable = await cache.GetOrCreateAsync<ClosureTable>(codings.First().System, async (cacheEntry) =>
             {
                 var ct = await InitializeClosureTable(namePrefix, codings.First().System);
                 cacheEntry.SetValue(ct);
@@ -255,7 +256,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 if (!DbContext.ClosureConcepts.Any(cv => cv.ClosureId == ctable.Id && cv.Code == coding.Code))
                 {
                     // The Search concepts don't exist in the raw FHIR Data, so don't add these in specifically
-                    DbContext.ClosureConcepts.Add(new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureConcept() { ClosureId = ctable.Id, Code = coding.Code, Display = coding.Display, ActualDataValue = false });
+                    DbContext.ClosureConcepts.Add(new ClosureConcept() { ClosureId = ctable.Id, Code = coding.Code, Display = coding.Display, ActualDataValue = false });
                     parameters.Add("concept", new Coding(coding.System, coding.Code));
                 }
             }
@@ -281,7 +282,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                         {
                             if (target.Equivalence != ConceptMapEquivalence.Unmatched)
                             {
-                                var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
+                                var relationship = new ClosureRelationship()
                                 {
                                     ClosureId = ctable.Id,
                                     ChildCode = element.Code,

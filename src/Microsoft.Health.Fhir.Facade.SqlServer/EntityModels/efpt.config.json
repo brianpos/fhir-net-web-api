@@ -1,0 +1,55 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "FHIR_R4Context",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": "EF",
+   "OutputContextPath": null,
+   "OutputPath": "EntityModels",
+   "ProjectRootNamespace": "Microsoft.Health.Fhir.Facade.SqlServer",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Resource]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ResourceType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SearchParam]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[System]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TokenSearchParam]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "STUDY2.FHIR_R4",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}

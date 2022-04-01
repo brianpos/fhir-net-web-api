@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net60;</TargetFrameworks>
+    <AssemblyName>Microsoft.Health.Fhir.Facade.SqlServer</AssemblyName>
+    <PackageId>brianpos.Fhir.R4.Microsoft.FhirServer.Sql</PackageId>
+    <Version>3.7.0-beta1</Version>
+    <Title>Demonstration R4 FHIR Facade with Microsoft FHIR Server SQL Storage</Title>
+    <Summary>Demonstration R4 FHIR Facade with Microsoft FHIR Server SQL Storage</Summary>
+    <Description>Demonstration implementation of a FHIR R4 Facade using the Microsoft SQL database from teh based FHIR Server as a simple storage provider</Description>
+    <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
+    <Product>Microsoft.Health.Fhir.Facade.SqlServer</Product>
+    <RootNamespace>Microsoft.Health.Fhir.Facade.SqlServer</RootNamespace>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <Import Project="..\platforms.props" />
+  <Import Project="..\fhir-net-web-api.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Hl7.Fhir.R4" Version="3.7.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4" Version="3.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoFileSystemS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Health.Fhir.Facade.SqlServer", "Microsoft.Health.Fhir.Facade.SqlServer\Microsoft.Health.Fhir.Facade.SqlServer.csproj", "{473462AB-2895-4BA1-BF1C-8535A9D450C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Health.Fhir.Facade", "Microsoft.Health.Fhir.Facade\Microsoft.Health.Fhir.Facade.csproj", "{FB918B25-C736-4C52-BE21-9D9C756C5564}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,14 @@ Global
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

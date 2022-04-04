@@ -111,6 +111,20 @@ namespace Hl7.Fhir.WebApi
                             else
                                 sw.WriteLine($"&gt;<br/>");
                         }
+                        else if (prop.Value is Attachment att)
+                        {
+                            if (prop.Value?.NamedChildren?.Any() == true)
+                            {
+                                sw.WriteLine($"&lt;{prop.ElementName}&gt;<br/>");
+                                if (att.Data != null)
+                                {
+                                    sw.Write(new String(' ', leadingTabs));
+                                    sw.WriteLine($"<img alt=\"Photo Attachment\" with=\"200\" src=\"data:{att.ContentType};base64,{att.DataElement.ToString()}\" />");
+                                }
+                            }
+                            // < SPAN class="t"> value</SPAN><SPAN class="m">="</SPAN><img alt="Photo Attachment" width="200"><xsl:attribute name="src"><xsl:text>data:image/jpeg;base64,</xsl:text><xsl:value-of select="."/></xsl:attribute></img><SPAN class="m">"</SPAN>
+
+                        }
                         else
                         {
                             // This is a complex type

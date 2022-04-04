@@ -38,12 +38,12 @@ namespace Hl7.Fhir.WebApi
         {
             sw.WriteLine("<div class='fhir_resource'>");
             sw.WriteLine($"&lt;{me.TypeName} xmlns=\"http://hl7.org/fhir\"&gt;<br/>");
-            WriteChildProperties(me.NamedChildren, 2, sw, ct, baseUrl);
+            WriteXmlChildProperties(me.NamedChildren, 2, sw, ct, baseUrl);
             sw.WriteLine($"&lt;/{me.TypeName}&gt;");
             sw.WriteLine("</div>");
         }
 
-        private static void WriteChildProperties(IEnumerable<Model.ElementValue> namedChildren, int leadingTabs, StreamWriter sw, CancellationToken ct, string baseUrl, bool linkToReference = false)
+        private static void WriteXmlChildProperties(IEnumerable<Model.ElementValue> namedChildren, int leadingTabs, StreamWriter sw, CancellationToken ct, string baseUrl, bool linkToReference = false)
         {
             foreach (var prop in namedChildren)
             {
@@ -93,9 +93,14 @@ namespace Hl7.Fhir.WebApi
                                 // Double encoding is required as we're pushing the XML to be displayed as HTML
                                 valStr = System.Net.WebUtility.HtmlEncode(System.Net.WebUtility.HtmlEncode(valStr));
                             }
-                            if (linkToReference && prop.ElementName == "reference")
+                            if (prop.ElementName == "fullUrl" && prop.Value is FhirUri fi && (fi.Value.StartsWith(baseUrl)))
                             {
-                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{valStr}</a></reference>\"");
+                                // The bundle URL link
+                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{valStr}\">{valStr}</a></span>\"");
+                            }
+                            else if (linkToReference && prop.ElementName == "reference")
+                            {
+                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{valStr}</a></span>\"");
                             }
                             else
                             {
@@ -125,7 +130,7 @@ namespace Hl7.Fhir.WebApi
                                 sw.Write($"<span class=\"{prop.ElementName}\" id=\"{resource.Id}\">");
                             sw.WriteLine($"&lt;{resource.TypeName}&gt;<br/>");
                         }
-                        WriteChildProperties(prop.Value.NamedChildren, leadingTabs + 2, sw, ct, baseUrl, linkToChildReference);
+                        WriteXmlChildProperties(prop.Value.NamedChildren, leadingTabs + 2, sw, ct, baseUrl, linkToChildReference);
                         if (prop.Value is Resource resourceEnd)
                         {
                             sw.Write(new String(' ', leadingTabs));

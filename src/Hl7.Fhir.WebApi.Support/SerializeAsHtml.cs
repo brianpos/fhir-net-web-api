@@ -98,6 +98,11 @@ namespace Hl7.Fhir.WebApi
                                 // The bundle URL link
                                 sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{valStr}\">{valStr}</a></span>\"");
                             }
+                            else if (prop.ElementName == "url" && prop.Value is FhirUri fi2 && (fi2.Value.StartsWith(baseUrl)))
+                            {
+                                // The bundle URL link
+                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{valStr}\">{valStr}</a></span>\"");
+                            }
                             else if (linkToReference && prop.ElementName == "reference")
                             {
                                 sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{valStr}</a></span>\"");

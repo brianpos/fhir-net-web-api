@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -49,6 +49,9 @@ namespace Hl7.Fhir.WebApi
             sb.AppendLine("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css\" integrity=\"sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp\" crossorigin=\"anonymous\">");
             sb.AppendLine("<!-- Latest compiled and minified JavaScript -->");
             sb.AppendLine("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>");
+            sb.AppendLine("<style>");
+            sb.AppendLine(".fhir_resource { white-space: pre-wrap; margin: 20px; padding: 0px 12px 12px 12px; border: 1pt solid lightgrey } .fhir_resource > br, .fhir_resource span > br { display: none; } .fhir_resource .canonical, .fhir_resource .reference { font-weight: bold; color: blue;} .fhir_resource span { white-space: pre-wrap; } .fhir_resource span.contained { color: darkgrey; }");
+            sb.AppendLine("</style>");
             sb.AppendLine("</head>");
             sb.AppendLine("<body>");
             sb.AppendLine($"<div>{context.HttpContext.Request.Method}: {context.HttpContext.Request.RequestUri()}<div>");
@@ -62,10 +65,9 @@ namespace Hl7.Fhir.WebApi
                     sb.AppendLine("<div>(null)</div>");
                 else
                 {
-                    var doc = System.Xml.Linq.XDocument.Parse(new FhirXmlSerializer().SerializeToString(resource, st));
-                    sb.AppendLine("<pre>");
-                    sb.AppendLine(System.Web.HttpUtility.HtmlEncode(doc.ToString(System.Xml.Linq.SaveOptions.None)));
-                    sb.AppendLine("</pre>");
+                    var ct = new System.Threading.CancellationToken();
+                    var resourceAsXml = resource.ToHtmlXml(ct, resource.ResourceBase?.OriginalString ?? "");
+                    sb.AppendLine(resourceAsXml);
                 }
             }
 

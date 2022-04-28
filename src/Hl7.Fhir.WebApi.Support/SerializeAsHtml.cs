@@ -1,5 +1,7 @@
 ﻿using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
+using Hl7.Fhir.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,11 +18,11 @@ namespace Hl7.Fhir.WebApi
     /// </summary>
     public static class SerializeAsHtml
     {
-        public static string ToHtmlXml(this Hl7.Fhir.Model.Resource me, CancellationToken ct, string baseUrl)
+        public static string ToHtmlXml(this Hl7.Fhir.Model.Resource me, CancellationToken ct, string baseUrl, SummaryType st)
         {
             var ms = new MemoryStream();
             StreamWriter sw = new StreamWriter(ms);
-            WriteHtmlXml(me, sw, ct, baseUrl);
+            WriteHtmlXml(me, sw, ct, baseUrl, st);
             sw.Flush();
             ms.Position = 0;
             StreamReader sr = new StreamReader(ms);
@@ -34,16 +36,28 @@ namespace Hl7.Fhir.WebApi
         /// <param name="sw"></param>
         /// <param name="ct"></param>
         /// <param name="baseUrl">Must end with the / (or be empty)</param>
-        public static void WriteHtmlXml(this Hl7.Fhir.Model.Resource me, StreamWriter sw, CancellationToken ct, string baseUrl)
+        public static void WriteHtmlXml(this Hl7.Fhir.Model.Resource me, StreamWriter sw, CancellationToken ct, string baseUrl, SummaryType st)
         {
+            // Before we actually do any serialization, apply the Summary Type property
+            // (since this code doesn't handle this itself - yet)
+            var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st);
+            var resource = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(partialResource);
+
             sw.WriteLine("<div class='fhir_resource'>");
-            sw.WriteLine($"&lt;{me.TypeName} xmlns=\"http://hl7.org/fhir\"&gt;<br/>");
-            WriteXmlChildProperties(me.NamedChildren, 2, sw, ct, baseUrl);
-            sw.WriteLine($"&lt;/{me.TypeName}&gt;");
+            sw.WriteLine($"&lt;{resource.TypeName} xmlns=\"http://hl7.org/fhir\"&gt;<br/>");
+            WriteXmlChildProperties(resource.NamedChildren, 2, sw, ct, baseUrl, st);
+            sw.WriteLine($"&lt;/{resource.TypeName}&gt;");
             sw.WriteLine("</div>");
         }
 
-        private static void WriteXmlChildProperties(IEnumerable<Model.ElementValue> namedChildren, int leadingTabs, StreamWriter sw, CancellationToken ct, string baseUrl, bool linkToReference = false)
+        public static string AppendSummaryFormat(string url, SummaryType st)
+        {
+            if (st == SummaryType.False) return url;
+            if (url.Contains("?")) return url + "&_summary=" + st.GetLiteral();
+            return url + "?_summary=" + st.GetLiteral();
+        }
+
+        private static void WriteXmlChildProperties(IEnumerable<Model.ElementValue> namedChildren, int leadingTabs, StreamWriter sw, CancellationToken ct, string baseUrl, SummaryType st, bool linkToReference = false)
         {
             foreach (var prop in namedChildren)
             {
@@ -74,9 +88,9 @@ namespace Hl7.Fhir.WebApi
                             // Double encoding is required as we're pushing the XML to be displayed as HTML
                             var valStr = System.Net.WebUtility.HtmlEncode(System.Net.WebUtility.HtmlEncode(can.Value));
                             if (valStr.StartsWith("#"))
-                                sw.Write($" value=\"<span class='canonical'><a href=\"{can.Value}\">{valStr}</a></span>\"");
+                                sw.Write($" value=\"<span class='canonical'><a href=\"{AppendSummaryFormat(can.Value,st)}\">{valStr}</a></span>\"");
                             else
-                                sw.Write($" value=\"<span class='canonical'>{valStr}</span>\"");
+                                sw.Write($" value=\"<span class='canonical'>{AppendSummaryFormat(valStr, st)}</span>\"");
                         }
                         if (prop.Value?.NamedChildren?.Any() != true)
                             sw.WriteLine($"/&gt;<br/>");
@@ -96,16 +110,16 @@ namespace Hl7.Fhir.WebApi
                             if (prop.ElementName == "fullUrl" && prop.Value is FhirUri fi && (fi.Value.StartsWith(baseUrl)))
                             {
                                 // The bundle URL link
-                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{valStr}\">{valStr}</a></span>\"");
+                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{AppendSummaryFormat(valStr,st)}\">{valStr}</a></span>\"");
                             }
                             else if (prop.ElementName == "url" && prop.Value is FhirUri fi2 && (fi2.Value.StartsWith(baseUrl)))
                             {
                                 // The bundle URL link
-                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{valStr}\">{valStr}</a></span>\"");
+                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{AppendSummaryFormat(valStr,st)}\">{valStr}</a></span>\"");
                             }
                             else if (linkToReference && prop.ElementName == "reference")
                             {
-                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{valStr}</a></span>\"");
+                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
                             }
                             else
                             {
@@ -149,7 +163,7 @@ namespace Hl7.Fhir.WebApi
                                 sw.Write($"<span class=\"{prop.ElementName}\" id=\"{resource.Id}\">");
                             sw.WriteLine($"&lt;{resource.TypeName}&gt;<br/>");
                         }
-                        WriteXmlChildProperties(prop.Value.NamedChildren, leadingTabs + 2, sw, ct, baseUrl, linkToChildReference);
+                        WriteXmlChildProperties(prop.Value.NamedChildren, leadingTabs + 2, sw, ct, baseUrl, st, linkToChildReference);
                         if (prop.Value is Resource resourceEnd)
                         {
                             sw.Write(new String(' ', leadingTabs));

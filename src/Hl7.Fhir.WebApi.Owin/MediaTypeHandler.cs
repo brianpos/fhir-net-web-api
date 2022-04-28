@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -21,8 +21,8 @@ namespace Hl7.Fhir.WebApi
     {
         private bool isBinaryRequest(HttpRequestMessage request)
         {
-            var format = FhirMediaType.Interpret(request.Content != null 
-                && request.Content.Headers != null 
+            var format = FhirMediaType.Interpret(request.Content != null
+                && request.Content.Headers != null
                 && request.Content.Headers.ContentType != null
                 ? request.Content.Headers.ContentType.MediaType : "Unknown");
             if (format != FhirMediaType.JsonResource && format != FhirMediaType.XmlResource)
@@ -71,11 +71,8 @@ namespace Hl7.Fhir.WebApi
             }
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
-
-        
     }
 
-    
     // Instead of using the general purpose DelegatingHandler, could we use IContentNegotiator?
     public class FhirContentNegotiator : IContentNegotiator
     {

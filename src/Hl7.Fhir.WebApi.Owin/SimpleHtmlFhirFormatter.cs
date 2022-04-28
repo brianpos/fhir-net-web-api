@@ -9,12 +9,12 @@
 using System;
 using System.IO;
 using Hl7.Fhir.Model;
-using Hl7.Fhir.Serialization;
 using System.Text;
 using Hl7.Fhir.Utility;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Hl7.Fhir.Rest;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -52,10 +52,16 @@ namespace Hl7.Fhir.WebApi
                     sb.AppendLine("<div>(null)</div>");
                 else
                 {
-                    var doc = System.Xml.Linq.XDocument.Parse(new FhirXmlSerializer().SerializeToString(resource));
-                    sb.AppendLine("<pre>");
-                    sb.AppendLine(System.Web.HttpUtility.HtmlEncode(doc.ToString(System.Xml.Linq.SaveOptions.None)));
-                    sb.AppendLine("</pre>");
+                    var ct = new System.Threading.CancellationToken();
+                    SummaryType st = SummaryType.False;
+                    if (resource.HasAnnotation<SummaryType>())
+                        st = resource.Annotation<SummaryType>();
+                    var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource, st);
+                    var r2 = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(partialResource);
+                    var resourceAsXml = r2.ToHtmlXml(ct, resource.ResourceBase?.OriginalString ?? "", st);
+                    sb.AppendLine(resourceAsXml);
+                    var resourceAsJson = r2.ToHtmlJson(ct, resource.ResourceBase?.OriginalString ?? "", st);
+                    sb.AppendLine(resourceAsJson);
                 }
             }
 

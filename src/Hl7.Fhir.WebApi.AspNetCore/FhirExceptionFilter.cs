@@ -38,11 +38,10 @@ namespace Hl7.Fhir.WebApi
 
         public override void OnException(ExceptionContext context)
         {
-            if (context.Exception is FhirServerException)
+            if (context.Exception is FhirServerException fex)
             {
-                var exception = (FhirServerException)context.Exception;
-                var outcome = exception.Outcome == null ? CreateOutcome(exception) : exception.Outcome;
-                context.Result = new ObjectResult(outcome) { StatusCode = (int)exception.StatusCode };
+                var outcome = fex.Outcome == null ? CreateOutcome(fex) : fex.Outcome;
+                context.Result = new ObjectResult(outcome) { StatusCode = (int)fex.StatusCode };
                 context.ExceptionHandled = true;
                 return;
             }

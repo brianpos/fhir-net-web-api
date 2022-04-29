@@ -333,7 +333,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                 cm.CancellationToken = RequestDetails.CancellationToken;
                 await cm.InitializeAsync("Data Source=.;Initial Catalog=FHIR_R4;Integrated Security=True;Application Name=FHIR_Server;MultipleActiveResultSets=true;");
                 var name = operationParameters.GetString("name") ?? "brian_test";
-                await cm.DeleteClosureTable("brian_test");
+                await cm.DeleteClosureTable(name);
 
                 var result = new OperationOutcome();
                 result.Issue.Add(new OperationOutcome.IssueComponent()

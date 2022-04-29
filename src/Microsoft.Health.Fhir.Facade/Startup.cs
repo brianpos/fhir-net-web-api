@@ -77,10 +77,11 @@ namespace Hl7.DemoFileSystemFhirServer
                 builder.WithExposedHeaders(new[] { "Content-Location", "Location", "Etag" });
             }));
 
+            services.AddScoped<FHIR_R4Context, FHIR_R4Context>();
+
             services.AddDbContext<FHIR_R4Context>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<FHIR_R4Context, FHIR_R4Context>();
 
 
             var systemService = new MSR_SystemService<System.IServiceProvider>();

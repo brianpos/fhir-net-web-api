@@ -266,6 +266,9 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     };
             }
 
+            // Add in the navigation links
+            resource.SelfLink = RequestDetails.RequestUri;
+
             return System.Threading.Tasks.Task.FromResult(resource);
         }
 

@@ -77,6 +77,9 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
+            if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(resourceName))
+                throw new NotImplementedException();
+
             return new DirectoryResourceService<TSP>() { RequestDetails = request, ResourceName = resourceName, ResourceDirectory = Directory, Indexer = _indexer };
         }
 

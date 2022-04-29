@@ -4,14 +4,14 @@
     <TargetFrameworks>net50;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.DemoFileSystemFhirServer</AssemblyName>
     <PackageId>brianpos.Fhir.R4.DemoFileSystemFhirServer</PackageId>
-    <Version>3.7.0-beta1</Version>
+    <Version>3.8.3-beta1</Version>
     <Title>Demonstration R4 FHIR File System Facade</Title>
     <Summary>Demonstration R4 FHIR File System Facade</Summary>
     <Description>Demonstration implementation of a FHIR R4 Facade using the file system as a super simple storage provider</Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
     <Product>Hl7.Fhir.R4.WebApi.Support</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
-    
+
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -21,7 +21,7 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="3.7.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="3.8.3" />
   </ItemGroup>
 
   <ItemGroup>

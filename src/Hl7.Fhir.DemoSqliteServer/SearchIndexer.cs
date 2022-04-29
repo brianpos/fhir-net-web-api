@@ -65,7 +65,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             get
             {
                 if (_inspector == null)
-                    _inspector = new ModelInspector(Specification.FhirRelease.R4);
+                    _inspector = new ModelInspector(Hl7.Fhir.Specification.FhirRelease.R4);
                 return _inspector;
             }
         }

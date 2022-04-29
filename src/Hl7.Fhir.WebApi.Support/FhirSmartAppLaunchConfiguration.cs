@@ -9,6 +9,7 @@ namespace Hl7.Fhir.WebApi
     /// <summary>
     /// FHIR SMART App Launch Metadata Class definition based on FHIR Specification (nearing publication as final v2 version)
     /// <a href="http://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata">http://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#metadata</a>
+    /// https://hl7.org/fhir/smart-app-launch/conformance.html
     /// </summary>
     public class FhirSmartAppLaunchConfiguration
     {
@@ -31,7 +32,7 @@ namespace Hl7.Fhir.WebApi
         /// OPTIONAL, array of client authentication methods supported by the token endpoint. The options are <b>"client_secret_post"</b> and <b>"client_secret_basic"</b>
         /// </summary>
         /// <remarks>
-        /// Note that the specification which has a conflicting definition, <b>"token_endpoint_auth_methods"</b>, 
+        /// Note that the specification which has a conflicting definition, <b>"token_endpoint_auth_methods"</b>,
         /// however this has been clarified to this value as per the OIDC specification (http://jira.hl7.org/browse/FHIR-27831)
         /// (This should be resolved before the v2 spec is published)
         /// </remarks>
@@ -43,8 +44,8 @@ namespace Hl7.Fhir.WebApi
         public string registration_endpoint { get; set; }
 
         /// <summary>
-        /// RECOMMENDED, array of scopes a client may request. See <a href="http://docs.smarthealthit.org/authorization/scopes-and-launch-context/#quick-start">scopes and launch</a> context. 
-        /// The server SHALL support all scopes listed here; 
+        /// RECOMMENDED, array of scopes a client may request. See <a href="http://docs.smarthealthit.org/authorization/scopes-and-launch-context/#quick-start">scopes and launch</a> context.
+        /// The server SHALL support all scopes listed here;
         /// additional scopes MAY be supported (so clients should not consider this an exhaustive list)
         /// </summary>
         public IEnumerable<string> scopes_supported { get; set; }
@@ -70,7 +71,7 @@ namespace Hl7.Fhir.WebApi
         public string revocation_endpoint { get; set; }
 
         /// <summary>
-        /// Array of PKCE code challenge methods supported. 
+        /// Array of PKCE code challenge methods supported.
         /// The <b>"S256"</b> method SHALL be included in this list, and the "plain" method SHALL NOT be included in this list.
         /// </summary>
         public IEnumerable<string> code_challenge_methods_supported { get; set; }
@@ -80,5 +81,10 @@ namespace Hl7.Fhir.WebApi
         /// (as listed <a href="http://build.fhir.org/ig/HL7/smart-app-launch/conformance.html#capability-sets">here</a>)
         /// </summary>
         public IEnumerable<string> capabilities { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public IEnumerable<string> grant_types_supported { get; set; }
     }
 }

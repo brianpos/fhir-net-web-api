@@ -178,7 +178,7 @@ namespace UnitTestWebApi
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
             var clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.ParserSettings.AllowUnrecognizedEnums = true;
+            clientFhir.Settings.ParserSettings.AllowUnrecognizedEnums = true;
 
             //clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             //clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
@@ -216,7 +216,7 @@ namespace UnitTestWebApi
             // and try again with JSON
             try
             {
-                clientFhir.PreferredFormat = ResourceFormat.Json;
+                clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
                 var result = await clientFhir.CreateAsync<Patient>(p);
 
                 Assert.Fail("Version1.9 of the fhir client fails parsing - even if I disagree with it");
@@ -256,7 +256,7 @@ namespace UnitTestWebApi
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
             LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.PreferredFormat = ResourceFormat.Json;
+            clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
             var result = clientFhir.Update<Patient>(p);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
@@ -295,7 +295,7 @@ namespace UnitTestWebApi
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
             LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.PreferredFormat = ResourceFormat.Json;
+            clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
             var result = clientFhir.Update<Patient>(p);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
@@ -787,7 +787,7 @@ namespace UnitTestWebApi
             {
                 LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
                 clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
-                clientFhir.Timeout = 50000;
+                clientFhir.Settings.Timeout = 50000;
                 // This method uses the BINARY stream approach (which has issues - no security context passed through)
                 clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_SecurityContectHeader;
                 result = clientFhir.Update(b);
@@ -801,7 +801,7 @@ namespace UnitTestWebApi
                 Assert.AreEqual("Organization/4", result.SecurityContext?.Reference);
 
                 // read the record to check that it can be loaded with the regular FHIR client
-                clientFhir.PreferredFormat = ResourceFormat.Xml;
+                clientFhir.Settings.PreferredFormat = ResourceFormat.Xml;
                 result = clientFhir.Read<Binary>("Binary/bin1");
                 Assert.AreEqual(b.Id, result.Id, "Newly created binary should have an ID");
                 Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
@@ -809,13 +809,13 @@ namespace UnitTestWebApi
                 Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
 
                 // And also check with json
-                clientFhir.PreferredFormat = ResourceFormat.Json;
+                clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
                 result = clientFhir.Read<Binary>("Binary/bin1");
                 Assert.AreEqual(b.Id, result.Id, "Newly created binary should have an ID");
                 Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
                 Assert.IsNotNull(result.Meta.LastUpdated, "Newly created binary should have the creation date populated");
                 Assert.AreEqual(dataLen, result.Data.Length, "Binary length should be the same");
-                clientFhir.PreferredFormat = ResourceFormat.Xml;
+                clientFhir.Settings.PreferredFormat = ResourceFormat.Xml;
 
                 try
                 {

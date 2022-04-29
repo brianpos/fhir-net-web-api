@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -11,6 +11,7 @@ using Hl7.Fhir.WebApi;
 using System.Buffers;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using Hl7.Fhir.NetCoreApi.R4;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Routing;
@@ -28,12 +29,33 @@ namespace Hl7.Fhir.NetCoreApi
         /// Add the facade for the FHIR server using the provided System service model
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="systemService"></param>
+        /// <param name="systemService">An instance of the System Service that is providing the resource service delegations and system level operations</param>
         /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any further, such as registering other output formatters (e.g. HTML)</param>
         /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
         public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
         {
             NetCoreApi.FhirFacadeBuilder._systemService = systemService;
+            InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
+        }
+
+        /// <summary>
+        /// Add the facade for the FHIR server using the provided System service model (using the dependency injector to provide the IFhirSystemService implementation)
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any further, such as registering other output formatters (e.g. HTML)</param>
+        /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
+        public static void UseFhirServerController(this IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
+        {
+            if (!services.Any(x => x.ServiceType == typeof(IFhirSystemServiceR4<IServiceProvider>)))
+            {
+                throw new ApplicationException("Using the Dependency Injector approach to the facade requires a `IFhirSystemServiceR4<IServiceProvider>` to have been registered");
+            }
+            InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
+        }
+
+
+        private static void InternalUseFhirServerController(IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems)
+        {
             _supportedForwardedForSystems = supportedForwardedForSystems;
 #if NETCOREAPP2_2
             services.AddMvc(options =>
@@ -66,7 +88,7 @@ namespace Hl7.Fhir.NetCoreApi
                 options.Filters.Add(new FhirFormatParameterFilter());
 
                 // And our exception handler that processes FhirServerExceptions into appropriate results
-                options.Filters.Add(new FhirExceptionFilter());
+                options.Filters.Add<FhirExceptionFilter>();
 
                 // permit the HTML to be generated for the browser
                 options.RespectBrowserAcceptHeader = true;
@@ -88,6 +110,11 @@ namespace Hl7.Fhir.NetCoreApi
         /// <param name="endpoints"></param>
         public static void MapFhirSmartAppLaunchController(this IEndpointRouteBuilder endpoints)
         {
+            var configTest = endpoints.ServiceProvider.GetService<FhirSmartAppLaunchConfiguration>();
+            if (configTest == null)
+            {
+                throw new ApplicationException("Mapping the FHIR SMART App Launch controller requires the `FhirSmartAppLaunchConfiguration` to be registered with the Dependency Injector");
+            }
             endpoints.MapGet(".well-known/smart-configuration", async context =>
             {
                 var config = context.RequestServices.GetService<FhirSmartAppLaunchConfiguration>();

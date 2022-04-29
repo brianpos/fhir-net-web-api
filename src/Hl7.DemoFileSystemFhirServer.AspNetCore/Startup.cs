@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Hl7.Fhir.WebApi;
 using Hl7.Fhir.DemoFileSystemFhirServer;
+using System;
+using Microsoft.Extensions.Logging;
 #if !NETCOREAPP2_2
 using Microsoft.Extensions.Hosting;
 #endif
@@ -80,6 +82,14 @@ namespace Hl7.DemoFileSystemFhirServer
                 return result;
             });
 
+            services.AddLogging(logging => {
+                logging.AddConsole(config => {
+#if !NETCOREAPP2_2
+                   //  config.LogToStandardErrorThreshold = LogLevel.Trace;
+#endif
+                });
+            });
+
             // CORS Support
             services.AddCors(o => o.AddDefaultPolicy(builder =>
             {
@@ -96,13 +106,18 @@ namespace Hl7.DemoFileSystemFhirServer
             if (!System.IO.Directory.Exists(DirectorySystemService<System.IServiceProvider>.Directory))
                 System.IO.Directory.CreateDirectory(DirectorySystemService<System.IServiceProvider>.Directory);
 
-            var systemService = new DirectorySystemService<System.IServiceProvider>();
-            systemService.InitializeIndexes();
             var reverseProxyAddresses = new System.Collections.Generic.Dictionary<string, System.Uri>();
             reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
             reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
 
-            services.UseFhirServerController(systemService, options => 
+            // services.AddSingleton<IFhirSystemServiceR4<IServiceProvider>>(systemService);
+            services.AddSingleton<IFhirSystemServiceR4<IServiceProvider>>((s) => {
+                var systemService = new DirectorySystemService<System.IServiceProvider>();
+                systemService.InitializeIndexes();
+                return systemService;
+            });
+
+            services.UseFhirServerController(/*systemService,*/ options =>
             {
                 // An example HTML formatter that puts the raw XML on the output
                 options.OutputFormatters.Add(new Fhir.WebApi.SimpleHtmlFhirOutputFormatter());

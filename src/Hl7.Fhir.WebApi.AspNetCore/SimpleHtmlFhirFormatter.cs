@@ -6,15 +6,15 @@
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
 
+using Hl7.Fhir.Model;
+using Hl7.Fhir.Rest;
+using Hl7.Fhir.Utility;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.IO;
-using Microsoft.Net.Http.Headers;
-using Hl7.Fhir.Model;
-using Hl7.Fhir.Serialization;
 using System.Text;
-using Hl7.Fhir.Utility;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Hl7.Fhir.Rest;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -28,6 +28,7 @@ namespace Hl7.Fhir.WebApi
         public override void WriteResponseHeaders(OutputFormatterWriteContext context)
         {
             context.ContentType = new Microsoft.Extensions.Primitives.StringSegment("text/html");
+            context.HttpContext.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue() { NoCache = true };
             base.WriteResponseHeaders(context);
         }
 
@@ -48,29 +49,45 @@ namespace Hl7.Fhir.WebApi
             sb.AppendLine("<!-- Optional theme -->");
             sb.AppendLine("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css\" integrity=\"sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp\" crossorigin=\"anonymous\">");
             sb.AppendLine("<!-- Latest compiled and minified JavaScript -->");
-            sb.AppendLine("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>");
+            // sb.AppendLine("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>");
             sb.AppendLine("<style>");
-            sb.AppendLine(".fhir_resource { white-space: pre-wrap; margin: 20px; padding: 0px 12px 12px 12px; border: 1pt solid lightgrey } .fhir_resource > br, .fhir_resource span > br { display: none; } .fhir_resource .canonical, .fhir_resource .reference { font-weight: bold; color: blue;} .fhir_resource span { white-space: pre-wrap; } .fhir_resource span.contained { color: darkgrey; }");
+            sb.AppendLine(".fhir_resource { white-space: pre-wrap; padding: 0px 12px 12px 12px; border: 1pt solid lightgrey; overflow-wrap: break-word; } .fhir_resource > br, .fhir_resource span > br { display: none; } .fhir_resource .canonical, .fhir_resource .reference { font-weight: bold; color: blue;} .fhir_resource span { white-space: pre-wrap; } .fhir_resource span.contained { color: darkgrey; }");
             sb.AppendLine("</style>");
             sb.AppendLine("</head>");
-            sb.AppendLine("<body>");
-            sb.AppendLine($"<div>{context.HttpContext.Request.Method}: {context.HttpContext.Request.RequestUri()}<div>");
+            sb.AppendLine("<body class=\"container\">");
+            sb.AppendLine($"<div class=\"code\">{context.HttpContext.Request.Method}: {context.HttpContext.Request.RequestUri()}<div>");
             sb.AppendLine($"<div>Status: {context.HttpContext.Response.StatusCode}<div>");
             if (context.Object is Resource resource)
             {
-                SummaryType st = SummaryType.False;
-                if (resource.HasAnnotation<SummaryType>() && (!(resource is OperationOutcome) || (resource as OperationOutcome).Id == null))
-                    st = resource.Annotation<SummaryType>();
+                var ri = new ResourceIdentity(context.HttpContext.Request.RequestUri().GetLeftPart(UriPartial.Path)).OriginalString;
+                var resRi = resource.ResourceIdentity();
+                if (resRi?.OriginalString == ri || resRi?.WithoutVersion().OriginalString == ri)
+                {
+                    // This is an actual resource coming back
+                    sb.AppendLine($"<a class=\"btn btn-primary\" href=\"{resRi.WithoutVersion().OriginalString}\">current</a> ");
+                    sb.AppendLine($"<a class=\"btn bg-secondary\" href=\"{resRi.WithoutVersion().OriginalString}/_history\">versions</a> ");
+                    if (!string.IsNullOrEmpty(resRi.VersionId))
+                        sb.AppendLine($"<a class=\"btn bg-secondary\" href=\"{resRi.OriginalString}\">v{resRi.VersionId}</a> ");
+                    if (resource is DomainResource domainResource && !string.IsNullOrEmpty(domainResource.Text?.Div))
+                    {
+                        sb.AppendLine("<hr/>");
+                        sb.AppendLine(domainResource.Text.Div);
+                    }
+                }
                 if (resource == null)
                     sb.AppendLine("<div>(null)</div>");
                 else
                 {
+                    SummaryType st = SummaryType.False;
+                    if (resource.HasAnnotation<SummaryType>() && (!(resource is OperationOutcome) || (resource as OperationOutcome).Id == null))
+                        st = resource.Annotation<SummaryType>();
                     var ct = new System.Threading.CancellationToken();
-                    var resourceAsXml = resource.ToHtmlXml(ct, resource.ResourceBase?.OriginalString ?? "");
+                    var resourceAsXml = resource.ToHtmlXml(ct, resource.ResourceBase?.OriginalString ?? "", st);
                     sb.AppendLine(resourceAsXml);
                 }
             }
 
+            sb.AppendLine("<br/>");
             sb.AppendLine("</body>");
             sb.AppendLine("</html>");
             StreamWriter writer = new StreamWriter(context.HttpContext.Response.Body, System.Text.Encoding.UTF8);

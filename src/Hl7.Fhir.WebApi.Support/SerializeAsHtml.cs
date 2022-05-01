@@ -34,6 +34,7 @@ namespace Hl7.Fhir.WebApi
         /// </summary>
         /// <param name="me"></param>
         /// <param name="sw"></param>
+        /// <param name="st"></param>
         /// <param name="ct"></param>
         /// <param name="baseUrl">Must end with the / (or be empty)</param>
         public static void WriteHtmlXml(this Hl7.Fhir.Model.Resource me, StreamWriter sw, CancellationToken ct, string baseUrl, SummaryType st)

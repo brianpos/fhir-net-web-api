@@ -124,7 +124,7 @@ namespace Hl7.Fhir.WebApi
                                     version = canonicalVersionLess.Substring(verLoc + 1);
                                     canonicalVersionLess = canonicalVersionLess.Substring(0, verLoc);
                                 }
-                                sw.Write($" value=\"<span class='canonical'><a href=\"{baseUrl}Questionnaire?url={canonicalVersionLess}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
+                                sw.Write($" value=\"<span class='canonical'><a href=\"{baseUrl}Questionnaire?url={Uri.EscapeDataString(canonicalVersionLess)}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
                             }
                             else
                                 sw.Write($" value=\"<span class='canonical'>{AppendSummaryFormat(valStr, st)}</span>\"");

@@ -113,6 +113,19 @@ namespace Hl7.Fhir.WebApi
                             var valStr = System.Net.WebUtility.HtmlEncode(System.Net.WebUtility.HtmlEncode(can.Value));
                             if (valStr.StartsWith("#"))
                                 sw.Write($" value=\"<span class='canonical'><a href=\"{AppendSummaryFormat(can.Value, st)}\">{valStr}</a></span>\"");
+                            else if (parent.Name == "QuestionnaireResponse" && prop.ElementName == "questionnaire")
+                            {
+                                // expand the canonical
+                                var canonicalVersionLess = can.Value;
+                                string version = null;
+                                var verLoc = canonicalVersionLess.IndexOf("|");
+                                if (verLoc > 0)
+                                {
+                                    version = canonicalVersionLess.Substring(verLoc + 1);
+                                    canonicalVersionLess = canonicalVersionLess.Substring(0, verLoc);
+                                }
+                                sw.Write($" value=\"<span class='canonical'><a href=\"{baseUrl}Questionnaire?url={canonicalVersionLess}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
+                            }
                             else
                                 sw.Write($" value=\"<span class='canonical'>{AppendSummaryFormat(valStr, st)}</span>\"");
                         }
@@ -143,7 +156,12 @@ namespace Hl7.Fhir.WebApi
                             }
                             else if (linkToReference && prop.ElementName == "reference")
                             {
-                                sw.Write($" value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
+                                if (valStr.StartsWith("http"))
+                                    sw.Write($" value=\"<span class='reference'><a href=\"{valStr}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
+                                else if (valStr.StartsWith("#"))
+                                    sw.Write($" value=\"<span class='reference'><a href=\"{valStr}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
+                                else
+                                    sw.Write($" value=\"<span class='reference'><a href=\"{baseUrl}{valStr}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
                             }
                             else
                             {

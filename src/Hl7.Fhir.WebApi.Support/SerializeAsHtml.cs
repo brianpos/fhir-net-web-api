@@ -45,7 +45,7 @@ namespace Hl7.Fhir.WebApi
 
             sw.WriteLine("<div class='fhir_resource'>");
             sw.WriteLine($"&lt;{resource.TypeName} xmlns=\"http://hl7.org/fhir\"&gt;<br/>");
-            WriteXmlChildProperties(resource.NamedChildren, 2, sw, ct, baseUrl, st);
+            WriteXmlChildProperties(resource.GetType(), resource.NamedChildren, 2, sw, ct, baseUrl, st);
             sw.WriteLine($"&lt;/{resource.TypeName}&gt;");
             sw.WriteLine("</div>");
         }
@@ -57,11 +57,15 @@ namespace Hl7.Fhir.WebApi
             return url + "?_summary=" + st.GetLiteral();
         }
 
-        private static void WriteXmlChildProperties(IEnumerable<Model.ElementValue> namedChildren, int leadingTabs, StreamWriter sw, CancellationToken ct, string baseUrl, SummaryType st, bool linkToReference = false)
+        private static void WriteXmlChildProperties(Type parent, IEnumerable<Model.ElementValue> namedChildren, int leadingTabs, StreamWriter sw, CancellationToken ct, string baseUrl, SummaryType st, bool linkToReference = false)
         {
+            Introspection.ClassMapping.TryGetMappingForType(parent, Specification.FhirRelease.R4, out var mapping);
             foreach (var prop in namedChildren)
             {
                 if (ct.IsCancellationRequested) break;
+                var pi = mapping?.FindMappedElementByName(prop.ElementName);
+                if (pi?.SerializationHint == Specification.XmlRepresentation.XmlAttr)
+                    continue;
                 if (prop.Value != null)
                 {
                     if (prop.Value is Narrative)
@@ -72,23 +76,43 @@ namespace Hl7.Fhir.WebApi
                     }
 
                     sw.Write(new String(' ', leadingTabs));
+
+                    // Write the element start text
+                    sw.Write($"&lt;{prop.ElementName}");
+
+                    // check for any attributes
+                    if (prop.Value?.NamedChildren?.Any() == true)
+                    {
+                        if (Introspection.ClassMapping.TryGetMappingForType(prop.Value.GetType(), Specification.FhirRelease.R4, out var mappingChild))
+                        {
+                            foreach (var ca in prop.Value?.NamedChildren)
+                            {
+                                var piChild = mappingChild?.FindMappedElementByName(ca.ElementName);
+                                if (piChild?.SerializationHint != Specification.XmlRepresentation.XmlAttr)
+                                    continue;
+                                // serialize this attr into the content
+                                sw.Write($" {ca.ElementName}=\"{ca.Value}\"");
+                            }
+                        }
+                    }
+
+
                     bool linkToChildReference = false;
                     if (prop.Value is ResourceReference resRef)
                     {
-                        sw.WriteLine($"&lt;{prop.ElementName}&gt;<br/>");
+                        sw.WriteLine($"&gt;<br/>");
                         if (resRef.Reference != null)
                             linkToChildReference = true;
                     }
                     else if (prop.Value is Canonical can)
                     {
                         // Use a Resource Resolver here to locate the actual ID?
-                        sw.Write($"&lt;{prop.ElementName}");
                         if (!string.IsNullOrEmpty(can.Value))
                         {
                             // Double encoding is required as we're pushing the XML to be displayed as HTML
                             var valStr = System.Net.WebUtility.HtmlEncode(System.Net.WebUtility.HtmlEncode(can.Value));
                             if (valStr.StartsWith("#"))
-                                sw.Write($" value=\"<span class='canonical'><a href=\"{AppendSummaryFormat(can.Value,st)}\">{valStr}</a></span>\"");
+                                sw.Write($" value=\"<span class='canonical'><a href=\"{AppendSummaryFormat(can.Value, st)}\">{valStr}</a></span>\"");
                             else
                                 sw.Write($" value=\"<span class='canonical'>{AppendSummaryFormat(valStr, st)}</span>\"");
                         }
@@ -110,20 +134,21 @@ namespace Hl7.Fhir.WebApi
                             if (prop.ElementName == "fullUrl" && prop.Value is FhirUri fi && (fi.Value.StartsWith(baseUrl)))
                             {
                                 // The bundle URL link
-                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{AppendSummaryFormat(valStr,st)}\">{valStr}</a></span>\"");
+                                sw.Write($" value=\"<span class='reference'><a href=\"{AppendSummaryFormat(valStr, st)}\">{valStr}</a></span>\"");
                             }
                             else if (prop.ElementName == "url" && prop.Value is FhirUri fi2 && (fi2.Value.StartsWith(baseUrl)))
                             {
                                 // The bundle URL link
-                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{AppendSummaryFormat(valStr,st)}\">{valStr}</a></span>\"");
+                                sw.Write($" value=\"<span class='reference'><a href=\"{AppendSummaryFormat(valStr, st)}\">{valStr}</a></span>\"");
                             }
                             else if (linkToReference && prop.ElementName == "reference")
                             {
-                                sw.Write($"&lt;{prop.ElementName} value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
+                                sw.Write($" value=\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{AppendSummaryFormat(valStr, st)}</a></span>\"");
                             }
                             else
                             {
-                                sw.Write($"&lt;{prop.ElementName} value=\"{valStr}\"");
+                                if (pi?.SerializationHint != Specification.XmlRepresentation.XmlAttr)
+                                    sw.Write($" value=\"{valStr}\"");
                             }
                             if (prop.Value?.NamedChildren?.Any() != true)
                                 sw.WriteLine($" /&gt;<br/>");
@@ -134,7 +159,7 @@ namespace Hl7.Fhir.WebApi
                         {
                             if (prop.Value?.NamedChildren?.Any() == true)
                             {
-                                sw.WriteLine($"&lt;{prop.ElementName}&gt;<br/>");
+                                sw.WriteLine($"&gt;<br/>");
                                 if (att.Data != null)
                                 {
                                     sw.Write(new String(' ', leadingTabs));
@@ -149,7 +174,7 @@ namespace Hl7.Fhir.WebApi
                             // This is a complex type
                             if (prop.Value?.NamedChildren?.Any() == true)
                             {
-                                sw.WriteLine($"&lt;{prop.ElementName}&gt;<br/>");
+                                sw.WriteLine($"&gt;<br/>");
                             }
                         }
                     }
@@ -163,7 +188,7 @@ namespace Hl7.Fhir.WebApi
                                 sw.Write($"<span class=\"{prop.ElementName}\" id=\"{resource.Id}\">");
                             sw.WriteLine($"&lt;{resource.TypeName}&gt;<br/>");
                         }
-                        WriteXmlChildProperties(prop.Value.NamedChildren, leadingTabs + 2, sw, ct, baseUrl, st, linkToChildReference);
+                        WriteXmlChildProperties(prop.Value.GetType(), prop.Value.NamedChildren, leadingTabs + 2, sw, ct, baseUrl, st, linkToChildReference);
                         if (prop.Value is Resource resourceEnd)
                         {
                             sw.Write(new String(' ', leadingTabs));

@@ -98,7 +98,12 @@ namespace Hl7.Fhir.WebApi
                 if (resource.Meta != null && !String.IsNullOrEmpty(resource.Meta.VersionId))
                     context.HttpContext.Response.Headers.Add(HeaderNames.ETag, $"W/\"{resource.Meta.VersionId}\"");
                 if (!string.IsNullOrEmpty(resource.Id))
-                    context.HttpContext.Response.Headers.Add(HeaderNames.Location, resource.ResourceIdentity(resource.ResourceBase).OriginalString);
+                {
+                    if (resource.ResourceBase != null)
+                        context.HttpContext.Response.Headers.Add(HeaderNames.Location, resource.ResourceIdentity(resource.ResourceBase).OriginalString);
+                    else
+                        context.HttpContext.Response.Headers.Add(HeaderNames.Location, resource.ResourceIdentity().OriginalString);
+                }
 
                 if (resource is Binary && context.HttpContext.Request.Headers[HeaderNames.Accept] == FhirMediaType.BinaryResource)
                 {

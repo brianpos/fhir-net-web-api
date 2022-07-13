@@ -4,7 +4,7 @@
     <TargetFrameworks>net60;</TargetFrameworks>
     <AssemblyName>Microsoft.Health.Fhir.Facade.SqlServer</AssemblyName>
     <PackageId>brianpos.Fhir.R4.Microsoft.FhirServer.Sql</PackageId>
-    <Version>3.8.3-beta1</Version>
+    <Version>3.8.3</Version>
     <Title>Demonstration R4 FHIR Facade with Microsoft FHIR Server SQL Storage</Title>
     <Summary>Demonstration R4 FHIR Facade with Microsoft FHIR Server SQL Storage</Summary>
     <Description>Demonstration implementation of a FHIR R4 Facade using the Microsoft SQL database from teh based FHIR Server as a simple storage provider</Description>

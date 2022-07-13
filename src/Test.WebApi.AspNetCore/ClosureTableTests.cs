@@ -60,7 +60,7 @@ namespace UnitTestWebApi
             DebugDumpOutputXml(closureResult);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task QuickClosureTableTests()
         {
             var cm = new Hl7.Fhir.DemoSqliteFhirServer.ClosureMaintainer("https://r4.ontoserver.csiro.au/fhir");

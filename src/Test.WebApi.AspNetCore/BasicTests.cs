@@ -366,7 +366,7 @@ namespace UnitTestWebApi
         }
 
 #if NETCOREAPP3_0_OR_GREATER
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestSqliteResolverWithValidation()
         {
             var builder = new DbContextOptionsBuilder<SpecificationContext>().UseSqlite(@"Data Source=c:\temp\Sqlite-specification.db");
@@ -390,7 +390,7 @@ namespace UnitTestWebApi
             DebugDumpOutputXml(outcome);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ExportSpecificationZipToSqlite()
         {
             var source = Hl7.Fhir.Specification.Source.ZipSource.CreateValidationSource();

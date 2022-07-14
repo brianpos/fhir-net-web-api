@@ -49,6 +49,13 @@ namespace UnitTestWebApi
         [TestMethod, TestCategory("Round Trip")]
         public void XmlParseAllExamplesCustom2()
         {
+            // workaround for the citation resource.
+            if (!ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
+            {
+                ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Citation));
+                ModelInfo.FhirCsTypeToString.Add(typeof(Citation), "Citation");
+            }
+
             string examplesZipPath = @"TestData\examples.zip";
             var inputPath = ZipFile.OpenRead(examplesZipPath);
 

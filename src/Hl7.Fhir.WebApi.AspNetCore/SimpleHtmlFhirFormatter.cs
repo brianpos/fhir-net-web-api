@@ -84,6 +84,8 @@ namespace Hl7.Fhir.WebApi
                     var ct = new System.Threading.CancellationToken();
                     var resourceAsXml = resource.ToHtmlXml(ct, resource.ResourceBase?.OriginalString ?? "", st);
                     sb.AppendLine(resourceAsXml);
+                    //var resourceAsJson = resource.ToHtmlJson(ct, resource.ResourceBase?.OriginalString ?? "", st);
+                    //sb.AppendLine(resourceAsJson);
                 }
             }
 

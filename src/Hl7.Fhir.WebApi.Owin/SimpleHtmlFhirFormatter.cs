@@ -63,8 +63,8 @@ namespace Hl7.Fhir.WebApi
                     var r2 = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(partialResource);
                     var resourceAsXml = r2.ToHtmlXml(ct, resource.ResourceBase?.OriginalString ?? "", st);
                     sb.AppendLine(resourceAsXml);
-                    var resourceAsJson = r2.ToHtmlJson(ct, resource.ResourceBase?.OriginalString ?? "", st);
-                    sb.AppendLine(resourceAsJson);
+                    //var resourceAsJson = r2.ToHtmlJson(ct, resource.ResourceBase?.OriginalString ?? "", st);
+                    //sb.AppendLine(resourceAsJson);
                 }
             }
 

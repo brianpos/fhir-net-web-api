@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -110,8 +110,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title", cancellationToken); // 170
 							break;
 						case "confidentiality":
-							result.ConfidentialityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.v3_ConfidentialityClassification>();
-							Parse(result.ConfidentialityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.v3_ConfidentialityClassification>, reader, outcome, locationPath + ".confidentiality", cancellationToken); // 180
+							result.Confidentiality_Element = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.Confidentiality>();
+							Parse(result.Confidentiality_Element as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.Confidentiality>, reader, outcome, locationPath + ".confidentiality", cancellationToken); // 180
 							break;
 						case "attester":
 							var newItem_attester = new Hl7.Fhir.Model.Composition.AttesterComponent();
@@ -247,8 +247,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.TitleElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".title", cancellationToken); // 170
 							break;
 						case "confidentiality":
-							result.ConfidentialityElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.v3_ConfidentialityClassification>();
-							await ParseAsync(result.ConfidentialityElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.v3_ConfidentialityClassification>, reader, outcome, locationPath + ".confidentiality", cancellationToken); // 180
+							result.Confidentiality_Element = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.Confidentiality>();
+							await ParseAsync(result.Confidentiality_Element as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.Confidentiality>, reader, outcome, locationPath + ".confidentiality", cancellationToken); // 180
 							break;
 						case "attester":
 							var newItem_attester = new Hl7.Fhir.Model.Composition.AttesterComponent();

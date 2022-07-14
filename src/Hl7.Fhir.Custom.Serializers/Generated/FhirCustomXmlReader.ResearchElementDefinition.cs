@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -212,8 +212,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.ResearchElementType>, reader, outcome, locationPath + ".type", cancellationToken); // 390
 							break;
 						case "variableType":
-							result.VariableTypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EvidenceVariableType>();
-							Parse(result.VariableTypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EvidenceVariableType>, reader, outcome, locationPath + ".variableType", cancellationToken); // 400
+							result.VariableType_Element = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.VariableType>();
+							Parse(result.VariableType_Element as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.VariableType>, reader, outcome, locationPath + ".variableType", cancellationToken); // 400
 							break;
 						case "characteristic":
 							var newItem_characteristic = new Hl7.Fhir.Model.ResearchElementDefinition.CharacteristicComponent();
@@ -432,8 +432,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.TypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.ResearchElementType>, reader, outcome, locationPath + ".type", cancellationToken); // 390
 							break;
 						case "variableType":
-							result.VariableTypeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EvidenceVariableType>();
-							await ParseAsync(result.VariableTypeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EvidenceVariableType>, reader, outcome, locationPath + ".variableType", cancellationToken); // 400
+							result.VariableType_Element = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.VariableType>();
+							await ParseAsync(result.VariableType_Element as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.VariableType>, reader, outcome, locationPath + ".variableType", cancellationToken); // 400
 							break;
 						case "characteristic":
 							var newItem_characteristic = new Hl7.Fhir.Model.ResearchElementDefinition.CharacteristicComponent();

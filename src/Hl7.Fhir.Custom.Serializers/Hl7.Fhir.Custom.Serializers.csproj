@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net50;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
-    <AssemblyName>Hl7.Fhir.R4.Custom.Serializers</AssemblyName>
-    <PackageId>brianpos.Fhir.R4.Custom.Serializers</PackageId>
-    <Version>3.8.3-beta1</Version>
-    <Title>HL7 Fhir R4 Custom Serializers (NOT FOR PRODUCTION USAGE)</Title>
+    <TargetFrameworks>net60;net50;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
+    <AssemblyName>Hl7.Fhir.R4B.Custom.Serializers</AssemblyName>
+    <PackageId>brianpos.Fhir.R4B.Custom.Serializers</PackageId>
+    <Version>4.1.0-beta1</Version>
+    <Title>HL7 Fhir R4B Custom Serializers (NOT FOR PRODUCTION USAGE)</Title>
     <Summary>A code generated set of serializers tuned for performance</Summary>
     <Description>The standard FHIR Serializers use either reflection on the class models or a custom provider to feed serialization information into generic parser/serializer.
       The reflection getter/setter approach has overheads on initial call (preparing all this processing data).
       This library sacrifices this approach with explicit functions for each type.
 </Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
-    <Product>Hl7.Fhir.R4.WebApi.Serializers</Product>
+    <Product>Hl7.Fhir.R4B.WebApi.Serializers</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -38,13 +38,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="3.8.3" />
+    <PackageReference Include="Hl7.Fhir.R4B" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="FhirCustomXmlReader.tt">
-      <LastGenOutput>FhirCustomXmlReader.cs</LastGenOutput>
+      <LastGenOutput>FhirCustomXmlReader.txt</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="FhirCustomXmlReader.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FhirCustomXmlReader.tt</DependentUpon>
     </None>
     <None Update="FhirCustomXmlWriter.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -64,11 +69,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="FhirCustomXmlReader.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FhirCustomXmlReader.tt</DependentUpon>
-    </Compile>
     <Compile Update="FhirCustomXmlWriter.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

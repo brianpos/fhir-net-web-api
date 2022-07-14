@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,26 +55,26 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.FhirUri();
-							Parse(result.CodeElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".code", cancellationToken); // 40
+							Parse(result.CodeElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".code", cancellationToken); // 30
 							break;
 						case "profile":
 							var newItem_profile = new Hl7.Fhir.Model.Canonical();
-							Parse(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 50
+							Parse(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 40
 							result.ProfileElement.Add(newItem_profile);
 							break;
 						case "targetProfile":
 							var newItem_targetProfile = new Hl7.Fhir.Model.Canonical();
-							Parse(newItem_targetProfile, reader, outcome, locationPath + ".targetProfile["+result.TargetProfileElement.Count+"]", cancellationToken); // 60
+							Parse(newItem_targetProfile, reader, outcome, locationPath + ".targetProfile["+result.TargetProfileElement.Count+"]", cancellationToken); // 50
 							result.TargetProfileElement.Add(newItem_targetProfile);
 							break;
 						case "aggregation":
 							var newItem_aggregation = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.AggregationMode>();
-							Parse(newItem_aggregation, reader, outcome, locationPath + ".aggregation["+result.AggregationElement.Count+"]", cancellationToken); // 70
+							Parse(newItem_aggregation, reader, outcome, locationPath + ".aggregation["+result.AggregationElement.Count+"]", cancellationToken); // 60
 							result.AggregationElement.Add(newItem_aggregation);
 							break;
 						case "versioning":
 							result.VersioningElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ReferenceVersionRules>();
-							Parse(result.VersioningElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ReferenceVersionRules>, reader, outcome, locationPath + ".versioning", cancellationToken); // 80
+							Parse(result.VersioningElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ReferenceVersionRules>, reader, outcome, locationPath + ".versioning", cancellationToken); // 70
 							break;
 						default:
 							// Property not found
@@ -95,7 +95,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -129,26 +129,26 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "code":
 							result.CodeElement = new Hl7.Fhir.Model.FhirUri();
-							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".code", cancellationToken); // 40
+							await ParseAsync(result.CodeElement as Hl7.Fhir.Model.FhirUri, reader, outcome, locationPath + ".code", cancellationToken); // 30
 							break;
 						case "profile":
 							var newItem_profile = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 50
+							await ParseAsync(newItem_profile, reader, outcome, locationPath + ".profile["+result.ProfileElement.Count+"]", cancellationToken); // 40
 							result.ProfileElement.Add(newItem_profile);
 							break;
 						case "targetProfile":
 							var newItem_targetProfile = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(newItem_targetProfile, reader, outcome, locationPath + ".targetProfile["+result.TargetProfileElement.Count+"]", cancellationToken); // 60
+							await ParseAsync(newItem_targetProfile, reader, outcome, locationPath + ".targetProfile["+result.TargetProfileElement.Count+"]", cancellationToken); // 50
 							result.TargetProfileElement.Add(newItem_targetProfile);
 							break;
 						case "aggregation":
 							var newItem_aggregation = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.AggregationMode>();
-							await ParseAsync(newItem_aggregation, reader, outcome, locationPath + ".aggregation["+result.AggregationElement.Count+"]", cancellationToken); // 70
+							await ParseAsync(newItem_aggregation, reader, outcome, locationPath + ".aggregation["+result.AggregationElement.Count+"]", cancellationToken); // 60
 							result.AggregationElement.Add(newItem_aggregation);
 							break;
 						case "versioning":
 							result.VersioningElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ReferenceVersionRules>();
-							await ParseAsync(result.VersioningElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ReferenceVersionRules>, reader, outcome, locationPath + ".versioning", cancellationToken); // 80
+							await ParseAsync(result.VersioningElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.ReferenceVersionRules>, reader, outcome, locationPath + ".versioning", cancellationToken); // 70
 							break;
 						default:
 							// Property not found

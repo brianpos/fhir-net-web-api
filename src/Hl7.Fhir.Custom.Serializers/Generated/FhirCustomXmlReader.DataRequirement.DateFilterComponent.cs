@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,23 +55,23 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 40
+							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 30
 							break;
 						case "searchParam":
 							result.SearchParamElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 50
+							Parse(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 40
 							break;
 						case "valueDateTime":
 							result.Value = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value", cancellationToken); // 60
+							Parse(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						case "valuePeriod":
 							result.Value = new Hl7.Fhir.Model.Period();
-							Parse(result.Value as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".value", cancellationToken); // 60
+							Parse(result.Value as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						case "valueDuration":
 							result.Value = new Hl7.Fhir.Model.Duration();
-							Parse(result.Value as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".value", cancellationToken); // 60
+							Parse(result.Value as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						default:
 							// Property not found
@@ -92,7 +92,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -126,23 +126,23 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 40
+							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 30
 							break;
 						case "searchParam":
 							result.SearchParamElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 50
+							await ParseAsync(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 40
 							break;
 						case "valueDateTime":
 							result.Value = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value", cancellationToken); // 60
+							await ParseAsync(result.Value as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						case "valuePeriod":
 							result.Value = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".value", cancellationToken); // 60
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						case "valueDuration":
 							result.Value = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.Value as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".value", cancellationToken); // 60
+							await ParseAsync(result.Value as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".value", cancellationToken); // 50
 							break;
 						default:
 							// Property not found

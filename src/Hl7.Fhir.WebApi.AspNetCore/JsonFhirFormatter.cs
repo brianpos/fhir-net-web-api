@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -23,13 +23,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Threading;
 using System.Buffers;
 
-#if NETCOREAPP2_2
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Mvc.Formatters.Json.Internal;
-#else
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-#endif
 
 namespace Hl7.Fhir.WebApi
 {
@@ -63,7 +58,7 @@ namespace Hl7.Fhir.WebApi
                 using (var streamReader = context.ReaderFactory(ms, encoding))
                 using (var jsonReader = new JsonTextReader(streamReader))
                 {
-                    // need to configure these properties as is done in 
+                    // need to configure these properties as is done in
                     // HL7.Fhir.SerializationUtil.JsonReaderFromJsonText()
                     jsonReader.DateParseHandling = DateParseHandling.None;
                     jsonReader.FloatParseHandling = FloatParseHandling.Decimal;
@@ -82,7 +77,6 @@ namespace Hl7.Fhir.WebApi
         }
     }
 
-#if !NETCOREAPP2_2
     class ArrayPool : IArrayPool<char>
     {
         internal ArrayPool(ArrayPool<char> pool)
@@ -101,7 +95,6 @@ namespace Hl7.Fhir.WebApi
             _pool.Return(array);
         }
     }
-#endif
 
     public class JsonFhirOutputFormatter : FhirMediaTypeOutputFormatter
     {
@@ -110,11 +103,7 @@ namespace Hl7.Fhir.WebApi
             if (charPool == null)
                 throw new ArgumentNullException(nameof(charPool));
 
-#if NETCOREAPP2_2
-            _charPool = new JsonArrayPool<char>(charPool);
-#else
             _charPool = new ArrayPool(charPool);
-#endif
 
             foreach (var mediaType in ContentType.JSON_CONTENT_HEADERS)
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue(mediaType));

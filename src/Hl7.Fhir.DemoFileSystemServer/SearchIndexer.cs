@@ -156,7 +156,7 @@ namespace Hl7.Fhir.WebApi
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.WriteLine($"Failed processing search expression {index.Name}: {index.Expression}");
+                System.Diagnostics.Trace.WriteLine($"Failed processing search expression {index.Name}: {index.Expression} - {ex.Message}");
                 return;
             }
             if (results.Count() > 0)
@@ -183,7 +183,7 @@ namespace Hl7.Fhir.WebApi
                                     searchIndex.AddOrUpdate(val, new List<string>() { filename }, (x, y) =>
                                     {
                                         if (!y.Contains(filename))
-                                            y.Add(filename); 
+                                            y.Add(filename);
                                         return y;
                                     });
                             }

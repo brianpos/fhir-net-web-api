@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -82,7 +82,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -120,8 +120,7 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						// Xml Serialization: XHtml
 						case "div":
-							var innerXML = await ReadOuterXmlAsync(reader);
-							result.Div = SerializationUtil.SanitizeXml(innerXML);  // Validation required
+							result.Div = SerializationUtil.SanitizeXml(reader.ReadOuterXml()?.Trim());  // Validation required
 							if (reader.NodeType == XmlNodeType.EndElement)
 								return;
 							break;

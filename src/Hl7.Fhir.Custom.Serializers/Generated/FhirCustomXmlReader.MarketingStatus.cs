@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -60,23 +60,23 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "country":
 							result.Country = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".country", cancellationToken); // 90
+							Parse(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".country", cancellationToken); // 40
 							break;
 						case "jurisdiction":
 							result.Jurisdiction = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".jurisdiction", cancellationToken); // 100
+							Parse(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".jurisdiction", cancellationToken); // 50
 							break;
 						case "status":
 							result.Status = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status", cancellationToken); // 110
+							Parse(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status", cancellationToken); // 60
 							break;
 						case "dateRange":
 							result.DateRange = new Hl7.Fhir.Model.Period();
-							Parse(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".dateRange", cancellationToken); // 120
+							Parse(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".dateRange", cancellationToken); // 70
 							break;
 						case "restoreDate":
 							result.RestoreDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".restoreDate", cancellationToken); // 130
+							Parse(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".restoreDate", cancellationToken); // 80
 							break;
 						default:
 							// Property not found
@@ -97,7 +97,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -136,23 +136,23 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "country":
 							result.Country = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".country", cancellationToken); // 90
+							await ParseAsync(result.Country as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".country", cancellationToken); // 40
 							break;
 						case "jurisdiction":
 							result.Jurisdiction = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".jurisdiction", cancellationToken); // 100
+							await ParseAsync(result.Jurisdiction as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".jurisdiction", cancellationToken); // 50
 							break;
 						case "status":
 							result.Status = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status", cancellationToken); // 110
+							await ParseAsync(result.Status as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".status", cancellationToken); // 60
 							break;
 						case "dateRange":
 							result.DateRange = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".dateRange", cancellationToken); // 120
+							await ParseAsync(result.DateRange as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".dateRange", cancellationToken); // 70
 							break;
 						case "restoreDate":
 							result.RestoreDateElement = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".restoreDate", cancellationToken); // 130
+							await ParseAsync(result.RestoreDateElement as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".restoreDate", cancellationToken); // 80
 							break;
 						default:
 							// Property not found

@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -60,16 +60,16 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "event":
 							var newItem_event = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(newItem_event, reader, outcome, locationPath + ".event["+result.EventElement.Count+"]", cancellationToken); // 90
+							Parse(newItem_event, reader, outcome, locationPath + ".event["+result.EventElement.Count+"]", cancellationToken); // 40
 							result.EventElement.Add(newItem_event);
 							break;
 						case "repeat":
 							result.Repeat = new Hl7.Fhir.Model.Timing.RepeatComponent();
-							Parse(result.Repeat as Hl7.Fhir.Model.Timing.RepeatComponent, reader, outcome, locationPath + ".repeat", cancellationToken); // 100
+							Parse(result.Repeat as Hl7.Fhir.Model.Timing.RepeatComponent, reader, outcome, locationPath + ".repeat", cancellationToken); // 50
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code", cancellationToken); // 110
+							Parse(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -90,7 +90,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -129,16 +129,16 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "event":
 							var newItem_event = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(newItem_event, reader, outcome, locationPath + ".event["+result.EventElement.Count+"]", cancellationToken); // 90
+							await ParseAsync(newItem_event, reader, outcome, locationPath + ".event["+result.EventElement.Count+"]", cancellationToken); // 40
 							result.EventElement.Add(newItem_event);
 							break;
 						case "repeat":
 							result.Repeat = new Hl7.Fhir.Model.Timing.RepeatComponent();
-							await ParseAsync(result.Repeat as Hl7.Fhir.Model.Timing.RepeatComponent, reader, outcome, locationPath + ".repeat", cancellationToken); // 100
+							await ParseAsync(result.Repeat as Hl7.Fhir.Model.Timing.RepeatComponent, reader, outcome, locationPath + ".repeat", cancellationToken); // 50
 							break;
 						case "code":
 							result.Code = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code", cancellationToken); // 110
+							await ParseAsync(result.Code as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".code", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

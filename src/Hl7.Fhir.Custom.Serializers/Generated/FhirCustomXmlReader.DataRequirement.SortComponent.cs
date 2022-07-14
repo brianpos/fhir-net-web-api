@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,11 +55,11 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 40
+							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 30
 							break;
 						case "direction":
 							result.DirectionElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DataRequirement.SortDirection>();
-							Parse(result.DirectionElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DataRequirement.SortDirection>, reader, outcome, locationPath + ".direction", cancellationToken); // 50
+							Parse(result.DirectionElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DataRequirement.SortDirection>, reader, outcome, locationPath + ".direction", cancellationToken); // 40
 							break;
 						default:
 							// Property not found
@@ -80,7 +80,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -114,11 +114,11 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 40
+							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 30
 							break;
 						case "direction":
 							result.DirectionElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DataRequirement.SortDirection>();
-							await ParseAsync(result.DirectionElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DataRequirement.SortDirection>, reader, outcome, locationPath + ".direction", cancellationToken); // 50
+							await ParseAsync(result.DirectionElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DataRequirement.SortDirection>, reader, outcome, locationPath + ".direction", cancellationToken); // 40
 							break;
 						default:
 							// Property not found

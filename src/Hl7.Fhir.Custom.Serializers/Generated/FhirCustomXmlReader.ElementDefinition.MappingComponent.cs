@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,19 +55,19 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "identity":
 							result.IdentityElement = new Hl7.Fhir.Model.Id();
-							Parse(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity", cancellationToken); // 40
+							Parse(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity", cancellationToken); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 50
+							Parse(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 40
 							break;
 						case "map":
 							result.MapElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map", cancellationToken); // 60
+							Parse(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map", cancellationToken); // 50
 							break;
 						case "comment":
 							result.CommentElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment", cancellationToken); // 70
+							Parse(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -88,7 +88,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -122,19 +122,19 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "identity":
 							result.IdentityElement = new Hl7.Fhir.Model.Id();
-							await ParseAsync(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity", cancellationToken); // 40
+							await ParseAsync(result.IdentityElement as Hl7.Fhir.Model.Id, reader, outcome, locationPath + ".identity", cancellationToken); // 30
 							break;
 						case "language":
 							result.LanguageElement = new Hl7.Fhir.Model.Code();
-							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 50
+							await ParseAsync(result.LanguageElement as Hl7.Fhir.Model.Code, reader, outcome, locationPath + ".language", cancellationToken); // 40
 							break;
 						case "map":
 							result.MapElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map", cancellationToken); // 60
+							await ParseAsync(result.MapElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".map", cancellationToken); // 50
 							break;
 						case "comment":
 							result.CommentElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment", cancellationToken); // 70
+							await ParseAsync(result.CommentElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".comment", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

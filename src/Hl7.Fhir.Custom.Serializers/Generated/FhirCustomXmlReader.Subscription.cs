@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -72,8 +72,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "status":
-							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionStatus>();
-							Parse(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionStatus>, reader, outcome, locationPath + ".status", cancellationToken); // 90
+							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SubscriptionStatusCodes>();
+							Parse(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SubscriptionStatusCodes>, reader, outcome, locationPath + ".status", cancellationToken); // 90
 							break;
 						case "contact":
 							var newItem_contact = new Hl7.Fhir.Model.ContactPoint();
@@ -172,8 +172,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.ModifierExtension.Add(newItem_modifierExtension);
 							break;
 						case "status":
-							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionStatus>();
-							await ParseAsync(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionStatus>, reader, outcome, locationPath + ".status", cancellationToken); // 90
+							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SubscriptionStatusCodes>();
+							await ParseAsync(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SubscriptionStatusCodes>, reader, outcome, locationPath + ".status", cancellationToken); // 90
 							break;
 						case "contact":
 							var newItem_contact = new Hl7.Fhir.Model.ContactPoint();

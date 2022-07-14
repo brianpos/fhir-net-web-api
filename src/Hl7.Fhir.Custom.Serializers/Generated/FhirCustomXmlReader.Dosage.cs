@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -60,61 +60,61 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "sequence":
 							result.SequenceElement = new Hl7.Fhir.Model.Integer();
-							Parse(result.SequenceElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".sequence", cancellationToken); // 90
+							Parse(result.SequenceElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".sequence", cancellationToken); // 40
 							break;
 						case "text":
 							result.TextElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text", cancellationToken); // 100
+							Parse(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text", cancellationToken); // 50
 							break;
 						case "additionalInstruction":
 							var newItem_additionalInstruction = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_additionalInstruction, reader, outcome, locationPath + ".additionalInstruction["+result.AdditionalInstruction.Count+"]", cancellationToken); // 110
+							Parse(newItem_additionalInstruction, reader, outcome, locationPath + ".additionalInstruction["+result.AdditionalInstruction.Count+"]", cancellationToken); // 60
 							result.AdditionalInstruction.Add(newItem_additionalInstruction);
 							break;
 						case "patientInstruction":
 							result.PatientInstructionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PatientInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".patientInstruction", cancellationToken); // 120
+							Parse(result.PatientInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".patientInstruction", cancellationToken); // 70
 							break;
 						case "timing":
 							result.Timing = new Hl7.Fhir.Model.Timing();
-							Parse(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".timing", cancellationToken); // 130
+							Parse(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".timing", cancellationToken); // 80
 							break;
 						case "asNeededBoolean":
 							result.AsNeeded = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.AsNeeded as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 140
+							Parse(result.AsNeeded as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 90
 							break;
 						case "asNeededCodeableConcept":
 							result.AsNeeded = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.AsNeeded as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 140
+							Parse(result.AsNeeded as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 90
 							break;
 						case "site":
 							result.Site = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Site as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".site", cancellationToken); // 150
+							Parse(result.Site as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".site", cancellationToken); // 100
 							break;
 						case "route":
 							result.Route = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Route as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".route", cancellationToken); // 160
+							Parse(result.Route as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".route", cancellationToken); // 110
 							break;
 						case "method":
 							result.Method = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 170
+							Parse(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 120
 							break;
 						case "doseAndRate":
 							var newItem_doseAndRate = new Hl7.Fhir.Model.Dosage.DoseAndRateComponent();
-							Parse(newItem_doseAndRate, reader, outcome, locationPath + ".doseAndRate["+result.DoseAndRate.Count+"]", cancellationToken); // 180
+							Parse(newItem_doseAndRate, reader, outcome, locationPath + ".doseAndRate["+result.DoseAndRate.Count+"]", cancellationToken); // 130
 							result.DoseAndRate.Add(newItem_doseAndRate);
 							break;
 						case "maxDosePerPeriod":
 							result.MaxDosePerPeriod = new Hl7.Fhir.Model.Ratio();
-							Parse(result.MaxDosePerPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerPeriod", cancellationToken); // 190
+							Parse(result.MaxDosePerPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerPeriod", cancellationToken); // 140
 							break;
 						case "maxDosePerAdministration":
 							result.MaxDosePerAdministration = new Hl7.Fhir.Model.Quantity();
-							Parse(result.MaxDosePerAdministration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 200
+							Parse(result.MaxDosePerAdministration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 150
 							break;
 						case "maxDosePerLifetime":
 							result.MaxDosePerLifetime = new Hl7.Fhir.Model.Quantity();
-							Parse(result.MaxDosePerLifetime as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 210
+							Parse(result.MaxDosePerLifetime as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 160
 							break;
 						default:
 							// Property not found
@@ -135,7 +135,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -174,61 +174,61 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "sequence":
 							result.SequenceElement = new Hl7.Fhir.Model.Integer();
-							await ParseAsync(result.SequenceElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".sequence", cancellationToken); // 90
+							await ParseAsync(result.SequenceElement as Hl7.Fhir.Model.Integer, reader, outcome, locationPath + ".sequence", cancellationToken); // 40
 							break;
 						case "text":
 							result.TextElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text", cancellationToken); // 100
+							await ParseAsync(result.TextElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".text", cancellationToken); // 50
 							break;
 						case "additionalInstruction":
 							var newItem_additionalInstruction = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_additionalInstruction, reader, outcome, locationPath + ".additionalInstruction["+result.AdditionalInstruction.Count+"]", cancellationToken); // 110
+							await ParseAsync(newItem_additionalInstruction, reader, outcome, locationPath + ".additionalInstruction["+result.AdditionalInstruction.Count+"]", cancellationToken); // 60
 							result.AdditionalInstruction.Add(newItem_additionalInstruction);
 							break;
 						case "patientInstruction":
 							result.PatientInstructionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PatientInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".patientInstruction", cancellationToken); // 120
+							await ParseAsync(result.PatientInstructionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".patientInstruction", cancellationToken); // 70
 							break;
 						case "timing":
 							result.Timing = new Hl7.Fhir.Model.Timing();
-							await ParseAsync(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".timing", cancellationToken); // 130
+							await ParseAsync(result.Timing as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".timing", cancellationToken); // 80
 							break;
 						case "asNeededBoolean":
 							result.AsNeeded = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.AsNeeded as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 140
+							await ParseAsync(result.AsNeeded as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 90
 							break;
 						case "asNeededCodeableConcept":
 							result.AsNeeded = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.AsNeeded as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 140
+							await ParseAsync(result.AsNeeded as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".asNeeded", cancellationToken); // 90
 							break;
 						case "site":
 							result.Site = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Site as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".site", cancellationToken); // 150
+							await ParseAsync(result.Site as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".site", cancellationToken); // 100
 							break;
 						case "route":
 							result.Route = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Route as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".route", cancellationToken); // 160
+							await ParseAsync(result.Route as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".route", cancellationToken); // 110
 							break;
 						case "method":
 							result.Method = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 170
+							await ParseAsync(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 120
 							break;
 						case "doseAndRate":
 							var newItem_doseAndRate = new Hl7.Fhir.Model.Dosage.DoseAndRateComponent();
-							await ParseAsync(newItem_doseAndRate, reader, outcome, locationPath + ".doseAndRate["+result.DoseAndRate.Count+"]", cancellationToken); // 180
+							await ParseAsync(newItem_doseAndRate, reader, outcome, locationPath + ".doseAndRate["+result.DoseAndRate.Count+"]", cancellationToken); // 130
 							result.DoseAndRate.Add(newItem_doseAndRate);
 							break;
 						case "maxDosePerPeriod":
 							result.MaxDosePerPeriod = new Hl7.Fhir.Model.Ratio();
-							await ParseAsync(result.MaxDosePerPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerPeriod", cancellationToken); // 190
+							await ParseAsync(result.MaxDosePerPeriod as Hl7.Fhir.Model.Ratio, reader, outcome, locationPath + ".maxDosePerPeriod", cancellationToken); // 140
 							break;
 						case "maxDosePerAdministration":
 							result.MaxDosePerAdministration = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.MaxDosePerAdministration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 200
+							await ParseAsync(result.MaxDosePerAdministration as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerAdministration", cancellationToken); // 150
 							break;
 						case "maxDosePerLifetime":
 							result.MaxDosePerLifetime = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.MaxDosePerLifetime as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 210
+							await ParseAsync(result.MaxDosePerLifetime as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".maxDosePerLifetime", cancellationToken); // 160
 							break;
 						default:
 							// Property not found

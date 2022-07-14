@@ -8,6 +8,8 @@ using Hl7.Fhir.Utility;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Hl7.Fhir.Specification.Source;
+using System.IO;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
@@ -18,7 +20,14 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         where TSP : class
     {
         public DirectorySystemService()
-        {
+{
+            var _dirSource = new DirectorySource(Directory, new DirectorySourceSettings() { ExcludeSummariesForUnknownArtifacts = true, MultiThreaded = true, Mask = "*..xml" });
+            var cacheResolver = new CachedResolver(
+                new MultiResolver(
+                    _dirSource,
+                    ZipSource.CreateValidationSource()
+                    ));
+            _source = cacheResolver;
         }
 
         /// <summary>
@@ -27,6 +36,8 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         public static string Directory { get; set; }
         private SearchIndexer _indexer;
         public int DefaultPageSize { get; set; } = 40;
+
+        private CachedResolver _source;
 
         public void InitializeIndexes()
         {
@@ -67,10 +78,6 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 if (c != null)
                     con.Rest[0].Resource.Add(c);
             }
-            //foreach (var model in ModelFactory.GetAllModels(GetInputs(buri)))
-            //{
-            //    con.Rest[0].Resource.Add(model.GetRestResourceComponent());
-            //}
 
             return con;
         }
@@ -80,7 +87,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(resourceName))
                 throw new NotImplementedException();
 
-            return new DirectoryResourceService<TSP>() { RequestDetails = request, ResourceName = resourceName, ResourceDirectory = Directory, Indexer = _indexer };
+            return new DirectoryResourceService<TSP>(request, resourceName, Directory, _source, _source) { Indexer = _indexer };
         }
 
         public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, SummaryType summary)

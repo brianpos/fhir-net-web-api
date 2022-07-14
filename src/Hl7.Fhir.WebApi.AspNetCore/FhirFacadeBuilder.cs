@@ -57,29 +57,22 @@ namespace Hl7.Fhir.NetCoreApi
         private static void InternalUseFhirServerController(IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems)
         {
             _supportedForwardedForSystems = supportedForwardedForSystems;
-#if NETCOREAPP2_2
-            services.AddMvc(options =>
-            {
-                // remove the default formatters
-                options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonInputFormatter>();
-                // Note there is a default implementation of the json patch in here, need to know how to hook into that
-                options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
-#else
             services.AddControllers(options =>
             {
                 // remove the default formatters
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>();
                 // Note there is a default implementation of the json patch in here, need to know how to hook into that
                 // options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
-#endif
 
                 options.InputFormatters.Add(new XmlFhirInputFormatter());
-                options.InputFormatters.Add(new JsonFhirInputFormatter());
+                // options.InputFormatters.Add(new JsonFhirInputFormatter());
+                options.InputFormatters.Add(new JsonFhirInputFormatter2());
                 options.InputFormatters.Add(new BinaryFhirInputFormatter());
 
                 options.OutputFormatters.Clear();
                 options.OutputFormatters.Add(new XmlFhirOutputFormatter());
-                options.OutputFormatters.Add(new JsonFhirOutputFormatter(ArrayPool<char>.Shared));
+                // options.OutputFormatters.Add(new JsonFhirOutputFormatter(ArrayPool<char>.Shared));
+                options.OutputFormatters.Add(new JsonFhirOutputFormatter2());
                 options.OutputFormatters.Add(new BinaryFhirOutputFormatter());
 
                 // and include our custom content negotiator filter to handle the _format parameter
@@ -95,14 +88,9 @@ namespace Hl7.Fhir.NetCoreApi
 
                 // give caller opportunity to modify the mvc options
                 setupAction(options);
-#if NETCOREAPP2_2
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-#else
             }).AddApplicationPart(typeof(FhirR4Controller).Assembly);
-#endif
         }
 
-#if !NETCOREAPP2_2
         /// <summary>
         /// Register the FHIR SMART App Launch Configuration route
         /// (requires the FhirSmartAppLaunchConfiguration type to be registered in the DI)
@@ -124,6 +112,5 @@ namespace Hl7.Fhir.NetCoreApi
                 await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(config, settings: jsonSettings));
             });
         }
-#endif
     }
 }

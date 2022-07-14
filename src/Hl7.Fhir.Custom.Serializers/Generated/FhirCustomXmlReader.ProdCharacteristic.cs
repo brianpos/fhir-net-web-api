@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -60,50 +60,50 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "height":
 							result.Height = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Height as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".height", cancellationToken); // 90
+							Parse(result.Height as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".height", cancellationToken); // 40
 							break;
 						case "width":
 							result.Width = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Width as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".width", cancellationToken); // 100
+							Parse(result.Width as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".width", cancellationToken); // 50
 							break;
 						case "depth":
 							result.Depth = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Depth as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".depth", cancellationToken); // 110
+							Parse(result.Depth as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".depth", cancellationToken); // 60
 							break;
 						case "weight":
 							result.Weight = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Weight as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".weight", cancellationToken); // 120
+							Parse(result.Weight as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".weight", cancellationToken); // 70
 							break;
 						case "nominalVolume":
 							result.NominalVolume = new Hl7.Fhir.Model.Quantity();
-							Parse(result.NominalVolume as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".nominalVolume", cancellationToken); // 130
+							Parse(result.NominalVolume as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".nominalVolume", cancellationToken); // 80
 							break;
 						case "externalDiameter":
 							result.ExternalDiameter = new Hl7.Fhir.Model.Quantity();
-							Parse(result.ExternalDiameter as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".externalDiameter", cancellationToken); // 140
+							Parse(result.ExternalDiameter as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".externalDiameter", cancellationToken); // 90
 							break;
 						case "shape":
 							result.ShapeElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.ShapeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".shape", cancellationToken); // 150
+							Parse(result.ShapeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".shape", cancellationToken); // 100
 							break;
 						case "color":
 							var newItem_color = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_color, reader, outcome, locationPath + ".color["+result.ColorElement.Count+"]", cancellationToken); // 160
+							Parse(newItem_color, reader, outcome, locationPath + ".color["+result.ColorElement.Count+"]", cancellationToken); // 110
 							result.ColorElement.Add(newItem_color);
 							break;
 						case "imprint":
 							var newItem_imprint = new Hl7.Fhir.Model.FhirString();
-							Parse(newItem_imprint, reader, outcome, locationPath + ".imprint["+result.ImprintElement.Count+"]", cancellationToken); // 170
+							Parse(newItem_imprint, reader, outcome, locationPath + ".imprint["+result.ImprintElement.Count+"]", cancellationToken); // 120
 							result.ImprintElement.Add(newItem_imprint);
 							break;
 						case "image":
 							var newItem_image = new Hl7.Fhir.Model.Attachment();
-							Parse(newItem_image, reader, outcome, locationPath + ".image["+result.Image.Count+"]", cancellationToken); // 180
+							Parse(newItem_image, reader, outcome, locationPath + ".image["+result.Image.Count+"]", cancellationToken); // 130
 							result.Image.Add(newItem_image);
 							break;
 						case "scoring":
 							result.Scoring = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Scoring as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".scoring", cancellationToken); // 190
+							Parse(result.Scoring as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".scoring", cancellationToken); // 140
 							break;
 						default:
 							// Property not found
@@ -124,7 +124,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -163,50 +163,50 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "height":
 							result.Height = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Height as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".height", cancellationToken); // 90
+							await ParseAsync(result.Height as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".height", cancellationToken); // 40
 							break;
 						case "width":
 							result.Width = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Width as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".width", cancellationToken); // 100
+							await ParseAsync(result.Width as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".width", cancellationToken); // 50
 							break;
 						case "depth":
 							result.Depth = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Depth as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".depth", cancellationToken); // 110
+							await ParseAsync(result.Depth as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".depth", cancellationToken); // 60
 							break;
 						case "weight":
 							result.Weight = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Weight as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".weight", cancellationToken); // 120
+							await ParseAsync(result.Weight as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".weight", cancellationToken); // 70
 							break;
 						case "nominalVolume":
 							result.NominalVolume = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.NominalVolume as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".nominalVolume", cancellationToken); // 130
+							await ParseAsync(result.NominalVolume as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".nominalVolume", cancellationToken); // 80
 							break;
 						case "externalDiameter":
 							result.ExternalDiameter = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.ExternalDiameter as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".externalDiameter", cancellationToken); // 140
+							await ParseAsync(result.ExternalDiameter as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".externalDiameter", cancellationToken); // 90
 							break;
 						case "shape":
 							result.ShapeElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.ShapeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".shape", cancellationToken); // 150
+							await ParseAsync(result.ShapeElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".shape", cancellationToken); // 100
 							break;
 						case "color":
 							var newItem_color = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_color, reader, outcome, locationPath + ".color["+result.ColorElement.Count+"]", cancellationToken); // 160
+							await ParseAsync(newItem_color, reader, outcome, locationPath + ".color["+result.ColorElement.Count+"]", cancellationToken); // 110
 							result.ColorElement.Add(newItem_color);
 							break;
 						case "imprint":
 							var newItem_imprint = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(newItem_imprint, reader, outcome, locationPath + ".imprint["+result.ImprintElement.Count+"]", cancellationToken); // 170
+							await ParseAsync(newItem_imprint, reader, outcome, locationPath + ".imprint["+result.ImprintElement.Count+"]", cancellationToken); // 120
 							result.ImprintElement.Add(newItem_imprint);
 							break;
 						case "image":
 							var newItem_image = new Hl7.Fhir.Model.Attachment();
-							await ParseAsync(newItem_image, reader, outcome, locationPath + ".image["+result.Image.Count+"]", cancellationToken); // 180
+							await ParseAsync(newItem_image, reader, outcome, locationPath + ".image["+result.Image.Count+"]", cancellationToken); // 130
 							result.Image.Add(newItem_image);
 							break;
 						case "scoring":
 							result.Scoring = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Scoring as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".scoring", cancellationToken); // 190
+							await ParseAsync(result.Scoring as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".scoring", cancellationToken); // 140
 							break;
 						default:
 							// Property not found

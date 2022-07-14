@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -35,6 +35,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "ActivityDefinition":
                     result = new ActivityDefinition();
                     Parse(result as ActivityDefinition, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "AdministrableProductDefinition":
+                    result = new AdministrableProductDefinition();
+                    Parse(result as AdministrableProductDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "AdverseEvent":
                     result = new AdverseEvent();
@@ -100,6 +104,10 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new ChargeItemDefinition();
                     Parse(result as ChargeItemDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "Citation":
+                    result = new Citation();
+                    Parse(result as Citation, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "Claim":
                     result = new Claim();
                     Parse(result as Claim, reader, outcome, locationPath, cancellationToken);
@@ -111,6 +119,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "ClinicalImpression":
                     result = new ClinicalImpression();
                     Parse(result as ClinicalImpression, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "ClinicalUseDefinition":
+                    result = new ClinicalUseDefinition();
+                    Parse(result as ClinicalUseDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "CodeSystem":
                     result = new CodeSystem();
@@ -196,10 +208,6 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new DocumentReference();
                     Parse(result as DocumentReference, reader, outcome, locationPath, cancellationToken);
                     break;
-                case "EffectEvidenceSynthesis":
-                    result = new EffectEvidenceSynthesis();
-                    Parse(result as EffectEvidenceSynthesis, reader, outcome, locationPath, cancellationToken);
-                    break;
                 case "Encounter":
                     result = new Encounter();
                     Parse(result as Encounter, reader, outcome, locationPath, cancellationToken);
@@ -227,6 +235,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "Evidence":
                     result = new Evidence();
                     Parse(result as Evidence, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "EvidenceReport":
+                    result = new EvidenceReport();
+                    Parse(result as EvidenceReport, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "EvidenceVariable":
                     result = new EvidenceVariable();
@@ -288,6 +300,10 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new ImplementationGuide();
                     Parse(result as ImplementationGuide, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "Ingredient":
+                    result = new Ingredient();
+                    Parse(result as Ingredient, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "InsurancePlan":
                     result = new InsurancePlan();
                     Parse(result as InsurancePlan, reader, outcome, locationPath, cancellationToken);
@@ -311,6 +327,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "Location":
                     result = new Location();
                     Parse(result as Location, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "ManufacturedItemDefinition":
+                    result = new ManufacturedItemDefinition();
+                    Parse(result as ManufacturedItemDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Measure":
                     result = new Measure();
@@ -348,45 +368,9 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new MedicationStatement();
                     Parse(result as MedicationStatement, reader, outcome, locationPath, cancellationToken);
                     break;
-                case "MedicinalProduct":
-                    result = new MedicinalProduct();
-                    Parse(result as MedicinalProduct, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductAuthorization":
-                    result = new MedicinalProductAuthorization();
-                    Parse(result as MedicinalProductAuthorization, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductContraindication":
-                    result = new MedicinalProductContraindication();
-                    Parse(result as MedicinalProductContraindication, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductIndication":
-                    result = new MedicinalProductIndication();
-                    Parse(result as MedicinalProductIndication, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductIngredient":
-                    result = new MedicinalProductIngredient();
-                    Parse(result as MedicinalProductIngredient, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductInteraction":
-                    result = new MedicinalProductInteraction();
-                    Parse(result as MedicinalProductInteraction, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductManufactured":
-                    result = new MedicinalProductManufactured();
-                    Parse(result as MedicinalProductManufactured, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductPackaged":
-                    result = new MedicinalProductPackaged();
-                    Parse(result as MedicinalProductPackaged, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductPharmaceutical":
-                    result = new MedicinalProductPharmaceutical();
-                    Parse(result as MedicinalProductPharmaceutical, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductUndesirableEffect":
-                    result = new MedicinalProductUndesirableEffect();
-                    Parse(result as MedicinalProductUndesirableEffect, reader, outcome, locationPath, cancellationToken);
+                case "MedicinalProductDefinition":
+                    result = new MedicinalProductDefinition();
+                    Parse(result as MedicinalProductDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "MessageDefinition":
                     result = new MessageDefinition();
@@ -407,6 +391,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "NutritionOrder":
                     result = new NutritionOrder();
                     Parse(result as NutritionOrder, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "NutritionProduct":
+                    result = new NutritionProduct();
+                    Parse(result as NutritionProduct, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Observation":
                     result = new Observation();
@@ -431,6 +419,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "OrganizationAffiliation":
                     result = new OrganizationAffiliation();
                     Parse(result as OrganizationAffiliation, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "PackagedProductDefinition":
+                    result = new PackagedProductDefinition();
+                    Parse(result as PackagedProductDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Parameters":
                     result = new Parameters();
@@ -480,6 +472,10 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new QuestionnaireResponse();
                     Parse(result as QuestionnaireResponse, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "RegulatedAuthorization":
+                    result = new RegulatedAuthorization();
+                    Parse(result as RegulatedAuthorization, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "RelatedPerson":
                     result = new RelatedPerson();
                     Parse(result as RelatedPerson, reader, outcome, locationPath, cancellationToken);
@@ -507,10 +503,6 @@ namespace Hl7.Fhir.CustomSerializer
                 case "RiskAssessment":
                     result = new RiskAssessment();
                     Parse(result as RiskAssessment, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "RiskEvidenceSynthesis":
-                    result = new RiskEvidenceSynthesis();
-                    Parse(result as RiskEvidenceSynthesis, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Schedule":
                     result = new Schedule();
@@ -548,33 +540,21 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new Subscription();
                     Parse(result as Subscription, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "SubscriptionStatus":
+                    result = new SubscriptionStatus();
+                    Parse(result as SubscriptionStatus, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "SubscriptionTopic":
+                    result = new SubscriptionTopic();
+                    Parse(result as SubscriptionTopic, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "Substance":
                     result = new Substance();
                     Parse(result as Substance, reader, outcome, locationPath, cancellationToken);
                     break;
-                case "SubstanceNucleicAcid":
-                    result = new SubstanceNucleicAcid();
-                    Parse(result as SubstanceNucleicAcid, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstancePolymer":
-                    result = new SubstancePolymer();
-                    Parse(result as SubstancePolymer, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceProtein":
-                    result = new SubstanceProtein();
-                    Parse(result as SubstanceProtein, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceReferenceInformation":
-                    result = new SubstanceReferenceInformation();
-                    Parse(result as SubstanceReferenceInformation, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceSourceMaterial":
-                    result = new SubstanceSourceMaterial();
-                    Parse(result as SubstanceSourceMaterial, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceSpecification":
-                    result = new SubstanceSpecification();
-                    Parse(result as SubstanceSpecification, reader, outcome, locationPath, cancellationToken);
+                case "SubstanceDefinition":
+                    result = new SubstanceDefinition();
+                    Parse(result as SubstanceDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "SupplyDelivery":
                     result = new SupplyDelivery();
@@ -640,6 +620,10 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new ActivityDefinition();
                     await ParseAsync(result as ActivityDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "AdministrableProductDefinition":
+                    result = new AdministrableProductDefinition();
+                    await ParseAsync(result as AdministrableProductDefinition, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "AdverseEvent":
                     result = new AdverseEvent();
                     await ParseAsync(result as AdverseEvent, reader, outcome, locationPath, cancellationToken);
@@ -704,6 +688,10 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new ChargeItemDefinition();
                     await ParseAsync(result as ChargeItemDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "Citation":
+                    result = new Citation();
+                    await ParseAsync(result as Citation, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "Claim":
                     result = new Claim();
                     await ParseAsync(result as Claim, reader, outcome, locationPath, cancellationToken);
@@ -715,6 +703,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "ClinicalImpression":
                     result = new ClinicalImpression();
                     await ParseAsync(result as ClinicalImpression, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "ClinicalUseDefinition":
+                    result = new ClinicalUseDefinition();
+                    await ParseAsync(result as ClinicalUseDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "CodeSystem":
                     result = new CodeSystem();
@@ -800,10 +792,6 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new DocumentReference();
                     await ParseAsync(result as DocumentReference, reader, outcome, locationPath, cancellationToken);
                     break;
-                case "EffectEvidenceSynthesis":
-                    result = new EffectEvidenceSynthesis();
-                    await ParseAsync(result as EffectEvidenceSynthesis, reader, outcome, locationPath, cancellationToken);
-                    break;
                 case "Encounter":
                     result = new Encounter();
                     await ParseAsync(result as Encounter, reader, outcome, locationPath, cancellationToken);
@@ -831,6 +819,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "Evidence":
                     result = new Evidence();
                     await ParseAsync(result as Evidence, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "EvidenceReport":
+                    result = new EvidenceReport();
+                    await ParseAsync(result as EvidenceReport, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "EvidenceVariable":
                     result = new EvidenceVariable();
@@ -892,6 +884,10 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new ImplementationGuide();
                     await ParseAsync(result as ImplementationGuide, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "Ingredient":
+                    result = new Ingredient();
+                    await ParseAsync(result as Ingredient, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "InsurancePlan":
                     result = new InsurancePlan();
                     await ParseAsync(result as InsurancePlan, reader, outcome, locationPath, cancellationToken);
@@ -915,6 +911,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "Location":
                     result = new Location();
                     await ParseAsync(result as Location, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "ManufacturedItemDefinition":
+                    result = new ManufacturedItemDefinition();
+                    await ParseAsync(result as ManufacturedItemDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Measure":
                     result = new Measure();
@@ -952,45 +952,9 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new MedicationStatement();
                     await ParseAsync(result as MedicationStatement, reader, outcome, locationPath, cancellationToken);
                     break;
-                case "MedicinalProduct":
-                    result = new MedicinalProduct();
-                    await ParseAsync(result as MedicinalProduct, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductAuthorization":
-                    result = new MedicinalProductAuthorization();
-                    await ParseAsync(result as MedicinalProductAuthorization, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductContraindication":
-                    result = new MedicinalProductContraindication();
-                    await ParseAsync(result as MedicinalProductContraindication, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductIndication":
-                    result = new MedicinalProductIndication();
-                    await ParseAsync(result as MedicinalProductIndication, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductIngredient":
-                    result = new MedicinalProductIngredient();
-                    await ParseAsync(result as MedicinalProductIngredient, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductInteraction":
-                    result = new MedicinalProductInteraction();
-                    await ParseAsync(result as MedicinalProductInteraction, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductManufactured":
-                    result = new MedicinalProductManufactured();
-                    await ParseAsync(result as MedicinalProductManufactured, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductPackaged":
-                    result = new MedicinalProductPackaged();
-                    await ParseAsync(result as MedicinalProductPackaged, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductPharmaceutical":
-                    result = new MedicinalProductPharmaceutical();
-                    await ParseAsync(result as MedicinalProductPharmaceutical, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "MedicinalProductUndesirableEffect":
-                    result = new MedicinalProductUndesirableEffect();
-                    await ParseAsync(result as MedicinalProductUndesirableEffect, reader, outcome, locationPath, cancellationToken);
+                case "MedicinalProductDefinition":
+                    result = new MedicinalProductDefinition();
+                    await ParseAsync(result as MedicinalProductDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "MessageDefinition":
                     result = new MessageDefinition();
@@ -1011,6 +975,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "NutritionOrder":
                     result = new NutritionOrder();
                     await ParseAsync(result as NutritionOrder, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "NutritionProduct":
+                    result = new NutritionProduct();
+                    await ParseAsync(result as NutritionProduct, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Observation":
                     result = new Observation();
@@ -1035,6 +1003,10 @@ namespace Hl7.Fhir.CustomSerializer
                 case "OrganizationAffiliation":
                     result = new OrganizationAffiliation();
                     await ParseAsync(result as OrganizationAffiliation, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "PackagedProductDefinition":
+                    result = new PackagedProductDefinition();
+                    await ParseAsync(result as PackagedProductDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Parameters":
                     result = new Parameters();
@@ -1084,6 +1056,10 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new QuestionnaireResponse();
                     await ParseAsync(result as QuestionnaireResponse, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "RegulatedAuthorization":
+                    result = new RegulatedAuthorization();
+                    await ParseAsync(result as RegulatedAuthorization, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "RelatedPerson":
                     result = new RelatedPerson();
                     await ParseAsync(result as RelatedPerson, reader, outcome, locationPath, cancellationToken);
@@ -1111,10 +1087,6 @@ namespace Hl7.Fhir.CustomSerializer
                 case "RiskAssessment":
                     result = new RiskAssessment();
                     await ParseAsync(result as RiskAssessment, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "RiskEvidenceSynthesis":
-                    result = new RiskEvidenceSynthesis();
-                    await ParseAsync(result as RiskEvidenceSynthesis, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "Schedule":
                     result = new Schedule();
@@ -1152,33 +1124,21 @@ namespace Hl7.Fhir.CustomSerializer
                     result = new Subscription();
                     await ParseAsync(result as Subscription, reader, outcome, locationPath, cancellationToken);
                     break;
+                case "SubscriptionStatus":
+                    result = new SubscriptionStatus();
+                    await ParseAsync(result as SubscriptionStatus, reader, outcome, locationPath, cancellationToken);
+                    break;
+                case "SubscriptionTopic":
+                    result = new SubscriptionTopic();
+                    await ParseAsync(result as SubscriptionTopic, reader, outcome, locationPath, cancellationToken);
+                    break;
                 case "Substance":
                     result = new Substance();
                     await ParseAsync(result as Substance, reader, outcome, locationPath, cancellationToken);
                     break;
-                case "SubstanceNucleicAcid":
-                    result = new SubstanceNucleicAcid();
-                    await ParseAsync(result as SubstanceNucleicAcid, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstancePolymer":
-                    result = new SubstancePolymer();
-                    await ParseAsync(result as SubstancePolymer, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceProtein":
-                    result = new SubstanceProtein();
-                    await ParseAsync(result as SubstanceProtein, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceReferenceInformation":
-                    result = new SubstanceReferenceInformation();
-                    await ParseAsync(result as SubstanceReferenceInformation, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceSourceMaterial":
-                    result = new SubstanceSourceMaterial();
-                    await ParseAsync(result as SubstanceSourceMaterial, reader, outcome, locationPath, cancellationToken);
-                    break;
-                case "SubstanceSpecification":
-                    result = new SubstanceSpecification();
-                    await ParseAsync(result as SubstanceSpecification, reader, outcome, locationPath, cancellationToken);
+                case "SubstanceDefinition":
+                    result = new SubstanceDefinition();
+                    await ParseAsync(result as SubstanceDefinition, reader, outcome, locationPath, cancellationToken);
                     break;
                 case "SupplyDelivery":
                     result = new SupplyDelivery();
@@ -1224,684 +1184,3 @@ namespace Hl7.Fhir.CustomSerializer
         }
 	}
 }
-// Generated helper templates
-// Generated items
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SimpleQuantity.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.VisionPrescription.PrismComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.VisionPrescription.LensSpecificationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.VerificationResult.ValidatorComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.VerificationResult.AttestationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.VerificationResult.PrimarySourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.ContainsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.ExpansionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.FilterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.DesignationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.ConceptReferenceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.ConceptSetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.ComposeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.TeardownActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.TeardownComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.TestActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.TestComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.AssertComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.RequestHeaderComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.OperationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.SetupActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.SetupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.VariableComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.FixtureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.CapabilityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.LinkComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.MetadataComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.DestinationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.OriginComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.TeardownActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.TeardownComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.TestActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.TestComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.AssertComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.OperationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.SetupActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.SetupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.ParticipantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.ClosureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.TranslationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.ValidateCodeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.ExpansionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.FilterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.VersionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.CodeSystemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.ImplementationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.SoftwareComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Task.OutputComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Task.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Task.RestrictionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SupplyRequest.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SupplyDelivery.SuppliedItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.RelationshipComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.OfficialComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.NameComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.CodeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.RepresentationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.MolecularWeightComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.IsotopeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.StructureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.PropertyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.MoietyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSourceMaterial.PartDescriptionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSourceMaterial.OrganismGeneralComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSourceMaterial.HybridComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSourceMaterial.AuthorComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSourceMaterial.OrganismComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSourceMaterial.FractionDescriptionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceReferenceInformation.TargetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceReferenceInformation.ClassificationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceReferenceInformation.GeneElementComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceReferenceInformation.GeneComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceProtein.SubunitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstancePolymer.StructuralRepresentationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstancePolymer.DegreeOfPolymerisationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstancePolymer.RepeatUnitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstancePolymer.RepeatComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstancePolymer.StartingMaterialComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstancePolymer.MonomerSetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceNucleicAcid.SugarComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceNucleicAcid.LinkageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceNucleicAcid.SubunitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Substance.IngredientComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Substance.InstanceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Subscription.ChannelComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.DependentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.TargetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.SourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.RuleComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.InputComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.GroupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.StructureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureDefinition.DifferentialComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureDefinition.SnapshotComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureDefinition.ContextComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureDefinition.MappingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SpecimenDefinition.HandlingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SpecimenDefinition.AdditiveComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SpecimenDefinition.ContainerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SpecimenDefinition.TypeTestedComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Specimen.ContainerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Specimen.ProcessingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Specimen.CollectionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SearchParameter.ComponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskEvidenceSynthesis.CertaintySubcomponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskEvidenceSynthesis.CertaintyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskEvidenceSynthesis.PrecisionEstimateComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskEvidenceSynthesis.RiskEstimateComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskEvidenceSynthesis.SampleSizeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskAssessment.PredictionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResearchStudy.ObjectiveComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResearchStudy.ArmComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResearchElementDefinition.CharacteristicComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RequestGroup.RelatedActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RequestGroup.ConditionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RequestGroup.ActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RelatedPerson.CommunicationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.QuestionnaireResponse.AnswerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.QuestionnaireResponse.ItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Questionnaire.InitialComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Questionnaire.AnswerOptionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Questionnaire.EnableWhenComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Questionnaire.ItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Provenance.EntityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Provenance.AgentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Procedure.FocalDeviceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Procedure.PerformerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PractitionerRole.NotAvailableComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PractitionerRole.AvailableTimeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Practitioner.QualificationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.DynamicValueComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.ParticipantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.RelatedActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.ConditionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.ActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.TargetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.GoalComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Person.LinkComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PaymentReconciliation.NotesComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PaymentReconciliation.DetailsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Patient.LinkComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Patient.CommunicationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Patient.ContactComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Parameters.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Organization.ContactComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OperationOutcome.IssueComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OperationDefinition.OverloadComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OperationDefinition.ReferencedFromComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OperationDefinition.BindingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OperationDefinition.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ObservationDefinition.QualifiedIntervalComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ObservationDefinition.QuantitativeDetailsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Observation.ComponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Observation.ReferenceRangeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NutritionOrder.AdministrationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NutritionOrder.EnteralFormulaComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NutritionOrder.SupplementComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NutritionOrder.TextureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NutritionOrder.NutrientComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NutritionOrder.OralDietComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NamingSystem.UniqueIdComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.InnerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.OuterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.StructureVariantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.RepositoryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.RocComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.QualityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.VariantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.ReferenceSeqComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MessageHeader.ResponseComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MessageHeader.MessageSourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MessageHeader.MessageDestinationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MessageDefinition.AllowedResponseComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MessageDefinition.FocusComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPharmaceutical.WithdrawalPeriodComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPharmaceutical.TargetSpeciesComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPharmaceutical.RouteOfAdministrationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPharmaceutical.CharacteristicsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPackaged.PackageItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPackaged.BatchIdentifierComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductInteraction.InteractantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductIngredient.SubstanceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductIngredient.ReferenceStrengthComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductIngredient.StrengthComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductIngredient.SpecifiedSubstanceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductIndication.OtherTherapyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductContraindication.OtherTherapyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductAuthorization.ProcedureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductAuthorization.JurisdictionalAuthorizationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProduct.SpecialDesignationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProduct.ManufacturingBusinessOperationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProduct.CountryLanguageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProduct.NamePartComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProduct.NameComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationRequest.SubstitutionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationRequest.InitialFillComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationRequest.DispenseRequestComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.KineticsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.MaxDispenseComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.ScheduleComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.SubstitutionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.RegulatoryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.DrugCharacteristicComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.PackagingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.MedicineClassificationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.PatientCharacteristicsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.DosageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.AdministrationGuidelinesComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.MonitoringProgramComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.CostComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.IngredientComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.MonographComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.RelatedMedicationKnowledgeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationDispense.SubstitutionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationDispense.PerformerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationAdministration.DosageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationAdministration.PerformerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Medication.BatchComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Medication.IngredientComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MeasureReport.StratifierGroupPopulationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MeasureReport.ComponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MeasureReport.StratifierGroupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MeasureReport.StratifierComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MeasureReport.PopulationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MeasureReport.GroupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Measure.SupplementalDataComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Measure.ComponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Measure.StratifierComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Measure.PopulationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Measure.GroupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Location.HoursOfOperationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Location.PositionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.List.EntryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Linkage.ItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Invoice.PriceComponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Invoice.LineItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Invoice.ParticipantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.CostComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.PlanBenefitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.SpecificCostComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.GeneralCostComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.PlanComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.LimitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.CoverageBenefitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.CoverageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.ContactComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.ManifestPageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.ManifestResourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.ManifestComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.TemplateComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.PageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.ResourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.GroupingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.DefinitionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.GlobalComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.DependsOnComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImmunizationRecommendation.DateCriterionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImmunizationRecommendation.RecommendationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Immunization.ProtocolAppliedComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Immunization.ReactionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Immunization.EducationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Immunization.PerformerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImagingStudy.InstanceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImagingStudy.PerformerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImagingStudy.SeriesComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.HealthcareService.NotAvailableComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.HealthcareService.AvailableTimeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.HealthcareService.EligibilityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Group.MemberComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Group.CharacteristicComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.GraphDefinition.CompartmentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.GraphDefinition.TargetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.GraphDefinition.LinkComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Goal.TargetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FamilyMemberHistory.ConditionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.BenefitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.BenefitBalanceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.NoteComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.PaymentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.TotalComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.AddedItemDetailSubDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.AddedItemDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.AddedItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.SubDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.DetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.AdjudicationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.ItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.AccidentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.InsuranceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.ProcedureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.DiagnosisComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.SupportingInformationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.CareTeamComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.PayeeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.RelatedClaimComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.AlternativeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.OperationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.StepComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.ProcessComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.ContainedInstanceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.VersionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.InstanceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.ActorComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EvidenceVariable.CharacteristicComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EpisodeOfCare.DiagnosisComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EpisodeOfCare.StatusHistoryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Encounter.LocationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Encounter.HospitalizationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Encounter.DiagnosisComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Encounter.ParticipantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Encounter.ClassHistoryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Encounter.StatusHistoryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EffectEvidenceSynthesis.CertaintySubcomponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EffectEvidenceSynthesis.CertaintyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EffectEvidenceSynthesis.PrecisionEstimateComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EffectEvidenceSynthesis.EffectEstimateComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EffectEvidenceSynthesis.ResultsByExposureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EffectEvidenceSynthesis.SampleSizeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DocumentReference.ContextComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DocumentReference.ContentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DocumentReference.RelatesToComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DocumentManifest.RelatedComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DiagnosticReport.MediaComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceRequest.ParameterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceMetric.CalibrationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceDefinition.MaterialComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceDefinition.PropertyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceDefinition.CapabilityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceDefinition.SpecializationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceDefinition.DeviceNameComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceDefinition.UdiDeviceIdentifierComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Device.PropertyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Device.VersionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Device.SpecializationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Device.DeviceNameComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Device.UdiCarrierComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DetectedIssue.MitigationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DetectedIssue.EvidenceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityResponse.ErrorsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityResponse.BenefitComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityResponse.ItemsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityResponse.InsuranceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityRequest.DiagnosisComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityRequest.DetailsComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityRequest.InsuranceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityRequest.SupportingInformationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Coverage.ExemptionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Coverage.CostToBeneficiaryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Coverage.ClassComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ComputableLanguageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.LegalLanguageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.FriendlyLanguageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.SignatoryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ActionSubjectComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ActionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ValuedItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.AssetContextComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ContractAssetComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.AnswerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ContractPartyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ContractOfferComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.SecurityLabelComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.TermComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.ContentDefinitionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Consent.provisionDataComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Consent.provisionActorComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Consent.provisionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Consent.VerificationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Consent.PolicyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Condition.EvidenceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Condition.StageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ConceptMap.UnmappedComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ConceptMap.OtherElementComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ConceptMap.TargetElementComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ConceptMap.SourceElementComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ConceptMap.GroupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Composition.SectionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Composition.EventComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Composition.RelatesToComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Composition.AttesterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CompartmentDefinition.ResourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CommunicationRequest.PayloadComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Communication.PayloadComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CodeSystem.ConceptPropertyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CodeSystem.DesignationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CodeSystem.ConceptDefinitionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CodeSystem.PropertyComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CodeSystem.FilterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClinicalImpression.FindingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClinicalImpression.InvestigationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.ErrorComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.InsuranceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.NoteComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.PaymentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.TotalComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.AddedItemSubDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.AddedItemDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.AddedItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.SubDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.ItemDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.AdjudicationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.ItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.SubDetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.DetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.ItemComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.AccidentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.InsuranceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.ProcedureComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.DiagnosisComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.SupportingInformationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.CareTeamComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.PayeeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.RelatedClaimComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ChargeItemDefinition.PriceComponentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ChargeItemDefinition.PropertyGroupComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ChargeItemDefinition.ApplicabilityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ChargeItem.PerformerComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CatalogEntry.RelatedEntryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CareTeam.ParticipantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CarePlan.DetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CarePlan.ActivityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.DocumentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.SupportedMessageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.EndpointComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.MessagingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.SystemInteractionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.OperationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.SearchParamComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.ResourceInteractionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.ResourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.SecurityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.RestComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.ImplementationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.SoftwareComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Bundle.ResponseComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Bundle.RequestComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Bundle.SearchComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Bundle.LinkComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Bundle.EntryComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.BiologicallyDerivedProduct.StorageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.BiologicallyDerivedProduct.ManipulationComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.BiologicallyDerivedProduct.ProcessingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.BiologicallyDerivedProduct.CollectionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AuditEvent.DetailComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AuditEvent.EntityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AuditEvent.SourceComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AuditEvent.NetworkComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AuditEvent.AgentComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Appointment.ParticipantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AllergyIntolerance.ReactionComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AdverseEvent.CausalityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AdverseEvent.SuspectEntityComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ActivityDefinition.DynamicValueComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ActivityDefinition.ParticipantComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Account.GuarantorComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Account.CoverageComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.XHtml.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Uuid.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.UsageContext.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FhirUrl.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FhirUri.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.UnsignedInt.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TriggerDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Timing.RepeatComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Timing.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Time.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceAmount.ReferenceRangeComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceAmount.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FhirString.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Signature.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SampledData.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RelatedArtifact.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResourceReference.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Ratio.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Range.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Quantity.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ProductShelfLife.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ProdCharacteristic.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PositiveInt.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Population.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Period.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ParameterDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Oid.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Narrative.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Money.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Meta.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MarketingStatus.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Markdown.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Integer.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Instant.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Identifier.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Id.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.HumanName.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Extension.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Expression.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.MappingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.ElementDefinitionBindingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.ConstraintComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.ExampleComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.BaseComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.SlicingComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.TypeRefComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.DiscriminatorComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ElementDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Dosage.DoseAndRateComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Dosage.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Distance.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FhirDecimal.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FhirDateTime.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Date.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DataRequirement.SortComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DataRequirement.DateFilterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DataRequirement.CodeFilterComponent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DataRequirement.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Count.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contributor.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ContactPoint.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ContactDetail.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Coding.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CodeableConcept.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Code.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Canonical.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FhirBoolean.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Base64Binary.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.BackboneElement.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Attachment.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Annotation.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Age.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Address.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.VisionPrescription.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.VerificationResult.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ValueSet.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestScript.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TestReport.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.TerminologyCapabilities.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Task.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SupplyRequest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SupplyDelivery.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSpecification.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceSourceMaterial.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceReferenceInformation.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceProtein.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstancePolymer.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SubstanceNucleicAcid.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Substance.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Subscription.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureMap.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.StructureDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SpecimenDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Specimen.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Slot.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ServiceRequest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.SearchParameter.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Schedule.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskEvidenceSynthesis.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RiskAssessment.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResearchSubject.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResearchStudy.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResearchElementDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ResearchDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RequestGroup.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.RelatedPerson.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.QuestionnaireResponse.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Questionnaire.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Provenance.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Procedure.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PractitionerRole.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Practitioner.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PlanDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Person.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PaymentReconciliation.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.PaymentNotice.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Patient.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Parameters.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OrganizationAffiliation.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Organization.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OperationOutcome.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.OperationDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ObservationDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Observation.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NutritionOrder.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.NamingSystem.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MolecularSequence.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MessageHeader.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MessageDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductUndesirableEffect.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPharmaceutical.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductPackaged.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductManufactured.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductInteraction.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductIngredient.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductIndication.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductContraindication.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProductAuthorization.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicinalProduct.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationStatement.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationRequest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationKnowledge.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationDispense.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MedicationAdministration.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Medication.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Media.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.MeasureReport.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Measure.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Location.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.List.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Linkage.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Library.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Invoice.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.InsurancePlan.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImplementationGuide.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImmunizationRecommendation.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImmunizationEvaluation.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Immunization.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ImagingStudy.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.HealthcareService.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.GuidanceResponse.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Group.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.GraphDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Goal.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Flag.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.FamilyMemberHistory.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExplanationOfBenefit.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ExampleScenario.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EvidenceVariable.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Evidence.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EventDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EpisodeOfCare.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EnrollmentResponse.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EnrollmentRequest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Endpoint.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Encounter.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.EffectEvidenceSynthesis.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DocumentReference.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DocumentManifest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DiagnosticReport.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceUseStatement.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceRequest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceMetric.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DeviceDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Device.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.DetectedIssue.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityResponse.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CoverageEligibilityRequest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Coverage.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Contract.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Consent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Condition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ConceptMap.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Composition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CompartmentDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CommunicationRequest.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Communication.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CodeSystem.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClinicalImpression.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ClaimResponse.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Claim.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ChargeItemDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ChargeItem.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CatalogEntry.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CareTeam.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CarePlan.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.CapabilityStatement.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Bundle.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.BodyStructure.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.BiologicallyDerivedProduct.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Binary.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Basic.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AuditEvent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AppointmentResponse.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Appointment.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AllergyIntolerance.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.AdverseEvent.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.ActivityDefinition.cs
-// C:\git\fhir-net-web-api\src\Hl7.Fhir.Custom.Serializers\Generated\FhirCustomXmlReader.Account.cs

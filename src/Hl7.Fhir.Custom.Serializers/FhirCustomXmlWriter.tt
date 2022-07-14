@@ -3,12 +3,12 @@
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Data" #>
 <#@ assembly name="System.ComponentModel.DataAnnotations" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.1.9.0\lib\net45\Hl7.Fhir.Support.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.Poco.1.9.0\lib\net45\Hl7.Fhir.Support.Poco.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.ElementModel.1.9.0\lib\net45\Hl7.Fhir.ElementModel.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.FhirPath.1.9.0\lib\net45\Hl7.FhirPath.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Serialization.1.9.0\lib\net45\Hl7.Fhir.Serialization.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.R4.1.9.0\lib\net45\Hl7.Fhir.R4.Core.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.4.1.0\lib\net452\Hl7.Fhir.Support.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.Poco.4.1.0\lib\net452\Hl7.Fhir.Support.Poco.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.ElementModel.4.1.0\lib\net452\Hl7.Fhir.ElementModel.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.FhirPath.4.1.0\lib\net452\Hl7.FhirPath.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Serialization.4.1.0\lib\net452\Hl7.Fhir.Serialization.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.R4B.4.1.0\lib\net452\Hl7.Fhir.R4B.Core.dll" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Xml" #>
@@ -43,14 +43,18 @@ namespace Hl7.Fhir.CustomSerializer
     public partial class FhirCustomXmlWriter
     {
 <#
+    if (!Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
+    {
+        Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Hl7.Fhir.Model.Citation));
+        Hl7.Fhir.Model.ModelInfo.FhirCsTypeToString.Add(typeof(Hl7.Fhir.Model.Citation), "Citation");
+    }
+
 	Dictionary<string, Type> generateTypes = new Dictionary<string, Type>();
     foreach (var v in Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Keys)
     {
         var dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
 		if (dtt != null)
 		{
-			if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
-				continue;
 			if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v) && !generateTypes.ContainsValue(dtt))
 				generateTypes.Add(dtt.FullName, dtt);
 
@@ -75,12 +79,22 @@ namespace Hl7.Fhir.CustomSerializer
 
 	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
     {
-		Type tr = typeof(Hl7.Fhir.Model.ModelInfo).Assembly.GetType("Hl7.Fhir.Model." + ResourceName);
+		Type tr = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(ResourceName);
+		if (tr == null)
+		{
+	        WriteLine($"// no support for {ResourceName}");
+			continue;
+		}
         if (tr.BaseType.Name != "DomainResource" && tr.BaseType.Name != "Resource")
 		{
 			// WriteLine("Resourcename: " + ResourceName + " : " + tr.BaseType.Name);
 			continue;
         }
+		if (string.IsNullOrEmpty(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
+		{
+	        WriteLine($"// no type support for {ResourceName}");
+			continue;
+		}
         if (Hl7.Fhir.Model.ModelInfo.IsCoreSuperType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
             continue;
 
@@ -167,7 +181,12 @@ namespace Hl7.Fhir.CustomSerializer
 	string genList = "System.Collections.Generic.List<";
 	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
     {
-		Type tr = typeof(Hl7.Fhir.Model.ModelInfo).Assembly.GetType("Hl7.Fhir.Model." + ResourceName);
+		Type tr = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(ResourceName);
+		if (tr == null)
+		{
+	        WriteLine($"// no support for {ResourceName}");
+			continue;
+		}
         if (tr.BaseType.Name != "DomainResource" && tr.BaseType.Name != "Resource")
 		{
 			// WriteLine("Resourcename: " + ResourceName + " : " + tr.BaseType.Name);
@@ -192,6 +211,8 @@ namespace Hl7.Fhir.CustomSerializer
 	    // WriteLine($"\t// {typeName}");
 		if (typeName == "Hl7.Fhir.Model.Element" || typeName == "Hl7.Fhir.Model.BackboneElement" || typeName == "Hl7.Fhir.Model.DomainResource" || typeName == "Hl7.Fhir.Model.Resource")
 			continue;
+		if (typeName == "Hl7.Fhir.Model.DataType" || typeName == "Hl7.Fhir.Model.BackboneType" || typeName == "Hl7.Fhir.Model.Base" || typeName == "Hl7.Fhir.Model.PrimitiveType")
+			continue;
 		string varName = typeName.Replace(".", "_").Replace("Hl7_Fhir_Model_", "").Replace("<", "_").Replace(">","").ToLower();
 	    WriteLine($"\tcase {typeName} {varName}:");
                 WriteLine($"\t\t\t\tWrite({varName}, writer, propertyName, cancellationToken);");
@@ -209,7 +230,7 @@ namespace Hl7.Fhir.CustomSerializer
 #>
 	}
 }
-<#+ 
+<#+
 
 	public void WriteResourceProperties(System.Type tr, Dictionary<string, Type> generateTypes)
 	{
@@ -218,7 +239,10 @@ namespace Hl7.Fhir.CustomSerializer
 		{
 			if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
 				continue;
-			FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
+				continue;
+            var fea = feas.Last();
 			if (fea != null)
 			{
 				WriteProperty(tr, prop, fea, generateTypes);
@@ -228,7 +252,7 @@ namespace Hl7.Fhir.CustomSerializer
 
 	public void WriteElementProperties(System.Type tr)
 	{
-		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.Primitive)))
+		if (tr.BaseType.IsSubclassOf(typeof(Hl7.Fhir.Model.PrimitiveType)))
 		{
 			WritePrimitiveElementProperties(tr);
 			return;
@@ -241,9 +265,10 @@ namespace Hl7.Fhir.CustomSerializer
         {
             if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
                 continue;
-            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
-			if (fea == null)
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
 				continue;
+            var fea = feas.Last();
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
 				continue;
 			WriteProperty(tr, prop, fea, null);
@@ -252,9 +277,10 @@ namespace Hl7.Fhir.CustomSerializer
         {
             if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
                 continue;
-            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
-			if (fea == null)
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
 				continue;
+            var fea = feas.Last();
 			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
 				continue;
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.None)
@@ -270,9 +296,10 @@ namespace Hl7.Fhir.CustomSerializer
         {
             if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
                 continue;
-            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
-			if (fea == null)
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
 				continue;
+            var fea = feas.Last();
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
 				continue;
 			WriteProperty(tr, prop, fea, null);
@@ -281,9 +308,10 @@ namespace Hl7.Fhir.CustomSerializer
         {
             if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
                 continue;
-            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
-			if (fea == null)
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
 				continue;
+            var fea = feas.Last();
 			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
 				continue;
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.None)
@@ -308,7 +336,7 @@ namespace Hl7.Fhir.CustomSerializer
 			foreach (var t in vat.Types)
 			{
 				var pta = t.GetCustomAttribute(typeof(FhirTypeAttribute)) as FhirTypeAttribute;
-				WriteLine("\t\tcase \""+Hl7.Fhir.Model.ModelInfo.GetFhirTypeForType(t)+"\":");
+				WriteLine("\t\tcase \""+Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(t)+"\":");
 				if (pta.Name == "Resource" && prop.Name != "Contained")
 					WriteLine($"\tWriteBase(name.{prop.Name}, writer, \"{fea.Name}\", cancellationToken); // {fea.Order}");
 				else if (pta.Name == "Resource" && prop.Name == "Contained")

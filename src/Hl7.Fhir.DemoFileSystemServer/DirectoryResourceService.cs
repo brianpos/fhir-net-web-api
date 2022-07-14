@@ -8,20 +8,37 @@ using System.Threading.Tasks;
 using System.Linq;
 using Hl7.Fhir.Support;
 using System.IO;
+using Hl7.Fhir.ElementModel;
+using Hl7.Fhir.Language.Debugging;
+using System.Net;
+using Hl7.Fhir.Specification.Source;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
     public class DirectoryResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
         where TSP : class
     {
-        public ModelBaseInputs<TSP> RequestDetails { get; set; }
+        public ModelBaseInputs<TSP> RequestDetails { get; private set; }
 
-        public string ResourceName { get; set; }
-        public string ResourceDirectory { get; set; }
+        public string ResourceName { get; private set; }
+        public string ResourceDirectory { get; private set; }
         public SearchIndexer Indexer { get; set; }
 
+        public IResourceResolver Source { get; private set; }
+        public IAsyncResourceResolver AsyncSource { get; private set; }
 
-        public Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
+        public DirectoryResourceService(ModelBaseInputs<TSP> requestDetails, string resourceName, string directory, IResourceResolver Source, IAsyncResourceResolver AsyncSource)
+        {
+            this.RequestDetails = requestDetails;
+            this.ResourceDirectory = directory;
+            this.ResourceName = resourceName;
+            this.Source = Source;
+            this.AsyncSource = AsyncSource;
+        }
+
+
+
+        public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-create");
 
@@ -46,6 +63,20 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             }
             resource.Meta.VersionId = versionNumber.ToString();
             string path = Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}.{resource.Meta.VersionId}.xml");
+
+            // Validate the resource before we actually store it!
+            var validationMode = ResourceValidationMode.create;
+            if (versionNumber != 1)
+                validationMode = ResourceValidationMode.update;
+            var validationOutcome = await ValidateResource(resource, validationMode, null);
+            if (!validationOutcome.Success)
+            {
+                var message = $"Validation failed: {validationOutcome.Errors} errors, {validationOutcome.Warnings}";
+                if (validationOutcome.Fatals > 0)
+                    message += $" ({validationOutcome.Fatals} fatals)";
+                throw new FhirServerException(System.Net.HttpStatusCode.BadRequest, validationOutcome, $"Validation failed: {validationOutcome.Errors} errors, {validationOutcome.Warnings} ({validationOutcome.Fatals} fatals)");
+            }
+
             File.WriteAllText(
                 path,
                 new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
@@ -56,7 +87,44 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
             // and update the search index
             Indexer.ScanResource(resource, Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}..xml"));
-            return System.Threading.Tasks.Task.FromResult(resource);
+            return resource;
+        }
+
+        public enum ResourceValidationMode { create, update, delete, profile };
+        virtual public Task<OperationOutcome> ValidateResource(Resource resource, ResourceValidationMode mode, string[] profiles)
+        {
+            var compiler = new Hl7.FhirPath.FhirPathCompiler();
+            var settings = new Hl7.Fhir.Validation.ValidationSettings()
+            {
+                ResourceResolver = Source,
+                TerminologyService = new Hl7.Fhir.Specification.Terminology.LocalTerminologyService(AsyncSource, new Specification.Terminology.ValueSetExpanderSettings() { MaxExpansionSize = 1500 }),
+                FhirPathCompiler = compiler
+            };
+            settings.ConstraintsToIgnore = settings.ConstraintsToIgnore.Union(new []{
+                "ref-1", // causes issues with 
+                // "ctm-1", // should permit prac roles too
+                // "sdf-0" // name properties should be usable as identifiers in code (no spaces etc)
+
+            } ).Distinct().ToArray();
+            var validator = new Hl7.Fhir.Validation.Validator(settings);
+            var outcome = validator.Validate(resource.ToTypedElement(), profiles);
+
+            // strip out any profile missing
+            outcome.Issue.RemoveAll((i) => i.Details.Coding.Any(c => c.Code == "4000") && i.Details.Text.Contains("Unable to resolve reference to profile"));
+
+            // Version 1.9.0 of the core libs incorrectly report the errors in location, not expression, so move them over
+            foreach (var issue in outcome.Issue)
+            {
+                if (!issue.ExpressionElement.Any())
+                {
+                    issue.ExpressionElement = issue.LocationElement;
+                    issue.LocationElement = null;
+                }
+            }
+
+            // TODO: If the resource has the subsetted meta tag, then reject the create/update
+
+            return Task<OperationOutcome>.FromResult(outcome);
         }
 
         public Task<string> Delete(string id, string ifMatch)
@@ -134,8 +202,13 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult(result);
         }
 
-        public Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
+        public async Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
         {
+            switch (operation.ToLower())
+            {
+                case "validate":
+                    return await PerformOperation_Validate(operationParameters, summary);
+            }
             if (operation == "count-em")
             {
                 var result = new OperationOutcome();
@@ -145,20 +218,39 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     Severity = OperationOutcome.IssueSeverity.Information,
                     Details = new CodeableConcept(null, null, $"{ResourceName} resource instances: {Directory.EnumerateFiles(ResourceDirectory, $"{ResourceName}.*.xml").Count()}")
                 });
-                return System.Threading.Tasks.Task.FromResult<Resource>(result);
+                return result;
             }
             if (operation == "preferred-id")
             {
                 // Test operation that isn't really anything just for a specific unit test
                 NamingSystem ns = new NamingSystem() { Id = operationParameters.GetString("id") };
-                return System.Threading.Tasks.Task.FromResult<Resource>(ns);
+                return ns;
             }
 
             throw new NotImplementedException();
         }
 
-        public Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
+        public async Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
         {
+            switch (operation.ToLower())
+            {
+                case "validate":
+                    if (operationParameters.Parameter.Any(p => p.Name.ToLower() == "resource"))
+                    {
+                        var outcome = new OperationOutcome();
+                        outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                        {
+                            Code = OperationOutcome.IssueType.Incomplete,
+                            Severity = OperationOutcome.IssueSeverity.Error,
+                            Details = new CodeableConcept(null, null, "When calling the resource instance validate operation the 'resource' parameters must not be provided")
+                        });
+                        outcome.SetAnnotation<HttpStatusCode>(HttpStatusCode.BadRequest);
+                        return outcome;
+                    }
+                    var resource = await Get(id, null, SummaryType.False);
+                    operationParameters.Add("resource", resource);
+                    return await PerformOperation_Validate(operationParameters, summary);
+            }
             if (operation == "send-activation-code")
             {
                 // Test operation that isn't really anything just for a specific unit test
@@ -169,9 +261,120 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     Code = OperationOutcome.IssueType.Informational,
                     Details = new CodeableConcept() { Text = $"Send an activation code to {ResourceName}/{id}" }
                 });
-                return System.Threading.Tasks.Task.FromResult<Resource>(outcome);
+                return outcome;
             }
             throw new NotImplementedException();
+        }
+
+        private async Task<Resource> PerformOperation_Validate(Parameters operationParameters, SummaryType summary)
+        {
+            var outcome = new OperationOutcome();
+            ResourceValidationMode? mode = ResourceValidationMode.create;
+            Resource resource = operationParameters["resource"].Resource;
+            string profile = null;
+
+            var modeParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "mode");
+            if (modeParams.Count() > 1)
+            {
+                outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, "Multiple 'mode' parameters provided, using the first one")
+                });
+            }
+            if (modeParams.Any())
+            {
+                string modeStr = null;
+                var value = modeParams.First().Value;
+                if (value is Code code) modeStr = code.Value;
+                else if (value is FhirString str) modeStr = str.Value;
+                else
+                {
+                    outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                    {
+                        Code = OperationOutcome.IssueType.Structure,
+                        Severity = OperationOutcome.IssueSeverity.Error,
+                        Details = new CodeableConcept(null, null, "Multiple 'mode' parameters provided, using the first one")
+                    });
+                }
+                if (!string.IsNullOrEmpty(modeStr))
+                {
+                    mode = EnumUtility.ParseLiteral<ResourceValidationMode>(modeStr, true);
+                    if (!mode.HasValue)
+                    {
+                        outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                        {
+                            Code = OperationOutcome.IssueType.CodeInvalid,
+                            Severity = OperationOutcome.IssueSeverity.Error,
+                            Details = new CodeableConcept(null, null, $"Invalid 'mode' parameter value '{modeStr}'")
+                        });
+                    }
+                }
+            }
+
+            var resourceParams = operationParameters.Parameter.Where(p => p.Name == "resource");
+            if (resourceParams.Count() > 1)
+            {
+                outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Incomplete,
+                    Severity = OperationOutcome.IssueSeverity.Error,
+                    Details = new CodeableConcept(null, null, "Multiple 'resource' parameters provided")
+                });
+            }
+            if (resourceParams.Count() != 1 && mode != ResourceValidationMode.delete)
+            {
+                outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Incomplete,
+                    Severity = OperationOutcome.IssueSeverity.Error,
+                    Details = new CodeableConcept(null, null, "Missing the 'resource' parameter")
+                });
+            }
+
+            var profileParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "profile");
+            if (profileParams.Any())
+            {
+                var value = profileParams.First().Value;
+                if (value is FhirUri code)
+                    profile = code.Value;
+                else if (value is FhirString str)
+                    profile = str.Value;
+            }
+
+            if (resource.TypeName != this.ResourceName)
+            {
+                outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Incomplete,
+                    Severity = OperationOutcome.IssueSeverity.Error,
+                    Details = new CodeableConcept(null, null, $"Cannot validate a '{resource.TypeName}' resource on the '{this.ResourceName}' endpoint")
+                });
+            }
+
+            if (!outcome.Success)
+            {
+                outcome.SetAnnotation<HttpStatusCode>(HttpStatusCode.BadRequest);
+                return outcome;
+            }
+
+            var result = await ValidateResource(resource, mode.Value, null);
+            outcome.Issue.AddRange(result.Issue);
+            if (outcome.Success)
+            {
+                // resource validated fine, add an information message to report it
+                string summaryMessage = $"Validation of '{resource.TypeName}/{resource.Id}' for {mode.GetLiteral()} was successful";
+                if (outcome.Warnings > 0)
+                    summaryMessage += $" (with {outcome.Warnings} warnings)";
+                outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
+                {
+                    Code = OperationOutcome.IssueType.Informational,
+                    Severity = OperationOutcome.IssueSeverity.Information,
+                    Details = new CodeableConcept(null, null, summaryMessage)
+                });
+            }
+            return outcome;
         }
 
         public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary, string sortby)

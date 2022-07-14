@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -60,23 +60,23 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "ageRange":
 							result.Age = new Hl7.Fhir.Model.Range();
-							Parse(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age", cancellationToken); // 90
+							Parse(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age", cancellationToken); // 40
 							break;
 						case "ageCodeableConcept":
 							result.Age = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".age", cancellationToken); // 90
+							Parse(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".age", cancellationToken); // 40
 							break;
 						case "gender":
 							result.Gender = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".gender", cancellationToken); // 100
+							Parse(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".gender", cancellationToken); // 50
 							break;
 						case "race":
 							result.Race = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".race", cancellationToken); // 110
+							Parse(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".race", cancellationToken); // 60
 							break;
 						case "physiologicalCondition":
 							result.PhysiologicalCondition = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".physiologicalCondition", cancellationToken); // 120
+							Parse(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".physiologicalCondition", cancellationToken); // 70
 							break;
 						default:
 							// Property not found
@@ -97,7 +97,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -136,23 +136,23 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "ageRange":
 							result.Age = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age", cancellationToken); // 90
+							await ParseAsync(result.Age as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".age", cancellationToken); // 40
 							break;
 						case "ageCodeableConcept":
 							result.Age = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".age", cancellationToken); // 90
+							await ParseAsync(result.Age as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".age", cancellationToken); // 40
 							break;
 						case "gender":
 							result.Gender = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".gender", cancellationToken); // 100
+							await ParseAsync(result.Gender as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".gender", cancellationToken); // 50
 							break;
 						case "race":
 							result.Race = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".race", cancellationToken); // 110
+							await ParseAsync(result.Race as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".race", cancellationToken); // 60
 							break;
 						case "physiologicalCondition":
 							result.PhysiologicalCondition = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".physiologicalCondition", cancellationToken); // 120
+							await ParseAsync(result.PhysiologicalCondition as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".physiologicalCondition", cancellationToken); // 70
 							break;
 						default:
 							// Property not found

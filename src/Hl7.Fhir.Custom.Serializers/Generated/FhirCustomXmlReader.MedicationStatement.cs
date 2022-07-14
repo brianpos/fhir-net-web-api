@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -87,8 +87,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.PartOf.Add(newItem_partOf);
 							break;
 						case "status":
-							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatusCodes>();
-							Parse(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatusCodes>, reader, outcome, locationPath + ".status", cancellationToken); // 120
+							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatementStatusCodes>();
+							Parse(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatementStatusCodes>, reader, outcome, locationPath + ".status", cancellationToken); // 120
 							break;
 						case "statusReason":
 							var newItem_statusReason = new Hl7.Fhir.Model.CodeableConcept();
@@ -243,8 +243,8 @@ namespace Hl7.Fhir.CustomSerializer
 							result.PartOf.Add(newItem_partOf);
 							break;
 						case "status":
-							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatusCodes>();
-							await ParseAsync(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatusCodes>, reader, outcome, locationPath + ".status", cancellationToken); // 120
+							result.StatusElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatementStatusCodes>();
+							await ParseAsync(result.StatusElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatementStatusCodes>, reader, outcome, locationPath + ".status", cancellationToken); // 120
 							break;
 						case "statusReason":
 							var newItem_statusReason = new Hl7.Fhir.Model.CodeableConcept();

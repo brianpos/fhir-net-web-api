@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -60,19 +60,19 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 90
+							Parse(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 100
+							Parse(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Quantity();
-							Parse(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period", cancellationToken); // 110
+							Parse(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period", cancellationToken); // 60
 							break;
 						case "specialPrecautionsForStorage":
 							var newItem_specialPrecautionsForStorage = new Hl7.Fhir.Model.CodeableConcept();
-							Parse(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]", cancellationToken); // 120
+							Parse(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]", cancellationToken); // 70
 							result.SpecialPrecautionsForStorage.Add(newItem_specialPrecautionsForStorage);
 							break;
 						default:
@@ -94,7 +94,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -133,19 +133,19 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "identifier":
 							result.Identifier = new Hl7.Fhir.Model.Identifier();
-							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 90
+							await ParseAsync(result.Identifier as Hl7.Fhir.Model.Identifier, reader, outcome, locationPath + ".identifier", cancellationToken); // 40
 							break;
 						case "type":
 							result.Type = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 100
+							await ParseAsync(result.Type as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".type", cancellationToken); // 50
 							break;
 						case "period":
 							result.Period = new Hl7.Fhir.Model.Quantity();
-							await ParseAsync(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period", cancellationToken); // 110
+							await ParseAsync(result.Period as Hl7.Fhir.Model.Quantity, reader, outcome, locationPath + ".period", cancellationToken); // 60
 							break;
 						case "specialPrecautionsForStorage":
 							var newItem_specialPrecautionsForStorage = new Hl7.Fhir.Model.CodeableConcept();
-							await ParseAsync(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]", cancellationToken); // 120
+							await ParseAsync(newItem_specialPrecautionsForStorage, reader, outcome, locationPath + ".specialPrecautionsForStorage["+result.SpecialPrecautionsForStorage.Count+"]", cancellationToken); // 70
 							result.SpecialPrecautionsForStorage.Add(newItem_specialPrecautionsForStorage);
 							break;
 						default:

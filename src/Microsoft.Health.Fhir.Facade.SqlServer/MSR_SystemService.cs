@@ -63,6 +63,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
 
             foreach (var resName in ModelInfo.SupportedResources)
             {
+                if (resName == "Citation") continue;
                 var c = await GetResourceService(request, resName).GetRestResourceComponent();
                 if (c != null)
                     con.Rest[0].Resource.Add(c);

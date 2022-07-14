@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,15 +55,15 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "strength":
 							result.StrengthElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>();
-							Parse(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength", cancellationToken); // 40
+							Parse(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength", cancellationToken); // 30
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 50
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 60
+							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 50
 							break;
 						default:
 							// Property not found
@@ -84,7 +84,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -118,15 +118,15 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "strength":
 							result.StrengthElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>();
-							await ParseAsync(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength", cancellationToken); // 40
+							await ParseAsync(result.StrengthElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.BindingStrength>, reader, outcome, locationPath + ".strength", cancellationToken); // 30
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 50
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 60
+							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 50
 							break;
 						default:
 							// Property not found

@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -111,6 +111,10 @@ namespace Hl7.Fhir.CustomSerializer
 						case "subjectReference":
 							result.Subject = new Hl7.Fhir.Model.ResourceReference();
 							Parse(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".subject", cancellationToken); // 170
+							break;
+						case "subjectCanonical":
+							result.Subject = new Hl7.Fhir.Model.Canonical();
+							Parse(result.Subject as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".subject", cancellationToken); // 170
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.FhirDateTime();
@@ -412,6 +416,10 @@ namespace Hl7.Fhir.CustomSerializer
 						case "subjectReference":
 							result.Subject = new Hl7.Fhir.Model.ResourceReference();
 							await ParseAsync(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".subject", cancellationToken); // 170
+							break;
+						case "subjectCanonical":
+							result.Subject = new Hl7.Fhir.Model.Canonical();
+							await ParseAsync(result.Subject as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".subject", cancellationToken); // 170
 							break;
 						case "date":
 							result.DateElement = new Hl7.Fhir.Model.FhirDateTime();

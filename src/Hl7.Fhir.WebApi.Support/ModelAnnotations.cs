@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -18,7 +18,7 @@ using System.Text;
 namespace Hl7.Fhir.WebApi
 {
     /// <summary>
-    /// The 
+    /// The
     /// </summary>
     public class RequestUri : Uri
     {
@@ -43,4 +43,26 @@ namespace Hl7.Fhir.WebApi
     /// 200 should only come from a PUT request, however the 201 could occur from either PUT or POST
     /// </summary>
     public enum CreateOrUpate { Create, Update };
+
+    /// <summary>
+    /// Class to use to store the _elements content for filtering the output stream
+    /// </summary>
+    public class FilterOutputToElements
+    {
+        string _value;
+        public static implicit operator FilterOutputToElements(string value)
+        {
+            return new FilterOutputToElements(value);
+        }
+        public FilterOutputToElements(string value)
+        {
+            _value = value;
+        }
+
+        public override string ToString()
+        {
+            return _value;
+        }
+
+    }
 }

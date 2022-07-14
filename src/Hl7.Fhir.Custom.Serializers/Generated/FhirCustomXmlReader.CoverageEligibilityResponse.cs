@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -110,8 +110,8 @@ namespace Hl7.Fhir.CustomSerializer
 							Parse(result.Request as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".request", cancellationToken); // 160
 							break;
 						case "outcome":
-							result.OutcomeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClaimProcessingCodes>();
-							Parse(result.OutcomeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClaimProcessingCodes>, reader, outcome, locationPath + ".outcome", cancellationToken); // 170
+							result.OutcomeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RemittanceOutcome>();
+							Parse(result.OutcomeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RemittanceOutcome>, reader, outcome, locationPath + ".outcome", cancellationToken); // 170
 							break;
 						case "disposition":
 							result.DispositionElement = new Hl7.Fhir.Model.FhirString();
@@ -249,8 +249,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.Request as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".request", cancellationToken); // 160
 							break;
 						case "outcome":
-							result.OutcomeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClaimProcessingCodes>();
-							await ParseAsync(result.OutcomeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClaimProcessingCodes>, reader, outcome, locationPath + ".outcome", cancellationToken); // 170
+							result.OutcomeElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RemittanceOutcome>();
+							await ParseAsync(result.OutcomeElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RemittanceOutcome>, reader, outcome, locationPath + ".outcome", cancellationToken); // 170
 							break;
 						case "disposition":
 							result.DispositionElement = new Hl7.Fhir.Model.FhirString();

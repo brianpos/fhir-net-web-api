@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,19 +55,19 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 40
+							Parse(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 30
 							break;
 						case "searchParam":
 							result.SearchParamElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 50
+							Parse(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 40
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 60
+							Parse(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 50
 							break;
 						case "code":
 							var newItem_code = new Hl7.Fhir.Model.Coding();
-							Parse(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]", cancellationToken); // 70
+							Parse(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]", cancellationToken); // 60
 							result.Code.Add(newItem_code);
 							break;
 						default:
@@ -89,7 +89,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -123,19 +123,19 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "path":
 							result.PathElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 40
+							await ParseAsync(result.PathElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".path", cancellationToken); // 30
 							break;
 						case "searchParam":
 							result.SearchParamElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 50
+							await ParseAsync(result.SearchParamElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".searchParam", cancellationToken); // 40
 							break;
 						case "valueSet":
 							result.ValueSetElement = new Hl7.Fhir.Model.Canonical();
-							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 60
+							await ParseAsync(result.ValueSetElement as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".valueSet", cancellationToken); // 50
 							break;
 						case "code":
 							var newItem_code = new Hl7.Fhir.Model.Coding();
-							await ParseAsync(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]", cancellationToken); // 70
+							await ParseAsync(newItem_code, reader, outcome, locationPath + ".code["+result.Code.Count+"]", cancellationToken); // 60
 							result.Code.Add(newItem_code);
 							break;
 						default:

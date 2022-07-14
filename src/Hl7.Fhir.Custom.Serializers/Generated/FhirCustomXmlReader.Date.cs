@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -30,10 +30,6 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "value":
 							result.Value = reader.Value;
-							if (!Date.IsValidValue(reader.Value))
-							{
-								HandleAttributeInvalidValue(reader, "date", outcome, locationPath, null);
-							}
 							break;
 						case "id":
 							result.ElementId = reader.Value;
@@ -79,7 +75,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -88,10 +84,6 @@ namespace Hl7.Fhir.CustomSerializer
 					{
 						case "value":
 							result.Value = reader.Value;
-							if (!Date.IsValidValue(reader.Value))
-							{
-								HandleAttributeInvalidValue(reader, "date", outcome, locationPath, null);
-							}
 							break;
 						case "id":
 							result.ElementId = reader.Value;

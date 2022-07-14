@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,74 +55,74 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "boundsDuration":
 							result.Bounds = new Hl7.Fhir.Model.Duration();
-							Parse(result.Bounds as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".bounds", cancellationToken); // 40
+							Parse(result.Bounds as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".bounds", cancellationToken); // 30
 							break;
 						case "boundsRange":
 							result.Bounds = new Hl7.Fhir.Model.Range();
-							Parse(result.Bounds as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".bounds", cancellationToken); // 40
+							Parse(result.Bounds as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".bounds", cancellationToken); // 30
 							break;
 						case "boundsPeriod":
 							result.Bounds = new Hl7.Fhir.Model.Period();
-							Parse(result.Bounds as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".bounds", cancellationToken); // 40
+							Parse(result.Bounds as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".bounds", cancellationToken); // 30
 							break;
 						case "count":
 							result.CountElement = new Hl7.Fhir.Model.PositiveInt();
-							Parse(result.CountElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".count", cancellationToken); // 50
+							Parse(result.CountElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".count", cancellationToken); // 40
 							break;
 						case "countMax":
 							result.CountMaxElement = new Hl7.Fhir.Model.PositiveInt();
-							Parse(result.CountMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".countMax", cancellationToken); // 60
+							Parse(result.CountMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".countMax", cancellationToken); // 50
 							break;
 						case "duration":
 							result.DurationElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.DurationElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".duration", cancellationToken); // 70
+							Parse(result.DurationElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".duration", cancellationToken); // 60
 							break;
 						case "durationMax":
 							result.DurationMaxElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.DurationMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".durationMax", cancellationToken); // 80
+							Parse(result.DurationMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".durationMax", cancellationToken); // 70
 							break;
 						case "durationUnit":
 							result.DurationUnitElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>();
-							Parse(result.DurationUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".durationUnit", cancellationToken); // 90
+							Parse(result.DurationUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".durationUnit", cancellationToken); // 80
 							break;
 						case "frequency":
 							result.FrequencyElement = new Hl7.Fhir.Model.PositiveInt();
-							Parse(result.FrequencyElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequency", cancellationToken); // 100
+							Parse(result.FrequencyElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequency", cancellationToken); // 90
 							break;
 						case "frequencyMax":
 							result.FrequencyMaxElement = new Hl7.Fhir.Model.PositiveInt();
-							Parse(result.FrequencyMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequencyMax", cancellationToken); // 110
+							Parse(result.FrequencyMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequencyMax", cancellationToken); // 100
 							break;
 						case "period":
 							result.PeriodElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".period", cancellationToken); // 120
+							Parse(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".period", cancellationToken); // 110
 							break;
 						case "periodMax":
 							result.PeriodMaxElement = new Hl7.Fhir.Model.FhirDecimal();
-							Parse(result.PeriodMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".periodMax", cancellationToken); // 130
+							Parse(result.PeriodMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".periodMax", cancellationToken); // 120
 							break;
 						case "periodUnit":
 							result.PeriodUnitElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>();
-							Parse(result.PeriodUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".periodUnit", cancellationToken); // 140
+							Parse(result.PeriodUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".periodUnit", cancellationToken); // 130
 							break;
 						case "dayOfWeek":
 							var newItem_dayOfWeek = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DaysOfWeek>();
-							Parse(newItem_dayOfWeek, reader, outcome, locationPath + ".dayOfWeek["+result.DayOfWeekElement.Count+"]", cancellationToken); // 150
+							Parse(newItem_dayOfWeek, reader, outcome, locationPath + ".dayOfWeek["+result.DayOfWeekElement.Count+"]", cancellationToken); // 140
 							result.DayOfWeekElement.Add(newItem_dayOfWeek);
 							break;
 						case "timeOfDay":
 							var newItem_timeOfDay = new Hl7.Fhir.Model.Time();
-							Parse(newItem_timeOfDay, reader, outcome, locationPath + ".timeOfDay["+result.TimeOfDayElement.Count+"]", cancellationToken); // 160
+							Parse(newItem_timeOfDay, reader, outcome, locationPath + ".timeOfDay["+result.TimeOfDayElement.Count+"]", cancellationToken); // 150
 							result.TimeOfDayElement.Add(newItem_timeOfDay);
 							break;
 						case "when":
 							var newItem_when = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.EventTiming>();
-							Parse(newItem_when, reader, outcome, locationPath + ".when["+result.WhenElement.Count+"]", cancellationToken); // 170
+							Parse(newItem_when, reader, outcome, locationPath + ".when["+result.WhenElement.Count+"]", cancellationToken); // 160
 							result.WhenElement.Add(newItem_when);
 							break;
 						case "offset":
 							result.OffsetElement = new Hl7.Fhir.Model.UnsignedInt();
-							Parse(result.OffsetElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".offset", cancellationToken); // 180
+							Parse(result.OffsetElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".offset", cancellationToken); // 170
 							break;
 						default:
 							// Property not found
@@ -143,7 +143,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -177,74 +177,74 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "boundsDuration":
 							result.Bounds = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.Bounds as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".bounds", cancellationToken); // 40
+							await ParseAsync(result.Bounds as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".bounds", cancellationToken); // 30
 							break;
 						case "boundsRange":
 							result.Bounds = new Hl7.Fhir.Model.Range();
-							await ParseAsync(result.Bounds as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".bounds", cancellationToken); // 40
+							await ParseAsync(result.Bounds as Hl7.Fhir.Model.Range, reader, outcome, locationPath + ".bounds", cancellationToken); // 30
 							break;
 						case "boundsPeriod":
 							result.Bounds = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.Bounds as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".bounds", cancellationToken); // 40
+							await ParseAsync(result.Bounds as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".bounds", cancellationToken); // 30
 							break;
 						case "count":
 							result.CountElement = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(result.CountElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".count", cancellationToken); // 50
+							await ParseAsync(result.CountElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".count", cancellationToken); // 40
 							break;
 						case "countMax":
 							result.CountMaxElement = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(result.CountMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".countMax", cancellationToken); // 60
+							await ParseAsync(result.CountMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".countMax", cancellationToken); // 50
 							break;
 						case "duration":
 							result.DurationElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.DurationElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".duration", cancellationToken); // 70
+							await ParseAsync(result.DurationElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".duration", cancellationToken); // 60
 							break;
 						case "durationMax":
 							result.DurationMaxElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.DurationMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".durationMax", cancellationToken); // 80
+							await ParseAsync(result.DurationMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".durationMax", cancellationToken); // 70
 							break;
 						case "durationUnit":
 							result.DurationUnitElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>();
-							await ParseAsync(result.DurationUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".durationUnit", cancellationToken); // 90
+							await ParseAsync(result.DurationUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".durationUnit", cancellationToken); // 80
 							break;
 						case "frequency":
 							result.FrequencyElement = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(result.FrequencyElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequency", cancellationToken); // 100
+							await ParseAsync(result.FrequencyElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequency", cancellationToken); // 90
 							break;
 						case "frequencyMax":
 							result.FrequencyMaxElement = new Hl7.Fhir.Model.PositiveInt();
-							await ParseAsync(result.FrequencyMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequencyMax", cancellationToken); // 110
+							await ParseAsync(result.FrequencyMaxElement as Hl7.Fhir.Model.PositiveInt, reader, outcome, locationPath + ".frequencyMax", cancellationToken); // 100
 							break;
 						case "period":
 							result.PeriodElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".period", cancellationToken); // 120
+							await ParseAsync(result.PeriodElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".period", cancellationToken); // 110
 							break;
 						case "periodMax":
 							result.PeriodMaxElement = new Hl7.Fhir.Model.FhirDecimal();
-							await ParseAsync(result.PeriodMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".periodMax", cancellationToken); // 130
+							await ParseAsync(result.PeriodMaxElement as Hl7.Fhir.Model.FhirDecimal, reader, outcome, locationPath + ".periodMax", cancellationToken); // 120
 							break;
 						case "periodUnit":
 							result.PeriodUnitElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>();
-							await ParseAsync(result.PeriodUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".periodUnit", cancellationToken); // 140
+							await ParseAsync(result.PeriodUnitElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.UnitsOfTime>, reader, outcome, locationPath + ".periodUnit", cancellationToken); // 130
 							break;
 						case "dayOfWeek":
 							var newItem_dayOfWeek = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.DaysOfWeek>();
-							await ParseAsync(newItem_dayOfWeek, reader, outcome, locationPath + ".dayOfWeek["+result.DayOfWeekElement.Count+"]", cancellationToken); // 150
+							await ParseAsync(newItem_dayOfWeek, reader, outcome, locationPath + ".dayOfWeek["+result.DayOfWeekElement.Count+"]", cancellationToken); // 140
 							result.DayOfWeekElement.Add(newItem_dayOfWeek);
 							break;
 						case "timeOfDay":
 							var newItem_timeOfDay = new Hl7.Fhir.Model.Time();
-							await ParseAsync(newItem_timeOfDay, reader, outcome, locationPath + ".timeOfDay["+result.TimeOfDayElement.Count+"]", cancellationToken); // 160
+							await ParseAsync(newItem_timeOfDay, reader, outcome, locationPath + ".timeOfDay["+result.TimeOfDayElement.Count+"]", cancellationToken); // 150
 							result.TimeOfDayElement.Add(newItem_timeOfDay);
 							break;
 						case "when":
 							var newItem_when = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Timing.EventTiming>();
-							await ParseAsync(newItem_when, reader, outcome, locationPath + ".when["+result.WhenElement.Count+"]", cancellationToken); // 170
+							await ParseAsync(newItem_when, reader, outcome, locationPath + ".when["+result.WhenElement.Count+"]", cancellationToken); // 160
 							result.WhenElement.Add(newItem_when);
 							break;
 						case "offset":
 							result.OffsetElement = new Hl7.Fhir.Model.UnsignedInt();
-							await ParseAsync(result.OffsetElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".offset", cancellationToken); // 180
+							await ParseAsync(result.OffsetElement as Hl7.Fhir.Model.UnsignedInt, reader, outcome, locationPath + ".offset", cancellationToken); // 170
 							break;
 						default:
 							// Property not found

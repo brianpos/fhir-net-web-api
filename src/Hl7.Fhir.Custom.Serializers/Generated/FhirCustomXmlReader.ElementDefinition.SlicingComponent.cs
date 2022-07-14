@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -55,20 +55,20 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "discriminator":
 							var newItem_discriminator = new Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent();
-							Parse(newItem_discriminator, reader, outcome, locationPath + ".discriminator["+result.Discriminator.Count+"]", cancellationToken); // 40
+							Parse(newItem_discriminator, reader, outcome, locationPath + ".discriminator["+result.Discriminator.Count+"]", cancellationToken); // 30
 							result.Discriminator.Add(newItem_discriminator);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 50
+							Parse(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "ordered":
 							result.OrderedElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.OrderedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".ordered", cancellationToken); // 60
+							Parse(result.OrderedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".ordered", cancellationToken); // 50
 							break;
 						case "rules":
 							result.RulesElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.SlicingRules>();
-							Parse(result.RulesElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.SlicingRules>, reader, outcome, locationPath + ".rules", cancellationToken); // 70
+							Parse(result.RulesElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.SlicingRules>, reader, outcome, locationPath + ".rules", cancellationToken); // 60
 							break;
 						default:
 							// Property not found
@@ -89,7 +89,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -123,20 +123,20 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 						case "discriminator":
 							var newItem_discriminator = new Hl7.Fhir.Model.ElementDefinition.DiscriminatorComponent();
-							await ParseAsync(newItem_discriminator, reader, outcome, locationPath + ".discriminator["+result.Discriminator.Count+"]", cancellationToken); // 40
+							await ParseAsync(newItem_discriminator, reader, outcome, locationPath + ".discriminator["+result.Discriminator.Count+"]", cancellationToken); // 30
 							result.Discriminator.Add(newItem_discriminator);
 							break;
 						case "description":
 							result.DescriptionElement = new Hl7.Fhir.Model.FhirString();
-							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 50
+							await ParseAsync(result.DescriptionElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".description", cancellationToken); // 40
 							break;
 						case "ordered":
 							result.OrderedElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.OrderedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".ordered", cancellationToken); // 60
+							await ParseAsync(result.OrderedElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".ordered", cancellationToken); // 50
 							break;
 						case "rules":
 							result.RulesElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.SlicingRules>();
-							await ParseAsync(result.RulesElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.SlicingRules>, reader, outcome, locationPath + ".rules", cancellationToken); // 70
+							await ParseAsync(result.RulesElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ElementDefinition.SlicingRules>, reader, outcome, locationPath + ".rules", cancellationToken); // 60
 							break;
 						default:
 							// Property not found

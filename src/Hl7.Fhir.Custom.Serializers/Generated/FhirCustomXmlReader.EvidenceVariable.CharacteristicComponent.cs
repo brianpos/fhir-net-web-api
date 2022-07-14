@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -78,42 +78,21 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Definition = new Hl7.Fhir.Model.Expression();
 							Parse(result.Definition as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".definition", cancellationToken); // 50
 							break;
-						case "definitionDataRequirement":
-							result.Definition = new Hl7.Fhir.Model.DataRequirement();
-							Parse(result.Definition as Hl7.Fhir.Model.DataRequirement, reader, outcome, locationPath + ".definition", cancellationToken); // 50
+						case "method":
+							result.Method = new Hl7.Fhir.Model.CodeableConcept();
+							Parse(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 60
 							break;
-						case "definitionTriggerDefinition":
-							result.Definition = new Hl7.Fhir.Model.TriggerDefinition();
-							Parse(result.Definition as Hl7.Fhir.Model.TriggerDefinition, reader, outcome, locationPath + ".definition", cancellationToken); // 50
-							break;
-						case "usageContext":
-							var newItem_usageContext = new Hl7.Fhir.Model.UsageContext();
-							Parse(newItem_usageContext, reader, outcome, locationPath + ".usageContext["+result.UsageContext.Count+"]", cancellationToken); // 60
-							result.UsageContext.Add(newItem_usageContext);
+						case "device":
+							result.Device = new Hl7.Fhir.Model.ResourceReference();
+							Parse(result.Device as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".device", cancellationToken); // 70
 							break;
 						case "exclude":
 							result.ExcludeElement = new Hl7.Fhir.Model.FhirBoolean();
-							Parse(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exclude", cancellationToken); // 70
-							break;
-						case "participantEffectiveDateTime":
-							result.ParticipantEffective = new Hl7.Fhir.Model.FhirDateTime();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
-							break;
-						case "participantEffectivePeriod":
-							result.ParticipantEffective = new Hl7.Fhir.Model.Period();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
-							break;
-						case "participantEffectiveDuration":
-							result.ParticipantEffective = new Hl7.Fhir.Model.Duration();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
-							break;
-						case "participantEffectiveTiming":
-							result.ParticipantEffective = new Hl7.Fhir.Model.Timing();
-							Parse(result.ParticipantEffective as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
+							Parse(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exclude", cancellationToken); // 80
 							break;
 						case "timeFromStart":
-							result.TimeFromStart = new Hl7.Fhir.Model.Duration();
-							Parse(result.TimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".timeFromStart", cancellationToken); // 90
+							result.TimeFromStart = new Hl7.Fhir.Model.EvidenceVariable.TimeFromStartComponent();
+							Parse(result.TimeFromStart as Hl7.Fhir.Model.EvidenceVariable.TimeFromStartComponent, reader, outcome, locationPath + ".timeFromStart", cancellationToken); // 90
 							break;
 						case "groupMeasure":
 							result.GroupMeasureElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>();
@@ -138,7 +117,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -195,42 +174,21 @@ namespace Hl7.Fhir.CustomSerializer
 							result.Definition = new Hl7.Fhir.Model.Expression();
 							await ParseAsync(result.Definition as Hl7.Fhir.Model.Expression, reader, outcome, locationPath + ".definition", cancellationToken); // 50
 							break;
-						case "definitionDataRequirement":
-							result.Definition = new Hl7.Fhir.Model.DataRequirement();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.DataRequirement, reader, outcome, locationPath + ".definition", cancellationToken); // 50
+						case "method":
+							result.Method = new Hl7.Fhir.Model.CodeableConcept();
+							await ParseAsync(result.Method as Hl7.Fhir.Model.CodeableConcept, reader, outcome, locationPath + ".method", cancellationToken); // 60
 							break;
-						case "definitionTriggerDefinition":
-							result.Definition = new Hl7.Fhir.Model.TriggerDefinition();
-							await ParseAsync(result.Definition as Hl7.Fhir.Model.TriggerDefinition, reader, outcome, locationPath + ".definition", cancellationToken); // 50
-							break;
-						case "usageContext":
-							var newItem_usageContext = new Hl7.Fhir.Model.UsageContext();
-							await ParseAsync(newItem_usageContext, reader, outcome, locationPath + ".usageContext["+result.UsageContext.Count+"]", cancellationToken); // 60
-							result.UsageContext.Add(newItem_usageContext);
+						case "device":
+							result.Device = new Hl7.Fhir.Model.ResourceReference();
+							await ParseAsync(result.Device as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".device", cancellationToken); // 70
 							break;
 						case "exclude":
 							result.ExcludeElement = new Hl7.Fhir.Model.FhirBoolean();
-							await ParseAsync(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exclude", cancellationToken); // 70
-							break;
-						case "participantEffectiveDateTime":
-							result.ParticipantEffective = new Hl7.Fhir.Model.FhirDateTime();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.FhirDateTime, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
-							break;
-						case "participantEffectivePeriod":
-							result.ParticipantEffective = new Hl7.Fhir.Model.Period();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Period, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
-							break;
-						case "participantEffectiveDuration":
-							result.ParticipantEffective = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
-							break;
-						case "participantEffectiveTiming":
-							result.ParticipantEffective = new Hl7.Fhir.Model.Timing();
-							await ParseAsync(result.ParticipantEffective as Hl7.Fhir.Model.Timing, reader, outcome, locationPath + ".participantEffective", cancellationToken); // 80
+							await ParseAsync(result.ExcludeElement as Hl7.Fhir.Model.FhirBoolean, reader, outcome, locationPath + ".exclude", cancellationToken); // 80
 							break;
 						case "timeFromStart":
-							result.TimeFromStart = new Hl7.Fhir.Model.Duration();
-							await ParseAsync(result.TimeFromStart as Hl7.Fhir.Model.Duration, reader, outcome, locationPath + ".timeFromStart", cancellationToken); // 90
+							result.TimeFromStart = new Hl7.Fhir.Model.EvidenceVariable.TimeFromStartComponent();
+							await ParseAsync(result.TimeFromStart as Hl7.Fhir.Model.EvidenceVariable.TimeFromStartComponent, reader, outcome, locationPath + ".timeFromStart", cancellationToken); // 90
 							break;
 						case "groupMeasure":
 							result.GroupMeasureElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.GroupMeasure>();

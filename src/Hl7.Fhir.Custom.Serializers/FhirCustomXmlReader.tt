@@ -3,12 +3,12 @@
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Data" #>
 <#@ assembly name="System.ComponentModel.DataAnnotations" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.1.9.0\lib\net45\Hl7.Fhir.Support.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.Poco.1.9.0\lib\net45\Hl7.Fhir.Support.Poco.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.ElementModel.1.9.0\lib\net45\Hl7.Fhir.ElementModel.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.FhirPath.1.9.0\lib\net45\Hl7.FhirPath.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Serialization.1.9.0\lib\net45\Hl7.Fhir.Serialization.dll" #>
-<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.R4.1.9.0\lib\net45\Hl7.Fhir.R4.Core.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.4.1.0\lib\net452\Hl7.Fhir.Support.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Support.Poco.4.1.0\lib\net452\Hl7.Fhir.Support.Poco.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.ElementModel.4.1.0\lib\net452\Hl7.Fhir.ElementModel.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.FhirPath.4.1.0\lib\net452\Hl7.FhirPath.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.Serialization.4.1.0\lib\net452\Hl7.Fhir.Serialization.dll" #>
+<#@ assembly name="$(SolutionDir)\packages\Hl7.Fhir.R4B.4.1.0\lib\net452\Hl7.Fhir.R4B.Core.dll" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Xml" #>
@@ -24,7 +24,15 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="Hl7.Fhir.Introspection" #>
 <#@ output extension=".cs" encoding="utf-8" #>
-<#@ include file="TemplateFileManagerV2.1.ttinclude" #><# var manager = TemplateFileManager.Create(this);#>
+<#@ include file="TemplateFileManagerV2.1.ttinclude" #><# var manager = TemplateFileManager.Create(this);
+            if (!Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
+            {
+                Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Hl7.Fhir.Model.Citation));
+                Hl7.Fhir.Model.ModelInfo.FhirCsTypeToString.Add(typeof(Hl7.Fhir.Model.Citation), "Citation");
+            }
+
+		manager.StartNewFile("FhirCustomXmlReader.cs", null, null);
+#>
 // -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
@@ -104,8 +112,6 @@ namespace Hl7.Fhir.CustomSerializer
         var dtt = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(v);
 		if (dtt != null)
 		{
-			if (Hl7.Fhir.Model.ModelInfo.IsProfiledQuantity(dtt))
-				continue;
 			if (!Hl7.Fhir.Model.ModelInfo.IsKnownResource(v) && !generateTypes.ContainsValue(dtt))
 				generateTypes.Add(dtt.FullName, dtt);
 
@@ -130,7 +136,12 @@ namespace Hl7.Fhir.CustomSerializer
 
 	foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
     {
-		Type tr = typeof(Hl7.Fhir.Model.ModelInfo).Assembly.GetType("Hl7.Fhir.Model." + ResourceName);
+		Type tr = Hl7.Fhir.Model.ModelInfo.GetTypeForFhirType(ResourceName);
+		if (tr == null)
+		{
+	        WriteLine($"// no support for {ResourceName}");
+			continue;
+		}
         if (tr.BaseType.Name != "DomainResource" && tr.BaseType.Name != "Resource")
 		{
 			// WriteLine("Resourcename: " + ResourceName + " : " + tr.BaseType.Name);
@@ -138,12 +149,17 @@ namespace Hl7.Fhir.CustomSerializer
         }
 
 		// tr.DeclaredNestedTypes
+		if (string.IsNullOrEmpty(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
+		{
+	        WriteLine($"// no type support for {ResourceName}");
+			continue;
+		}
 
         if (Hl7.Fhir.Model.ModelInfo.IsCoreSuperType(Hl7.Fhir.Model.ModelInfo.GetFhirTypeNameForType(tr)))
             continue;
 
 		//==============
-		manager.StartNewFile("Generated\\FhirCustomXmlReader."+tr.Name + ".cs");
+		manager.StartNewFile("FhirCustomXmlReader."+tr.Name + ".cs", null, "Generated");
 #>
 // -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
@@ -277,7 +293,7 @@ namespace Hl7.Fhir.CustomSerializer
 		else if (typeName == "Hl7.Fhir.Model.Resource")
 			continue;
 		//==============
-		manager.StartNewFile("Generated\\FhirCustomXmlReader."+ typeName.Replace("Hl7.Fhir.Model.", "") + ".cs");
+		manager.StartNewFile("FhirCustomXmlReader."+ typeName.Replace("Hl7.Fhir.Model.", "") + ".cs", null, "Generated");
 #>
 // -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
@@ -305,7 +321,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 <#
 		if (HasAttributeProperties(tr))
 		{
@@ -384,7 +400,7 @@ WriteElementProperties(tr, false);
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 <#
 		if (HasAttributeProperties(tr))
 		{
@@ -463,7 +479,7 @@ WriteElementProperties(tr, true);
 	// FINISH The output of the project
 	manager.Process();
 #>
-<#+ 
+<#+
 
 	public void WriteResourceProperties(System.Type tr, Dictionary<string, Type> generateTypes, bool asyncGeneration)
 	{
@@ -477,7 +493,10 @@ WriteElementProperties(tr, true);
 		{
 			if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
 				continue;
-			FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
+				continue;
+            var fea = feas.Last();
 			if (fea != null)
 			{
 				WriteProperty(tr, prop, fea, generateTypes, asyncGeneration);
@@ -494,9 +513,10 @@ WriteElementProperties(tr, true);
         {
             if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
                 continue;
-            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
-			if (fea == null)
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
 				continue;
+            var fea = feas.Last();
 			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
 				continue;
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.None)
@@ -512,7 +532,10 @@ WriteElementProperties(tr, true);
         {
             if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
                 continue;
-            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
+				continue;
+            var fea = feas.Last();
 			if (fea == null)
 				continue;
 			if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
@@ -528,9 +551,10 @@ WriteElementProperties(tr, true);
         {
             if (prop.GetCustomAttribute(typeof(NotMappedAttribute)) != null)
                 continue;
-            FhirElementAttribute fea = prop.GetCustomAttribute(typeof(FhirElementAttribute)) as FhirElementAttribute;
-			if (fea == null)
+            var feas = prop.GetCustomAttributes<FhirElementAttribute>();
+			if (!feas.Any())
 				continue;
+            var fea = feas.Last();
 			if (fea.XmlSerialization != Hl7.Fhir.Specification.XmlRepresentation.XmlAttr)
 				continue;
 			WriteProperty(tr, prop, fea, null, asyncGeneration);
@@ -556,7 +580,7 @@ WriteElementProperties(tr, true);
 			WriteLine($"\t\tbreak;");
 			return;
 		}
-			
+
 		if (fea.XmlSerialization == Hl7.Fhir.Specification.XmlRepresentation.XHtml)
 		{
 			WriteLine($"\tcase \"{fea.Name}\":");
@@ -634,7 +658,7 @@ WriteElementProperties(tr, true);
 					if (typeName == "System.Decimal" || typeName == "System.Int32")
 					{
 #>
-        try 
+        try
 		{
 			result.Value = reader.ReadContentAs<#= typeName == "System.Decimal" ? "Decimal" : "Int" #>();
 		}
@@ -647,7 +671,7 @@ WriteElementProperties(tr, true);
 					else
 					{
 #>
-        try 
+        try
 		{
 			result.Value = Hl7.Fhir.Serialization.PrimitiveTypeConverter.ConvertTo<<#= typeName #>>(reader.Value);
 		}

@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -58,7 +58,7 @@ namespace Hl7.Fhir.CustomSerializer
         {
             foreach (T item in items)
             {
-                // Check if the serialization is canceled before continuing 
+                // Check if the serialization is canceled before continuing
                 // through the collection
                 if (cancellationToken.IsCancellationRequested)
                     return;
@@ -71,11 +71,11 @@ namespace Hl7.Fhir.CustomSerializer
         }
 
         public static void Write<T>(IEnumerable<Code<T>> items, XmlWriter writer, string propName, CancellationToken cancellationToken)
-            where T : struct
+            where T : struct, System.Enum
         {
             foreach (Code<T> item in items)
             {
-                // Check if the serialization is canceled before continuing 
+                // Check if the serialization is canceled before continuing
                 // through the collection
                 if (cancellationToken.IsCancellationRequested)
                     return;
@@ -134,7 +134,7 @@ namespace Hl7.Fhir.CustomSerializer
             }
         }
         public static void Write<T>(Code<T> rawValue, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-             where T : struct
+             where T : struct, Enum
         {
             if (cancellationToken.IsCancellationRequested) return;
             var value = rawValue?.ObjectValue as string;

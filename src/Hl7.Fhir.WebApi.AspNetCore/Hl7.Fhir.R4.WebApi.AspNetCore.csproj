@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net50;netcoreapp3.1;netcoreapp3.0;netcoreapp2.2</TargetFrameworks>
-    <AssemblyName>Hl7.Fhir.R4.WebApi.AspNetCore</AssemblyName>
-    <PackageId>brianpos.Fhir.R4.WebApi.AspNetCore</PackageId>
-    <Version>3.8.3-beta3</Version>
+    <TargetFrameworks>net60;net50;netcoreapp3.1;</TargetFrameworks>
+    <AssemblyName>Hl7.Fhir.R4B.WebApi.AspNetCore</AssemblyName>
+    <PackageId>brianpos.Fhir.R4B.WebApi.AspNetCore</PackageId>
+    <Version>4.1.0-beta1</Version>
     <Title>HL7 Fhir WebApi (AspNetCore) Facade Layer</Title>
     <Summary>AspNetCore based FHIR WebApi Facade layer</Summary>
     <Description>This library Implements a FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>
     <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
-    <Product>Hl7.Fhir.R4.WebApi.AspNetCore</Product>
+    <Product>Hl7.Fhir.R4B.WebApi.AspNetCore</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
-    
+
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -21,9 +21,13 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="3.8.3" />
+    <PackageReference Include="Hl7.Fhir.R4B" Version="4.1.0" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net60'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
+  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net50'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
@@ -31,16 +35,6 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.3" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.2'">
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Buffering" Version="0.2.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />

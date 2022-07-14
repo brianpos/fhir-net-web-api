@@ -1,0 +1,4216 @@
+{
+  "FilesToGenerate": [
+    {
+      "Filename": "FhirCustomXmlReader.cs",
+      "Project": null,
+      "Path": null,
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Account.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ActivityDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdministrableProductDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdverseEvent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AllergyIntolerance.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Appointment.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AppointmentResponse.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AuditEvent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Basic.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Binary.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BiologicallyDerivedProduct.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BodyStructure.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Bundle.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CarePlan.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CareTeam.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CatalogEntry.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ChargeItem.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ChargeItemDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalImpression.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeSystem.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Communication.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CommunicationRequest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CompartmentDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Composition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ConceptMap.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Condition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Consent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Coverage.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityRequest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityResponse.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DetectedIssue.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Device.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceMetric.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceRequest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceUseStatement.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DiagnosticReport.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DocumentManifest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DocumentReference.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Encounter.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Endpoint.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EnrollmentRequest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EnrollmentResponse.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EpisodeOfCare.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EventDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceReport.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceVariable.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FamilyMemberHistory.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Flag.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Goal.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.GraphDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Group.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.GuidanceResponse.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.HealthcareService.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImagingStudy.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Immunization.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImmunizationEvaluation.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImmunizationRecommendation.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Ingredient.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Invoice.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Library.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Linkage.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.List.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Location.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ManufacturedItemDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Measure.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MeasureReport.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Media.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Medication.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationAdministration.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationDispense.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationRequest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationStatement.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MessageDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MessageHeader.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NamingSystem.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionOrder.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionProduct.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Observation.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ObservationDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OperationDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OperationOutcome.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Organization.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OrganizationAffiliation.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PackagedProductDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Parameters.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Patient.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PaymentNotice.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PaymentReconciliation.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Person.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Practitioner.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PractitionerRole.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Procedure.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Provenance.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Questionnaire.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.QuestionnaireResponse.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RegulatedAuthorization.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RelatedPerson.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RequestGroup.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResearchDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResearchElementDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResearchStudy.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResearchSubject.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RiskAssessment.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Schedule.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SearchParameter.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ServiceRequest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Slot.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Specimen.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SpecimenDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Subscription.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionStatus.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionTopic.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Substance.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SupplyDelivery.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SupplyRequest.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Task.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.VerificationResult.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.VisionPrescription.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Address.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Age.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Annotation.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Attachment.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BackboneElement.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BackboneType.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Base.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Base64Binary.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FhirBoolean.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Canonical.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Code.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeableConcept.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeableReference.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Coding.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ContactDetail.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ContactPoint.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contributor.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Count.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DataRequirement.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DataRequirement.CodeFilterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DataRequirement.DateFilterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DataRequirement.SortComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DataType.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Date.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FhirDateTime.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FhirDecimal.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Distance.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Dosage.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Dosage.DoseAndRateComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.DiscriminatorComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.TypeRefComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.SlicingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.BaseComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.ExampleComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.ConstraintComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.ElementDefinitionBindingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ElementDefinition.MappingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Expression.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Extension.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.HumanName.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Id.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Identifier.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Instant.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Integer.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Markdown.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MarketingStatus.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Meta.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Money.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Narrative.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Oid.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ParameterDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Period.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Population.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PositiveInt.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PrimitiveType.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ProdCharacteristic.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ProductShelfLife.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Quantity.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Range.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Ratio.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RatioRange.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResourceReference.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RelatedArtifact.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SampledData.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Signature.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FhirString.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Time.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Timing.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Timing.RepeatComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TriggerDefinition.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.UnsignedInt.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FhirUri.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FhirUrl.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.UsageContext.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Uuid.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.XHtml.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Account.CoverageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Account.GuarantorComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ActivityDefinition.ParticipantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ActivityDefinition.DynamicValueComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdministrableProductDefinition.PropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdministrableProductDefinition.RouteOfAdministrationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdministrableProductDefinition.TargetSpeciesComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdministrableProductDefinition.WithdrawalPeriodComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdverseEvent.SuspectEntityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AdverseEvent.CausalityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AllergyIntolerance.ReactionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Appointment.ParticipantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AuditEvent.AgentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AuditEvent.NetworkComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AuditEvent.SourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AuditEvent.EntityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.AuditEvent.DetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BiologicallyDerivedProduct.CollectionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BiologicallyDerivedProduct.ProcessingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BiologicallyDerivedProduct.ManipulationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.BiologicallyDerivedProduct.StorageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Bundle.EntryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Bundle.LinkComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Bundle.SearchComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Bundle.RequestComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Bundle.ResponseComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.SoftwareComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.ImplementationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.RestComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.SecurityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.ResourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.ResourceInteractionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.SearchParamComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.OperationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.SystemInteractionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.MessagingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.EndpointComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.SupportedMessageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CapabilityStatement.DocumentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CarePlan.ActivityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CarePlan.DetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CareTeam.ParticipantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CatalogEntry.RelatedEntryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ChargeItem.PerformerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ChargeItemDefinition.ApplicabilityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ChargeItemDefinition.PropertyGroupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ChargeItemDefinition.PriceComponentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.RelatedClaimComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.PayeeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.CareTeamComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.SupportingInformationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.DiagnosisComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.ProcedureComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.InsuranceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.AccidentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.ItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.DetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Claim.SubDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.ItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.AdjudicationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.ItemDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.SubDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.AddedItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.AddedItemDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.AddedItemSubDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.TotalComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.PaymentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.NoteComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.InsuranceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClaimResponse.ErrorComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalImpression.InvestigationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalImpression.FindingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.ContraindicationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.OtherTherapyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.IndicationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.InteractionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.InteractantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.UndesirableEffectComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ClinicalUseDefinition.WarningComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeSystem.FilterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeSystem.PropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeSystem.ConceptDefinitionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeSystem.DesignationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CodeSystem.ConceptPropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Communication.PayloadComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CommunicationRequest.PayloadComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CompartmentDefinition.ResourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Composition.AttesterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Composition.RelatesToComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Composition.EventComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Composition.SectionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ConceptMap.GroupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ConceptMap.SourceElementComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ConceptMap.TargetElementComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ConceptMap.OtherElementComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ConceptMap.UnmappedComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Condition.StageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Condition.EvidenceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Consent.PolicyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Consent.VerificationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Consent.provisionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Consent.provisionActorComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Consent.provisionDataComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ContentDefinitionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.TermComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.SecurityLabelComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ContractOfferComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ContractPartyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.AnswerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ContractAssetComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.AssetContextComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ValuedItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ActionSubjectComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.SignatoryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.FriendlyLanguageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.LegalLanguageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Contract.ComputableLanguageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Coverage.ClassComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Coverage.CostToBeneficiaryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Coverage.ExemptionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityRequest.SupportingInformationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityRequest.InsuranceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityRequest.DetailsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityRequest.DiagnosisComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityResponse.InsuranceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityResponse.ItemsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityResponse.BenefitComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.CoverageEligibilityResponse.ErrorsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DetectedIssue.EvidenceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DetectedIssue.MitigationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Device.UdiCarrierComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Device.DeviceNameComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Device.SpecializationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Device.VersionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Device.PropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceDefinition.UdiDeviceIdentifierComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceDefinition.DeviceNameComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceDefinition.SpecializationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceDefinition.CapabilityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceDefinition.PropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceDefinition.MaterialComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceMetric.CalibrationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DeviceRequest.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DiagnosticReport.MediaComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DocumentManifest.RelatedComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DocumentReference.RelatesToComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DocumentReference.ContentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.DocumentReference.ContextComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Encounter.StatusHistoryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Encounter.ClassHistoryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Encounter.ParticipantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Encounter.DiagnosisComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Encounter.HospitalizationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Encounter.LocationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EpisodeOfCare.StatusHistoryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EpisodeOfCare.DiagnosisComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.VariableDefinitionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.StatisticComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.SampleSizeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.AttributeEstimateComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.ModelCharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.VariableComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Evidence.CertaintyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceReport.SubjectComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceReport.CharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceReport.RelatesToComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceReport.SectionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceVariable.CharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceVariable.TimeFromStartComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.EvidenceVariable.CategoryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.ActorComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.InstanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.VersionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.ContainedInstanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.ProcessComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.StepComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.OperationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExampleScenario.AlternativeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.RelatedClaimComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.PayeeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.CareTeamComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.SupportingInformationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.DiagnosisComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.ProcedureComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.InsuranceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.AccidentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.ItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.AdjudicationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.DetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.SubDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.AddedItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.AddedItemDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.AddedItemDetailSubDetailComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.TotalComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.PaymentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.NoteComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.BenefitBalanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ExplanationOfBenefit.BenefitComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.FamilyMemberHistory.ConditionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Goal.TargetComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.GraphDefinition.LinkComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.GraphDefinition.TargetComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.GraphDefinition.CompartmentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Group.CharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Group.MemberComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.HealthcareService.EligibilityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.HealthcareService.AvailableTimeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.HealthcareService.NotAvailableComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImagingStudy.SeriesComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImagingStudy.PerformerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImagingStudy.InstanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Immunization.PerformerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Immunization.EducationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Immunization.ReactionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Immunization.ProtocolAppliedComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImmunizationRecommendation.RecommendationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImmunizationRecommendation.DateCriterionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.DependsOnComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.GlobalComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.DefinitionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.GroupingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.ResourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.PageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.TemplateComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.ManifestComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.ManifestResourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ImplementationGuide.ManifestPageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Ingredient.ManufacturerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Ingredient.SubstanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Ingredient.StrengthComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Ingredient.ReferenceStrengthComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.ContactComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.CoverageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.CoverageBenefitComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.LimitComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.PlanComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.GeneralCostComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.SpecificCostComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.PlanBenefitComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.InsurancePlan.CostComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Invoice.ParticipantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Invoice.LineItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Invoice.PriceComponentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Linkage.ItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.List.EntryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Location.PositionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Location.HoursOfOperationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ManufacturedItemDefinition.PropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Measure.GroupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Measure.PopulationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Measure.StratifierComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Measure.ComponentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Measure.SupplementalDataComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MeasureReport.GroupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MeasureReport.PopulationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MeasureReport.StratifierComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MeasureReport.StratifierGroupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MeasureReport.ComponentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MeasureReport.StratifierGroupPopulationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Medication.IngredientComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Medication.BatchComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationAdministration.PerformerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationAdministration.DosageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationDispense.PerformerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationDispense.SubstitutionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.RelatedMedicationKnowledgeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.MonographComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.IngredientComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.CostComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.MonitoringProgramComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.AdministrationGuidelinesComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.DosageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.PatientCharacteristicsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.MedicineClassificationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.PackagingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.DrugCharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.RegulatoryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.SubstitutionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.ScheduleComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.MaxDispenseComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationKnowledge.KineticsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationRequest.DispenseRequestComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationRequest.InitialFillComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicationRequest.SubstitutionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.ContactComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.NameComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.NamePartComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.CountryLanguageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.CrossReferenceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.OperationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MedicinalProductDefinition.CharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MessageDefinition.FocusComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MessageDefinition.AllowedResponseComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MessageHeader.MessageDestinationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MessageHeader.MessageSourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MessageHeader.ResponseComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.ReferenceSeqComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.VariantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.QualityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.RocComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.RepositoryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.StructureVariantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.OuterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.MolecularSequence.InnerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NamingSystem.UniqueIdComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionOrder.OralDietComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionOrder.NutrientComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionOrder.TextureComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionOrder.SupplementComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionOrder.EnteralFormulaComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionOrder.AdministrationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionProduct.NutrientComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionProduct.IngredientComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionProduct.ProductCharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.NutritionProduct.InstanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Observation.ReferenceRangeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Observation.ComponentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ObservationDefinition.QuantitativeDetailsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ObservationDefinition.QualifiedIntervalComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OperationDefinition.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OperationDefinition.BindingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OperationDefinition.ReferencedFromComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OperationDefinition.OverloadComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.OperationOutcome.IssueComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Organization.ContactComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PackagedProductDefinition.LegalStatusOfSupplyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PackagedProductDefinition.PackageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PackagedProductDefinition.ShelfLifeStorageComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PackagedProductDefinition.PropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PackagedProductDefinition.ContainedItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Parameters.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Patient.ContactComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Patient.CommunicationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Patient.LinkComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PaymentReconciliation.DetailsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PaymentReconciliation.NotesComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Person.LinkComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.GoalComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.TargetComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.ActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.ConditionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.RelatedActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.ParticipantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PlanDefinition.DynamicValueComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Practitioner.QualificationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PractitionerRole.AvailableTimeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.PractitionerRole.NotAvailableComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Procedure.PerformerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Procedure.FocalDeviceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Provenance.AgentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Provenance.EntityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Questionnaire.ItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Questionnaire.EnableWhenComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Questionnaire.AnswerOptionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Questionnaire.InitialComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.QuestionnaireResponse.ItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.QuestionnaireResponse.AnswerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RegulatedAuthorization.CaseComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RelatedPerson.CommunicationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RequestGroup.ActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RequestGroup.ConditionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RequestGroup.RelatedActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResearchElementDefinition.CharacteristicComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResearchStudy.ArmComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ResearchStudy.ObjectiveComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.RiskAssessment.PredictionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SearchParameter.ComponentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Specimen.CollectionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Specimen.ProcessingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Specimen.ContainerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SpecimenDefinition.TypeTestedComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SpecimenDefinition.ContainerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SpecimenDefinition.AdditiveComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SpecimenDefinition.HandlingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureDefinition.MappingComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureDefinition.ContextComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureDefinition.SnapshotComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureDefinition.DifferentialComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.StructureComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.GroupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.InputComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.RuleComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.SourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.TargetComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.StructureMap.DependentComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Subscription.ChannelComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionStatus.NotificationEventComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionTopic.ResourceTriggerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionTopic.QueryCriteriaComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionTopic.EventTriggerComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionTopic.CanFilterByComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubscriptionTopic.NotificationShapeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Substance.InstanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Substance.IngredientComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.MoietyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.PropertyComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.MolecularWeightComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.StructureComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.RepresentationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.CodeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.NameComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.OfficialComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.RelationshipComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SubstanceDefinition.SourceMaterialComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SupplyDelivery.SuppliedItemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.SupplyRequest.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Task.RestrictionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Task.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Task.OutputComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.SoftwareComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.ImplementationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.CodeSystemComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.VersionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.FilterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.ExpansionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.ValidateCodeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.TranslationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TerminologyCapabilities.ClosureComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.ParticipantComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.SetupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.SetupActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.OperationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.AssertComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.TestComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.TestActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.TeardownComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestReport.TeardownActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.OriginComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.DestinationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.MetadataComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.LinkComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.CapabilityComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.FixtureComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.VariableComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.SetupComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.SetupActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.OperationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.RequestHeaderComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.AssertComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.TestComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.TestActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.TeardownComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.TestScript.TeardownActionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.ComposeComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.ConceptSetComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.ConceptReferenceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.DesignationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.FilterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.ExpansionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.ParameterComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.ValueSet.ContainsComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.VerificationResult.PrimarySourceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.VerificationResult.AttestationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.VerificationResult.ValidatorComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.VisionPrescription.LensSpecificationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.VisionPrescription.PrismComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.SummaryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.ClassificationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.StatusDateComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.RelatesToComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactVersionComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactStatusDateComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactTitleComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactAbstractComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactPartComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactRelatesToComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactPublicationFormComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactPublicationFormPublishedInComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactPublicationFormPeriodicReleaseComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactPublicationFormPeriodicReleaseDateOfPublicationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactWebLocationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactClassificationComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactClassificationWhoClassifiedComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactContributorshipComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactContributorshipEntryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactContributorshipEntryAffiliationInfoComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactContributorshipEntryContributionInstanceComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    },
+    {
+      "Filename": "FhirCustomXmlReader.Citation.CitedArtifactContributorshipSummaryComponent.cs",
+      "Project": null,
+      "Path": "Generated",
+      "Properties": {}
+    }
+  ]
+}

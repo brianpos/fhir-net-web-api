@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
-// Generated: 09/20/2021 09:09:16
+// Generated: 07/11/2022 16:44:04
 // -----------------------------------------------------------------------------
 using System;
 using System.Linq;
@@ -57,6 +57,9 @@ namespace Hl7.Fhir.CustomSerializer
 					break;
 				case "Reference":
 					Write(name.Subject as Hl7.Fhir.Model.ResourceReference, writer, "subjectReference", cancellationToken); // 170
+					break;
+				case "canonical":
+					Write(name.Subject as Hl7.Fhir.Model.Canonical, writer, "subjectCanonical", cancellationToken); // 170
 					break;
 			}
 			Write(name.DateElement, writer, "date", cancellationToken); // 180
@@ -124,6 +127,25 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ObservationResultRequirement, writer, "observationResultRequirement", cancellationToken); // 520
 			Write(name.TransformElement, writer, "transform", cancellationToken); // 530
 			Write(name.DynamicValue, writer, "dynamicValue", cancellationToken); // 540
+			writer.WriteEndElement();
+		}
+
+		public static void Write(AdministrableProductDefinition name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("AdministrableProductDefinition", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
+			Write(name.StatusElement, writer, "status", cancellationToken); // 100
+			Write(name.FormOf, writer, "formOf", cancellationToken); // 110
+			Write(name.AdministrableDoseForm, writer, "administrableDoseForm", cancellationToken); // 120
+			Write(name.UnitOfPresentation, writer, "unitOfPresentation", cancellationToken); // 130
+			Write(name.ProducedFrom, writer, "producedFrom", cancellationToken); // 140
+			Write(name.Ingredient, writer, "ingredient", cancellationToken); // 150
+			Write(name.Device, writer, "device", cancellationToken); // 160
+			Write(name.Property, writer, "property", cancellationToken); // 170
+			Write(name.RouteOfAdministration, writer, "routeOfAdministration", cancellationToken); // 180
 			writer.WriteEndElement();
 		}
 
@@ -542,6 +564,44 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		public static void Write(Citation name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("Citation", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.UrlElement, writer, "url", cancellationToken); // 90
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 100
+			Write(name.VersionElement, writer, "version", cancellationToken); // 110
+			Write(name.NameElement, writer, "name", cancellationToken); // 120
+			Write(name.TitleElement, writer, "title", cancellationToken); // 130
+			Write(name.StatusElement, writer, "status", cancellationToken); // 140
+			Write(name.ExperimentalElement, writer, "experimental", cancellationToken); // 150
+			Write(name.DateElement, writer, "date", cancellationToken); // 160
+			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 170
+			Write(name.Contact, writer, "contact", cancellationToken); // 180
+			Write(name.Description, writer, "description", cancellationToken); // 190
+			Write(name.UseContext, writer, "useContext", cancellationToken); // 200
+			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 210
+			Write(name.Purpose, writer, "purpose", cancellationToken); // 220
+			Write(name.Copyright, writer, "copyright", cancellationToken); // 230
+			Write(name.ApprovalDateElement, writer, "approvalDate", cancellationToken); // 240
+			Write(name.LastReviewDateElement, writer, "lastReviewDate", cancellationToken); // 250
+			Write(name.EffectivePeriod, writer, "effectivePeriod", cancellationToken); // 260
+			Write(name.Author, writer, "author", cancellationToken); // 270
+			Write(name.Editor, writer, "editor", cancellationToken); // 280
+			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 290
+			Write(name.Endorser, writer, "endorser", cancellationToken); // 300
+			Write(name.Summary, writer, "summary", cancellationToken); // 310
+			Write(name.Classification, writer, "classification", cancellationToken); // 320
+			Write(name.Note, writer, "note", cancellationToken); // 330
+			Write(name.CurrentState, writer, "currentState", cancellationToken); // 340
+			Write(name.StatusDate, writer, "statusDate", cancellationToken); // 350
+			Write(name.RelatesTo, writer, "relatesTo", cancellationToken); // 360
+			Write(name.CitedArtifact, writer, "citedArtifact", cancellationToken); // 370
+			writer.WriteEndElement();
+		}
+
 		public static void Write(Claim name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
@@ -648,6 +708,26 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.PrognosisReference, writer, "prognosisReference", cancellationToken); // 260
 			Write(name.SupportingInfo, writer, "supportingInfo", cancellationToken); // 270
 			Write(name.Note, writer, "note", cancellationToken); // 280
+			writer.WriteEndElement();
+		}
+
+		public static void Write(ClinicalUseDefinition name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("ClinicalUseDefinition", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
+			Write(name.TypeElement, writer, "type", cancellationToken); // 100
+			Write(name.Category, writer, "category", cancellationToken); // 110
+			Write(name.Subject, writer, "subject", cancellationToken); // 120
+			Write(name.Status, writer, "status", cancellationToken); // 130
+			Write(name.Contraindication, writer, "contraindication", cancellationToken); // 140
+			Write(name.Indication, writer, "indication", cancellationToken); // 150
+			Write(name.Interaction, writer, "interaction", cancellationToken); // 160
+			Write(name.Population, writer, "population", cancellationToken); // 170
+			Write(name.UndesirableEffect, writer, "undesirableEffect", cancellationToken); // 180
+			Write(name.Warning, writer, "warning", cancellationToken); // 190
 			writer.WriteEndElement();
 		}
 
@@ -795,7 +875,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.DateElement, writer, "date", cancellationToken); // 150
 			Write(name.Author, writer, "author", cancellationToken); // 160
 			Write(name.TitleElement, writer, "title", cancellationToken); // 170
-			Write(name.ConfidentialityElement, writer, "confidentiality", cancellationToken); // 180
+			Write(name.Confidentiality_Element, writer, "confidentiality", cancellationToken); // 180
 			Write(name.Attester, writer, "attester", cancellationToken); // 190
 			Write(name.Custodian, writer, "custodian", cancellationToken); // 200
 			Write(name.RelatesTo, writer, "relatesTo", cancellationToken); // 210
@@ -1372,48 +1452,6 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		public static void Write(EffectEvidenceSynthesis name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("EffectEvidenceSynthesis", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.UrlElement, writer, "url", cancellationToken); // 90
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 100
-			Write(name.VersionElement, writer, "version", cancellationToken); // 110
-			Write(name.NameElement, writer, "name", cancellationToken); // 120
-			Write(name.TitleElement, writer, "title", cancellationToken); // 130
-			Write(name.StatusElement, writer, "status", cancellationToken); // 140
-			Write(name.DateElement, writer, "date", cancellationToken); // 150
-			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 160
-			Write(name.Contact, writer, "contact", cancellationToken); // 170
-			Write(name.Description, writer, "description", cancellationToken); // 180
-			Write(name.Note, writer, "note", cancellationToken); // 190
-			Write(name.UseContext, writer, "useContext", cancellationToken); // 200
-			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 210
-			Write(name.Copyright, writer, "copyright", cancellationToken); // 220
-			Write(name.ApprovalDateElement, writer, "approvalDate", cancellationToken); // 230
-			Write(name.LastReviewDateElement, writer, "lastReviewDate", cancellationToken); // 240
-			Write(name.EffectivePeriod, writer, "effectivePeriod", cancellationToken); // 250
-			Write(name.Topic, writer, "topic", cancellationToken); // 260
-			Write(name.Author, writer, "author", cancellationToken); // 270
-			Write(name.Editor, writer, "editor", cancellationToken); // 280
-			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 290
-			Write(name.Endorser, writer, "endorser", cancellationToken); // 300
-			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 310
-			Write(name.SynthesisType, writer, "synthesisType", cancellationToken); // 320
-			Write(name.StudyType, writer, "studyType", cancellationToken); // 330
-			Write(name.Population, writer, "population", cancellationToken); // 340
-			Write(name.Exposure, writer, "exposure", cancellationToken); // 350
-			Write(name.ExposureAlternative, writer, "exposureAlternative", cancellationToken); // 360
-			Write(name.Outcome, writer, "outcome", cancellationToken); // 370
-			Write(name.SampleSize, writer, "sampleSize", cancellationToken); // 380
-			Write(name.ResultsByExposure, writer, "resultsByExposure", cancellationToken); // 390
-			Write(name.EffectEstimate, writer, "effectEstimate", cancellationToken); // 400
-			Write(name.Certainty, writer, "certainty", cancellationToken); // 410
-			writer.WriteEndElement();
-		}
-
 		public static void Write(Encounter name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
@@ -1574,31 +1612,71 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.UrlElement, writer, "url", cancellationToken); // 90
 			Write(name.Identifier, writer, "identifier", cancellationToken); // 100
 			Write(name.VersionElement, writer, "version", cancellationToken); // 110
-			Write(name.NameElement, writer, "name", cancellationToken); // 120
-			Write(name.TitleElement, writer, "title", cancellationToken); // 130
-			Write(name.ShortTitleElement, writer, "shortTitle", cancellationToken); // 140
-			Write(name.SubtitleElement, writer, "subtitle", cancellationToken); // 150
-			Write(name.StatusElement, writer, "status", cancellationToken); // 160
-			Write(name.DateElement, writer, "date", cancellationToken); // 170
-			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 180
-			Write(name.Contact, writer, "contact", cancellationToken); // 190
-			Write(name.Description, writer, "description", cancellationToken); // 200
-			Write(name.Note, writer, "note", cancellationToken); // 210
-			Write(name.UseContext, writer, "useContext", cancellationToken); // 220
-			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 230
-			Write(name.Copyright, writer, "copyright", cancellationToken); // 240
-			Write(name.ApprovalDateElement, writer, "approvalDate", cancellationToken); // 250
-			Write(name.LastReviewDateElement, writer, "lastReviewDate", cancellationToken); // 260
-			Write(name.EffectivePeriod, writer, "effectivePeriod", cancellationToken); // 270
-			Write(name.Topic, writer, "topic", cancellationToken); // 280
-			Write(name.Author, writer, "author", cancellationToken); // 290
-			Write(name.Editor, writer, "editor", cancellationToken); // 300
-			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 310
-			Write(name.Endorser, writer, "endorser", cancellationToken); // 320
-			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 330
-			Write(name.ExposureBackground, writer, "exposureBackground", cancellationToken); // 340
-			Write(name.ExposureVariant, writer, "exposureVariant", cancellationToken); // 350
-			Write(name.Outcome, writer, "outcome", cancellationToken); // 360
+			Write(name.TitleElement, writer, "title", cancellationToken); // 120
+			switch(name.CiteAs?.TypeName) // 130
+			{
+				case "Reference":
+					Write(name.CiteAs as Hl7.Fhir.Model.ResourceReference, writer, "citeAsReference", cancellationToken); // 130
+					break;
+				case "markdown":
+					Write(name.CiteAs as Hl7.Fhir.Model.Markdown, writer, "citeAsMarkdown", cancellationToken); // 130
+					break;
+			}
+			Write(name.StatusElement, writer, "status", cancellationToken); // 140
+			Write(name.DateElement, writer, "date", cancellationToken); // 150
+			Write(name.UseContext, writer, "useContext", cancellationToken); // 160
+			Write(name.ApprovalDateElement, writer, "approvalDate", cancellationToken); // 170
+			Write(name.LastReviewDateElement, writer, "lastReviewDate", cancellationToken); // 180
+			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 190
+			Write(name.Contact, writer, "contact", cancellationToken); // 200
+			Write(name.Author, writer, "author", cancellationToken); // 210
+			Write(name.Editor, writer, "editor", cancellationToken); // 220
+			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 230
+			Write(name.Endorser, writer, "endorser", cancellationToken); // 240
+			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 250
+			Write(name.Description, writer, "description", cancellationToken); // 260
+			Write(name.Assertion, writer, "assertion", cancellationToken); // 270
+			Write(name.Note, writer, "note", cancellationToken); // 280
+			Write(name.VariableDefinition, writer, "variableDefinition", cancellationToken); // 290
+			Write(name.SynthesisType, writer, "synthesisType", cancellationToken); // 300
+			Write(name.StudyType, writer, "studyType", cancellationToken); // 310
+			Write(name.Statistic, writer, "statistic", cancellationToken); // 320
+			Write(name.Certainty, writer, "certainty", cancellationToken); // 330
+			writer.WriteEndElement();
+		}
+
+		public static void Write(EvidenceReport name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("EvidenceReport", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.UrlElement, writer, "url", cancellationToken); // 90
+			Write(name.StatusElement, writer, "status", cancellationToken); // 100
+			Write(name.UseContext, writer, "useContext", cancellationToken); // 110
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 120
+			Write(name.RelatedIdentifier, writer, "relatedIdentifier", cancellationToken); // 130
+			switch(name.CiteAs?.TypeName) // 140
+			{
+				case "Reference":
+					Write(name.CiteAs as Hl7.Fhir.Model.ResourceReference, writer, "citeAsReference", cancellationToken); // 140
+					break;
+				case "markdown":
+					Write(name.CiteAs as Hl7.Fhir.Model.Markdown, writer, "citeAsMarkdown", cancellationToken); // 140
+					break;
+			}
+			Write(name.Type, writer, "type", cancellationToken); // 150
+			Write(name.Note, writer, "note", cancellationToken); // 160
+			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 170
+			Write(name.Subject, writer, "subject", cancellationToken); // 180
+			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 190
+			Write(name.Contact, writer, "contact", cancellationToken); // 200
+			Write(name.Author, writer, "author", cancellationToken); // 210
+			Write(name.Editor, writer, "editor", cancellationToken); // 220
+			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 230
+			Write(name.Endorser, writer, "endorser", cancellationToken); // 240
+			Write(name.RelatesTo, writer, "relatesTo", cancellationToken); // 250
+			Write(name.Section, writer, "section", cancellationToken); // 260
 			writer.WriteEndElement();
 		}
 
@@ -1617,24 +1695,21 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.SubtitleElement, writer, "subtitle", cancellationToken); // 150
 			Write(name.StatusElement, writer, "status", cancellationToken); // 160
 			Write(name.DateElement, writer, "date", cancellationToken); // 170
-			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 180
-			Write(name.Contact, writer, "contact", cancellationToken); // 190
-			Write(name.Description, writer, "description", cancellationToken); // 200
-			Write(name.Note, writer, "note", cancellationToken); // 210
-			Write(name.UseContext, writer, "useContext", cancellationToken); // 220
-			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 230
-			Write(name.Copyright, writer, "copyright", cancellationToken); // 240
-			Write(name.ApprovalDateElement, writer, "approvalDate", cancellationToken); // 250
-			Write(name.LastReviewDateElement, writer, "lastReviewDate", cancellationToken); // 260
-			Write(name.EffectivePeriod, writer, "effectivePeriod", cancellationToken); // 270
-			Write(name.Topic, writer, "topic", cancellationToken); // 280
-			Write(name.Author, writer, "author", cancellationToken); // 290
-			Write(name.Editor, writer, "editor", cancellationToken); // 300
-			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 310
-			Write(name.Endorser, writer, "endorser", cancellationToken); // 320
-			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 330
-			Write(name.TypeElement, writer, "type", cancellationToken); // 340
-			Write(name.Characteristic, writer, "characteristic", cancellationToken); // 350
+			Write(name.Description, writer, "description", cancellationToken); // 180
+			Write(name.Note, writer, "note", cancellationToken); // 190
+			Write(name.UseContext, writer, "useContext", cancellationToken); // 200
+			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 210
+			Write(name.Contact, writer, "contact", cancellationToken); // 220
+			Write(name.Author, writer, "author", cancellationToken); // 230
+			Write(name.Editor, writer, "editor", cancellationToken); // 240
+			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 250
+			Write(name.Endorser, writer, "endorser", cancellationToken); // 260
+			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 270
+			Write(name.ActualElement, writer, "actual", cancellationToken); // 280
+			Write(name.CharacteristicCombination_Element, writer, "characteristicCombination", cancellationToken); // 290
+			Write(name.Characteristic, writer, "characteristic", cancellationToken); // 300
+			Write(name.HandlingElement, writer, "handling", cancellationToken); // 310
+			Write(name.Category, writer, "category", cancellationToken); // 320
 			writer.WriteEndElement();
 		}
 
@@ -2098,6 +2173,23 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		public static void Write(Ingredient name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("Ingredient", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
+			Write(name.StatusElement, writer, "status", cancellationToken); // 100
+			Write(name.For, writer, "for", cancellationToken); // 110
+			Write(name.Role, writer, "role", cancellationToken); // 120
+			Write(name.Function, writer, "function", cancellationToken); // 130
+			Write(name.AllergenicIndicatorElement, writer, "allergenicIndicator", cancellationToken); // 140
+			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 150
+			Write(name.Substance, writer, "substance", cancellationToken); // 160
+			writer.WriteEndElement();
+		}
+
 		public static void Write(InsurancePlan name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
@@ -2251,6 +2343,22 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.HoursOfOperation, writer, "hoursOfOperation", cancellationToken); // 230
 			Write(name.AvailabilityExceptionsElement, writer, "availabilityExceptions", cancellationToken); // 240
 			Write(name.Endpoint, writer, "endpoint", cancellationToken); // 250
+			writer.WriteEndElement();
+		}
+
+		public static void Write(ManufacturedItemDefinition name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("ManufacturedItemDefinition", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
+			Write(name.StatusElement, writer, "status", cancellationToken); // 100
+			Write(name.ManufacturedDoseForm, writer, "manufacturedDoseForm", cancellationToken); // 110
+			Write(name.UnitOfPresentation, writer, "unitOfPresentation", cancellationToken); // 120
+			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 130
+			Write(name.Ingredient, writer, "ingredient", cancellationToken); // 140
+			Write(name.Property, writer, "property", cancellationToken); // 150
 			writer.WriteEndElement();
 		}
 
@@ -2611,186 +2719,40 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		public static void Write(MedicinalProduct name, XmlWriter writer, CancellationToken cancellationToken)
+		public static void Write(MedicinalProductDefinition name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
-			writer.WriteStartElement("MedicinalProduct", XmlNs.FHIR);
+			writer.WriteStartElement("MedicinalProductDefinition", XmlNs.FHIR);
 			WriteDomainResource(name, writer, cancellationToken);
 			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
 			Write(name.Type, writer, "type", cancellationToken); // 100
 			Write(name.Domain, writer, "domain", cancellationToken); // 110
-			Write(name.CombinedPharmaceuticalDoseForm, writer, "combinedPharmaceuticalDoseForm", cancellationToken); // 120
-			Write(name.LegalStatusOfSupply, writer, "legalStatusOfSupply", cancellationToken); // 130
-			Write(name.AdditionalMonitoringIndicator, writer, "additionalMonitoringIndicator", cancellationToken); // 140
-			Write(name.SpecialMeasuresElement, writer, "specialMeasures", cancellationToken); // 150
-			Write(name.PaediatricUseIndicator, writer, "paediatricUseIndicator", cancellationToken); // 160
-			Write(name.ProductClassification, writer, "productClassification", cancellationToken); // 170
-			Write(name.MarketingStatus, writer, "marketingStatus", cancellationToken); // 180
-			Write(name.PharmaceuticalProduct, writer, "pharmaceuticalProduct", cancellationToken); // 190
-			Write(name.PackagedMedicinalProduct, writer, "packagedMedicinalProduct", cancellationToken); // 200
-			Write(name.AttachedDocument, writer, "attachedDocument", cancellationToken); // 210
-			Write(name.MasterFile, writer, "masterFile", cancellationToken); // 220
-			Write(name.Contact, writer, "contact", cancellationToken); // 230
-			Write(name.ClinicalTrial, writer, "clinicalTrial", cancellationToken); // 240
-			Write(name.Name, writer, "name", cancellationToken); // 250
-			Write(name.CrossReference, writer, "crossReference", cancellationToken); // 260
-			Write(name.ManufacturingBusinessOperation, writer, "manufacturingBusinessOperation", cancellationToken); // 270
-			Write(name.SpecialDesignation, writer, "specialDesignation", cancellationToken); // 280
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductAuthorization name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductAuthorization", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
-			Write(name.Subject, writer, "subject", cancellationToken); // 100
-			Write(name.Country, writer, "country", cancellationToken); // 110
-			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 120
+			Write(name.VersionElement, writer, "version", cancellationToken); // 120
 			Write(name.Status, writer, "status", cancellationToken); // 130
 			Write(name.StatusDateElement, writer, "statusDate", cancellationToken); // 140
-			Write(name.RestoreDateElement, writer, "restoreDate", cancellationToken); // 150
-			Write(name.ValidityPeriod, writer, "validityPeriod", cancellationToken); // 160
-			Write(name.DataExclusivityPeriod, writer, "dataExclusivityPeriod", cancellationToken); // 170
-			Write(name.DateOfFirstAuthorizationElement, writer, "dateOfFirstAuthorization", cancellationToken); // 180
-			Write(name.InternationalBirthDateElement, writer, "internationalBirthDate", cancellationToken); // 190
-			Write(name.LegalBasis, writer, "legalBasis", cancellationToken); // 200
-			Write(name.JurisdictionalAuthorization, writer, "jurisdictionalAuthorization", cancellationToken); // 210
-			Write(name.Holder, writer, "holder", cancellationToken); // 220
-			Write(name.Regulator, writer, "regulator", cancellationToken); // 230
-			Write(name.Procedure, writer, "procedure", cancellationToken); // 240
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductContraindication name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductContraindication", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Subject, writer, "subject", cancellationToken); // 90
-			Write(name.Disease, writer, "disease", cancellationToken); // 100
-			Write(name.DiseaseStatus, writer, "diseaseStatus", cancellationToken); // 110
-			Write(name.Comorbidity, writer, "comorbidity", cancellationToken); // 120
-			Write(name.TherapeuticIndication, writer, "therapeuticIndication", cancellationToken); // 130
-			Write(name.OtherTherapy, writer, "otherTherapy", cancellationToken); // 140
-			Write(name.Population, writer, "population", cancellationToken); // 150
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductIndication name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductIndication", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Subject, writer, "subject", cancellationToken); // 90
-			Write(name.DiseaseSymptomProcedure, writer, "diseaseSymptomProcedure", cancellationToken); // 100
-			Write(name.DiseaseStatus, writer, "diseaseStatus", cancellationToken); // 110
-			Write(name.Comorbidity, writer, "comorbidity", cancellationToken); // 120
-			Write(name.IntendedEffect, writer, "intendedEffect", cancellationToken); // 130
-			Write(name.Duration, writer, "duration", cancellationToken); // 140
-			Write(name.OtherTherapy, writer, "otherTherapy", cancellationToken); // 150
-			Write(name.UndesirableEffect, writer, "undesirableEffect", cancellationToken); // 160
-			Write(name.Population, writer, "population", cancellationToken); // 170
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductIngredient name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductIngredient", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
-			Write(name.Role, writer, "role", cancellationToken); // 100
-			Write(name.AllergenicIndicatorElement, writer, "allergenicIndicator", cancellationToken); // 110
-			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 120
-			Write(name.SpecifiedSubstance, writer, "specifiedSubstance", cancellationToken); // 130
-			Write(name.Substance, writer, "substance", cancellationToken); // 140
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductInteraction name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductInteraction", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Subject, writer, "subject", cancellationToken); // 90
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 100
-			Write(name.Interactant, writer, "interactant", cancellationToken); // 110
-			Write(name.Type, writer, "type", cancellationToken); // 120
-			Write(name.Effect, writer, "effect", cancellationToken); // 130
-			Write(name.Incidence, writer, "incidence", cancellationToken); // 140
-			Write(name.Management, writer, "management", cancellationToken); // 150
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductManufactured name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductManufactured", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.ManufacturedDoseForm, writer, "manufacturedDoseForm", cancellationToken); // 90
-			Write(name.UnitOfPresentation, writer, "unitOfPresentation", cancellationToken); // 100
-			Write(name.Quantity, writer, "quantity", cancellationToken); // 110
-			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 120
-			Write(name.Ingredient, writer, "ingredient", cancellationToken); // 130
-			Write(name.PhysicalCharacteristics, writer, "physicalCharacteristics", cancellationToken); // 140
-			Write(name.OtherCharacteristics, writer, "otherCharacteristics", cancellationToken); // 150
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductPackaged name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductPackaged", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
-			Write(name.Subject, writer, "subject", cancellationToken); // 100
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 110
-			Write(name.LegalStatusOfSupply, writer, "legalStatusOfSupply", cancellationToken); // 120
-			Write(name.MarketingStatus, writer, "marketingStatus", cancellationToken); // 130
-			Write(name.MarketingAuthorization, writer, "marketingAuthorization", cancellationToken); // 140
-			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 150
-			Write(name.BatchIdentifier, writer, "batchIdentifier", cancellationToken); // 160
-			Write(name.PackageItem, writer, "packageItem", cancellationToken); // 170
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductPharmaceutical name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductPharmaceutical", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
-			Write(name.AdministrableDoseForm, writer, "administrableDoseForm", cancellationToken); // 100
-			Write(name.UnitOfPresentation, writer, "unitOfPresentation", cancellationToken); // 110
-			Write(name.Ingredient, writer, "ingredient", cancellationToken); // 120
-			Write(name.Device, writer, "device", cancellationToken); // 130
-			Write(name.Characteristics, writer, "characteristics", cancellationToken); // 140
-			Write(name.RouteOfAdministration, writer, "routeOfAdministration", cancellationToken); // 150
-			writer.WriteEndElement();
-		}
-
-		public static void Write(MedicinalProductUndesirableEffect name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("MedicinalProductUndesirableEffect", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Subject, writer, "subject", cancellationToken); // 90
-			Write(name.SymptomConditionEffect, writer, "symptomConditionEffect", cancellationToken); // 100
-			Write(name.Classification, writer, "classification", cancellationToken); // 110
-			Write(name.FrequencyOfOccurrence, writer, "frequencyOfOccurrence", cancellationToken); // 120
-			Write(name.Population, writer, "population", cancellationToken); // 130
+			Write(name.Description, writer, "description", cancellationToken); // 150
+			Write(name.CombinedPharmaceuticalDoseForm, writer, "combinedPharmaceuticalDoseForm", cancellationToken); // 160
+			Write(name.Route, writer, "route", cancellationToken); // 170
+			Write(name.Indication, writer, "indication", cancellationToken); // 180
+			Write(name.LegalStatusOfSupply, writer, "legalStatusOfSupply", cancellationToken); // 190
+			Write(name.AdditionalMonitoringIndicator, writer, "additionalMonitoringIndicator", cancellationToken); // 200
+			Write(name.SpecialMeasures, writer, "specialMeasures", cancellationToken); // 210
+			Write(name.PediatricUseIndicator, writer, "pediatricUseIndicator", cancellationToken); // 220
+			Write(name.Classification, writer, "classification", cancellationToken); // 230
+			Write(name.MarketingStatus, writer, "marketingStatus", cancellationToken); // 240
+			Write(name.PackagedMedicinalProduct, writer, "packagedMedicinalProduct", cancellationToken); // 250
+			Write(name.Ingredient, writer, "ingredient", cancellationToken); // 260
+			Write(name.Impurity, writer, "impurity", cancellationToken); // 270
+			Write(name.AttachedDocument, writer, "attachedDocument", cancellationToken); // 280
+			Write(name.MasterFile, writer, "masterFile", cancellationToken); // 290
+			Write(name.Contact, writer, "contact", cancellationToken); // 300
+			Write(name.ClinicalTrial, writer, "clinicalTrial", cancellationToken); // 310
+			Write(name.Code, writer, "code", cancellationToken); // 320
+			Write(name.Name, writer, "name", cancellationToken); // 330
+			Write(name.CrossReference, writer, "crossReference", cancellationToken); // 340
+			Write(name.Operation, writer, "operation", cancellationToken); // 350
+			Write(name.Characteristic, writer, "characteristic", cancellationToken); // 360
 			writer.WriteEndElement();
 		}
 
@@ -2933,6 +2895,25 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Supplement, writer, "supplement", cancellationToken); // 230
 			Write(name.EnteralFormula, writer, "enteralFormula", cancellationToken); // 240
 			Write(name.Note, writer, "note", cancellationToken); // 250
+			writer.WriteEndElement();
+		}
+
+		public static void Write(NutritionProduct name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("NutritionProduct", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.StatusElement, writer, "status", cancellationToken); // 90
+			Write(name.Category, writer, "category", cancellationToken); // 100
+			Write(name.Code, writer, "code", cancellationToken); // 110
+			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 120
+			Write(name.Nutrient, writer, "nutrient", cancellationToken); // 130
+			Write(name.Ingredient, writer, "ingredient", cancellationToken); // 140
+			Write(name.KnownAllergen, writer, "knownAllergen", cancellationToken); // 150
+			Write(name.ProductCharacteristic, writer, "productCharacteristic", cancellationToken); // 160
+			Write(name.Instance, writer, "instance", cancellationToken); // 170
+			Write(name.Note, writer, "note", cancellationToken); // 180
 			writer.WriteEndElement();
 		}
 
@@ -3125,6 +3106,29 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		public static void Write(PackagedProductDefinition name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("PackagedProductDefinition", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
+			Write(name.NameElement, writer, "name", cancellationToken); // 100
+			Write(name.Type, writer, "type", cancellationToken); // 110
+			Write(name.PackageFor, writer, "packageFor", cancellationToken); // 120
+			Write(name.Status, writer, "status", cancellationToken); // 130
+			Write(name.StatusDateElement, writer, "statusDate", cancellationToken); // 140
+			Write(name.ContainedItemQuantity, writer, "containedItemQuantity", cancellationToken); // 150
+			Write(name.Description, writer, "description", cancellationToken); // 160
+			Write(name.LegalStatusOfSupply, writer, "legalStatusOfSupply", cancellationToken); // 170
+			Write(name.MarketingStatus, writer, "marketingStatus", cancellationToken); // 180
+			Write(name.Characteristic, writer, "characteristic", cancellationToken); // 190
+			Write(name.CopackagedIndicatorElement, writer, "copackagedIndicator", cancellationToken); // 200
+			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 210
+			Write(name.Package, writer, "package", cancellationToken); // 220
+			writer.WriteEndElement();
+		}
+
 		public static void Write(Parameters name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
@@ -3262,6 +3266,9 @@ namespace Hl7.Fhir.CustomSerializer
 					break;
 				case "Reference":
 					Write(name.Subject as Hl7.Fhir.Model.ResourceReference, writer, "subjectReference", cancellationToken); // 180
+					break;
+				case "canonical":
+					Write(name.Subject as Hl7.Fhir.Model.Canonical, writer, "subjectCanonical", cancellationToken); // 180
 					break;
 			}
 			Write(name.DateElement, writer, "date", cancellationToken); // 190
@@ -3462,6 +3469,29 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		public static void Write(RegulatedAuthorization name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("RegulatedAuthorization", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
+			Write(name.Subject, writer, "subject", cancellationToken); // 100
+			Write(name.Type, writer, "type", cancellationToken); // 110
+			Write(name.Description, writer, "description", cancellationToken); // 120
+			Write(name.Region, writer, "region", cancellationToken); // 130
+			Write(name.Status, writer, "status", cancellationToken); // 140
+			Write(name.StatusDateElement, writer, "statusDate", cancellationToken); // 150
+			Write(name.ValidityPeriod, writer, "validityPeriod", cancellationToken); // 160
+			Write(name.Indication, writer, "indication", cancellationToken); // 170
+			Write(name.IntendedUse, writer, "intendedUse", cancellationToken); // 180
+			Write(name.Basis, writer, "basis", cancellationToken); // 190
+			Write(name.Holder, writer, "holder", cancellationToken); // 200
+			Write(name.Regulator, writer, "regulator", cancellationToken); // 210
+			Write(name.Case, writer, "case", cancellationToken); // 220
+			writer.WriteEndElement();
+		}
+
 		public static void Write(RelatedPerson name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
@@ -3606,7 +3636,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 370
 			Write(name.LibraryElement, writer, "library", cancellationToken); // 380
 			Write(name.TypeElement, writer, "type", cancellationToken); // 390
-			Write(name.VariableTypeElement, writer, "variableType", cancellationToken); // 400
+			Write(name.VariableType_Element, writer, "variableType", cancellationToken); // 400
 			Write(name.Characteristic, writer, "characteristic", cancellationToken); // 410
 			writer.WriteEndElement();
 		}
@@ -3692,46 +3722,6 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Prediction, writer, "prediction", cancellationToken); // 230
 			Write(name.MitigationElement, writer, "mitigation", cancellationToken); // 240
 			Write(name.Note, writer, "note", cancellationToken); // 250
-			writer.WriteEndElement();
-		}
-
-		public static void Write(RiskEvidenceSynthesis name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("RiskEvidenceSynthesis", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.UrlElement, writer, "url", cancellationToken); // 90
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 100
-			Write(name.VersionElement, writer, "version", cancellationToken); // 110
-			Write(name.NameElement, writer, "name", cancellationToken); // 120
-			Write(name.TitleElement, writer, "title", cancellationToken); // 130
-			Write(name.StatusElement, writer, "status", cancellationToken); // 140
-			Write(name.DateElement, writer, "date", cancellationToken); // 150
-			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 160
-			Write(name.Contact, writer, "contact", cancellationToken); // 170
-			Write(name.Description, writer, "description", cancellationToken); // 180
-			Write(name.Note, writer, "note", cancellationToken); // 190
-			Write(name.UseContext, writer, "useContext", cancellationToken); // 200
-			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 210
-			Write(name.Copyright, writer, "copyright", cancellationToken); // 220
-			Write(name.ApprovalDateElement, writer, "approvalDate", cancellationToken); // 230
-			Write(name.LastReviewDateElement, writer, "lastReviewDate", cancellationToken); // 240
-			Write(name.EffectivePeriod, writer, "effectivePeriod", cancellationToken); // 250
-			Write(name.Topic, writer, "topic", cancellationToken); // 260
-			Write(name.Author, writer, "author", cancellationToken); // 270
-			Write(name.Editor, writer, "editor", cancellationToken); // 280
-			Write(name.Reviewer, writer, "reviewer", cancellationToken); // 290
-			Write(name.Endorser, writer, "endorser", cancellationToken); // 300
-			Write(name.RelatedArtifact, writer, "relatedArtifact", cancellationToken); // 310
-			Write(name.SynthesisType, writer, "synthesisType", cancellationToken); // 320
-			Write(name.StudyType, writer, "studyType", cancellationToken); // 330
-			Write(name.Population, writer, "population", cancellationToken); // 340
-			Write(name.Exposure, writer, "exposure", cancellationToken); // 350
-			Write(name.Outcome, writer, "outcome", cancellationToken); // 360
-			Write(name.SampleSize, writer, "sampleSize", cancellationToken); // 370
-			Write(name.RiskEstimate, writer, "riskEstimate", cancellationToken); // 380
-			Write(name.Certainty, writer, "certainty", cancellationToken); // 390
 			writer.WriteEndElement();
 		}
 
@@ -3995,6 +3985,53 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		public static void Write(SubscriptionStatus name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("SubscriptionStatus", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.StatusElement, writer, "status", cancellationToken); // 90
+			Write(name.TypeElement, writer, "type", cancellationToken); // 100
+			Write(name.EventsSinceSubscriptionStartElement, writer, "eventsSinceSubscriptionStart", cancellationToken); // 110
+			Write(name.NotificationEvent, writer, "notificationEvent", cancellationToken); // 120
+			Write(name.Subscription, writer, "subscription", cancellationToken); // 130
+			Write(name.TopicElement, writer, "topic", cancellationToken); // 140
+			Write(name.Error, writer, "error", cancellationToken); // 150
+			writer.WriteEndElement();
+		}
+
+		public static void Write(SubscriptionTopic name, XmlWriter writer, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement("SubscriptionTopic", XmlNs.FHIR);
+			WriteDomainResource(name, writer, cancellationToken);
+			Write(name.UrlElement, writer, "url", cancellationToken); // 90
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 100
+			Write(name.VersionElement, writer, "version", cancellationToken); // 110
+			Write(name.TitleElement, writer, "title", cancellationToken); // 120
+			Write(name.DerivedFromElement, writer, "derivedFrom", cancellationToken); // 130
+			Write(name.StatusElement, writer, "status", cancellationToken); // 140
+			Write(name.ExperimentalElement, writer, "experimental", cancellationToken); // 150
+			Write(name.DateElement, writer, "date", cancellationToken); // 160
+			Write(name.PublisherElement, writer, "publisher", cancellationToken); // 170
+			Write(name.Contact, writer, "contact", cancellationToken); // 180
+			Write(name.Description, writer, "description", cancellationToken); // 190
+			Write(name.UseContext, writer, "useContext", cancellationToken); // 200
+			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 210
+			Write(name.Purpose, writer, "purpose", cancellationToken); // 220
+			Write(name.Copyright, writer, "copyright", cancellationToken); // 230
+			Write(name.ApprovalDateElement, writer, "approvalDate", cancellationToken); // 240
+			Write(name.LastReviewDateElement, writer, "lastReviewDate", cancellationToken); // 250
+			Write(name.EffectivePeriod, writer, "effectivePeriod", cancellationToken); // 260
+			Write(name.ResourceTrigger, writer, "resourceTrigger", cancellationToken); // 270
+			Write(name.EventTrigger, writer, "eventTrigger", cancellationToken); // 280
+			Write(name.CanFilterBy, writer, "canFilterBy", cancellationToken); // 290
+			Write(name.NotificationShape, writer, "notificationShape", cancellationToken); // 300
+			writer.WriteEndElement();
+		}
+
 		public static void Write(Substance name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
@@ -4011,108 +4048,30 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		public static void Write(SubstanceNucleicAcid name, XmlWriter writer, CancellationToken cancellationToken)
+		public static void Write(SubstanceDefinition name, XmlWriter writer, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
-			writer.WriteStartElement("SubstanceNucleicAcid", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.SequenceType, writer, "sequenceType", cancellationToken); // 90
-			Write(name.NumberOfSubunitsElement, writer, "numberOfSubunits", cancellationToken); // 100
-			Write(name.AreaOfHybridisationElement, writer, "areaOfHybridisation", cancellationToken); // 110
-			Write(name.OligoNucleotideType, writer, "oligoNucleotideType", cancellationToken); // 120
-			Write(name.Subunit, writer, "subunit", cancellationToken); // 130
-			writer.WriteEndElement();
-		}
-
-		public static void Write(SubstancePolymer name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("SubstancePolymer", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.Class, writer, "class", cancellationToken); // 90
-			Write(name.Geometry, writer, "geometry", cancellationToken); // 100
-			Write(name.CopolymerConnectivity, writer, "copolymerConnectivity", cancellationToken); // 110
-			Write(name.ModificationElement, writer, "modification", cancellationToken); // 120
-			Write(name.MonomerSet, writer, "monomerSet", cancellationToken); // 130
-			Write(name.Repeat, writer, "repeat", cancellationToken); // 140
-			writer.WriteEndElement();
-		}
-
-		public static void Write(SubstanceProtein name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("SubstanceProtein", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.SequenceType, writer, "sequenceType", cancellationToken); // 90
-			Write(name.NumberOfSubunitsElement, writer, "numberOfSubunits", cancellationToken); // 100
-			Write(name.DisulfideLinkageElement, writer, "disulfideLinkage", cancellationToken); // 110
-			Write(name.Subunit, writer, "subunit", cancellationToken); // 120
-			writer.WriteEndElement();
-		}
-
-		public static void Write(SubstanceReferenceInformation name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("SubstanceReferenceInformation", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.CommentElement, writer, "comment", cancellationToken); // 90
-			Write(name.Gene, writer, "gene", cancellationToken); // 100
-			Write(name.GeneElement, writer, "geneElement", cancellationToken); // 110
-			Write(name.Classification, writer, "classification", cancellationToken); // 120
-			Write(name.Target, writer, "target", cancellationToken); // 130
-			writer.WriteEndElement();
-		}
-
-		public static void Write(SubstanceSourceMaterial name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("SubstanceSourceMaterial", XmlNs.FHIR);
-			WriteDomainResource(name, writer, cancellationToken);
-			Write(name.SourceMaterialClass, writer, "sourceMaterialClass", cancellationToken); // 90
-			Write(name.SourceMaterialType, writer, "sourceMaterialType", cancellationToken); // 100
-			Write(name.SourceMaterialState, writer, "sourceMaterialState", cancellationToken); // 110
-			Write(name.OrganismId, writer, "organismId", cancellationToken); // 120
-			Write(name.OrganismNameElement, writer, "organismName", cancellationToken); // 130
-			Write(name.ParentSubstanceId, writer, "parentSubstanceId", cancellationToken); // 140
-			Write(name.ParentSubstanceNameElement, writer, "parentSubstanceName", cancellationToken); // 150
-			Write(name.CountryOfOrigin, writer, "countryOfOrigin", cancellationToken); // 160
-			Write(name.GeographicalLocationElement, writer, "geographicalLocation", cancellationToken); // 170
-			Write(name.DevelopmentStage, writer, "developmentStage", cancellationToken); // 180
-			Write(name.FractionDescription, writer, "fractionDescription", cancellationToken); // 190
-			Write(name.Organism, writer, "organism", cancellationToken); // 200
-			Write(name.PartDescription, writer, "partDescription", cancellationToken); // 210
-			writer.WriteEndElement();
-		}
-
-		public static void Write(SubstanceSpecification name, XmlWriter writer, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement("SubstanceSpecification", XmlNs.FHIR);
+			writer.WriteStartElement("SubstanceDefinition", XmlNs.FHIR);
 			WriteDomainResource(name, writer, cancellationToken);
 			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
-			Write(name.Type, writer, "type", cancellationToken); // 100
+			Write(name.VersionElement, writer, "version", cancellationToken); // 100
 			Write(name.Status, writer, "status", cancellationToken); // 110
-			Write(name.Domain, writer, "domain", cancellationToken); // 120
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 130
-			Write(name.Source, writer, "source", cancellationToken); // 140
-			Write(name.CommentElement, writer, "comment", cancellationToken); // 150
-			Write(name.Moiety, writer, "moiety", cancellationToken); // 160
-			Write(name.Property, writer, "property", cancellationToken); // 170
-			Write(name.ReferenceInformation, writer, "referenceInformation", cancellationToken); // 180
-			Write(name.Structure, writer, "structure", cancellationToken); // 190
-			Write(name.Code, writer, "code", cancellationToken); // 200
-			Write(name.Name, writer, "name", cancellationToken); // 210
+			Write(name.Classification, writer, "classification", cancellationToken); // 120
+			Write(name.Domain, writer, "domain", cancellationToken); // 130
+			Write(name.Grade, writer, "grade", cancellationToken); // 140
+			Write(name.Description, writer, "description", cancellationToken); // 150
+			Write(name.InformationSource, writer, "informationSource", cancellationToken); // 160
+			Write(name.Note, writer, "note", cancellationToken); // 170
+			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 180
+			Write(name.Supplier, writer, "supplier", cancellationToken); // 190
+			Write(name.Moiety, writer, "moiety", cancellationToken); // 200
+			Write(name.Property, writer, "property", cancellationToken); // 210
 			Write(name.MolecularWeight, writer, "molecularWeight", cancellationToken); // 220
-			Write(name.Relationship, writer, "relationship", cancellationToken); // 230
-			Write(name.NucleicAcid, writer, "nucleicAcid", cancellationToken); // 240
-			Write(name.Polymer, writer, "polymer", cancellationToken); // 250
-			Write(name.Protein, writer, "protein", cancellationToken); // 260
+			Write(name.Structure, writer, "structure", cancellationToken); // 230
+			Write(name.Code, writer, "code", cancellationToken); // 240
+			Write(name.Name, writer, "name", cancellationToken); // 250
+			Write(name.Relationship, writer, "relationship", cancellationToken); // 260
 			Write(name.SourceMaterial, writer, "sourceMaterial", cancellationToken); // 270
 			writer.WriteEndElement();
 		}
@@ -4476,14 +4435,35 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.BackboneType
+		public static void Write(Hl7.Fhir.Model.BackboneType name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Base
+		public static void Write(Hl7.Fhir.Model.Base name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.Base64Binary
 		public static void Write(Hl7.Fhir.Model.Base64Binary name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -4494,8 +4474,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -4506,8 +4486,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -4518,8 +4498,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -4534,6 +4514,19 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.Coding, writer, "coding", cancellationToken); // 30
 			Write(name.TextElement, writer, "text", cancellationToken); // 40
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.CodeableReference
+		public static void Write(Hl7.Fhir.Model.CodeableReference name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.Concept, writer, "concept", cancellationToken); // 30
+			Write(name.Reference, writer, "reference", cancellationToken); // 40
 			writer.WriteEndElement();
 		}
 
@@ -4647,10 +4640,10 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.PathElement, writer, "path", cancellationToken); // 40
-			Write(name.SearchParamElement, writer, "searchParam", cancellationToken); // 50
-			Write(name.ValueSetElement, writer, "valueSet", cancellationToken); // 60
-			Write(name.Code, writer, "code", cancellationToken); // 70
+			Write(name.PathElement, writer, "path", cancellationToken); // 30
+			Write(name.SearchParamElement, writer, "searchParam", cancellationToken); // 40
+			Write(name.ValueSetElement, writer, "valueSet", cancellationToken); // 50
+			Write(name.Code, writer, "code", cancellationToken); // 60
 			writer.WriteEndElement();
 		}
 
@@ -4662,18 +4655,18 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.PathElement, writer, "path", cancellationToken); // 40
-			Write(name.SearchParamElement, writer, "searchParam", cancellationToken); // 50
-			switch(name.Value?.TypeName) // 60
+			Write(name.PathElement, writer, "path", cancellationToken); // 30
+			Write(name.SearchParamElement, writer, "searchParam", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
 			{
 				case "dateTime":
-					Write(name.Value as Hl7.Fhir.Model.FhirDateTime, writer, "valueDateTime", cancellationToken); // 60
+					Write(name.Value as Hl7.Fhir.Model.FhirDateTime, writer, "valueDateTime", cancellationToken); // 50
 					break;
 				case "Period":
-					Write(name.Value as Hl7.Fhir.Model.Period, writer, "valuePeriod", cancellationToken); // 60
+					Write(name.Value as Hl7.Fhir.Model.Period, writer, "valuePeriod", cancellationToken); // 50
 					break;
 				case "Duration":
-					Write(name.Value as Hl7.Fhir.Model.Duration, writer, "valueDuration", cancellationToken); // 60
+					Write(name.Value as Hl7.Fhir.Model.Duration, writer, "valueDuration", cancellationToken); // 50
 					break;
 			}
 			writer.WriteEndElement();
@@ -4687,8 +4680,19 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.PathElement, writer, "path", cancellationToken); // 40
-			Write(name.DirectionElement, writer, "direction", cancellationToken); // 50
+			Write(name.PathElement, writer, "path", cancellationToken); // 30
+			Write(name.DirectionElement, writer, "direction", cancellationToken); // 40
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.DataType
+		public static void Write(Hl7.Fhir.Model.DataType name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
 
@@ -4698,8 +4702,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -4710,8 +4714,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -4722,8 +4726,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -4753,27 +4757,27 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.SequenceElement, writer, "sequence", cancellationToken); // 90
-			Write(name.TextElement, writer, "text", cancellationToken); // 100
-			Write(name.AdditionalInstruction, writer, "additionalInstruction", cancellationToken); // 110
-			Write(name.PatientInstructionElement, writer, "patientInstruction", cancellationToken); // 120
-			Write(name.Timing, writer, "timing", cancellationToken); // 130
-			switch(name.AsNeeded?.TypeName) // 140
+			Write(name.SequenceElement, writer, "sequence", cancellationToken); // 40
+			Write(name.TextElement, writer, "text", cancellationToken); // 50
+			Write(name.AdditionalInstruction, writer, "additionalInstruction", cancellationToken); // 60
+			Write(name.PatientInstructionElement, writer, "patientInstruction", cancellationToken); // 70
+			Write(name.Timing, writer, "timing", cancellationToken); // 80
+			switch(name.AsNeeded?.TypeName) // 90
 			{
 				case "boolean":
-					Write(name.AsNeeded as Hl7.Fhir.Model.FhirBoolean, writer, "asNeededBoolean", cancellationToken); // 140
+					Write(name.AsNeeded as Hl7.Fhir.Model.FhirBoolean, writer, "asNeededBoolean", cancellationToken); // 90
 					break;
 				case "CodeableConcept":
-					Write(name.AsNeeded as Hl7.Fhir.Model.CodeableConcept, writer, "asNeededCodeableConcept", cancellationToken); // 140
+					Write(name.AsNeeded as Hl7.Fhir.Model.CodeableConcept, writer, "asNeededCodeableConcept", cancellationToken); // 90
 					break;
 			}
-			Write(name.Site, writer, "site", cancellationToken); // 150
-			Write(name.Route, writer, "route", cancellationToken); // 160
-			Write(name.Method, writer, "method", cancellationToken); // 170
-			Write(name.DoseAndRate, writer, "doseAndRate", cancellationToken); // 180
-			Write(name.MaxDosePerPeriod, writer, "maxDosePerPeriod", cancellationToken); // 190
-			Write(name.MaxDosePerAdministration, writer, "maxDosePerAdministration", cancellationToken); // 200
-			Write(name.MaxDosePerLifetime, writer, "maxDosePerLifetime", cancellationToken); // 210
+			Write(name.Site, writer, "site", cancellationToken); // 100
+			Write(name.Route, writer, "route", cancellationToken); // 110
+			Write(name.Method, writer, "method", cancellationToken); // 120
+			Write(name.DoseAndRate, writer, "doseAndRate", cancellationToken); // 130
+			Write(name.MaxDosePerPeriod, writer, "maxDosePerPeriod", cancellationToken); // 140
+			Write(name.MaxDosePerAdministration, writer, "maxDosePerAdministration", cancellationToken); // 150
+			Write(name.MaxDosePerLifetime, writer, "maxDosePerLifetime", cancellationToken); // 160
 			writer.WriteEndElement();
 		}
 
@@ -4785,26 +4789,26 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.Type, writer, "type", cancellationToken); // 40
-			switch(name.Dose?.TypeName) // 50
+			Write(name.Type, writer, "type", cancellationToken); // 30
+			switch(name.Dose?.TypeName) // 40
 			{
 				case "Range":
-					Write(name.Dose as Hl7.Fhir.Model.Range, writer, "doseRange", cancellationToken); // 50
+					Write(name.Dose as Hl7.Fhir.Model.Range, writer, "doseRange", cancellationToken); // 40
 					break;
 				case "Quantity":
-					Write(name.Dose as Hl7.Fhir.Model.Quantity, writer, "doseQuantity", cancellationToken); // 50
+					Write(name.Dose as Hl7.Fhir.Model.Quantity, writer, "doseQuantity", cancellationToken); // 40
 					break;
 			}
-			switch(name.Rate?.TypeName) // 60
+			switch(name.Rate?.TypeName) // 50
 			{
 				case "Ratio":
-					Write(name.Rate as Hl7.Fhir.Model.Ratio, writer, "rateRatio", cancellationToken); // 60
+					Write(name.Rate as Hl7.Fhir.Model.Ratio, writer, "rateRatio", cancellationToken); // 50
 					break;
 				case "Range":
-					Write(name.Rate as Hl7.Fhir.Model.Range, writer, "rateRange", cancellationToken); // 60
+					Write(name.Rate as Hl7.Fhir.Model.Range, writer, "rateRange", cancellationToken); // 50
 					break;
 				case "Quantity":
-					Write(name.Rate as Hl7.Fhir.Model.Quantity, writer, "rateQuantity", cancellationToken); // 60
+					Write(name.Rate as Hl7.Fhir.Model.Quantity, writer, "rateQuantity", cancellationToken); // 50
 					break;
 			}
 			writer.WriteEndElement();
@@ -4819,554 +4823,563 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.PathElement, writer, "path", cancellationToken); // 90
-			Write(name.RepresentationElement, writer, "representation", cancellationToken); // 100
-			Write(name.SliceNameElement, writer, "sliceName", cancellationToken); // 110
-			Write(name.SliceIsConstrainingElement, writer, "sliceIsConstraining", cancellationToken); // 120
-			Write(name.LabelElement, writer, "label", cancellationToken); // 130
-			Write(name.Code, writer, "code", cancellationToken); // 140
-			Write(name.Slicing, writer, "slicing", cancellationToken); // 150
-			Write(name.ShortElement, writer, "short", cancellationToken); // 160
-			Write(name.Definition, writer, "definition", cancellationToken); // 170
-			Write(name.Comment, writer, "comment", cancellationToken); // 180
-			Write(name.Requirements, writer, "requirements", cancellationToken); // 190
-			Write(name.AliasElement, writer, "alias", cancellationToken); // 200
-			Write(name.MinElement, writer, "min", cancellationToken); // 210
-			Write(name.MaxElement, writer, "max", cancellationToken); // 220
-			Write(name.Base, writer, "base", cancellationToken); // 230
-			Write(name.ContentReferenceElement, writer, "contentReference", cancellationToken); // 240
-			Write(name.Type, writer, "type", cancellationToken); // 250
-			switch(name.DefaultValue?.TypeName) // 260
+			Write(name.PathElement, writer, "path", cancellationToken); // 40
+			Write(name.RepresentationElement, writer, "representation", cancellationToken); // 50
+			Write(name.SliceNameElement, writer, "sliceName", cancellationToken); // 60
+			Write(name.SliceIsConstrainingElement, writer, "sliceIsConstraining", cancellationToken); // 70
+			Write(name.LabelElement, writer, "label", cancellationToken); // 80
+			Write(name.Code, writer, "code", cancellationToken); // 90
+			Write(name.Slicing, writer, "slicing", cancellationToken); // 100
+			Write(name.ShortElement, writer, "short", cancellationToken); // 110
+			Write(name.Definition, writer, "definition", cancellationToken); // 120
+			Write(name.Comment, writer, "comment", cancellationToken); // 130
+			Write(name.Requirements, writer, "requirements", cancellationToken); // 140
+			Write(name.AliasElement, writer, "alias", cancellationToken); // 150
+			Write(name.MinElement, writer, "min", cancellationToken); // 160
+			Write(name.MaxElement, writer, "max", cancellationToken); // 170
+			Write(name.Base, writer, "base", cancellationToken); // 180
+			Write(name.ContentReferenceElement, writer, "contentReference", cancellationToken); // 190
+			Write(name.Type, writer, "type", cancellationToken); // 200
+			switch(name.DefaultValue?.TypeName) // 210
 			{
 				case "base64Binary":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Base64Binary, writer, "defaultValueBase64Binary", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Base64Binary, writer, "defaultValueBase64Binary", cancellationToken); // 210
 					break;
 				case "boolean":
-					Write(name.DefaultValue as Hl7.Fhir.Model.FhirBoolean, writer, "defaultValueBoolean", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.FhirBoolean, writer, "defaultValueBoolean", cancellationToken); // 210
 					break;
 				case "canonical":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Canonical, writer, "defaultValueCanonical", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Canonical, writer, "defaultValueCanonical", cancellationToken); // 210
 					break;
 				case "code":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Code, writer, "defaultValueCode", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Code, writer, "defaultValueCode", cancellationToken); // 210
 					break;
 				case "date":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Date, writer, "defaultValueDate", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Date, writer, "defaultValueDate", cancellationToken); // 210
 					break;
 				case "dateTime":
-					Write(name.DefaultValue as Hl7.Fhir.Model.FhirDateTime, writer, "defaultValueDateTime", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.FhirDateTime, writer, "defaultValueDateTime", cancellationToken); // 210
 					break;
 				case "decimal":
-					Write(name.DefaultValue as Hl7.Fhir.Model.FhirDecimal, writer, "defaultValueDecimal", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.FhirDecimal, writer, "defaultValueDecimal", cancellationToken); // 210
 					break;
 				case "id":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Id, writer, "defaultValueId", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Id, writer, "defaultValueId", cancellationToken); // 210
 					break;
 				case "instant":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Instant, writer, "defaultValueInstant", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Instant, writer, "defaultValueInstant", cancellationToken); // 210
 					break;
 				case "integer":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Integer, writer, "defaultValueInteger", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Integer, writer, "defaultValueInteger", cancellationToken); // 210
 					break;
 				case "markdown":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Markdown, writer, "defaultValueMarkdown", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Markdown, writer, "defaultValueMarkdown", cancellationToken); // 210
 					break;
 				case "oid":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Oid, writer, "defaultValueOid", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Oid, writer, "defaultValueOid", cancellationToken); // 210
 					break;
 				case "positiveInt":
-					Write(name.DefaultValue as Hl7.Fhir.Model.PositiveInt, writer, "defaultValuePositiveInt", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.PositiveInt, writer, "defaultValuePositiveInt", cancellationToken); // 210
 					break;
 				case "string":
-					Write(name.DefaultValue as Hl7.Fhir.Model.FhirString, writer, "defaultValueString", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.FhirString, writer, "defaultValueString", cancellationToken); // 210
 					break;
 				case "time":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Time, writer, "defaultValueTime", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Time, writer, "defaultValueTime", cancellationToken); // 210
 					break;
 				case "unsignedInt":
-					Write(name.DefaultValue as Hl7.Fhir.Model.UnsignedInt, writer, "defaultValueUnsignedInt", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.UnsignedInt, writer, "defaultValueUnsignedInt", cancellationToken); // 210
 					break;
 				case "uri":
-					Write(name.DefaultValue as Hl7.Fhir.Model.FhirUri, writer, "defaultValueUri", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.FhirUri, writer, "defaultValueUri", cancellationToken); // 210
 					break;
 				case "url":
-					Write(name.DefaultValue as Hl7.Fhir.Model.FhirUrl, writer, "defaultValueUrl", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.FhirUrl, writer, "defaultValueUrl", cancellationToken); // 210
 					break;
 				case "uuid":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Uuid, writer, "defaultValueUuid", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Uuid, writer, "defaultValueUuid", cancellationToken); // 210
 					break;
 				case "Address":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Address, writer, "defaultValueAddress", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Address, writer, "defaultValueAddress", cancellationToken); // 210
 					break;
 				case "Age":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Age, writer, "defaultValueAge", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Age, writer, "defaultValueAge", cancellationToken); // 210
 					break;
 				case "Annotation":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Annotation, writer, "defaultValueAnnotation", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Annotation, writer, "defaultValueAnnotation", cancellationToken); // 210
 					break;
 				case "Attachment":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Attachment, writer, "defaultValueAttachment", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Attachment, writer, "defaultValueAttachment", cancellationToken); // 210
 					break;
 				case "CodeableConcept":
-					Write(name.DefaultValue as Hl7.Fhir.Model.CodeableConcept, writer, "defaultValueCodeableConcept", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.CodeableConcept, writer, "defaultValueCodeableConcept", cancellationToken); // 210
+					break;
+				case "CodeableReference":
+					Write(name.DefaultValue as Hl7.Fhir.Model.CodeableReference, writer, "defaultValueCodeableReference", cancellationToken); // 210
 					break;
 				case "Coding":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Coding, writer, "defaultValueCoding", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Coding, writer, "defaultValueCoding", cancellationToken); // 210
 					break;
 				case "ContactPoint":
-					Write(name.DefaultValue as Hl7.Fhir.Model.ContactPoint, writer, "defaultValueContactPoint", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.ContactPoint, writer, "defaultValueContactPoint", cancellationToken); // 210
 					break;
 				case "Count":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Count, writer, "defaultValueCount", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Count, writer, "defaultValueCount", cancellationToken); // 210
 					break;
 				case "Distance":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Distance, writer, "defaultValueDistance", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Distance, writer, "defaultValueDistance", cancellationToken); // 210
 					break;
 				case "Duration":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Duration, writer, "defaultValueDuration", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Duration, writer, "defaultValueDuration", cancellationToken); // 210
 					break;
 				case "HumanName":
-					Write(name.DefaultValue as Hl7.Fhir.Model.HumanName, writer, "defaultValueHumanName", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.HumanName, writer, "defaultValueHumanName", cancellationToken); // 210
 					break;
 				case "Identifier":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Identifier, writer, "defaultValueIdentifier", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Identifier, writer, "defaultValueIdentifier", cancellationToken); // 210
 					break;
 				case "Money":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Money, writer, "defaultValueMoney", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Money, writer, "defaultValueMoney", cancellationToken); // 210
 					break;
 				case "Period":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Period, writer, "defaultValuePeriod", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Period, writer, "defaultValuePeriod", cancellationToken); // 210
 					break;
 				case "Quantity":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Quantity, writer, "defaultValueQuantity", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Quantity, writer, "defaultValueQuantity", cancellationToken); // 210
 					break;
 				case "Range":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Range, writer, "defaultValueRange", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Range, writer, "defaultValueRange", cancellationToken); // 210
 					break;
 				case "Ratio":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Ratio, writer, "defaultValueRatio", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Ratio, writer, "defaultValueRatio", cancellationToken); // 210
+					break;
+				case "RatioRange":
+					Write(name.DefaultValue as Hl7.Fhir.Model.RatioRange, writer, "defaultValueRatioRange", cancellationToken); // 210
 					break;
 				case "Reference":
-					Write(name.DefaultValue as Hl7.Fhir.Model.ResourceReference, writer, "defaultValueReference", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.ResourceReference, writer, "defaultValueReference", cancellationToken); // 210
 					break;
 				case "SampledData":
-					Write(name.DefaultValue as Hl7.Fhir.Model.SampledData, writer, "defaultValueSampledData", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.SampledData, writer, "defaultValueSampledData", cancellationToken); // 210
 					break;
 				case "Signature":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Signature, writer, "defaultValueSignature", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Signature, writer, "defaultValueSignature", cancellationToken); // 210
 					break;
 				case "Timing":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Timing, writer, "defaultValueTiming", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Timing, writer, "defaultValueTiming", cancellationToken); // 210
 					break;
 				case "ContactDetail":
-					Write(name.DefaultValue as Hl7.Fhir.Model.ContactDetail, writer, "defaultValueContactDetail", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.ContactDetail, writer, "defaultValueContactDetail", cancellationToken); // 210
 					break;
 				case "Contributor":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Contributor, writer, "defaultValueContributor", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Contributor, writer, "defaultValueContributor", cancellationToken); // 210
 					break;
 				case "DataRequirement":
-					Write(name.DefaultValue as Hl7.Fhir.Model.DataRequirement, writer, "defaultValueDataRequirement", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.DataRequirement, writer, "defaultValueDataRequirement", cancellationToken); // 210
 					break;
 				case "Expression":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Expression, writer, "defaultValueExpression", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Expression, writer, "defaultValueExpression", cancellationToken); // 210
 					break;
 				case "ParameterDefinition":
-					Write(name.DefaultValue as Hl7.Fhir.Model.ParameterDefinition, writer, "defaultValueParameterDefinition", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.ParameterDefinition, writer, "defaultValueParameterDefinition", cancellationToken); // 210
 					break;
 				case "RelatedArtifact":
-					Write(name.DefaultValue as Hl7.Fhir.Model.RelatedArtifact, writer, "defaultValueRelatedArtifact", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.RelatedArtifact, writer, "defaultValueRelatedArtifact", cancellationToken); // 210
 					break;
 				case "TriggerDefinition":
-					Write(name.DefaultValue as Hl7.Fhir.Model.TriggerDefinition, writer, "defaultValueTriggerDefinition", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.TriggerDefinition, writer, "defaultValueTriggerDefinition", cancellationToken); // 210
 					break;
 				case "UsageContext":
-					Write(name.DefaultValue as Hl7.Fhir.Model.UsageContext, writer, "defaultValueUsageContext", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.UsageContext, writer, "defaultValueUsageContext", cancellationToken); // 210
 					break;
 				case "Dosage":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Dosage, writer, "defaultValueDosage", cancellationToken); // 260
-					break;
-				case "Meta":
-					Write(name.DefaultValue as Hl7.Fhir.Model.Meta, writer, "defaultValueMeta", cancellationToken); // 260
+					Write(name.DefaultValue as Hl7.Fhir.Model.Dosage, writer, "defaultValueDosage", cancellationToken); // 210
 					break;
 			}
-			Write(name.MeaningWhenMissing, writer, "meaningWhenMissing", cancellationToken); // 270
-			Write(name.OrderMeaningElement, writer, "orderMeaning", cancellationToken); // 280
-			switch(name.Fixed?.TypeName) // 290
+			Write(name.MeaningWhenMissing, writer, "meaningWhenMissing", cancellationToken); // 220
+			Write(name.OrderMeaningElement, writer, "orderMeaning", cancellationToken); // 230
+			switch(name.Fixed?.TypeName) // 240
 			{
 				case "base64Binary":
-					Write(name.Fixed as Hl7.Fhir.Model.Base64Binary, writer, "fixedBase64Binary", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Base64Binary, writer, "fixedBase64Binary", cancellationToken); // 240
 					break;
 				case "boolean":
-					Write(name.Fixed as Hl7.Fhir.Model.FhirBoolean, writer, "fixedBoolean", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.FhirBoolean, writer, "fixedBoolean", cancellationToken); // 240
 					break;
 				case "canonical":
-					Write(name.Fixed as Hl7.Fhir.Model.Canonical, writer, "fixedCanonical", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Canonical, writer, "fixedCanonical", cancellationToken); // 240
 					break;
 				case "code":
-					Write(name.Fixed as Hl7.Fhir.Model.Code, writer, "fixedCode", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Code, writer, "fixedCode", cancellationToken); // 240
 					break;
 				case "date":
-					Write(name.Fixed as Hl7.Fhir.Model.Date, writer, "fixedDate", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Date, writer, "fixedDate", cancellationToken); // 240
 					break;
 				case "dateTime":
-					Write(name.Fixed as Hl7.Fhir.Model.FhirDateTime, writer, "fixedDateTime", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.FhirDateTime, writer, "fixedDateTime", cancellationToken); // 240
 					break;
 				case "decimal":
-					Write(name.Fixed as Hl7.Fhir.Model.FhirDecimal, writer, "fixedDecimal", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.FhirDecimal, writer, "fixedDecimal", cancellationToken); // 240
 					break;
 				case "id":
-					Write(name.Fixed as Hl7.Fhir.Model.Id, writer, "fixedId", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Id, writer, "fixedId", cancellationToken); // 240
 					break;
 				case "instant":
-					Write(name.Fixed as Hl7.Fhir.Model.Instant, writer, "fixedInstant", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Instant, writer, "fixedInstant", cancellationToken); // 240
 					break;
 				case "integer":
-					Write(name.Fixed as Hl7.Fhir.Model.Integer, writer, "fixedInteger", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Integer, writer, "fixedInteger", cancellationToken); // 240
 					break;
 				case "markdown":
-					Write(name.Fixed as Hl7.Fhir.Model.Markdown, writer, "fixedMarkdown", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Markdown, writer, "fixedMarkdown", cancellationToken); // 240
 					break;
 				case "oid":
-					Write(name.Fixed as Hl7.Fhir.Model.Oid, writer, "fixedOid", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Oid, writer, "fixedOid", cancellationToken); // 240
 					break;
 				case "positiveInt":
-					Write(name.Fixed as Hl7.Fhir.Model.PositiveInt, writer, "fixedPositiveInt", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.PositiveInt, writer, "fixedPositiveInt", cancellationToken); // 240
 					break;
 				case "string":
-					Write(name.Fixed as Hl7.Fhir.Model.FhirString, writer, "fixedString", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.FhirString, writer, "fixedString", cancellationToken); // 240
 					break;
 				case "time":
-					Write(name.Fixed as Hl7.Fhir.Model.Time, writer, "fixedTime", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Time, writer, "fixedTime", cancellationToken); // 240
 					break;
 				case "unsignedInt":
-					Write(name.Fixed as Hl7.Fhir.Model.UnsignedInt, writer, "fixedUnsignedInt", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.UnsignedInt, writer, "fixedUnsignedInt", cancellationToken); // 240
 					break;
 				case "uri":
-					Write(name.Fixed as Hl7.Fhir.Model.FhirUri, writer, "fixedUri", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.FhirUri, writer, "fixedUri", cancellationToken); // 240
 					break;
 				case "url":
-					Write(name.Fixed as Hl7.Fhir.Model.FhirUrl, writer, "fixedUrl", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.FhirUrl, writer, "fixedUrl", cancellationToken); // 240
 					break;
 				case "uuid":
-					Write(name.Fixed as Hl7.Fhir.Model.Uuid, writer, "fixedUuid", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Uuid, writer, "fixedUuid", cancellationToken); // 240
 					break;
 				case "Address":
-					Write(name.Fixed as Hl7.Fhir.Model.Address, writer, "fixedAddress", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Address, writer, "fixedAddress", cancellationToken); // 240
 					break;
 				case "Age":
-					Write(name.Fixed as Hl7.Fhir.Model.Age, writer, "fixedAge", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Age, writer, "fixedAge", cancellationToken); // 240
 					break;
 				case "Annotation":
-					Write(name.Fixed as Hl7.Fhir.Model.Annotation, writer, "fixedAnnotation", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Annotation, writer, "fixedAnnotation", cancellationToken); // 240
 					break;
 				case "Attachment":
-					Write(name.Fixed as Hl7.Fhir.Model.Attachment, writer, "fixedAttachment", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Attachment, writer, "fixedAttachment", cancellationToken); // 240
 					break;
 				case "CodeableConcept":
-					Write(name.Fixed as Hl7.Fhir.Model.CodeableConcept, writer, "fixedCodeableConcept", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.CodeableConcept, writer, "fixedCodeableConcept", cancellationToken); // 240
+					break;
+				case "CodeableReference":
+					Write(name.Fixed as Hl7.Fhir.Model.CodeableReference, writer, "fixedCodeableReference", cancellationToken); // 240
 					break;
 				case "Coding":
-					Write(name.Fixed as Hl7.Fhir.Model.Coding, writer, "fixedCoding", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Coding, writer, "fixedCoding", cancellationToken); // 240
 					break;
 				case "ContactPoint":
-					Write(name.Fixed as Hl7.Fhir.Model.ContactPoint, writer, "fixedContactPoint", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.ContactPoint, writer, "fixedContactPoint", cancellationToken); // 240
 					break;
 				case "Count":
-					Write(name.Fixed as Hl7.Fhir.Model.Count, writer, "fixedCount", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Count, writer, "fixedCount", cancellationToken); // 240
 					break;
 				case "Distance":
-					Write(name.Fixed as Hl7.Fhir.Model.Distance, writer, "fixedDistance", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Distance, writer, "fixedDistance", cancellationToken); // 240
 					break;
 				case "Duration":
-					Write(name.Fixed as Hl7.Fhir.Model.Duration, writer, "fixedDuration", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Duration, writer, "fixedDuration", cancellationToken); // 240
 					break;
 				case "HumanName":
-					Write(name.Fixed as Hl7.Fhir.Model.HumanName, writer, "fixedHumanName", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.HumanName, writer, "fixedHumanName", cancellationToken); // 240
 					break;
 				case "Identifier":
-					Write(name.Fixed as Hl7.Fhir.Model.Identifier, writer, "fixedIdentifier", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Identifier, writer, "fixedIdentifier", cancellationToken); // 240
 					break;
 				case "Money":
-					Write(name.Fixed as Hl7.Fhir.Model.Money, writer, "fixedMoney", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Money, writer, "fixedMoney", cancellationToken); // 240
 					break;
 				case "Period":
-					Write(name.Fixed as Hl7.Fhir.Model.Period, writer, "fixedPeriod", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Period, writer, "fixedPeriod", cancellationToken); // 240
 					break;
 				case "Quantity":
-					Write(name.Fixed as Hl7.Fhir.Model.Quantity, writer, "fixedQuantity", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Quantity, writer, "fixedQuantity", cancellationToken); // 240
 					break;
 				case "Range":
-					Write(name.Fixed as Hl7.Fhir.Model.Range, writer, "fixedRange", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Range, writer, "fixedRange", cancellationToken); // 240
 					break;
 				case "Ratio":
-					Write(name.Fixed as Hl7.Fhir.Model.Ratio, writer, "fixedRatio", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Ratio, writer, "fixedRatio", cancellationToken); // 240
+					break;
+				case "RatioRange":
+					Write(name.Fixed as Hl7.Fhir.Model.RatioRange, writer, "fixedRatioRange", cancellationToken); // 240
 					break;
 				case "Reference":
-					Write(name.Fixed as Hl7.Fhir.Model.ResourceReference, writer, "fixedReference", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.ResourceReference, writer, "fixedReference", cancellationToken); // 240
 					break;
 				case "SampledData":
-					Write(name.Fixed as Hl7.Fhir.Model.SampledData, writer, "fixedSampledData", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.SampledData, writer, "fixedSampledData", cancellationToken); // 240
 					break;
 				case "Signature":
-					Write(name.Fixed as Hl7.Fhir.Model.Signature, writer, "fixedSignature", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Signature, writer, "fixedSignature", cancellationToken); // 240
 					break;
 				case "Timing":
-					Write(name.Fixed as Hl7.Fhir.Model.Timing, writer, "fixedTiming", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Timing, writer, "fixedTiming", cancellationToken); // 240
 					break;
 				case "ContactDetail":
-					Write(name.Fixed as Hl7.Fhir.Model.ContactDetail, writer, "fixedContactDetail", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.ContactDetail, writer, "fixedContactDetail", cancellationToken); // 240
 					break;
 				case "Contributor":
-					Write(name.Fixed as Hl7.Fhir.Model.Contributor, writer, "fixedContributor", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Contributor, writer, "fixedContributor", cancellationToken); // 240
 					break;
 				case "DataRequirement":
-					Write(name.Fixed as Hl7.Fhir.Model.DataRequirement, writer, "fixedDataRequirement", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.DataRequirement, writer, "fixedDataRequirement", cancellationToken); // 240
 					break;
 				case "Expression":
-					Write(name.Fixed as Hl7.Fhir.Model.Expression, writer, "fixedExpression", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Expression, writer, "fixedExpression", cancellationToken); // 240
 					break;
 				case "ParameterDefinition":
-					Write(name.Fixed as Hl7.Fhir.Model.ParameterDefinition, writer, "fixedParameterDefinition", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.ParameterDefinition, writer, "fixedParameterDefinition", cancellationToken); // 240
 					break;
 				case "RelatedArtifact":
-					Write(name.Fixed as Hl7.Fhir.Model.RelatedArtifact, writer, "fixedRelatedArtifact", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.RelatedArtifact, writer, "fixedRelatedArtifact", cancellationToken); // 240
 					break;
 				case "TriggerDefinition":
-					Write(name.Fixed as Hl7.Fhir.Model.TriggerDefinition, writer, "fixedTriggerDefinition", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.TriggerDefinition, writer, "fixedTriggerDefinition", cancellationToken); // 240
 					break;
 				case "UsageContext":
-					Write(name.Fixed as Hl7.Fhir.Model.UsageContext, writer, "fixedUsageContext", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.UsageContext, writer, "fixedUsageContext", cancellationToken); // 240
 					break;
 				case "Dosage":
-					Write(name.Fixed as Hl7.Fhir.Model.Dosage, writer, "fixedDosage", cancellationToken); // 290
-					break;
-				case "Meta":
-					Write(name.Fixed as Hl7.Fhir.Model.Meta, writer, "fixedMeta", cancellationToken); // 290
+					Write(name.Fixed as Hl7.Fhir.Model.Dosage, writer, "fixedDosage", cancellationToken); // 240
 					break;
 			}
-			switch(name.Pattern?.TypeName) // 300
+			switch(name.Pattern?.TypeName) // 250
 			{
 				case "base64Binary":
-					Write(name.Pattern as Hl7.Fhir.Model.Base64Binary, writer, "patternBase64Binary", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Base64Binary, writer, "patternBase64Binary", cancellationToken); // 250
 					break;
 				case "boolean":
-					Write(name.Pattern as Hl7.Fhir.Model.FhirBoolean, writer, "patternBoolean", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.FhirBoolean, writer, "patternBoolean", cancellationToken); // 250
 					break;
 				case "canonical":
-					Write(name.Pattern as Hl7.Fhir.Model.Canonical, writer, "patternCanonical", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Canonical, writer, "patternCanonical", cancellationToken); // 250
 					break;
 				case "code":
-					Write(name.Pattern as Hl7.Fhir.Model.Code, writer, "patternCode", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Code, writer, "patternCode", cancellationToken); // 250
 					break;
 				case "date":
-					Write(name.Pattern as Hl7.Fhir.Model.Date, writer, "patternDate", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Date, writer, "patternDate", cancellationToken); // 250
 					break;
 				case "dateTime":
-					Write(name.Pattern as Hl7.Fhir.Model.FhirDateTime, writer, "patternDateTime", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.FhirDateTime, writer, "patternDateTime", cancellationToken); // 250
 					break;
 				case "decimal":
-					Write(name.Pattern as Hl7.Fhir.Model.FhirDecimal, writer, "patternDecimal", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.FhirDecimal, writer, "patternDecimal", cancellationToken); // 250
 					break;
 				case "id":
-					Write(name.Pattern as Hl7.Fhir.Model.Id, writer, "patternId", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Id, writer, "patternId", cancellationToken); // 250
 					break;
 				case "instant":
-					Write(name.Pattern as Hl7.Fhir.Model.Instant, writer, "patternInstant", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Instant, writer, "patternInstant", cancellationToken); // 250
 					break;
 				case "integer":
-					Write(name.Pattern as Hl7.Fhir.Model.Integer, writer, "patternInteger", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Integer, writer, "patternInteger", cancellationToken); // 250
 					break;
 				case "markdown":
-					Write(name.Pattern as Hl7.Fhir.Model.Markdown, writer, "patternMarkdown", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Markdown, writer, "patternMarkdown", cancellationToken); // 250
 					break;
 				case "oid":
-					Write(name.Pattern as Hl7.Fhir.Model.Oid, writer, "patternOid", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Oid, writer, "patternOid", cancellationToken); // 250
 					break;
 				case "positiveInt":
-					Write(name.Pattern as Hl7.Fhir.Model.PositiveInt, writer, "patternPositiveInt", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.PositiveInt, writer, "patternPositiveInt", cancellationToken); // 250
 					break;
 				case "string":
-					Write(name.Pattern as Hl7.Fhir.Model.FhirString, writer, "patternString", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.FhirString, writer, "patternString", cancellationToken); // 250
 					break;
 				case "time":
-					Write(name.Pattern as Hl7.Fhir.Model.Time, writer, "patternTime", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Time, writer, "patternTime", cancellationToken); // 250
 					break;
 				case "unsignedInt":
-					Write(name.Pattern as Hl7.Fhir.Model.UnsignedInt, writer, "patternUnsignedInt", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.UnsignedInt, writer, "patternUnsignedInt", cancellationToken); // 250
 					break;
 				case "uri":
-					Write(name.Pattern as Hl7.Fhir.Model.FhirUri, writer, "patternUri", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.FhirUri, writer, "patternUri", cancellationToken); // 250
 					break;
 				case "url":
-					Write(name.Pattern as Hl7.Fhir.Model.FhirUrl, writer, "patternUrl", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.FhirUrl, writer, "patternUrl", cancellationToken); // 250
 					break;
 				case "uuid":
-					Write(name.Pattern as Hl7.Fhir.Model.Uuid, writer, "patternUuid", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Uuid, writer, "patternUuid", cancellationToken); // 250
 					break;
 				case "Address":
-					Write(name.Pattern as Hl7.Fhir.Model.Address, writer, "patternAddress", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Address, writer, "patternAddress", cancellationToken); // 250
 					break;
 				case "Age":
-					Write(name.Pattern as Hl7.Fhir.Model.Age, writer, "patternAge", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Age, writer, "patternAge", cancellationToken); // 250
 					break;
 				case "Annotation":
-					Write(name.Pattern as Hl7.Fhir.Model.Annotation, writer, "patternAnnotation", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Annotation, writer, "patternAnnotation", cancellationToken); // 250
 					break;
 				case "Attachment":
-					Write(name.Pattern as Hl7.Fhir.Model.Attachment, writer, "patternAttachment", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Attachment, writer, "patternAttachment", cancellationToken); // 250
 					break;
 				case "CodeableConcept":
-					Write(name.Pattern as Hl7.Fhir.Model.CodeableConcept, writer, "patternCodeableConcept", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.CodeableConcept, writer, "patternCodeableConcept", cancellationToken); // 250
+					break;
+				case "CodeableReference":
+					Write(name.Pattern as Hl7.Fhir.Model.CodeableReference, writer, "patternCodeableReference", cancellationToken); // 250
 					break;
 				case "Coding":
-					Write(name.Pattern as Hl7.Fhir.Model.Coding, writer, "patternCoding", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Coding, writer, "patternCoding", cancellationToken); // 250
 					break;
 				case "ContactPoint":
-					Write(name.Pattern as Hl7.Fhir.Model.ContactPoint, writer, "patternContactPoint", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.ContactPoint, writer, "patternContactPoint", cancellationToken); // 250
 					break;
 				case "Count":
-					Write(name.Pattern as Hl7.Fhir.Model.Count, writer, "patternCount", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Count, writer, "patternCount", cancellationToken); // 250
 					break;
 				case "Distance":
-					Write(name.Pattern as Hl7.Fhir.Model.Distance, writer, "patternDistance", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Distance, writer, "patternDistance", cancellationToken); // 250
 					break;
 				case "Duration":
-					Write(name.Pattern as Hl7.Fhir.Model.Duration, writer, "patternDuration", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Duration, writer, "patternDuration", cancellationToken); // 250
 					break;
 				case "HumanName":
-					Write(name.Pattern as Hl7.Fhir.Model.HumanName, writer, "patternHumanName", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.HumanName, writer, "patternHumanName", cancellationToken); // 250
 					break;
 				case "Identifier":
-					Write(name.Pattern as Hl7.Fhir.Model.Identifier, writer, "patternIdentifier", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Identifier, writer, "patternIdentifier", cancellationToken); // 250
 					break;
 				case "Money":
-					Write(name.Pattern as Hl7.Fhir.Model.Money, writer, "patternMoney", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Money, writer, "patternMoney", cancellationToken); // 250
 					break;
 				case "Period":
-					Write(name.Pattern as Hl7.Fhir.Model.Period, writer, "patternPeriod", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Period, writer, "patternPeriod", cancellationToken); // 250
 					break;
 				case "Quantity":
-					Write(name.Pattern as Hl7.Fhir.Model.Quantity, writer, "patternQuantity", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Quantity, writer, "patternQuantity", cancellationToken); // 250
 					break;
 				case "Range":
-					Write(name.Pattern as Hl7.Fhir.Model.Range, writer, "patternRange", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Range, writer, "patternRange", cancellationToken); // 250
 					break;
 				case "Ratio":
-					Write(name.Pattern as Hl7.Fhir.Model.Ratio, writer, "patternRatio", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Ratio, writer, "patternRatio", cancellationToken); // 250
+					break;
+				case "RatioRange":
+					Write(name.Pattern as Hl7.Fhir.Model.RatioRange, writer, "patternRatioRange", cancellationToken); // 250
 					break;
 				case "Reference":
-					Write(name.Pattern as Hl7.Fhir.Model.ResourceReference, writer, "patternReference", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.ResourceReference, writer, "patternReference", cancellationToken); // 250
 					break;
 				case "SampledData":
-					Write(name.Pattern as Hl7.Fhir.Model.SampledData, writer, "patternSampledData", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.SampledData, writer, "patternSampledData", cancellationToken); // 250
 					break;
 				case "Signature":
-					Write(name.Pattern as Hl7.Fhir.Model.Signature, writer, "patternSignature", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Signature, writer, "patternSignature", cancellationToken); // 250
 					break;
 				case "Timing":
-					Write(name.Pattern as Hl7.Fhir.Model.Timing, writer, "patternTiming", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Timing, writer, "patternTiming", cancellationToken); // 250
 					break;
 				case "ContactDetail":
-					Write(name.Pattern as Hl7.Fhir.Model.ContactDetail, writer, "patternContactDetail", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.ContactDetail, writer, "patternContactDetail", cancellationToken); // 250
 					break;
 				case "Contributor":
-					Write(name.Pattern as Hl7.Fhir.Model.Contributor, writer, "patternContributor", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Contributor, writer, "patternContributor", cancellationToken); // 250
 					break;
 				case "DataRequirement":
-					Write(name.Pattern as Hl7.Fhir.Model.DataRequirement, writer, "patternDataRequirement", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.DataRequirement, writer, "patternDataRequirement", cancellationToken); // 250
 					break;
 				case "Expression":
-					Write(name.Pattern as Hl7.Fhir.Model.Expression, writer, "patternExpression", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Expression, writer, "patternExpression", cancellationToken); // 250
 					break;
 				case "ParameterDefinition":
-					Write(name.Pattern as Hl7.Fhir.Model.ParameterDefinition, writer, "patternParameterDefinition", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.ParameterDefinition, writer, "patternParameterDefinition", cancellationToken); // 250
 					break;
 				case "RelatedArtifact":
-					Write(name.Pattern as Hl7.Fhir.Model.RelatedArtifact, writer, "patternRelatedArtifact", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.RelatedArtifact, writer, "patternRelatedArtifact", cancellationToken); // 250
 					break;
 				case "TriggerDefinition":
-					Write(name.Pattern as Hl7.Fhir.Model.TriggerDefinition, writer, "patternTriggerDefinition", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.TriggerDefinition, writer, "patternTriggerDefinition", cancellationToken); // 250
 					break;
 				case "UsageContext":
-					Write(name.Pattern as Hl7.Fhir.Model.UsageContext, writer, "patternUsageContext", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.UsageContext, writer, "patternUsageContext", cancellationToken); // 250
 					break;
 				case "Dosage":
-					Write(name.Pattern as Hl7.Fhir.Model.Dosage, writer, "patternDosage", cancellationToken); // 300
-					break;
-				case "Meta":
-					Write(name.Pattern as Hl7.Fhir.Model.Meta, writer, "patternMeta", cancellationToken); // 300
+					Write(name.Pattern as Hl7.Fhir.Model.Dosage, writer, "patternDosage", cancellationToken); // 250
 					break;
 			}
-			Write(name.Example, writer, "example", cancellationToken); // 310
-			switch(name.MinValue?.TypeName) // 320
+			Write(name.Example, writer, "example", cancellationToken); // 260
+			switch(name.MinValue?.TypeName) // 270
 			{
 				case "date":
-					Write(name.MinValue as Hl7.Fhir.Model.Date, writer, "minValueDate", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.Date, writer, "minValueDate", cancellationToken); // 270
 					break;
 				case "dateTime":
-					Write(name.MinValue as Hl7.Fhir.Model.FhirDateTime, writer, "minValueDateTime", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.FhirDateTime, writer, "minValueDateTime", cancellationToken); // 270
 					break;
 				case "instant":
-					Write(name.MinValue as Hl7.Fhir.Model.Instant, writer, "minValueInstant", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.Instant, writer, "minValueInstant", cancellationToken); // 270
 					break;
 				case "time":
-					Write(name.MinValue as Hl7.Fhir.Model.Time, writer, "minValueTime", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.Time, writer, "minValueTime", cancellationToken); // 270
 					break;
 				case "decimal":
-					Write(name.MinValue as Hl7.Fhir.Model.FhirDecimal, writer, "minValueDecimal", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.FhirDecimal, writer, "minValueDecimal", cancellationToken); // 270
 					break;
 				case "integer":
-					Write(name.MinValue as Hl7.Fhir.Model.Integer, writer, "minValueInteger", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.Integer, writer, "minValueInteger", cancellationToken); // 270
 					break;
 				case "positiveInt":
-					Write(name.MinValue as Hl7.Fhir.Model.PositiveInt, writer, "minValuePositiveInt", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.PositiveInt, writer, "minValuePositiveInt", cancellationToken); // 270
 					break;
 				case "unsignedInt":
-					Write(name.MinValue as Hl7.Fhir.Model.UnsignedInt, writer, "minValueUnsignedInt", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.UnsignedInt, writer, "minValueUnsignedInt", cancellationToken); // 270
 					break;
 				case "Quantity":
-					Write(name.MinValue as Hl7.Fhir.Model.Quantity, writer, "minValueQuantity", cancellationToken); // 320
+					Write(name.MinValue as Hl7.Fhir.Model.Quantity, writer, "minValueQuantity", cancellationToken); // 270
 					break;
 			}
-			switch(name.MaxValue?.TypeName) // 330
+			switch(name.MaxValue?.TypeName) // 280
 			{
 				case "date":
-					Write(name.MaxValue as Hl7.Fhir.Model.Date, writer, "maxValueDate", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.Date, writer, "maxValueDate", cancellationToken); // 280
 					break;
 				case "dateTime":
-					Write(name.MaxValue as Hl7.Fhir.Model.FhirDateTime, writer, "maxValueDateTime", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.FhirDateTime, writer, "maxValueDateTime", cancellationToken); // 280
 					break;
 				case "instant":
-					Write(name.MaxValue as Hl7.Fhir.Model.Instant, writer, "maxValueInstant", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.Instant, writer, "maxValueInstant", cancellationToken); // 280
 					break;
 				case "time":
-					Write(name.MaxValue as Hl7.Fhir.Model.Time, writer, "maxValueTime", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.Time, writer, "maxValueTime", cancellationToken); // 280
 					break;
 				case "decimal":
-					Write(name.MaxValue as Hl7.Fhir.Model.FhirDecimal, writer, "maxValueDecimal", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.FhirDecimal, writer, "maxValueDecimal", cancellationToken); // 280
 					break;
 				case "integer":
-					Write(name.MaxValue as Hl7.Fhir.Model.Integer, writer, "maxValueInteger", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.Integer, writer, "maxValueInteger", cancellationToken); // 280
 					break;
 				case "positiveInt":
-					Write(name.MaxValue as Hl7.Fhir.Model.PositiveInt, writer, "maxValuePositiveInt", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.PositiveInt, writer, "maxValuePositiveInt", cancellationToken); // 280
 					break;
 				case "unsignedInt":
-					Write(name.MaxValue as Hl7.Fhir.Model.UnsignedInt, writer, "maxValueUnsignedInt", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.UnsignedInt, writer, "maxValueUnsignedInt", cancellationToken); // 280
 					break;
 				case "Quantity":
-					Write(name.MaxValue as Hl7.Fhir.Model.Quantity, writer, "maxValueQuantity", cancellationToken); // 330
+					Write(name.MaxValue as Hl7.Fhir.Model.Quantity, writer, "maxValueQuantity", cancellationToken); // 280
 					break;
 			}
-			Write(name.MaxLengthElement, writer, "maxLength", cancellationToken); // 340
-			Write(name.ConditionElement, writer, "condition", cancellationToken); // 350
-			Write(name.Constraint, writer, "constraint", cancellationToken); // 360
-			Write(name.MustSupportElement, writer, "mustSupport", cancellationToken); // 370
-			Write(name.IsModifierElement, writer, "isModifier", cancellationToken); // 380
-			Write(name.IsModifierReasonElement, writer, "isModifierReason", cancellationToken); // 390
-			Write(name.IsSummaryElement, writer, "isSummary", cancellationToken); // 400
-			Write(name.Binding, writer, "binding", cancellationToken); // 410
-			Write(name.Mapping, writer, "mapping", cancellationToken); // 420
+			Write(name.MaxLengthElement, writer, "maxLength", cancellationToken); // 290
+			Write(name.ConditionElement, writer, "condition", cancellationToken); // 300
+			Write(name.Constraint, writer, "constraint", cancellationToken); // 310
+			Write(name.MustSupportElement, writer, "mustSupport", cancellationToken); // 320
+			Write(name.IsModifierElement, writer, "isModifier", cancellationToken); // 330
+			Write(name.IsModifierReasonElement, writer, "isModifierReason", cancellationToken); // 340
+			Write(name.IsSummaryElement, writer, "isSummary", cancellationToken); // 350
+			Write(name.Binding, writer, "binding", cancellationToken); // 360
+			Write(name.Mapping, writer, "mapping", cancellationToken); // 370
 			writer.WriteEndElement();
 		}
 
@@ -5378,8 +5391,8 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.TypeElement, writer, "type", cancellationToken); // 40
-			Write(name.PathElement, writer, "path", cancellationToken); // 50
+			Write(name.TypeElement, writer, "type", cancellationToken); // 30
+			Write(name.PathElement, writer, "path", cancellationToken); // 40
 			writer.WriteEndElement();
 		}
 
@@ -5391,11 +5404,11 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.CodeElement, writer, "code", cancellationToken); // 40
-			Write(name.ProfileElement, writer, "profile", cancellationToken); // 50
-			Write(name.TargetProfileElement, writer, "targetProfile", cancellationToken); // 60
-			Write(name.AggregationElement, writer, "aggregation", cancellationToken); // 70
-			Write(name.VersioningElement, writer, "versioning", cancellationToken); // 80
+			Write(name.CodeElement, writer, "code", cancellationToken); // 30
+			Write(name.ProfileElement, writer, "profile", cancellationToken); // 40
+			Write(name.TargetProfileElement, writer, "targetProfile", cancellationToken); // 50
+			Write(name.AggregationElement, writer, "aggregation", cancellationToken); // 60
+			Write(name.VersioningElement, writer, "versioning", cancellationToken); // 70
 			writer.WriteEndElement();
 		}
 
@@ -5407,10 +5420,10 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.Discriminator, writer, "discriminator", cancellationToken); // 40
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 50
-			Write(name.OrderedElement, writer, "ordered", cancellationToken); // 60
-			Write(name.RulesElement, writer, "rules", cancellationToken); // 70
+			Write(name.Discriminator, writer, "discriminator", cancellationToken); // 30
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
+			Write(name.OrderedElement, writer, "ordered", cancellationToken); // 50
+			Write(name.RulesElement, writer, "rules", cancellationToken); // 60
 			writer.WriteEndElement();
 		}
 
@@ -5422,9 +5435,9 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.PathElement, writer, "path", cancellationToken); // 40
-			Write(name.MinElement, writer, "min", cancellationToken); // 50
-			Write(name.MaxElement, writer, "max", cancellationToken); // 60
+			Write(name.PathElement, writer, "path", cancellationToken); // 30
+			Write(name.MinElement, writer, "min", cancellationToken); // 40
+			Write(name.MaxElement, writer, "max", cancellationToken); // 50
 			writer.WriteEndElement();
 		}
 
@@ -5436,235 +5449,7 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.LabelElement, writer, "label", cancellationToken); // 40
-			switch(name.Value?.TypeName) // 50
-			{
-				case "base64Binary":
-					Write(name.Value as Hl7.Fhir.Model.Base64Binary, writer, "valueBase64Binary", cancellationToken); // 50
-					break;
-				case "boolean":
-					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
-					break;
-				case "canonical":
-					Write(name.Value as Hl7.Fhir.Model.Canonical, writer, "valueCanonical", cancellationToken); // 50
-					break;
-				case "code":
-					Write(name.Value as Hl7.Fhir.Model.Code, writer, "valueCode", cancellationToken); // 50
-					break;
-				case "date":
-					Write(name.Value as Hl7.Fhir.Model.Date, writer, "valueDate", cancellationToken); // 50
-					break;
-				case "dateTime":
-					Write(name.Value as Hl7.Fhir.Model.FhirDateTime, writer, "valueDateTime", cancellationToken); // 50
-					break;
-				case "decimal":
-					Write(name.Value as Hl7.Fhir.Model.FhirDecimal, writer, "valueDecimal", cancellationToken); // 50
-					break;
-				case "id":
-					Write(name.Value as Hl7.Fhir.Model.Id, writer, "valueId", cancellationToken); // 50
-					break;
-				case "instant":
-					Write(name.Value as Hl7.Fhir.Model.Instant, writer, "valueInstant", cancellationToken); // 50
-					break;
-				case "integer":
-					Write(name.Value as Hl7.Fhir.Model.Integer, writer, "valueInteger", cancellationToken); // 50
-					break;
-				case "markdown":
-					Write(name.Value as Hl7.Fhir.Model.Markdown, writer, "valueMarkdown", cancellationToken); // 50
-					break;
-				case "oid":
-					Write(name.Value as Hl7.Fhir.Model.Oid, writer, "valueOid", cancellationToken); // 50
-					break;
-				case "positiveInt":
-					Write(name.Value as Hl7.Fhir.Model.PositiveInt, writer, "valuePositiveInt", cancellationToken); // 50
-					break;
-				case "string":
-					Write(name.Value as Hl7.Fhir.Model.FhirString, writer, "valueString", cancellationToken); // 50
-					break;
-				case "time":
-					Write(name.Value as Hl7.Fhir.Model.Time, writer, "valueTime", cancellationToken); // 50
-					break;
-				case "unsignedInt":
-					Write(name.Value as Hl7.Fhir.Model.UnsignedInt, writer, "valueUnsignedInt", cancellationToken); // 50
-					break;
-				case "uri":
-					Write(name.Value as Hl7.Fhir.Model.FhirUri, writer, "valueUri", cancellationToken); // 50
-					break;
-				case "url":
-					Write(name.Value as Hl7.Fhir.Model.FhirUrl, writer, "valueUrl", cancellationToken); // 50
-					break;
-				case "uuid":
-					Write(name.Value as Hl7.Fhir.Model.Uuid, writer, "valueUuid", cancellationToken); // 50
-					break;
-				case "Address":
-					Write(name.Value as Hl7.Fhir.Model.Address, writer, "valueAddress", cancellationToken); // 50
-					break;
-				case "Age":
-					Write(name.Value as Hl7.Fhir.Model.Age, writer, "valueAge", cancellationToken); // 50
-					break;
-				case "Annotation":
-					Write(name.Value as Hl7.Fhir.Model.Annotation, writer, "valueAnnotation", cancellationToken); // 50
-					break;
-				case "Attachment":
-					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
-					break;
-				case "CodeableConcept":
-					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
-					break;
-				case "Coding":
-					Write(name.Value as Hl7.Fhir.Model.Coding, writer, "valueCoding", cancellationToken); // 50
-					break;
-				case "ContactPoint":
-					Write(name.Value as Hl7.Fhir.Model.ContactPoint, writer, "valueContactPoint", cancellationToken); // 50
-					break;
-				case "Count":
-					Write(name.Value as Hl7.Fhir.Model.Count, writer, "valueCount", cancellationToken); // 50
-					break;
-				case "Distance":
-					Write(name.Value as Hl7.Fhir.Model.Distance, writer, "valueDistance", cancellationToken); // 50
-					break;
-				case "Duration":
-					Write(name.Value as Hl7.Fhir.Model.Duration, writer, "valueDuration", cancellationToken); // 50
-					break;
-				case "HumanName":
-					Write(name.Value as Hl7.Fhir.Model.HumanName, writer, "valueHumanName", cancellationToken); // 50
-					break;
-				case "Identifier":
-					Write(name.Value as Hl7.Fhir.Model.Identifier, writer, "valueIdentifier", cancellationToken); // 50
-					break;
-				case "Money":
-					Write(name.Value as Hl7.Fhir.Model.Money, writer, "valueMoney", cancellationToken); // 50
-					break;
-				case "Period":
-					Write(name.Value as Hl7.Fhir.Model.Period, writer, "valuePeriod", cancellationToken); // 50
-					break;
-				case "Quantity":
-					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
-					break;
-				case "Range":
-					Write(name.Value as Hl7.Fhir.Model.Range, writer, "valueRange", cancellationToken); // 50
-					break;
-				case "Ratio":
-					Write(name.Value as Hl7.Fhir.Model.Ratio, writer, "valueRatio", cancellationToken); // 50
-					break;
-				case "Reference":
-					Write(name.Value as Hl7.Fhir.Model.ResourceReference, writer, "valueReference", cancellationToken); // 50
-					break;
-				case "SampledData":
-					Write(name.Value as Hl7.Fhir.Model.SampledData, writer, "valueSampledData", cancellationToken); // 50
-					break;
-				case "Signature":
-					Write(name.Value as Hl7.Fhir.Model.Signature, writer, "valueSignature", cancellationToken); // 50
-					break;
-				case "Timing":
-					Write(name.Value as Hl7.Fhir.Model.Timing, writer, "valueTiming", cancellationToken); // 50
-					break;
-				case "ContactDetail":
-					Write(name.Value as Hl7.Fhir.Model.ContactDetail, writer, "valueContactDetail", cancellationToken); // 50
-					break;
-				case "Contributor":
-					Write(name.Value as Hl7.Fhir.Model.Contributor, writer, "valueContributor", cancellationToken); // 50
-					break;
-				case "DataRequirement":
-					Write(name.Value as Hl7.Fhir.Model.DataRequirement, writer, "valueDataRequirement", cancellationToken); // 50
-					break;
-				case "Expression":
-					Write(name.Value as Hl7.Fhir.Model.Expression, writer, "valueExpression", cancellationToken); // 50
-					break;
-				case "ParameterDefinition":
-					Write(name.Value as Hl7.Fhir.Model.ParameterDefinition, writer, "valueParameterDefinition", cancellationToken); // 50
-					break;
-				case "RelatedArtifact":
-					Write(name.Value as Hl7.Fhir.Model.RelatedArtifact, writer, "valueRelatedArtifact", cancellationToken); // 50
-					break;
-				case "TriggerDefinition":
-					Write(name.Value as Hl7.Fhir.Model.TriggerDefinition, writer, "valueTriggerDefinition", cancellationToken); // 50
-					break;
-				case "UsageContext":
-					Write(name.Value as Hl7.Fhir.Model.UsageContext, writer, "valueUsageContext", cancellationToken); // 50
-					break;
-				case "Dosage":
-					Write(name.Value as Hl7.Fhir.Model.Dosage, writer, "valueDosage", cancellationToken); // 50
-					break;
-				case "Meta":
-					Write(name.Value as Hl7.Fhir.Model.Meta, writer, "valueMeta", cancellationToken); // 50
-					break;
-			}
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.ElementDefinition.ConstraintComponent
-		public static void Write(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.KeyElement, writer, "key", cancellationToken); // 40
-			Write(name.RequirementsElement, writer, "requirements", cancellationToken); // 50
-			Write(name.SeverityElement, writer, "severity", cancellationToken); // 60
-			Write(name.HumanElement, writer, "human", cancellationToken); // 70
-			Write(name.ExpressionElement, writer, "expression", cancellationToken); // 80
-			Write(name.XpathElement, writer, "xpath", cancellationToken); // 90
-			Write(name.SourceElement, writer, "source", cancellationToken); // 100
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent
-		public static void Write(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.StrengthElement, writer, "strength", cancellationToken); // 40
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 50
-			Write(name.ValueSetElement, writer, "valueSet", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.ElementDefinition.MappingComponent
-		public static void Write(Hl7.Fhir.Model.ElementDefinition.MappingComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.IdentityElement, writer, "identity", cancellationToken); // 40
-			Write(name.LanguageElement, writer, "language", cancellationToken); // 50
-			Write(name.MapElement, writer, "map", cancellationToken); // 60
-			Write(name.CommentElement, writer, "comment", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.Expression
-		public static void Write(Hl7.Fhir.Model.Expression name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 30
-			Write(name.NameElement, writer, "name", cancellationToken); // 40
-			Write(name.LanguageElement, writer, "language", cancellationToken); // 50
-			Write(name.ExpressionElement, writer, "expression", cancellationToken); // 60
-			Write(name.ReferenceElement, writer, "reference", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.Extension
-		public static void Write(Hl7.Fhir.Model.Extension name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Url, writer, "url", cancellationToken); // 30
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.LabelElement, writer, "label", cancellationToken); // 30
 			switch(name.Value?.TypeName) // 40
 			{
 				case "base64Binary":
@@ -5739,6 +5524,9 @@ namespace Hl7.Fhir.CustomSerializer
 				case "CodeableConcept":
 					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 40
 					break;
+				case "CodeableReference":
+					Write(name.Value as Hl7.Fhir.Model.CodeableReference, writer, "valueCodeableReference", cancellationToken); // 40
+					break;
 				case "Coding":
 					Write(name.Value as Hl7.Fhir.Model.Coding, writer, "valueCoding", cancellationToken); // 40
 					break;
@@ -5774,6 +5562,9 @@ namespace Hl7.Fhir.CustomSerializer
 					break;
 				case "Ratio":
 					Write(name.Value as Hl7.Fhir.Model.Ratio, writer, "valueRatio", cancellationToken); // 40
+					break;
+				case "RatioRange":
+					Write(name.Value as Hl7.Fhir.Model.RatioRange, writer, "valueRatioRange", cancellationToken); // 40
 					break;
 				case "Reference":
 					Write(name.Value as Hl7.Fhir.Model.ResourceReference, writer, "valueReference", cancellationToken); // 40
@@ -5818,6 +5609,82 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.ElementDefinition.ConstraintComponent
+		public static void Write(Hl7.Fhir.Model.ElementDefinition.ConstraintComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.KeyElement, writer, "key", cancellationToken); // 30
+			Write(name.RequirementsElement, writer, "requirements", cancellationToken); // 40
+			Write(name.SeverityElement, writer, "severity", cancellationToken); // 50
+			Write(name.HumanElement, writer, "human", cancellationToken); // 60
+			Write(name.ExpressionElement, writer, "expression", cancellationToken); // 70
+			Write(name.XpathElement, writer, "xpath", cancellationToken); // 80
+			Write(name.SourceElement, writer, "source", cancellationToken); // 90
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent
+		public static void Write(Hl7.Fhir.Model.ElementDefinition.ElementDefinitionBindingComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.StrengthElement, writer, "strength", cancellationToken); // 30
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
+			Write(name.ValueSetElement, writer, "valueSet", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ElementDefinition.MappingComponent
+		public static void Write(Hl7.Fhir.Model.ElementDefinition.MappingComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.IdentityElement, writer, "identity", cancellationToken); // 30
+			Write(name.LanguageElement, writer, "language", cancellationToken); // 40
+			Write(name.MapElement, writer, "map", cancellationToken); // 50
+			Write(name.CommentElement, writer, "comment", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Expression
+		public static void Write(Hl7.Fhir.Model.Expression name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 30
+			Write(name.NameElement, writer, "name", cancellationToken); // 40
+			Write(name.LanguageElement, writer, "language", cancellationToken); // 50
+			Write(name.ExpressionElement, writer, "expression", cancellationToken); // 60
+			Write(name.ReferenceElement, writer, "reference", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Extension
+		public static void Write(Hl7.Fhir.Model.Extension name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Url, writer, "url", cancellationToken); // 30
+            Write(name.Value, writer, "value", cancellationToken); // 40
+            Write(name.Extension, writer, "extension", cancellationToken); // 20
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.HumanName
 		public static void Write(Hl7.Fhir.Model.HumanName name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -5842,8 +5709,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -5871,8 +5738,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -5883,8 +5750,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -5895,8 +5762,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -5910,11 +5777,11 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Country, writer, "country", cancellationToken); // 90
-			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 100
-			Write(name.Status, writer, "status", cancellationToken); // 110
-			Write(name.DateRange, writer, "dateRange", cancellationToken); // 120
-			Write(name.RestoreDateElement, writer, "restoreDate", cancellationToken); // 130
+			Write(name.Country, writer, "country", cancellationToken); // 40
+			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 50
+			Write(name.Status, writer, "status", cancellationToken); // 60
+			Write(name.DateRange, writer, "dateRange", cancellationToken); // 70
+			Write(name.RestoreDateElement, writer, "restoreDate", cancellationToken); // 80
 			writer.WriteEndElement();
 		}
 
@@ -5968,8 +5835,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -6014,18 +5881,18 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			switch(name.Age?.TypeName) // 90
+			switch(name.Age?.TypeName) // 40
 			{
 				case "Range":
-					Write(name.Age as Hl7.Fhir.Model.Range, writer, "ageRange", cancellationToken); // 90
+					Write(name.Age as Hl7.Fhir.Model.Range, writer, "ageRange", cancellationToken); // 40
 					break;
 				case "CodeableConcept":
-					Write(name.Age as Hl7.Fhir.Model.CodeableConcept, writer, "ageCodeableConcept", cancellationToken); // 90
+					Write(name.Age as Hl7.Fhir.Model.CodeableConcept, writer, "ageCodeableConcept", cancellationToken); // 40
 					break;
 			}
-			Write(name.Gender, writer, "gender", cancellationToken); // 100
-			Write(name.Race, writer, "race", cancellationToken); // 110
-			Write(name.PhysiologicalCondition, writer, "physiologicalCondition", cancellationToken); // 120
+			Write(name.Gender, writer, "gender", cancellationToken); // 50
+			Write(name.Race, writer, "race", cancellationToken); // 60
+			Write(name.PhysiologicalCondition, writer, "physiologicalCondition", cancellationToken); // 70
 			writer.WriteEndElement();
 		}
 
@@ -6035,7 +5902,18 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.PrimitiveType
+		public static void Write(Hl7.Fhir.Model.PrimitiveType name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
@@ -6050,17 +5928,17 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Height, writer, "height", cancellationToken); // 90
-			Write(name.Width, writer, "width", cancellationToken); // 100
-			Write(name.Depth, writer, "depth", cancellationToken); // 110
-			Write(name.Weight, writer, "weight", cancellationToken); // 120
-			Write(name.NominalVolume, writer, "nominalVolume", cancellationToken); // 130
-			Write(name.ExternalDiameter, writer, "externalDiameter", cancellationToken); // 140
-			Write(name.ShapeElement, writer, "shape", cancellationToken); // 150
-			Write(name.ColorElement, writer, "color", cancellationToken); // 160
-			Write(name.ImprintElement, writer, "imprint", cancellationToken); // 170
-			Write(name.Image, writer, "image", cancellationToken); // 180
-			Write(name.Scoring, writer, "scoring", cancellationToken); // 190
+			Write(name.Height, writer, "height", cancellationToken); // 40
+			Write(name.Width, writer, "width", cancellationToken); // 50
+			Write(name.Depth, writer, "depth", cancellationToken); // 60
+			Write(name.Weight, writer, "weight", cancellationToken); // 70
+			Write(name.NominalVolume, writer, "nominalVolume", cancellationToken); // 80
+			Write(name.ExternalDiameter, writer, "externalDiameter", cancellationToken); // 90
+			Write(name.ShapeElement, writer, "shape", cancellationToken); // 100
+			Write(name.ColorElement, writer, "color", cancellationToken); // 110
+			Write(name.ImprintElement, writer, "imprint", cancellationToken); // 120
+			Write(name.Image, writer, "image", cancellationToken); // 130
+			Write(name.Scoring, writer, "scoring", cancellationToken); // 140
 			writer.WriteEndElement();
 		}
 
@@ -6073,10 +5951,10 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 90
-			Write(name.Type, writer, "type", cancellationToken); // 100
-			Write(name.Period, writer, "period", cancellationToken); // 110
-			Write(name.SpecialPrecautionsForStorage, writer, "specialPrecautionsForStorage", cancellationToken); // 120
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
+			Write(name.Type, writer, "type", cancellationToken); // 50
+			Write(name.Period, writer, "period", cancellationToken); // 60
+			Write(name.SpecialPrecautionsForStorage, writer, "specialPrecautionsForStorage", cancellationToken); // 70
 			writer.WriteEndElement();
 		}
 
@@ -6119,6 +5997,20 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.Numerator, writer, "numerator", cancellationToken); // 30
 			Write(name.Denominator, writer, "denominator", cancellationToken); // 40
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.RatioRange
+		public static void Write(Hl7.Fhir.Model.RatioRange name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.LowNumerator, writer, "lowNumerator", cancellationToken); // 30
+			Write(name.HighNumerator, writer, "highNumerator", cancellationToken); // 40
+			Write(name.Denominator, writer, "denominator", cancellationToken); // 50
 			writer.WriteEndElement();
 		}
 
@@ -6197,49 +6089,9 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceAmount
-		public static void Write(Hl7.Fhir.Model.SubstanceAmount name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			switch(name.Amount?.TypeName) // 90
-			{
-				case "Quantity":
-					Write(name.Amount as Hl7.Fhir.Model.Quantity, writer, "amountQuantity", cancellationToken); // 90
-					break;
-				case "Range":
-					Write(name.Amount as Hl7.Fhir.Model.Range, writer, "amountRange", cancellationToken); // 90
-					break;
-				case "string":
-					Write(name.Amount as Hl7.Fhir.Model.FhirString, writer, "amountString", cancellationToken); // 90
-					break;
-			}
-			Write(name.AmountType, writer, "amountType", cancellationToken); // 100
-			Write(name.AmountTextElement, writer, "amountText", cancellationToken); // 110
-			Write(name.ReferenceRange, writer, "referenceRange", cancellationToken); // 120
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.LowLimit, writer, "lowLimit", cancellationToken); // 40
-			Write(name.HighLimit, writer, "highLimit", cancellationToken); // 50
 			writer.WriteEndElement();
 		}
 
@@ -6249,8 +6101,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -6264,9 +6116,9 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.EventElement, writer, "event", cancellationToken); // 90
-			Write(name.Repeat, writer, "repeat", cancellationToken); // 100
-			Write(name.Code, writer, "code", cancellationToken); // 110
+			Write(name.EventElement, writer, "event", cancellationToken); // 40
+			Write(name.Repeat, writer, "repeat", cancellationToken); // 50
+			Write(name.Code, writer, "code", cancellationToken); // 60
 			writer.WriteEndElement();
 		}
 
@@ -6278,32 +6130,32 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			switch(name.Bounds?.TypeName) // 40
+			switch(name.Bounds?.TypeName) // 30
 			{
 				case "Duration":
-					Write(name.Bounds as Hl7.Fhir.Model.Duration, writer, "boundsDuration", cancellationToken); // 40
+					Write(name.Bounds as Hl7.Fhir.Model.Duration, writer, "boundsDuration", cancellationToken); // 30
 					break;
 				case "Range":
-					Write(name.Bounds as Hl7.Fhir.Model.Range, writer, "boundsRange", cancellationToken); // 40
+					Write(name.Bounds as Hl7.Fhir.Model.Range, writer, "boundsRange", cancellationToken); // 30
 					break;
 				case "Period":
-					Write(name.Bounds as Hl7.Fhir.Model.Period, writer, "boundsPeriod", cancellationToken); // 40
+					Write(name.Bounds as Hl7.Fhir.Model.Period, writer, "boundsPeriod", cancellationToken); // 30
 					break;
 			}
-			Write(name.CountElement, writer, "count", cancellationToken); // 50
-			Write(name.CountMaxElement, writer, "countMax", cancellationToken); // 60
-			Write(name.DurationElement, writer, "duration", cancellationToken); // 70
-			Write(name.DurationMaxElement, writer, "durationMax", cancellationToken); // 80
-			Write(name.DurationUnitElement, writer, "durationUnit", cancellationToken); // 90
-			Write(name.FrequencyElement, writer, "frequency", cancellationToken); // 100
-			Write(name.FrequencyMaxElement, writer, "frequencyMax", cancellationToken); // 110
-			Write(name.PeriodElement, writer, "period", cancellationToken); // 120
-			Write(name.PeriodMaxElement, writer, "periodMax", cancellationToken); // 130
-			Write(name.PeriodUnitElement, writer, "periodUnit", cancellationToken); // 140
-			Write(name.DayOfWeekElement, writer, "dayOfWeek", cancellationToken); // 150
-			Write(name.TimeOfDayElement, writer, "timeOfDay", cancellationToken); // 160
-			Write(name.WhenElement, writer, "when", cancellationToken); // 170
-			Write(name.OffsetElement, writer, "offset", cancellationToken); // 180
+			Write(name.CountElement, writer, "count", cancellationToken); // 40
+			Write(name.CountMaxElement, writer, "countMax", cancellationToken); // 50
+			Write(name.DurationElement, writer, "duration", cancellationToken); // 60
+			Write(name.DurationMaxElement, writer, "durationMax", cancellationToken); // 70
+			Write(name.DurationUnitElement, writer, "durationUnit", cancellationToken); // 80
+			Write(name.FrequencyElement, writer, "frequency", cancellationToken); // 90
+			Write(name.FrequencyMaxElement, writer, "frequencyMax", cancellationToken); // 100
+			Write(name.PeriodElement, writer, "period", cancellationToken); // 110
+			Write(name.PeriodMaxElement, writer, "periodMax", cancellationToken); // 120
+			Write(name.PeriodUnitElement, writer, "periodUnit", cancellationToken); // 130
+			Write(name.DayOfWeekElement, writer, "dayOfWeek", cancellationToken); // 140
+			Write(name.TimeOfDayElement, writer, "timeOfDay", cancellationToken); // 150
+			Write(name.WhenElement, writer, "when", cancellationToken); // 160
+			Write(name.OffsetElement, writer, "offset", cancellationToken); // 170
 			writer.WriteEndElement();
 		}
 
@@ -6343,8 +6195,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -6355,8 +6207,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -6367,8 +6219,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -6406,8 +6258,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -6418,8 +6270,8 @@ namespace Hl7.Fhir.CustomSerializer
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
 			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
+            Write(name.Value, writer, "value", cancellationToken); // 30
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			writer.WriteEndElement();
 		}
@@ -6478,6 +6330,86 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
 			Write(name.PathElement, writer, "path", cancellationToken); // 40
 			Write(name.Expression, writer, "expression", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.AdministrableProductDefinition.PropertyComponent
+		public static void Write(Hl7.Fhir.Model.AdministrableProductDefinition.PropertyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
+			{
+				case "CodeableConcept":
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
+					break;
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
+					break;
+				case "date":
+					Write(name.Value as Hl7.Fhir.Model.Date, writer, "valueDate", cancellationToken); // 50
+					break;
+				case "boolean":
+					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
+					break;
+				case "Attachment":
+					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
+					break;
+			}
+			Write(name.Status, writer, "status", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.AdministrableProductDefinition.RouteOfAdministrationComponent
+		public static void Write(Hl7.Fhir.Model.AdministrableProductDefinition.RouteOfAdministrationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Code, writer, "code", cancellationToken); // 40
+			Write(name.FirstDose, writer, "firstDose", cancellationToken); // 50
+			Write(name.MaxSingleDose, writer, "maxSingleDose", cancellationToken); // 60
+			Write(name.MaxDosePerDay, writer, "maxDosePerDay", cancellationToken); // 70
+			Write(name.MaxDosePerTreatmentPeriod, writer, "maxDosePerTreatmentPeriod", cancellationToken); // 80
+			Write(name.MaxTreatmentPeriod, writer, "maxTreatmentPeriod", cancellationToken); // 90
+			Write(name.TargetSpecies, writer, "targetSpecies", cancellationToken); // 100
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.AdministrableProductDefinition.TargetSpeciesComponent
+		public static void Write(Hl7.Fhir.Model.AdministrableProductDefinition.TargetSpeciesComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Code, writer, "code", cancellationToken); // 40
+			Write(name.WithdrawalPeriod, writer, "withdrawalPeriod", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.AdministrableProductDefinition.WithdrawalPeriodComponent
+		public static void Write(Hl7.Fhir.Model.AdministrableProductDefinition.WithdrawalPeriodComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Tissue, writer, "tissue", cancellationToken); // 40
+			Write(name.Value, writer, "value", cancellationToken); // 50
+			Write(name.SupportingInformationElement, writer, "supportingInformation", cancellationToken); // 60
 			writer.WriteEndElement();
 		}
 
@@ -7724,6 +7656,131 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ItemCodeableConcept, writer, "itemCodeableConcept", cancellationToken); // 40
 			Write(name.ItemReference, writer, "itemReference", cancellationToken); // 50
 			Write(name.BasisElement, writer, "basis", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ClinicalUseDefinition.ContraindicationComponent
+		public static void Write(Hl7.Fhir.Model.ClinicalUseDefinition.ContraindicationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DiseaseSymptomProcedure, writer, "diseaseSymptomProcedure", cancellationToken); // 40
+			Write(name.DiseaseStatus, writer, "diseaseStatus", cancellationToken); // 50
+			Write(name.Comorbidity, writer, "comorbidity", cancellationToken); // 60
+			Write(name.Indication, writer, "indication", cancellationToken); // 70
+			Write(name.OtherTherapy, writer, "otherTherapy", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ClinicalUseDefinition.OtherTherapyComponent
+		public static void Write(Hl7.Fhir.Model.ClinicalUseDefinition.OtherTherapyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.RelationshipType, writer, "relationshipType", cancellationToken); // 40
+			Write(name.Therapy, writer, "therapy", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ClinicalUseDefinition.IndicationComponent
+		public static void Write(Hl7.Fhir.Model.ClinicalUseDefinition.IndicationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DiseaseSymptomProcedure, writer, "diseaseSymptomProcedure", cancellationToken); // 40
+			Write(name.DiseaseStatus, writer, "diseaseStatus", cancellationToken); // 50
+			Write(name.Comorbidity, writer, "comorbidity", cancellationToken); // 60
+			Write(name.IntendedEffect, writer, "intendedEffect", cancellationToken); // 70
+			switch(name.Duration?.TypeName) // 80
+			{
+				case "Range":
+					Write(name.Duration as Hl7.Fhir.Model.Range, writer, "durationRange", cancellationToken); // 80
+					break;
+				case "string":
+					Write(name.Duration as Hl7.Fhir.Model.FhirString, writer, "durationString", cancellationToken); // 80
+					break;
+			}
+			Write(name.UndesirableEffect, writer, "undesirableEffect", cancellationToken); // 90
+			Write(name.OtherTherapy, writer, "otherTherapy", cancellationToken); // 100
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ClinicalUseDefinition.InteractionComponent
+		public static void Write(Hl7.Fhir.Model.ClinicalUseDefinition.InteractionComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Interactant, writer, "interactant", cancellationToken); // 40
+			Write(name.Type, writer, "type", cancellationToken); // 50
+			Write(name.Effect, writer, "effect", cancellationToken); // 60
+			Write(name.Incidence, writer, "incidence", cancellationToken); // 70
+			Write(name.Management, writer, "management", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ClinicalUseDefinition.InteractantComponent
+		public static void Write(Hl7.Fhir.Model.ClinicalUseDefinition.InteractantComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			switch(name.Item?.TypeName) // 40
+			{
+				case "Reference":
+					Write(name.Item as Hl7.Fhir.Model.ResourceReference, writer, "itemReference", cancellationToken); // 40
+					break;
+				case "CodeableConcept":
+					Write(name.Item as Hl7.Fhir.Model.CodeableConcept, writer, "itemCodeableConcept", cancellationToken); // 40
+					break;
+			}
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ClinicalUseDefinition.UndesirableEffectComponent
+		public static void Write(Hl7.Fhir.Model.ClinicalUseDefinition.UndesirableEffectComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.SymptomConditionEffect, writer, "symptomConditionEffect", cancellationToken); // 40
+			Write(name.Classification, writer, "classification", cancellationToken); // 50
+			Write(name.FrequencyOfOccurrence, writer, "frequencyOfOccurrence", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ClinicalUseDefinition.WarningComponent
+		public static void Write(Hl7.Fhir.Model.ClinicalUseDefinition.WarningComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Description, writer, "description", cancellationToken); // 40
+			Write(name.Code, writer, "code", cancellationToken); // 50
 			writer.WriteEndElement();
 		}
 
@@ -9062,101 +9119,6 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 80
 		}
 
-		// Hl7.Fhir.Model.EffectEvidenceSynthesis.SampleSizeComponent
-		public static void Write(Hl7.Fhir.Model.EffectEvidenceSynthesis.SampleSizeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
-			Write(name.NumberOfStudiesElement, writer, "numberOfStudies", cancellationToken); // 50
-			Write(name.NumberOfParticipantsElement, writer, "numberOfParticipants", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.EffectEvidenceSynthesis.ResultsByExposureComponent
-		public static void Write(Hl7.Fhir.Model.EffectEvidenceSynthesis.ResultsByExposureComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
-			Write(name.ExposureState_Element, writer, "exposureState", cancellationToken); // 50
-			Write(name.VariantState, writer, "variantState", cancellationToken); // 60
-			Write(name.RiskEvidenceSynthesis, writer, "riskEvidenceSynthesis", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.EffectEvidenceSynthesis.EffectEstimateComponent
-		public static void Write(Hl7.Fhir.Model.EffectEvidenceSynthesis.EffectEstimateComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
-			Write(name.Type, writer, "type", cancellationToken); // 50
-			Write(name.VariantState, writer, "variantState", cancellationToken); // 60
-			Write(name.ValueElement, writer, "value", cancellationToken); // 70
-			Write(name.UnitOfMeasure, writer, "unitOfMeasure", cancellationToken); // 80
-			Write(name.PrecisionEstimate, writer, "precisionEstimate", cancellationToken); // 90
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.EffectEvidenceSynthesis.PrecisionEstimateComponent
-		public static void Write(Hl7.Fhir.Model.EffectEvidenceSynthesis.PrecisionEstimateComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Type, writer, "type", cancellationToken); // 40
-			Write(name.LevelElement, writer, "level", cancellationToken); // 50
-			Write(name.FromElement, writer, "from", cancellationToken); // 60
-			Write(name.ToElement, writer, "to", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.EffectEvidenceSynthesis.CertaintyComponent
-		public static void Write(Hl7.Fhir.Model.EffectEvidenceSynthesis.CertaintyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Rating, writer, "rating", cancellationToken); // 40
-			Write(name.Note, writer, "note", cancellationToken); // 50
-			Write(name.CertaintySubcomponent, writer, "certaintySubcomponent", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.EffectEvidenceSynthesis.CertaintySubcomponentComponent
-		public static void Write(Hl7.Fhir.Model.EffectEvidenceSynthesis.CertaintySubcomponentComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Type, writer, "type", cancellationToken); // 40
-			Write(name.Rating, writer, "rating", cancellationToken); // 50
-			Write(name.Note, writer, "note", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
 		// Hl7.Fhir.Model.Encounter.StatusHistoryComponent
 		public static void Write(Hl7.Fhir.Model.Encounter.StatusHistoryComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -9281,6 +9243,226 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.Evidence.VariableDefinitionComponent
+		public static void Write(Hl7.Fhir.Model.Evidence.VariableDefinitionComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Description, writer, "description", cancellationToken); // 40
+			Write(name.Note, writer, "note", cancellationToken); // 50
+			Write(name.VariableRole, writer, "variableRole", cancellationToken); // 60
+			Write(name.Observed, writer, "observed", cancellationToken); // 70
+			Write(name.Intended, writer, "intended", cancellationToken); // 80
+			Write(name.DirectnessMatch, writer, "directnessMatch", cancellationToken); // 90
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Evidence.StatisticComponent
+		public static void Write(Hl7.Fhir.Model.Evidence.StatisticComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
+			Write(name.Note, writer, "note", cancellationToken); // 50
+			Write(name.StatisticType, writer, "statisticType", cancellationToken); // 60
+			Write(name.Category, writer, "category", cancellationToken); // 70
+			Write(name.Quantity, writer, "quantity", cancellationToken); // 80
+			Write(name.NumberOfEventsElement, writer, "numberOfEvents", cancellationToken); // 90
+			Write(name.NumberAffectedElement, writer, "numberAffected", cancellationToken); // 100
+			Write(name.SampleSize, writer, "sampleSize", cancellationToken); // 110
+			Write(name.AttributeEstimate, writer, "attributeEstimate", cancellationToken); // 120
+			Write(name.ModelCharacteristic, writer, "modelCharacteristic", cancellationToken); // 130
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Evidence.SampleSizeComponent
+		public static void Write(Hl7.Fhir.Model.Evidence.SampleSizeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
+			Write(name.Note, writer, "note", cancellationToken); // 50
+			Write(name.NumberOfStudiesElement, writer, "numberOfStudies", cancellationToken); // 60
+			Write(name.NumberOfParticipantsElement, writer, "numberOfParticipants", cancellationToken); // 70
+			Write(name.KnownDataCountElement, writer, "knownDataCount", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Evidence.AttributeEstimateComponent
+		public static void Write(Hl7.Fhir.Model.Evidence.AttributeEstimateComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
+			Write(name.Note, writer, "note", cancellationToken); // 50
+			Write(name.Type, writer, "type", cancellationToken); // 60
+			Write(name.Quantity, writer, "quantity", cancellationToken); // 70
+			Write(name.LevelElement, writer, "level", cancellationToken); // 80
+			Write(name.Range, writer, "range", cancellationToken); // 90
+			Write(name.AttributeEstimate, writer, "attributeEstimate", cancellationToken); // 100
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Evidence.ModelCharacteristicComponent
+		public static void Write(Hl7.Fhir.Model.Evidence.ModelCharacteristicComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Code, writer, "code", cancellationToken); // 40
+			Write(name.Value, writer, "value", cancellationToken); // 50
+			Write(name.Variable, writer, "variable", cancellationToken); // 60
+			Write(name.AttributeEstimate, writer, "attributeEstimate", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Evidence.VariableComponent
+		public static void Write(Hl7.Fhir.Model.Evidence.VariableComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.VariableDefinition, writer, "variableDefinition", cancellationToken); // 40
+			Write(name.HandlingElement, writer, "handling", cancellationToken); // 50
+			Write(name.ValueCategory, writer, "valueCategory", cancellationToken); // 60
+			Write(name.ValueQuantity, writer, "valueQuantity", cancellationToken); // 70
+			Write(name.ValueRange, writer, "valueRange", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Evidence.CertaintyComponent
+		public static void Write(Hl7.Fhir.Model.Evidence.CertaintyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
+			Write(name.Note, writer, "note", cancellationToken); // 50
+			Write(name.Type, writer, "type", cancellationToken); // 60
+			Write(name.Rating, writer, "rating", cancellationToken); // 70
+			Write(name.RaterElement, writer, "rater", cancellationToken); // 80
+			Write(name.Subcomponent, writer, "subcomponent", cancellationToken); // 90
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.EvidenceReport.SubjectComponent
+		public static void Write(Hl7.Fhir.Model.EvidenceReport.SubjectComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Characteristic, writer, "characteristic", cancellationToken); // 40
+			Write(name.Note, writer, "note", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.EvidenceReport.CharacteristicComponent
+		public static void Write(Hl7.Fhir.Model.EvidenceReport.CharacteristicComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Code, writer, "code", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
+			{
+				case "Reference":
+					Write(name.Value as Hl7.Fhir.Model.ResourceReference, writer, "valueReference", cancellationToken); // 50
+					break;
+				case "CodeableConcept":
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
+					break;
+				case "boolean":
+					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
+					break;
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
+					break;
+				case "Range":
+					Write(name.Value as Hl7.Fhir.Model.Range, writer, "valueRange", cancellationToken); // 50
+					break;
+			}
+			Write(name.ExcludeElement, writer, "exclude", cancellationToken); // 60
+			Write(name.Period, writer, "period", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.EvidenceReport.RelatesToComponent
+		public static void Write(Hl7.Fhir.Model.EvidenceReport.RelatesToComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.CodeElement, writer, "code", cancellationToken); // 40
+			switch(name.Target?.TypeName) // 50
+			{
+				case "Identifier":
+					Write(name.Target as Hl7.Fhir.Model.Identifier, writer, "targetIdentifier", cancellationToken); // 50
+					break;
+				case "Reference":
+					Write(name.Target as Hl7.Fhir.Model.ResourceReference, writer, "targetReference", cancellationToken); // 50
+					break;
+			}
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.EvidenceReport.SectionComponent
+		public static void Write(Hl7.Fhir.Model.EvidenceReport.SectionComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.TitleElement, writer, "title", cancellationToken); // 40
+			Write(name.Focus, writer, "focus", cancellationToken); // 50
+			Write(name.FocusReference, writer, "focusReference", cancellationToken); // 60
+			Write(name.Author, writer, "author", cancellationToken); // 70
+			Write(name.Text, writer, "text", cancellationToken); // 80
+			Write(name.ModeElement, writer, "mode", cancellationToken); // 90
+			Write(name.OrderedBy, writer, "orderedBy", cancellationToken); // 100
+			Write(name.EntryClassifier, writer, "entryClassifier", cancellationToken); // 110
+			Write(name.EntryReference, writer, "entryReference", cancellationToken); // 120
+			Write(name.EntryQuantity, writer, "entryQuantity", cancellationToken); // 130
+			Write(name.EmptyReason, writer, "emptyReason", cancellationToken); // 140
+			Write(name.Section, writer, "section", cancellationToken); // 150
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.EvidenceVariable.CharacteristicComponent
 		public static void Write(Hl7.Fhir.Model.EvidenceVariable.CharacteristicComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -9305,32 +9487,53 @@ namespace Hl7.Fhir.CustomSerializer
 				case "Expression":
 					Write(name.Definition as Hl7.Fhir.Model.Expression, writer, "definitionExpression", cancellationToken); // 50
 					break;
-				case "DataRequirement":
-					Write(name.Definition as Hl7.Fhir.Model.DataRequirement, writer, "definitionDataRequirement", cancellationToken); // 50
-					break;
-				case "TriggerDefinition":
-					Write(name.Definition as Hl7.Fhir.Model.TriggerDefinition, writer, "definitionTriggerDefinition", cancellationToken); // 50
-					break;
 			}
-			Write(name.UsageContext, writer, "usageContext", cancellationToken); // 60
-			Write(name.ExcludeElement, writer, "exclude", cancellationToken); // 70
-			switch(name.ParticipantEffective?.TypeName) // 80
-			{
-				case "dateTime":
-					Write(name.ParticipantEffective as Hl7.Fhir.Model.FhirDateTime, writer, "participantEffectiveDateTime", cancellationToken); // 80
-					break;
-				case "Period":
-					Write(name.ParticipantEffective as Hl7.Fhir.Model.Period, writer, "participantEffectivePeriod", cancellationToken); // 80
-					break;
-				case "Duration":
-					Write(name.ParticipantEffective as Hl7.Fhir.Model.Duration, writer, "participantEffectiveDuration", cancellationToken); // 80
-					break;
-				case "Timing":
-					Write(name.ParticipantEffective as Hl7.Fhir.Model.Timing, writer, "participantEffectiveTiming", cancellationToken); // 80
-					break;
-			}
+			Write(name.Method, writer, "method", cancellationToken); // 60
+			Write(name.Device, writer, "device", cancellationToken); // 70
+			Write(name.ExcludeElement, writer, "exclude", cancellationToken); // 80
 			Write(name.TimeFromStart, writer, "timeFromStart", cancellationToken); // 90
 			Write(name.GroupMeasureElement, writer, "groupMeasure", cancellationToken); // 100
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.EvidenceVariable.TimeFromStartComponent
+		public static void Write(Hl7.Fhir.Model.EvidenceVariable.TimeFromStartComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
+			Write(name.Quantity, writer, "quantity", cancellationToken); // 50
+			Write(name.Range, writer, "range", cancellationToken); // 60
+			Write(name.Note, writer, "note", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.EvidenceVariable.CategoryComponent
+		public static void Write(Hl7.Fhir.Model.EvidenceVariable.CategoryComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.NameElement, writer, "name", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
+			{
+				case "CodeableConcept":
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
+					break;
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
+					break;
+				case "Range":
+					Write(name.Value as Hl7.Fhir.Model.Range, writer, "valueRange", cancellationToken); // 50
+					break;
+			}
 			writer.WriteEndElement();
 		}
 
@@ -10557,6 +10760,93 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.Ingredient.ManufacturerComponent
+		public static void Write(Hl7.Fhir.Model.Ingredient.ManufacturerComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.RoleElement, writer, "role", cancellationToken); // 40
+			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Ingredient.SubstanceComponent
+		public static void Write(Hl7.Fhir.Model.Ingredient.SubstanceComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Code, writer, "code", cancellationToken); // 40
+			Write(name.Strength, writer, "strength", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Ingredient.StrengthComponent
+		public static void Write(Hl7.Fhir.Model.Ingredient.StrengthComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			switch(name.Presentation?.TypeName) // 40
+			{
+				case "Ratio":
+					Write(name.Presentation as Hl7.Fhir.Model.Ratio, writer, "presentationRatio", cancellationToken); // 40
+					break;
+				case "RatioRange":
+					Write(name.Presentation as Hl7.Fhir.Model.RatioRange, writer, "presentationRatioRange", cancellationToken); // 40
+					break;
+			}
+			Write(name.TextPresentationElement, writer, "textPresentation", cancellationToken); // 50
+			switch(name.Concentration?.TypeName) // 60
+			{
+				case "Ratio":
+					Write(name.Concentration as Hl7.Fhir.Model.Ratio, writer, "concentrationRatio", cancellationToken); // 60
+					break;
+				case "RatioRange":
+					Write(name.Concentration as Hl7.Fhir.Model.RatioRange, writer, "concentrationRatioRange", cancellationToken); // 60
+					break;
+			}
+			Write(name.TextConcentrationElement, writer, "textConcentration", cancellationToken); // 70
+			Write(name.MeasurementPointElement, writer, "measurementPoint", cancellationToken); // 80
+			Write(name.Country, writer, "country", cancellationToken); // 90
+			Write(name.ReferenceStrength, writer, "referenceStrength", cancellationToken); // 100
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Ingredient.ReferenceStrengthComponent
+		public static void Write(Hl7.Fhir.Model.Ingredient.ReferenceStrengthComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Substance, writer, "substance", cancellationToken); // 40
+			switch(name.Strength?.TypeName) // 50
+			{
+				case "Ratio":
+					Write(name.Strength as Hl7.Fhir.Model.Ratio, writer, "strengthRatio", cancellationToken); // 50
+					break;
+				case "RatioRange":
+					Write(name.Strength as Hl7.Fhir.Model.RatioRange, writer, "strengthRatioRange", cancellationToken); // 50
+					break;
+			}
+			Write(name.MeasurementPointElement, writer, "measurementPoint", cancellationToken); // 60
+			Write(name.Country, writer, "country", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.InsurancePlan.ContactComponent
 		public static void Write(Hl7.Fhir.Model.InsurancePlan.ContactComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -10806,6 +11096,37 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.AllDayElement, writer, "allDay", cancellationToken); // 50
 			Write(name.OpeningTimeElement, writer, "openingTime", cancellationToken); // 60
 			Write(name.ClosingTimeElement, writer, "closingTime", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.ManufacturedItemDefinition.PropertyComponent
+		public static void Write(Hl7.Fhir.Model.ManufacturedItemDefinition.PropertyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
+			{
+				case "CodeableConcept":
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
+					break;
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
+					break;
+				case "date":
+					Write(name.Value as Hl7.Fhir.Model.Date, writer, "valueDate", cancellationToken); // 50
+					break;
+				case "boolean":
+					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
+					break;
+				case "Attachment":
+					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
+					break;
+			}
 			writer.WriteEndElement();
 		}
 
@@ -11406,8 +11727,22 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.MedicinalProduct.NameComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProduct.NameComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.MedicinalProductDefinition.ContactComponent
+		public static void Write(Hl7.Fhir.Model.MedicinalProductDefinition.ContactComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Contact, writer, "contact", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.MedicinalProductDefinition.NameComponent
+		public static void Write(Hl7.Fhir.Model.MedicinalProductDefinition.NameComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -11416,13 +11751,14 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
 			Write(name.ProductNameElement, writer, "productName", cancellationToken); // 40
-			Write(name.NamePart, writer, "namePart", cancellationToken); // 50
-			Write(name.CountryLanguage, writer, "countryLanguage", cancellationToken); // 60
+			Write(name.Type, writer, "type", cancellationToken); // 50
+			Write(name.NamePart, writer, "namePart", cancellationToken); // 60
+			Write(name.CountryLanguage, writer, "countryLanguage", cancellationToken); // 70
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.MedicinalProduct.NamePartComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProduct.NamePartComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.MedicinalProductDefinition.NamePartComponent
+		public static void Write(Hl7.Fhir.Model.MedicinalProductDefinition.NamePartComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -11435,8 +11771,8 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.MedicinalProduct.CountryLanguageComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProduct.CountryLanguageComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.MedicinalProductDefinition.CountryLanguageComponent
+		public static void Write(Hl7.Fhir.Model.MedicinalProductDefinition.CountryLanguageComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -11450,8 +11786,8 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.MedicinalProduct.ManufacturingBusinessOperationComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProduct.ManufacturingBusinessOperationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.MedicinalProductDefinition.CrossReferenceComponent
+		public static void Write(Hl7.Fhir.Model.MedicinalProductDefinition.CrossReferenceComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -11459,17 +11795,29 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.OperationType, writer, "operationType", cancellationToken); // 40
-			Write(name.AuthorisationReferenceNumber, writer, "authorisationReferenceNumber", cancellationToken); // 50
-			Write(name.EffectiveDateElement, writer, "effectiveDate", cancellationToken); // 60
+			Write(name.Product, writer, "product", cancellationToken); // 40
+			Write(name.Type, writer, "type", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.MedicinalProductDefinition.OperationComponent
+		public static void Write(Hl7.Fhir.Model.MedicinalProductDefinition.OperationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.EffectiveDate, writer, "effectiveDate", cancellationToken); // 50
+			Write(name.Organization, writer, "organization", cancellationToken); // 60
 			Write(name.ConfidentialityIndicator, writer, "confidentialityIndicator", cancellationToken); // 70
-			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 80
-			Write(name.Regulator, writer, "regulator", cancellationToken); // 90
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.MedicinalProduct.SpecialDesignationComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProduct.SpecialDesignationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.MedicinalProductDefinition.CharacteristicComponent
+		public static void Write(Hl7.Fhir.Model.MedicinalProductDefinition.CharacteristicComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -11477,293 +11825,25 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
-			Write(name.Type, writer, "type", cancellationToken); // 50
-			Write(name.IntendedUse, writer, "intendedUse", cancellationToken); // 60
-			switch(name.Indication?.TypeName) // 70
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
 			{
 				case "CodeableConcept":
-					Write(name.Indication as Hl7.Fhir.Model.CodeableConcept, writer, "indicationCodeableConcept", cancellationToken); // 70
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
 					break;
-				case "Reference":
-					Write(name.Indication as Hl7.Fhir.Model.ResourceReference, writer, "indicationReference", cancellationToken); // 70
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
 					break;
-			}
-			Write(name.Status, writer, "status", cancellationToken); // 80
-			Write(name.DateElement, writer, "date", cancellationToken); // 90
-			Write(name.Species, writer, "species", cancellationToken); // 100
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductAuthorization.JurisdictionalAuthorizationComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductAuthorization.JurisdictionalAuthorizationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
-			Write(name.Country, writer, "country", cancellationToken); // 50
-			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 60
-			Write(name.LegalStatusOfSupply, writer, "legalStatusOfSupply", cancellationToken); // 70
-			Write(name.ValidityPeriod, writer, "validityPeriod", cancellationToken); // 80
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
-			Write(name.Type, writer, "type", cancellationToken); // 50
-			switch(name.Date?.TypeName) // 60
-			{
-				case "Period":
-					Write(name.Date as Hl7.Fhir.Model.Period, writer, "datePeriod", cancellationToken); // 60
+				case "date":
+					Write(name.Value as Hl7.Fhir.Model.Date, writer, "valueDate", cancellationToken); // 50
 					break;
-				case "dateTime":
-					Write(name.Date as Hl7.Fhir.Model.FhirDateTime, writer, "dateDateTime", cancellationToken); // 60
+				case "boolean":
+					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
+					break;
+				case "Attachment":
+					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
 					break;
 			}
-			Write(name.Application, writer, "application", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductContraindication.OtherTherapyComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductContraindication.OtherTherapyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.TherapyRelationshipType, writer, "therapyRelationshipType", cancellationToken); // 40
-			switch(name.Medication?.TypeName) // 50
-			{
-				case "CodeableConcept":
-					Write(name.Medication as Hl7.Fhir.Model.CodeableConcept, writer, "medicationCodeableConcept", cancellationToken); // 50
-					break;
-				case "Reference":
-					Write(name.Medication as Hl7.Fhir.Model.ResourceReference, writer, "medicationReference", cancellationToken); // 50
-					break;
-			}
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductIndication.OtherTherapyComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductIndication.OtherTherapyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.TherapyRelationshipType, writer, "therapyRelationshipType", cancellationToken); // 40
-			switch(name.Medication?.TypeName) // 50
-			{
-				case "CodeableConcept":
-					Write(name.Medication as Hl7.Fhir.Model.CodeableConcept, writer, "medicationCodeableConcept", cancellationToken); // 50
-					break;
-				case "Reference":
-					Write(name.Medication as Hl7.Fhir.Model.ResourceReference, writer, "medicationReference", cancellationToken); // 50
-					break;
-			}
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductIngredient.SpecifiedSubstanceComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductIngredient.SpecifiedSubstanceComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Code, writer, "code", cancellationToken); // 40
-			Write(name.Group, writer, "group", cancellationToken); // 50
-			Write(name.Confidentiality, writer, "confidentiality", cancellationToken); // 60
-			Write(name.Strength, writer, "strength", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductIngredient.StrengthComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductIngredient.StrengthComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Presentation, writer, "presentation", cancellationToken); // 40
-			Write(name.PresentationLowLimit, writer, "presentationLowLimit", cancellationToken); // 50
-			Write(name.Concentration, writer, "concentration", cancellationToken); // 60
-			Write(name.ConcentrationLowLimit, writer, "concentrationLowLimit", cancellationToken); // 70
-			Write(name.MeasurementPointElement, writer, "measurementPoint", cancellationToken); // 80
-			Write(name.Country, writer, "country", cancellationToken); // 90
-			Write(name.ReferenceStrength, writer, "referenceStrength", cancellationToken); // 100
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Substance, writer, "substance", cancellationToken); // 40
-			Write(name.Strength, writer, "strength", cancellationToken); // 50
-			Write(name.StrengthLowLimit, writer, "strengthLowLimit", cancellationToken); // 60
-			Write(name.MeasurementPointElement, writer, "measurementPoint", cancellationToken); // 70
-			Write(name.Country, writer, "country", cancellationToken); // 80
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductIngredient.SubstanceComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductIngredient.SubstanceComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Code, writer, "code", cancellationToken); // 40
-			Write(name.Strength, writer, "strength", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductInteraction.InteractantComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductInteraction.InteractantComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			switch(name.Item?.TypeName) // 40
-			{
-				case "Reference":
-					Write(name.Item as Hl7.Fhir.Model.ResourceReference, writer, "itemReference", cancellationToken); // 40
-					break;
-				case "CodeableConcept":
-					Write(name.Item as Hl7.Fhir.Model.CodeableConcept, writer, "itemCodeableConcept", cancellationToken); // 40
-					break;
-			}
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductPackaged.BatchIdentifierComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductPackaged.BatchIdentifierComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.OuterPackaging, writer, "outerPackaging", cancellationToken); // 40
-			Write(name.ImmediatePackaging, writer, "immediatePackaging", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
-			Write(name.Type, writer, "type", cancellationToken); // 50
-			Write(name.Quantity, writer, "quantity", cancellationToken); // 60
-			Write(name.Material, writer, "material", cancellationToken); // 70
-			Write(name.AlternateMaterial, writer, "alternateMaterial", cancellationToken); // 80
-			Write(name.Device, writer, "device", cancellationToken); // 90
-			Write(name.ManufacturedItem, writer, "manufacturedItem", cancellationToken); // 100
-			Write(name.PackageItem, writer, "packageItem", cancellationToken); // 110
-			Write(name.PhysicalCharacteristics, writer, "physicalCharacteristics", cancellationToken); // 120
-			Write(name.OtherCharacteristics, writer, "otherCharacteristics", cancellationToken); // 130
-			Write(name.ShelfLifeStorage, writer, "shelfLifeStorage", cancellationToken); // 140
-			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 150
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductPharmaceutical.CharacteristicsComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductPharmaceutical.CharacteristicsComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Code, writer, "code", cancellationToken); // 40
-			Write(name.Status, writer, "status", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductPharmaceutical.RouteOfAdministrationComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductPharmaceutical.RouteOfAdministrationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Code, writer, "code", cancellationToken); // 40
-			Write(name.FirstDose, writer, "firstDose", cancellationToken); // 50
-			Write(name.MaxSingleDose, writer, "maxSingleDose", cancellationToken); // 60
-			Write(name.MaxDosePerDay, writer, "maxDosePerDay", cancellationToken); // 70
-			Write(name.MaxDosePerTreatmentPeriod, writer, "maxDosePerTreatmentPeriod", cancellationToken); // 80
-			Write(name.MaxTreatmentPeriod, writer, "maxTreatmentPeriod", cancellationToken); // 90
-			Write(name.TargetSpecies, writer, "targetSpecies", cancellationToken); // 100
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductPharmaceutical.TargetSpeciesComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductPharmaceutical.TargetSpeciesComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Code, writer, "code", cancellationToken); // 40
-			Write(name.WithdrawalPeriod, writer, "withdrawalPeriod", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.MedicinalProductPharmaceutical.WithdrawalPeriodComponent
-		public static void Write(Hl7.Fhir.Model.MedicinalProductPharmaceutical.WithdrawalPeriodComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Tissue, writer, "tissue", cancellationToken); // 40
-			Write(name.Value, writer, "value", cancellationToken); // 50
-			Write(name.SupportingInformationElement, writer, "supportingInformation", cancellationToken); // 60
 			writer.WriteEndElement();
 		}
 
@@ -12117,6 +12197,85 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.NutritionProduct.NutrientComponent
+		public static void Write(Hl7.Fhir.Model.NutritionProduct.NutrientComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Item, writer, "item", cancellationToken); // 40
+			Write(name.Amount, writer, "amount", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.NutritionProduct.IngredientComponent
+		public static void Write(Hl7.Fhir.Model.NutritionProduct.IngredientComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Item, writer, "item", cancellationToken); // 40
+			Write(name.Amount, writer, "amount", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.NutritionProduct.ProductCharacteristicComponent
+		public static void Write(Hl7.Fhir.Model.NutritionProduct.ProductCharacteristicComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
+			{
+				case "CodeableConcept":
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
+					break;
+				case "string":
+					Write(name.Value as Hl7.Fhir.Model.FhirString, writer, "valueString", cancellationToken); // 50
+					break;
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
+					break;
+				case "base64Binary":
+					Write(name.Value as Hl7.Fhir.Model.Base64Binary, writer, "valueBase64Binary", cancellationToken); // 50
+					break;
+				case "Attachment":
+					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
+					break;
+				case "boolean":
+					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
+					break;
+			}
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.NutritionProduct.InstanceComponent
+		public static void Write(Hl7.Fhir.Model.NutritionProduct.InstanceComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Quantity, writer, "quantity", cancellationToken); // 40
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 50
+			Write(name.LotNumberElement, writer, "lotNumber", cancellationToken); // 60
+			Write(name.ExpiryElement, writer, "expiry", cancellationToken); // 70
+			Write(name.UseByElement, writer, "useBy", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.Observation.ReferenceRangeComponent
 		public static void Write(Hl7.Fhir.Model.Observation.ReferenceRangeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -12322,6 +12481,110 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.PackagedProductDefinition.LegalStatusOfSupplyComponent
+		public static void Write(Hl7.Fhir.Model.PackagedProductDefinition.LegalStatusOfSupplyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Code, writer, "code", cancellationToken); // 40
+			Write(name.Jurisdiction, writer, "jurisdiction", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.PackagedProductDefinition.PackageComponent
+		public static void Write(Hl7.Fhir.Model.PackagedProductDefinition.PackageComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
+			Write(name.Type, writer, "type", cancellationToken); // 50
+			Write(name.QuantityElement, writer, "quantity", cancellationToken); // 60
+			Write(name.Material, writer, "material", cancellationToken); // 70
+			Write(name.AlternateMaterial, writer, "alternateMaterial", cancellationToken); // 80
+			Write(name.ShelfLifeStorage, writer, "shelfLifeStorage", cancellationToken); // 90
+			Write(name.Manufacturer, writer, "manufacturer", cancellationToken); // 100
+			Write(name.Property, writer, "property", cancellationToken); // 110
+			Write(name.ContainedItem, writer, "containedItem", cancellationToken); // 120
+			Write(name.Package, writer, "package", cancellationToken); // 130
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.PackagedProductDefinition.ShelfLifeStorageComponent
+		public static void Write(Hl7.Fhir.Model.PackagedProductDefinition.ShelfLifeStorageComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			switch(name.Period?.TypeName) // 50
+			{
+				case "Duration":
+					Write(name.Period as Hl7.Fhir.Model.Duration, writer, "periodDuration", cancellationToken); // 50
+					break;
+				case "string":
+					Write(name.Period as Hl7.Fhir.Model.FhirString, writer, "periodString", cancellationToken); // 50
+					break;
+			}
+			Write(name.SpecialPrecautionsForStorage, writer, "specialPrecautionsForStorage", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.PackagedProductDefinition.PropertyComponent
+		public static void Write(Hl7.Fhir.Model.PackagedProductDefinition.PropertyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
+			{
+				case "CodeableConcept":
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
+					break;
+				case "Quantity":
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
+					break;
+				case "date":
+					Write(name.Value as Hl7.Fhir.Model.Date, writer, "valueDate", cancellationToken); // 50
+					break;
+				case "boolean":
+					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
+					break;
+				case "Attachment":
+					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
+					break;
+			}
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.PackagedProductDefinition.ContainedItemComponent
+		public static void Write(Hl7.Fhir.Model.PackagedProductDefinition.ContainedItemComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Item, writer, "item", cancellationToken); // 40
+			Write(name.Amount, writer, "amount", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.Parameters.ParameterComponent
 		public static void Write(Hl7.Fhir.Model.Parameters.ParameterComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -12332,159 +12595,7 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
 			Write(name.NameElement, writer, "name", cancellationToken); // 40
-			switch(name.Value?.TypeName) // 50
-			{
-				case "base64Binary":
-					Write(name.Value as Hl7.Fhir.Model.Base64Binary, writer, "valueBase64Binary", cancellationToken); // 50
-					break;
-				case "boolean":
-					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
-					break;
-				case "canonical":
-					Write(name.Value as Hl7.Fhir.Model.Canonical, writer, "valueCanonical", cancellationToken); // 50
-					break;
-				case "code":
-					Write(name.Value as Hl7.Fhir.Model.Code, writer, "valueCode", cancellationToken); // 50
-					break;
-				case "date":
-					Write(name.Value as Hl7.Fhir.Model.Date, writer, "valueDate", cancellationToken); // 50
-					break;
-				case "dateTime":
-					Write(name.Value as Hl7.Fhir.Model.FhirDateTime, writer, "valueDateTime", cancellationToken); // 50
-					break;
-				case "decimal":
-					Write(name.Value as Hl7.Fhir.Model.FhirDecimal, writer, "valueDecimal", cancellationToken); // 50
-					break;
-				case "id":
-					Write(name.Value as Hl7.Fhir.Model.Id, writer, "valueId", cancellationToken); // 50
-					break;
-				case "instant":
-					Write(name.Value as Hl7.Fhir.Model.Instant, writer, "valueInstant", cancellationToken); // 50
-					break;
-				case "integer":
-					Write(name.Value as Hl7.Fhir.Model.Integer, writer, "valueInteger", cancellationToken); // 50
-					break;
-				case "markdown":
-					Write(name.Value as Hl7.Fhir.Model.Markdown, writer, "valueMarkdown", cancellationToken); // 50
-					break;
-				case "oid":
-					Write(name.Value as Hl7.Fhir.Model.Oid, writer, "valueOid", cancellationToken); // 50
-					break;
-				case "positiveInt":
-					Write(name.Value as Hl7.Fhir.Model.PositiveInt, writer, "valuePositiveInt", cancellationToken); // 50
-					break;
-				case "string":
-					Write(name.Value as Hl7.Fhir.Model.FhirString, writer, "valueString", cancellationToken); // 50
-					break;
-				case "time":
-					Write(name.Value as Hl7.Fhir.Model.Time, writer, "valueTime", cancellationToken); // 50
-					break;
-				case "unsignedInt":
-					Write(name.Value as Hl7.Fhir.Model.UnsignedInt, writer, "valueUnsignedInt", cancellationToken); // 50
-					break;
-				case "uri":
-					Write(name.Value as Hl7.Fhir.Model.FhirUri, writer, "valueUri", cancellationToken); // 50
-					break;
-				case "url":
-					Write(name.Value as Hl7.Fhir.Model.FhirUrl, writer, "valueUrl", cancellationToken); // 50
-					break;
-				case "uuid":
-					Write(name.Value as Hl7.Fhir.Model.Uuid, writer, "valueUuid", cancellationToken); // 50
-					break;
-				case "Address":
-					Write(name.Value as Hl7.Fhir.Model.Address, writer, "valueAddress", cancellationToken); // 50
-					break;
-				case "Age":
-					Write(name.Value as Hl7.Fhir.Model.Age, writer, "valueAge", cancellationToken); // 50
-					break;
-				case "Annotation":
-					Write(name.Value as Hl7.Fhir.Model.Annotation, writer, "valueAnnotation", cancellationToken); // 50
-					break;
-				case "Attachment":
-					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
-					break;
-				case "CodeableConcept":
-					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
-					break;
-				case "Coding":
-					Write(name.Value as Hl7.Fhir.Model.Coding, writer, "valueCoding", cancellationToken); // 50
-					break;
-				case "ContactPoint":
-					Write(name.Value as Hl7.Fhir.Model.ContactPoint, writer, "valueContactPoint", cancellationToken); // 50
-					break;
-				case "Count":
-					Write(name.Value as Hl7.Fhir.Model.Count, writer, "valueCount", cancellationToken); // 50
-					break;
-				case "Distance":
-					Write(name.Value as Hl7.Fhir.Model.Distance, writer, "valueDistance", cancellationToken); // 50
-					break;
-				case "Duration":
-					Write(name.Value as Hl7.Fhir.Model.Duration, writer, "valueDuration", cancellationToken); // 50
-					break;
-				case "HumanName":
-					Write(name.Value as Hl7.Fhir.Model.HumanName, writer, "valueHumanName", cancellationToken); // 50
-					break;
-				case "Identifier":
-					Write(name.Value as Hl7.Fhir.Model.Identifier, writer, "valueIdentifier", cancellationToken); // 50
-					break;
-				case "Money":
-					Write(name.Value as Hl7.Fhir.Model.Money, writer, "valueMoney", cancellationToken); // 50
-					break;
-				case "Period":
-					Write(name.Value as Hl7.Fhir.Model.Period, writer, "valuePeriod", cancellationToken); // 50
-					break;
-				case "Quantity":
-					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
-					break;
-				case "Range":
-					Write(name.Value as Hl7.Fhir.Model.Range, writer, "valueRange", cancellationToken); // 50
-					break;
-				case "Ratio":
-					Write(name.Value as Hl7.Fhir.Model.Ratio, writer, "valueRatio", cancellationToken); // 50
-					break;
-				case "Reference":
-					Write(name.Value as Hl7.Fhir.Model.ResourceReference, writer, "valueReference", cancellationToken); // 50
-					break;
-				case "SampledData":
-					Write(name.Value as Hl7.Fhir.Model.SampledData, writer, "valueSampledData", cancellationToken); // 50
-					break;
-				case "Signature":
-					Write(name.Value as Hl7.Fhir.Model.Signature, writer, "valueSignature", cancellationToken); // 50
-					break;
-				case "Timing":
-					Write(name.Value as Hl7.Fhir.Model.Timing, writer, "valueTiming", cancellationToken); // 50
-					break;
-				case "ContactDetail":
-					Write(name.Value as Hl7.Fhir.Model.ContactDetail, writer, "valueContactDetail", cancellationToken); // 50
-					break;
-				case "Contributor":
-					Write(name.Value as Hl7.Fhir.Model.Contributor, writer, "valueContributor", cancellationToken); // 50
-					break;
-				case "DataRequirement":
-					Write(name.Value as Hl7.Fhir.Model.DataRequirement, writer, "valueDataRequirement", cancellationToken); // 50
-					break;
-				case "Expression":
-					Write(name.Value as Hl7.Fhir.Model.Expression, writer, "valueExpression", cancellationToken); // 50
-					break;
-				case "ParameterDefinition":
-					Write(name.Value as Hl7.Fhir.Model.ParameterDefinition, writer, "valueParameterDefinition", cancellationToken); // 50
-					break;
-				case "RelatedArtifact":
-					Write(name.Value as Hl7.Fhir.Model.RelatedArtifact, writer, "valueRelatedArtifact", cancellationToken); // 50
-					break;
-				case "TriggerDefinition":
-					Write(name.Value as Hl7.Fhir.Model.TriggerDefinition, writer, "valueTriggerDefinition", cancellationToken); // 50
-					break;
-				case "UsageContext":
-					Write(name.Value as Hl7.Fhir.Model.UsageContext, writer, "valueUsageContext", cancellationToken); // 50
-					break;
-				case "Dosage":
-					Write(name.Value as Hl7.Fhir.Model.Dosage, writer, "valueDosage", cancellationToken); // 50
-					break;
-				case "Meta":
-					Write(name.Value as Hl7.Fhir.Model.Meta, writer, "valueMeta", cancellationToken); // 50
-					break;
-			}
+			Write(name.Value, writer, "value", cancellationToken); // 50
 			switch(name.Resource?.TypeName) // 60
 			{
 				case "Resource":
@@ -12662,6 +12773,9 @@ namespace Hl7.Fhir.CustomSerializer
 					break;
 				case "Reference":
 					Write(name.Subject as Hl7.Fhir.Model.ResourceReference, writer, "subjectReference", cancellationToken); // 130
+					break;
+				case "canonical":
+					Write(name.Subject as Hl7.Fhir.Model.Canonical, writer, "subjectCanonical", cancellationToken); // 130
 					break;
 			}
 			Write(name.Trigger, writer, "trigger", cancellationToken); // 140
@@ -13112,6 +13226,31 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.RegulatedAuthorization.CaseComponent
+		public static void Write(Hl7.Fhir.Model.RegulatedAuthorization.CaseComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
+			Write(name.Type, writer, "type", cancellationToken); // 50
+			Write(name.Status, writer, "status", cancellationToken); // 60
+			switch(name.Date?.TypeName) // 70
+			{
+				case "Period":
+					Write(name.Date as Hl7.Fhir.Model.Period, writer, "datePeriod", cancellationToken); // 70
+					break;
+				case "dateTime":
+					Write(name.Date as Hl7.Fhir.Model.FhirDateTime, writer, "dateDateTime", cancellationToken); // 70
+					break;
+			}
+			Write(name.Application, writer, "application", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.RelatedPerson.CommunicationComponent
 		public static void Write(Hl7.Fhir.Model.RelatedPerson.CommunicationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -13351,86 +13490,6 @@ namespace Hl7.Fhir.CustomSerializer
 					break;
 			}
 			Write(name.RationaleElement, writer, "rationale", cancellationToken); // 90
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.RiskEvidenceSynthesis.SampleSizeComponent
-		public static void Write(Hl7.Fhir.Model.RiskEvidenceSynthesis.SampleSizeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
-			Write(name.NumberOfStudiesElement, writer, "numberOfStudies", cancellationToken); // 50
-			Write(name.NumberOfParticipantsElement, writer, "numberOfParticipants", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.RiskEvidenceSynthesis.RiskEstimateComponent
-		public static void Write(Hl7.Fhir.Model.RiskEvidenceSynthesis.RiskEstimateComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.DescriptionElement, writer, "description", cancellationToken); // 40
-			Write(name.Type, writer, "type", cancellationToken); // 50
-			Write(name.ValueElement, writer, "value", cancellationToken); // 60
-			Write(name.UnitOfMeasure, writer, "unitOfMeasure", cancellationToken); // 70
-			Write(name.DenominatorCountElement, writer, "denominatorCount", cancellationToken); // 80
-			Write(name.NumeratorCountElement, writer, "numeratorCount", cancellationToken); // 90
-			Write(name.PrecisionEstimate, writer, "precisionEstimate", cancellationToken); // 100
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.RiskEvidenceSynthesis.PrecisionEstimateComponent
-		public static void Write(Hl7.Fhir.Model.RiskEvidenceSynthesis.PrecisionEstimateComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Type, writer, "type", cancellationToken); // 40
-			Write(name.LevelElement, writer, "level", cancellationToken); // 50
-			Write(name.FromElement, writer, "from", cancellationToken); // 60
-			Write(name.ToElement, writer, "to", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.RiskEvidenceSynthesis.CertaintyComponent
-		public static void Write(Hl7.Fhir.Model.RiskEvidenceSynthesis.CertaintyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Rating, writer, "rating", cancellationToken); // 40
-			Write(name.Note, writer, "note", cancellationToken); // 50
-			Write(name.CertaintySubcomponent, writer, "certaintySubcomponent", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.RiskEvidenceSynthesis.CertaintySubcomponentComponent
-		public static void Write(Hl7.Fhir.Model.RiskEvidenceSynthesis.CertaintySubcomponentComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Type, writer, "type", cancellationToken); // 40
-			Write(name.Rating, writer, "rating", cancellationToken); // 50
-			Write(name.Note, writer, "note", cancellationToken); // 60
 			writer.WriteEndElement();
 		}
 
@@ -13997,6 +14056,103 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
+		// Hl7.Fhir.Model.SubscriptionStatus.NotificationEventComponent
+		public static void Write(Hl7.Fhir.Model.SubscriptionStatus.NotificationEventComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.EventNumberElement, writer, "eventNumber", cancellationToken); // 40
+			Write(name.TimestampElement, writer, "timestamp", cancellationToken); // 50
+			Write(name.Focus, writer, "focus", cancellationToken); // 60
+			Write(name.AdditionalContext, writer, "additionalContext", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.SubscriptionTopic.ResourceTriggerComponent
+		public static void Write(Hl7.Fhir.Model.SubscriptionTopic.ResourceTriggerComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Description, writer, "description", cancellationToken); // 40
+			Write(name.ResourceElement, writer, "resource", cancellationToken); // 50
+			Write(name.SupportedInteractionElement, writer, "supportedInteraction", cancellationToken); // 60
+			Write(name.QueryCriteria, writer, "queryCriteria", cancellationToken); // 70
+			Write(name.FhirPathCriteriaElement, writer, "fhirPathCriteria", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.SubscriptionTopic.QueryCriteriaComponent
+		public static void Write(Hl7.Fhir.Model.SubscriptionTopic.QueryCriteriaComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.PreviousElement, writer, "previous", cancellationToken); // 40
+			Write(name.ResultForCreateElement, writer, "resultForCreate", cancellationToken); // 50
+			Write(name.CurrentElement, writer, "current", cancellationToken); // 60
+			Write(name.ResultForDeleteElement, writer, "resultForDelete", cancellationToken); // 70
+			Write(name.RequireBothElement, writer, "requireBoth", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.SubscriptionTopic.EventTriggerComponent
+		public static void Write(Hl7.Fhir.Model.SubscriptionTopic.EventTriggerComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Description, writer, "description", cancellationToken); // 40
+			Write(name.Event, writer, "event", cancellationToken); // 50
+			Write(name.ResourceElement, writer, "resource", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.SubscriptionTopic.CanFilterByComponent
+		public static void Write(Hl7.Fhir.Model.SubscriptionTopic.CanFilterByComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Description, writer, "description", cancellationToken); // 40
+			Write(name.ResourceElement, writer, "resource", cancellationToken); // 50
+			Write(name.FilterParameterElement, writer, "filterParameter", cancellationToken); // 60
+			Write(name.FilterDefinitionElement, writer, "filterDefinition", cancellationToken); // 70
+			Write(name.ModifierElement, writer, "modifier", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.SubscriptionTopic.NotificationShapeComponent
+		public static void Write(Hl7.Fhir.Model.SubscriptionTopic.NotificationShapeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.ResourceElement, writer, "resource", cancellationToken); // 40
+			Write(name.IncludeElement, writer, "include", cancellationToken); // 50
+			Write(name.RevIncludeElement, writer, "revInclude", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
 		// Hl7.Fhir.Model.Substance.InstanceComponent
 		public static void Write(Hl7.Fhir.Model.Substance.InstanceComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
@@ -14034,343 +14190,8 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceNucleicAcid.SubunitComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceNucleicAcid.SubunitComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.SubunitElement, writer, "subunit", cancellationToken); // 40
-			Write(name.SequenceElement, writer, "sequence", cancellationToken); // 50
-			Write(name.LengthElement, writer, "length", cancellationToken); // 60
-			Write(name.SequenceAttachment, writer, "sequenceAttachment", cancellationToken); // 70
-			Write(name.FivePrime, writer, "fivePrime", cancellationToken); // 80
-			Write(name.ThreePrime, writer, "threePrime", cancellationToken); // 90
-			Write(name.Linkage, writer, "linkage", cancellationToken); // 100
-			Write(name.Sugar, writer, "sugar", cancellationToken); // 110
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceNucleicAcid.LinkageComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceNucleicAcid.LinkageComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.ConnectivityElement, writer, "connectivity", cancellationToken); // 40
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 50
-			Write(name.NameElement, writer, "name", cancellationToken); // 60
-			Write(name.ResidueSiteElement, writer, "residueSite", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceNucleicAcid.SugarComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceNucleicAcid.SugarComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
-			Write(name.NameElement, writer, "name", cancellationToken); // 50
-			Write(name.ResidueSiteElement, writer, "residueSite", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstancePolymer.MonomerSetComponent
-		public static void Write(Hl7.Fhir.Model.SubstancePolymer.MonomerSetComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.RatioType, writer, "ratioType", cancellationToken); // 40
-			Write(name.StartingMaterial, writer, "startingMaterial", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstancePolymer.StartingMaterialComponent
-		public static void Write(Hl7.Fhir.Model.SubstancePolymer.StartingMaterialComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Material, writer, "material", cancellationToken); // 40
-			Write(name.Type, writer, "type", cancellationToken); // 50
-			Write(name.IsDefiningElement, writer, "isDefining", cancellationToken); // 60
-			Write(name.Amount, writer, "amount", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstancePolymer.RepeatComponent
-		public static void Write(Hl7.Fhir.Model.SubstancePolymer.RepeatComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.NumberOfUnitsElement, writer, "numberOfUnits", cancellationToken); // 40
-			Write(name.AverageMolecularFormulaElement, writer, "averageMolecularFormula", cancellationToken); // 50
-			Write(name.RepeatUnitAmountType, writer, "repeatUnitAmountType", cancellationToken); // 60
-			Write(name.RepeatUnit, writer, "repeatUnit", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstancePolymer.RepeatUnitComponent
-		public static void Write(Hl7.Fhir.Model.SubstancePolymer.RepeatUnitComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.OrientationOfPolymerisation, writer, "orientationOfPolymerisation", cancellationToken); // 40
-			Write(name.RepeatUnitElement, writer, "repeatUnit", cancellationToken); // 50
-			Write(name.Amount, writer, "amount", cancellationToken); // 60
-			Write(name.DegreeOfPolymerisation, writer, "degreeOfPolymerisation", cancellationToken); // 70
-			Write(name.StructuralRepresentation, writer, "structuralRepresentation", cancellationToken); // 80
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstancePolymer.DegreeOfPolymerisationComponent
-		public static void Write(Hl7.Fhir.Model.SubstancePolymer.DegreeOfPolymerisationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Degree, writer, "degree", cancellationToken); // 40
-			Write(name.Amount, writer, "amount", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstancePolymer.StructuralRepresentationComponent
-		public static void Write(Hl7.Fhir.Model.SubstancePolymer.StructuralRepresentationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Type, writer, "type", cancellationToken); // 40
-			Write(name.RepresentationElement, writer, "representation", cancellationToken); // 50
-			Write(name.Attachment, writer, "attachment", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceProtein.SubunitComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceProtein.SubunitComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.SubunitElement, writer, "subunit", cancellationToken); // 40
-			Write(name.SequenceElement, writer, "sequence", cancellationToken); // 50
-			Write(name.LengthElement, writer, "length", cancellationToken); // 60
-			Write(name.SequenceAttachment, writer, "sequenceAttachment", cancellationToken); // 70
-			Write(name.NTerminalModificationId, writer, "nTerminalModificationId", cancellationToken); // 80
-			Write(name.NTerminalModificationElement, writer, "nTerminalModification", cancellationToken); // 90
-			Write(name.CTerminalModificationId, writer, "cTerminalModificationId", cancellationToken); // 100
-			Write(name.CTerminalModificationElement, writer, "cTerminalModification", cancellationToken); // 110
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceReferenceInformation.GeneComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceReferenceInformation.GeneComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.GeneSequenceOrigin, writer, "geneSequenceOrigin", cancellationToken); // 40
-			Write(name.Gene, writer, "gene", cancellationToken); // 50
-			Write(name.Source, writer, "source", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceReferenceInformation.GeneElementComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceReferenceInformation.GeneElementComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Type, writer, "type", cancellationToken); // 40
-			Write(name.Element, writer, "element", cancellationToken); // 50
-			Write(name.Source, writer, "source", cancellationToken); // 60
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceReferenceInformation.ClassificationComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceReferenceInformation.ClassificationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Domain, writer, "domain", cancellationToken); // 40
-			Write(name.Classification, writer, "classification", cancellationToken); // 50
-			Write(name.Subtype, writer, "subtype", cancellationToken); // 60
-			Write(name.Source, writer, "source", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceReferenceInformation.TargetComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceReferenceInformation.TargetComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Target, writer, "target", cancellationToken); // 40
-			Write(name.Type, writer, "type", cancellationToken); // 50
-			Write(name.Interaction, writer, "interaction", cancellationToken); // 60
-			Write(name.Organism, writer, "organism", cancellationToken); // 70
-			Write(name.OrganismType, writer, "organismType", cancellationToken); // 80
-			switch(name.Amount?.TypeName) // 90
-			{
-				case "Quantity":
-					Write(name.Amount as Hl7.Fhir.Model.Quantity, writer, "amountQuantity", cancellationToken); // 90
-					break;
-				case "Range":
-					Write(name.Amount as Hl7.Fhir.Model.Range, writer, "amountRange", cancellationToken); // 90
-					break;
-				case "string":
-					Write(name.Amount as Hl7.Fhir.Model.FhirString, writer, "amountString", cancellationToken); // 90
-					break;
-			}
-			Write(name.AmountType, writer, "amountType", cancellationToken); // 100
-			Write(name.Source, writer, "source", cancellationToken); // 110
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSourceMaterial.FractionDescriptionComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSourceMaterial.FractionDescriptionComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.FractionElement, writer, "fraction", cancellationToken); // 40
-			Write(name.MaterialType, writer, "materialType", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Family, writer, "family", cancellationToken); // 40
-			Write(name.Genus, writer, "genus", cancellationToken); // 50
-			Write(name.Species, writer, "species", cancellationToken); // 60
-			Write(name.IntraspecificType, writer, "intraspecificType", cancellationToken); // 70
-			Write(name.IntraspecificDescriptionElement, writer, "intraspecificDescription", cancellationToken); // 80
-			Write(name.Author, writer, "author", cancellationToken); // 90
-			Write(name.Hybrid, writer, "hybrid", cancellationToken); // 100
-			Write(name.OrganismGeneral, writer, "organismGeneral", cancellationToken); // 110
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSourceMaterial.AuthorComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSourceMaterial.AuthorComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.AuthorType, writer, "authorType", cancellationToken); // 40
-			Write(name.AuthorDescriptionElement, writer, "authorDescription", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSourceMaterial.HybridComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSourceMaterial.HybridComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.MaternalOrganismIdElement, writer, "maternalOrganismId", cancellationToken); // 40
-			Write(name.MaternalOrganismNameElement, writer, "maternalOrganismName", cancellationToken); // 50
-			Write(name.PaternalOrganismIdElement, writer, "paternalOrganismId", cancellationToken); // 60
-			Write(name.PaternalOrganismNameElement, writer, "paternalOrganismName", cancellationToken); // 70
-			Write(name.HybridType, writer, "hybridType", cancellationToken); // 80
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismGeneralComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismGeneralComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Kingdom, writer, "kingdom", cancellationToken); // 40
-			Write(name.Phylum, writer, "phylum", cancellationToken); // 50
-			Write(name.Class, writer, "class", cancellationToken); // 60
-			Write(name.Order, writer, "order", cancellationToken); // 70
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSourceMaterial.PartDescriptionComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSourceMaterial.PartDescriptionComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Part, writer, "part", cancellationToken); // 40
-			Write(name.PartLocation, writer, "partLocation", cancellationToken); // 50
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSpecification.MoietyComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.MoietyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.MoietyComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.MoietyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14393,11 +14214,12 @@ namespace Hl7.Fhir.CustomSerializer
 					Write(name.Amount as Hl7.Fhir.Model.FhirString, writer, "amountString", cancellationToken); // 100
 					break;
 			}
+			Write(name.MeasurementType, writer, "measurementType", cancellationToken); // 110
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceSpecification.PropertyComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.PropertyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.PropertyComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.PropertyComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14405,69 +14227,30 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Category, writer, "category", cancellationToken); // 40
-			Write(name.Code, writer, "code", cancellationToken); // 50
-			Write(name.ParametersElement, writer, "parameters", cancellationToken); // 60
-			switch(name.DefiningSubstance?.TypeName) // 70
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			switch(name.Value?.TypeName) // 50
 			{
-				case "Reference":
-					Write(name.DefiningSubstance as Hl7.Fhir.Model.ResourceReference, writer, "definingSubstanceReference", cancellationToken); // 70
-					break;
 				case "CodeableConcept":
-					Write(name.DefiningSubstance as Hl7.Fhir.Model.CodeableConcept, writer, "definingSubstanceCodeableConcept", cancellationToken); // 70
+					Write(name.Value as Hl7.Fhir.Model.CodeableConcept, writer, "valueCodeableConcept", cancellationToken); // 50
 					break;
-			}
-			switch(name.Amount?.TypeName) // 80
-			{
 				case "Quantity":
-					Write(name.Amount as Hl7.Fhir.Model.Quantity, writer, "amountQuantity", cancellationToken); // 80
+					Write(name.Value as Hl7.Fhir.Model.Quantity, writer, "valueQuantity", cancellationToken); // 50
 					break;
-				case "string":
-					Write(name.Amount as Hl7.Fhir.Model.FhirString, writer, "amountString", cancellationToken); // 80
+				case "date":
+					Write(name.Value as Hl7.Fhir.Model.Date, writer, "valueDate", cancellationToken); // 50
+					break;
+				case "boolean":
+					Write(name.Value as Hl7.Fhir.Model.FhirBoolean, writer, "valueBoolean", cancellationToken); // 50
+					break;
+				case "Attachment":
+					Write(name.Value as Hl7.Fhir.Model.Attachment, writer, "valueAttachment", cancellationToken); // 50
 					break;
 			}
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceSpecification.StructureComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.StructureComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Stereochemistry, writer, "stereochemistry", cancellationToken); // 40
-			Write(name.OpticalActivity, writer, "opticalActivity", cancellationToken); // 50
-			Write(name.MolecularFormulaElement, writer, "molecularFormula", cancellationToken); // 60
-			Write(name.MolecularFormulaByMoietyElement, writer, "molecularFormulaByMoiety", cancellationToken); // 70
-			Write(name.Isotope, writer, "isotope", cancellationToken); // 80
-			Write(name.MolecularWeight, writer, "molecularWeight", cancellationToken); // 90
-			Write(name.Source, writer, "source", cancellationToken); // 100
-			Write(name.Representation, writer, "representation", cancellationToken); // 110
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSpecification.IsotopeComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.IsotopeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		{
-			if (cancellationToken.IsCancellationRequested) return;
-			if (name == null) return;
-			writer.WriteStartElement(propertyName, XmlNs.FHIR);
-			Write(name.ElementId, writer, "id", cancellationToken); // 10
-			Write(name.Extension, writer, "extension", cancellationToken); // 20
-			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
-			Write(name.Name, writer, "name", cancellationToken); // 50
-			Write(name.Substitution, writer, "substitution", cancellationToken); // 60
-			Write(name.HalfLife, writer, "halfLife", cancellationToken); // 70
-			Write(name.MolecularWeight, writer, "molecularWeight", cancellationToken); // 80
-			writer.WriteEndElement();
-		}
-
-		// Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.MolecularWeightComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.MolecularWeightComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14481,8 +14264,28 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceSpecification.RepresentationComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.RepresentationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.StructureComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.StructureComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Stereochemistry, writer, "stereochemistry", cancellationToken); // 40
+			Write(name.OpticalActivity, writer, "opticalActivity", cancellationToken); // 50
+			Write(name.MolecularFormulaElement, writer, "molecularFormula", cancellationToken); // 60
+			Write(name.MolecularFormulaByMoietyElement, writer, "molecularFormulaByMoiety", cancellationToken); // 70
+			Write(name.MolecularWeight, writer, "molecularWeight", cancellationToken); // 80
+			Write(name.Technique, writer, "technique", cancellationToken); // 90
+			Write(name.SourceDocument, writer, "sourceDocument", cancellationToken); // 100
+			Write(name.Representation, writer, "representation", cancellationToken); // 110
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.SubstanceDefinition.RepresentationComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.RepresentationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14492,12 +14295,13 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
 			Write(name.Type, writer, "type", cancellationToken); // 40
 			Write(name.RepresentationElement, writer, "representation", cancellationToken); // 50
-			Write(name.Attachment, writer, "attachment", cancellationToken); // 60
+			Write(name.Format, writer, "format", cancellationToken); // 60
+			Write(name.Document, writer, "document", cancellationToken); // 70
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceSpecification.CodeComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.CodeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.CodeComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.CodeComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14508,13 +14312,13 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.Code, writer, "code", cancellationToken); // 40
 			Write(name.Status, writer, "status", cancellationToken); // 50
 			Write(name.StatusDateElement, writer, "statusDate", cancellationToken); // 60
-			Write(name.CommentElement, writer, "comment", cancellationToken); // 70
+			Write(name.Note, writer, "note", cancellationToken); // 70
 			Write(name.Source, writer, "source", cancellationToken); // 80
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceSpecification.NameComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.NameComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.NameComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.NameComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14536,8 +14340,8 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceSpecification.OfficialComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.OfficialComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.OfficialComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.OfficialComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14551,8 +14355,8 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.SubstanceSpecification.RelationshipComponent
-		public static void Write(Hl7.Fhir.Model.SubstanceSpecification.RelationshipComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		// Hl7.Fhir.Model.SubstanceDefinition.RelationshipComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.RelationshipComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
 		{
 			if (cancellationToken.IsCancellationRequested) return;
 			if (name == null) return;
@@ -14560,24 +14364,21 @@ namespace Hl7.Fhir.CustomSerializer
 			Write(name.ElementId, writer, "id", cancellationToken); // 10
 			Write(name.Extension, writer, "extension", cancellationToken); // 20
 			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
-			switch(name.Substance?.TypeName) // 40
+			switch(name.SubstanceDefinition?.TypeName) // 40
 			{
 				case "Reference":
-					Write(name.Substance as Hl7.Fhir.Model.ResourceReference, writer, "substanceReference", cancellationToken); // 40
+					Write(name.SubstanceDefinition as Hl7.Fhir.Model.ResourceReference, writer, "substanceDefinitionReference", cancellationToken); // 40
 					break;
 				case "CodeableConcept":
-					Write(name.Substance as Hl7.Fhir.Model.CodeableConcept, writer, "substanceCodeableConcept", cancellationToken); // 40
+					Write(name.SubstanceDefinition as Hl7.Fhir.Model.CodeableConcept, writer, "substanceDefinitionCodeableConcept", cancellationToken); // 40
 					break;
 			}
-			Write(name.Relationship, writer, "relationship", cancellationToken); // 50
+			Write(name.Type, writer, "type", cancellationToken); // 50
 			Write(name.IsDefiningElement, writer, "isDefining", cancellationToken); // 60
 			switch(name.Amount?.TypeName) // 70
 			{
 				case "Quantity":
 					Write(name.Amount as Hl7.Fhir.Model.Quantity, writer, "amountQuantity", cancellationToken); // 70
-					break;
-				case "Range":
-					Write(name.Amount as Hl7.Fhir.Model.Range, writer, "amountRange", cancellationToken); // 70
 					break;
 				case "Ratio":
 					Write(name.Amount as Hl7.Fhir.Model.Ratio, writer, "amountRatio", cancellationToken); // 70
@@ -14586,9 +14387,26 @@ namespace Hl7.Fhir.CustomSerializer
 					Write(name.Amount as Hl7.Fhir.Model.FhirString, writer, "amountString", cancellationToken); // 70
 					break;
 			}
-			Write(name.AmountRatioLowLimit, writer, "amountRatioLowLimit", cancellationToken); // 80
-			Write(name.AmountType, writer, "amountType", cancellationToken); // 90
+			Write(name.RatioHighLimitAmount, writer, "ratioHighLimitAmount", cancellationToken); // 80
+			Write(name.Comparator, writer, "comparator", cancellationToken); // 90
 			Write(name.Source, writer, "source", cancellationToken); // 100
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.SubstanceDefinition.SourceMaterialComponent
+		public static void Write(Hl7.Fhir.Model.SubstanceDefinition.SourceMaterialComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Genus, writer, "genus", cancellationToken); // 50
+			Write(name.Species, writer, "species", cancellationToken); // 60
+			Write(name.Part, writer, "part", cancellationToken); // 70
+			Write(name.CountryOfOrigin, writer, "countryOfOrigin", cancellationToken); // 80
 			writer.WriteEndElement();
 		}
 
@@ -15777,21 +15595,412 @@ namespace Hl7.Fhir.CustomSerializer
 			writer.WriteEndElement();
 		}
 
-		// Hl7.Fhir.Model.Quantity
-		//public static void Write(Quantity name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
-		//{
-		//	if (cancellationToken.IsCancellationRequested) return;
-		//	if (name == null) return;
-		//	writer.WriteStartElement(propertyName, XmlNs.FHIR);
-		//	Write(name.ElementId, writer, "id", cancellationToken); // 10
-		//	Write(name.Extension, writer, "extension", cancellationToken); // 20
-		//	Write(name.ValueElement, writer, "value", cancellationToken); // 30
-		//	Write(name.ComparatorElement, writer, "comparator", cancellationToken); // 40
-		//	Write(name.UnitElement, writer, "unit", cancellationToken); // 50
-		//	Write(name.SystemElement, writer, "system", cancellationToken); // 60
-		//	Write(name.CodeElement, writer, "code", cancellationToken); // 70
-		//	writer.WriteEndElement();
-		//}
+		// Hl7.Fhir.Model.Citation.SummaryComponent
+		public static void Write(Hl7.Fhir.Model.Citation.SummaryComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Style, writer, "style", cancellationToken); // 40
+			Write(name.Text, writer, "text", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.ClassificationComponent
+		public static void Write(Hl7.Fhir.Model.Citation.ClassificationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Classifier, writer, "classifier", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.StatusDateComponent
+		public static void Write(Hl7.Fhir.Model.Citation.StatusDateComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Activity, writer, "activity", cancellationToken); // 40
+			Write(name.ActualElement, writer, "actual", cancellationToken); // 50
+			Write(name.Period, writer, "period", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.RelatesToComponent
+		public static void Write(Hl7.Fhir.Model.Citation.RelatesToComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.RelationshipType, writer, "relationshipType", cancellationToken); // 40
+			Write(name.TargetClassifier, writer, "targetClassifier", cancellationToken); // 50
+			switch(name.Target?.TypeName) // 60
+			{
+				case "uri":
+					Write(name.Target as Hl7.Fhir.Model.FhirUri, writer, "targetUri", cancellationToken); // 60
+					break;
+				case "Identifier":
+					Write(name.Target as Hl7.Fhir.Model.Identifier, writer, "targetIdentifier", cancellationToken); // 60
+					break;
+				case "Reference":
+					Write(name.Target as Hl7.Fhir.Model.ResourceReference, writer, "targetReference", cancellationToken); // 60
+					break;
+				case "Attachment":
+					Write(name.Target as Hl7.Fhir.Model.Attachment, writer, "targetAttachment", cancellationToken); // 60
+					break;
+			}
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 40
+			Write(name.RelatedIdentifier, writer, "relatedIdentifier", cancellationToken); // 50
+			Write(name.DateAccessedElement, writer, "dateAccessed", cancellationToken); // 60
+			Write(name.Version, writer, "version", cancellationToken); // 70
+			Write(name.CurrentState, writer, "currentState", cancellationToken); // 80
+			Write(name.StatusDate, writer, "statusDate", cancellationToken); // 90
+			Write(name.Title, writer, "title", cancellationToken); // 100
+			Write(name.Abstract, writer, "abstract", cancellationToken); // 110
+			Write(name.Part, writer, "part", cancellationToken); // 120
+			Write(name.RelatesTo, writer, "relatesTo", cancellationToken); // 130
+			Write(name.PublicationForm, writer, "publicationForm", cancellationToken); // 140
+			Write(name.WebLocation, writer, "webLocation", cancellationToken); // 150
+			Write(name.Classification, writer, "classification", cancellationToken); // 160
+			Write(name.Contributorship, writer, "contributorship", cancellationToken); // 170
+			Write(name.Note, writer, "note", cancellationToken); // 180
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactVersionComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactVersionComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.ValueElement, writer, "value", cancellationToken); // 40
+			Write(name.BaseCitation, writer, "baseCitation", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactStatusDateComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactStatusDateComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Activity, writer, "activity", cancellationToken); // 40
+			Write(name.ActualElement, writer, "actual", cancellationToken); // 50
+			Write(name.Period, writer, "period", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactTitleComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactTitleComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Language, writer, "language", cancellationToken); // 50
+			Write(name.Text, writer, "text", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactAbstractComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactAbstractComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Language, writer, "language", cancellationToken); // 50
+			Write(name.Text, writer, "text", cancellationToken); // 60
+			Write(name.Copyright, writer, "copyright", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactPartComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactPartComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.ValueElement, writer, "value", cancellationToken); // 50
+			Write(name.BaseCitation, writer, "baseCitation", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactRelatesToComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactRelatesToComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.RelationshipType, writer, "relationshipType", cancellationToken); // 40
+			Write(name.TargetClassifier, writer, "targetClassifier", cancellationToken); // 50
+			switch(name.Target?.TypeName) // 60
+			{
+				case "uri":
+					Write(name.Target as Hl7.Fhir.Model.FhirUri, writer, "targetUri", cancellationToken); // 60
+					break;
+				case "Identifier":
+					Write(name.Target as Hl7.Fhir.Model.Identifier, writer, "targetIdentifier", cancellationToken); // 60
+					break;
+				case "Reference":
+					Write(name.Target as Hl7.Fhir.Model.ResourceReference, writer, "targetReference", cancellationToken); // 60
+					break;
+				case "Attachment":
+					Write(name.Target as Hl7.Fhir.Model.Attachment, writer, "targetAttachment", cancellationToken); // 60
+					break;
+			}
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.PublishedIn, writer, "publishedIn", cancellationToken); // 40
+			Write(name.PeriodicRelease, writer, "periodicRelease", cancellationToken); // 50
+			Write(name.ArticleDateElement, writer, "articleDate", cancellationToken); // 60
+			Write(name.LastRevisionDateElement, writer, "lastRevisionDate", cancellationToken); // 70
+			Write(name.Language, writer, "language", cancellationToken); // 80
+			Write(name.AccessionNumberElement, writer, "accessionNumber", cancellationToken); // 90
+			Write(name.PageStringElement, writer, "pageString", cancellationToken); // 100
+			Write(name.FirstPageElement, writer, "firstPage", cancellationToken); // 110
+			Write(name.LastPageElement, writer, "lastPage", cancellationToken); // 120
+			Write(name.PageCountElement, writer, "pageCount", cancellationToken); // 130
+			Write(name.Copyright, writer, "copyright", cancellationToken); // 140
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPublishedInComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPublishedInComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 50
+			Write(name.TitleElement, writer, "title", cancellationToken); // 60
+			Write(name.Publisher, writer, "publisher", cancellationToken); // 70
+			Write(name.PublisherLocationElement, writer, "publisherLocation", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPeriodicReleaseComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPeriodicReleaseComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.CitedMedium, writer, "citedMedium", cancellationToken); // 40
+			Write(name.VolumeElement, writer, "volume", cancellationToken); // 50
+			Write(name.IssueElement, writer, "issue", cancellationToken); // 60
+			Write(name.DateOfPublication, writer, "dateOfPublication", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPeriodicReleaseDateOfPublicationComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPeriodicReleaseDateOfPublicationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.DateElement, writer, "date", cancellationToken); // 40
+			Write(name.YearElement, writer, "year", cancellationToken); // 50
+			Write(name.MonthElement, writer, "month", cancellationToken); // 60
+			Write(name.DayElement, writer, "day", cancellationToken); // 70
+			Write(name.SeasonElement, writer, "season", cancellationToken); // 80
+			Write(name.TextElement, writer, "text", cancellationToken); // 90
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactWebLocationComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactWebLocationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.UrlElement, writer, "url", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactClassificationComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactClassificationComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Classifier, writer, "classifier", cancellationToken); // 50
+			Write(name.WhoClassified, writer, "whoClassified", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactClassificationWhoClassifiedComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactClassificationWhoClassifiedComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Person, writer, "person", cancellationToken); // 40
+			Write(name.Organization, writer, "organization", cancellationToken); // 50
+			Write(name.Publisher, writer, "publisher", cancellationToken); // 60
+			Write(name.ClassifierCopyrightElement, writer, "classifierCopyright", cancellationToken); // 70
+			Write(name.FreeToShareElement, writer, "freeToShare", cancellationToken); // 80
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactContributorshipComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactContributorshipComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.CompleteElement, writer, "complete", cancellationToken); // 40
+			Write(name.Entry, writer, "entry", cancellationToken); // 50
+			Write(name.Summary, writer, "summary", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Name, writer, "name", cancellationToken); // 40
+			Write(name.InitialsElement, writer, "initials", cancellationToken); // 50
+			Write(name.CollectiveNameElement, writer, "collectiveName", cancellationToken); // 60
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 70
+			Write(name.AffiliationInfo, writer, "affiliationInfo", cancellationToken); // 80
+			Write(name.Address, writer, "address", cancellationToken); // 90
+			Write(name.Telecom, writer, "telecom", cancellationToken); // 100
+			Write(name.ContributionType, writer, "contributionType", cancellationToken); // 110
+			Write(name.Role, writer, "role", cancellationToken); // 120
+			Write(name.ContributionInstance, writer, "contributionInstance", cancellationToken); // 130
+			Write(name.CorrespondingContactElement, writer, "correspondingContact", cancellationToken); // 140
+			Write(name.ListOrderElement, writer, "listOrder", cancellationToken); // 150
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryAffiliationInfoComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryAffiliationInfoComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.AffiliationElement, writer, "affiliation", cancellationToken); // 40
+			Write(name.RoleElement, writer, "role", cancellationToken); // 50
+			Write(name.Identifier, writer, "identifier", cancellationToken); // 60
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryContributionInstanceComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryContributionInstanceComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.TimeElement, writer, "time", cancellationToken); // 50
+			writer.WriteEndElement();
+		}
+
+		// Hl7.Fhir.Model.Citation.CitedArtifactContributorshipSummaryComponent
+		public static void Write(Hl7.Fhir.Model.Citation.CitedArtifactContributorshipSummaryComponent name, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
+		{
+			if (cancellationToken.IsCancellationRequested) return;
+			if (name == null) return;
+			writer.WriteStartElement(propertyName, XmlNs.FHIR);
+			Write(name.ElementId, writer, "id", cancellationToken); // 10
+			Write(name.Extension, writer, "extension", cancellationToken); // 20
+			Write(name.ModifierExtension, writer, "modifierExtension", cancellationToken); // 30
+			Write(name.Type, writer, "type", cancellationToken); // 40
+			Write(name.Style, writer, "style", cancellationToken); // 50
+			Write(name.Source, writer, "source", cancellationToken); // 60
+			Write(name.Value, writer, "value", cancellationToken); // 70
+			writer.WriteEndElement();
+		}
 
 		// ---------------------------
 		public static void WriteBase(Base value, XmlWriter writer, string propertyName, CancellationToken cancellationToken)
@@ -15808,6 +16017,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.ActivityDefinition activitydefinition:
 							Write(activitydefinition, writer, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.AdministrableProductDefinition administrableproductdefinition:
+							Write(administrableproductdefinition, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.AdverseEvent adverseevent:
 							Write(adverseevent, writer, cancellationToken);
@@ -15857,6 +16069,9 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.ChargeItemDefinition chargeitemdefinition:
 							Write(chargeitemdefinition, writer, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.Citation citation:
+							Write(citation, writer, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.Claim claim:
 							Write(claim, writer, cancellationToken);
 							break;
@@ -15865,6 +16080,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.ClinicalImpression clinicalimpression:
 							Write(clinicalimpression, writer, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition clinicalusedefinition:
+							Write(clinicalusedefinition, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.CodeSystem codesystem:
 							Write(codesystem, writer, cancellationToken);
@@ -15929,9 +16147,6 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.DocumentReference documentreference:
 							Write(documentreference, writer, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.EffectEvidenceSynthesis effectevidencesynthesis:
-							Write(effectevidencesynthesis, writer, cancellationToken);
-							break;
 				case Hl7.Fhir.Model.Encounter encounter:
 							Write(encounter, writer, cancellationToken);
 							break;
@@ -15952,6 +16167,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.Evidence evidence:
 							Write(evidence, writer, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.EvidenceReport evidencereport:
+							Write(evidencereport, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.EvidenceVariable evidencevariable:
 							Write(evidencevariable, writer, cancellationToken);
@@ -15998,6 +16216,9 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.ImplementationGuide implementationguide:
 							Write(implementationguide, writer, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.Ingredient ingredient:
+							Write(ingredient, writer, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.InsurancePlan insuranceplan:
 							Write(insuranceplan, writer, cancellationToken);
 							break;
@@ -16015,6 +16236,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.Location location:
 							Write(location, writer, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ManufacturedItemDefinition manufactureditemdefinition:
+							Write(manufactureditemdefinition, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Measure measure:
 							Write(measure, writer, cancellationToken);
@@ -16043,35 +16267,8 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.MedicationStatement medicationstatement:
 							Write(medicationstatement, writer, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProduct medicinalproduct:
-							Write(medicinalproduct, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductAuthorization medicinalproductauthorization:
-							Write(medicinalproductauthorization, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductContraindication medicinalproductcontraindication:
-							Write(medicinalproductcontraindication, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductIndication medicinalproductindication:
-							Write(medicinalproductindication, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductIngredient medicinalproductingredient:
-							Write(medicinalproductingredient, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductInteraction medicinalproductinteraction:
-							Write(medicinalproductinteraction, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductManufactured medicinalproductmanufactured:
-							Write(medicinalproductmanufactured, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPackaged medicinalproductpackaged:
-							Write(medicinalproductpackaged, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPharmaceutical medicinalproductpharmaceutical:
-							Write(medicinalproductpharmaceutical, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductUndesirableEffect medicinalproductundesirableeffect:
-							Write(medicinalproductundesirableeffect, writer, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition medicinalproductdefinition:
+							Write(medicinalproductdefinition, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.MessageDefinition messagedefinition:
 							Write(messagedefinition, writer, cancellationToken);
@@ -16087,6 +16284,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.NutritionOrder nutritionorder:
 							Write(nutritionorder, writer, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.NutritionProduct nutritionproduct:
+							Write(nutritionproduct, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Observation observation:
 							Write(observation, writer, cancellationToken);
@@ -16105,6 +16305,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.OrganizationAffiliation organizationaffiliation:
 							Write(organizationaffiliation, writer, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.PackagedProductDefinition packagedproductdefinition:
+							Write(packagedproductdefinition, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Parameters parameters:
 							Write(parameters, writer, cancellationToken);
@@ -16142,6 +16345,9 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.QuestionnaireResponse questionnaireresponse:
 							Write(questionnaireresponse, writer, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.RegulatedAuthorization regulatedauthorization:
+							Write(regulatedauthorization, writer, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.RelatedPerson relatedperson:
 							Write(relatedperson, writer, cancellationToken);
 							break;
@@ -16162,9 +16368,6 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.RiskAssessment riskassessment:
 							Write(riskassessment, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.RiskEvidenceSynthesis riskevidencesynthesis:
-							Write(riskevidencesynthesis, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Schedule schedule:
 							Write(schedule, writer, cancellationToken);
@@ -16193,26 +16396,17 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Subscription subscription:
 							Write(subscription, writer, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.SubscriptionStatus subscriptionstatus:
+							Write(subscriptionstatus, writer, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.SubscriptionTopic subscriptiontopic:
+							Write(subscriptiontopic, writer, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.Substance substance:
 							Write(substance, writer, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstanceNucleicAcid substancenucleicacid:
-							Write(substancenucleicacid, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstancePolymer substancepolymer:
-							Write(substancepolymer, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceProtein substanceprotein:
-							Write(substanceprotein, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceReferenceInformation substancereferenceinformation:
-							Write(substancereferenceinformation, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSourceMaterial substancesourcematerial:
-							Write(substancesourcematerial, writer, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification substancespecification:
-							Write(substancespecification, writer, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition substancedefinition:
+							Write(substancedefinition, writer, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.SupplyDelivery supplydelivery:
 							Write(supplydelivery, writer, cancellationToken);
@@ -16265,6 +16459,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.CodeableConcept codeableconcept:
 							Write(codeableconcept, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.CodeableReference codeablereference:
+							Write(codeablereference, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Coding coding:
 							Write(coding, writer, propertyName, cancellationToken);
@@ -16398,6 +16595,9 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Ratio ratio:
 							Write(ratio, writer, propertyName, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.RatioRange ratiorange:
+							Write(ratiorange, writer, propertyName, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.ResourceReference resourcereference:
 							Write(resourcereference, writer, propertyName, cancellationToken);
 							break;
@@ -16412,12 +16612,6 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.FhirString fhirstring:
 							Write(fhirstring, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceAmount substanceamount:
-							Write(substanceamount, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceAmount.ReferenceRangeComponent substanceamount_referencerangecomponent:
-							Write(substanceamount_referencerangecomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Time time:
 							Write(time, writer, propertyName, cancellationToken);
@@ -16460,6 +16654,18 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.ActivityDefinition.DynamicValueComponent activitydefinition_dynamicvaluecomponent:
 							Write(activitydefinition_dynamicvaluecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.AdministrableProductDefinition.PropertyComponent administrableproductdefinition_propertycomponent:
+							Write(administrableproductdefinition_propertycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.AdministrableProductDefinition.RouteOfAdministrationComponent administrableproductdefinition_routeofadministrationcomponent:
+							Write(administrableproductdefinition_routeofadministrationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.AdministrableProductDefinition.TargetSpeciesComponent administrableproductdefinition_targetspeciescomponent:
+							Write(administrableproductdefinition_targetspeciescomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.AdministrableProductDefinition.WithdrawalPeriodComponent administrableproductdefinition_withdrawalperiodcomponent:
+							Write(administrableproductdefinition_withdrawalperiodcomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.AdverseEvent.SuspectEntityComponent adverseevent_suspectentitycomponent:
 							Write(adverseevent_suspectentitycomponent, writer, propertyName, cancellationToken);
@@ -16652,6 +16858,27 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.ClinicalImpression.FindingComponent clinicalimpression_findingcomponent:
 							Write(clinicalimpression_findingcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition.ContraindicationComponent clinicalusedefinition_contraindicationcomponent:
+							Write(clinicalusedefinition_contraindicationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition.OtherTherapyComponent clinicalusedefinition_othertherapycomponent:
+							Write(clinicalusedefinition_othertherapycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition.IndicationComponent clinicalusedefinition_indicationcomponent:
+							Write(clinicalusedefinition_indicationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition.InteractionComponent clinicalusedefinition_interactioncomponent:
+							Write(clinicalusedefinition_interactioncomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition.InteractantComponent clinicalusedefinition_interactantcomponent:
+							Write(clinicalusedefinition_interactantcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition.UndesirableEffectComponent clinicalusedefinition_undesirableeffectcomponent:
+							Write(clinicalusedefinition_undesirableeffectcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ClinicalUseDefinition.WarningComponent clinicalusedefinition_warningcomponent:
+							Write(clinicalusedefinition_warningcomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.CodeSystem.FilterComponent codesystem_filtercomponent:
 							Write(codesystem_filtercomponent, writer, propertyName, cancellationToken);
@@ -16863,24 +17090,6 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.DocumentReference.ContextComponent documentreference_contextcomponent:
 							Write(documentreference_contextcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.EffectEvidenceSynthesis.SampleSizeComponent effectevidencesynthesis_samplesizecomponent:
-							Write(effectevidencesynthesis_samplesizecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.EffectEvidenceSynthesis.ResultsByExposureComponent effectevidencesynthesis_resultsbyexposurecomponent:
-							Write(effectevidencesynthesis_resultsbyexposurecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.EffectEvidenceSynthesis.EffectEstimateComponent effectevidencesynthesis_effectestimatecomponent:
-							Write(effectevidencesynthesis_effectestimatecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.EffectEvidenceSynthesis.PrecisionEstimateComponent effectevidencesynthesis_precisionestimatecomponent:
-							Write(effectevidencesynthesis_precisionestimatecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.EffectEvidenceSynthesis.CertaintyComponent effectevidencesynthesis_certaintycomponent:
-							Write(effectevidencesynthesis_certaintycomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.EffectEvidenceSynthesis.CertaintySubcomponentComponent effectevidencesynthesis_certaintysubcomponentcomponent:
-							Write(effectevidencesynthesis_certaintysubcomponentcomponent, writer, propertyName, cancellationToken);
-							break;
 				case Hl7.Fhir.Model.Encounter.StatusHistoryComponent encounter_statushistorycomponent:
 							Write(encounter_statushistorycomponent, writer, propertyName, cancellationToken);
 							break;
@@ -16905,8 +17114,47 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.EpisodeOfCare.DiagnosisComponent episodeofcare_diagnosiscomponent:
 							Write(episodeofcare_diagnosiscomponent, writer, propertyName, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.Evidence.VariableDefinitionComponent evidence_variabledefinitioncomponent:
+							Write(evidence_variabledefinitioncomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Evidence.StatisticComponent evidence_statisticcomponent:
+							Write(evidence_statisticcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Evidence.SampleSizeComponent evidence_samplesizecomponent:
+							Write(evidence_samplesizecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Evidence.AttributeEstimateComponent evidence_attributeestimatecomponent:
+							Write(evidence_attributeestimatecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Evidence.ModelCharacteristicComponent evidence_modelcharacteristiccomponent:
+							Write(evidence_modelcharacteristiccomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Evidence.VariableComponent evidence_variablecomponent:
+							Write(evidence_variablecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Evidence.CertaintyComponent evidence_certaintycomponent:
+							Write(evidence_certaintycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.EvidenceReport.SubjectComponent evidencereport_subjectcomponent:
+							Write(evidencereport_subjectcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.EvidenceReport.CharacteristicComponent evidencereport_characteristiccomponent:
+							Write(evidencereport_characteristiccomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.EvidenceReport.RelatesToComponent evidencereport_relatestocomponent:
+							Write(evidencereport_relatestocomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.EvidenceReport.SectionComponent evidencereport_sectioncomponent:
+							Write(evidencereport_sectioncomponent, writer, propertyName, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.EvidenceVariable.CharacteristicComponent evidencevariable_characteristiccomponent:
 							Write(evidencevariable_characteristiccomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.EvidenceVariable.TimeFromStartComponent evidencevariable_timefromstartcomponent:
+							Write(evidencevariable_timefromstartcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.EvidenceVariable.CategoryComponent evidencevariable_categorycomponent:
+							Write(evidencevariable_categorycomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.ExampleScenario.ActorComponent examplescenario_actorcomponent:
 							Write(examplescenario_actorcomponent, writer, propertyName, cancellationToken);
@@ -17082,6 +17330,18 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.ImplementationGuide.ManifestPageComponent implementationguide_manifestpagecomponent:
 							Write(implementationguide_manifestpagecomponent, writer, propertyName, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.Ingredient.ManufacturerComponent ingredient_manufacturercomponent:
+							Write(ingredient_manufacturercomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Ingredient.SubstanceComponent ingredient_substancecomponent:
+							Write(ingredient_substancecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Ingredient.StrengthComponent ingredient_strengthcomponent:
+							Write(ingredient_strengthcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Ingredient.ReferenceStrengthComponent ingredient_referencestrengthcomponent:
+							Write(ingredient_referencestrengthcomponent, writer, propertyName, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.InsurancePlan.ContactComponent insuranceplan_contactcomponent:
 							Write(insuranceplan_contactcomponent, writer, propertyName, cancellationToken);
 							break;
@@ -17129,6 +17389,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.Location.HoursOfOperationComponent location_hoursofoperationcomponent:
 							Write(location_hoursofoperationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.ManufacturedItemDefinition.PropertyComponent manufactureditemdefinition_propertycomponent:
+							Write(manufactureditemdefinition_propertycomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Measure.GroupComponent measure_groupcomponent:
 							Write(measure_groupcomponent, writer, propertyName, cancellationToken);
@@ -17238,65 +17501,26 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.MedicationRequest.SubstitutionComponent medicationrequest_substitutioncomponent:
 							Write(medicationrequest_substitutioncomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProduct.NameComponent medicinalproduct_namecomponent:
-							Write(medicinalproduct_namecomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition.ContactComponent medicinalproductdefinition_contactcomponent:
+							Write(medicinalproductdefinition_contactcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProduct.NamePartComponent medicinalproduct_namepartcomponent:
-							Write(medicinalproduct_namepartcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition.NameComponent medicinalproductdefinition_namecomponent:
+							Write(medicinalproductdefinition_namecomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProduct.CountryLanguageComponent medicinalproduct_countrylanguagecomponent:
-							Write(medicinalproduct_countrylanguagecomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition.NamePartComponent medicinalproductdefinition_namepartcomponent:
+							Write(medicinalproductdefinition_namepartcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProduct.ManufacturingBusinessOperationComponent medicinalproduct_manufacturingbusinessoperationcomponent:
-							Write(medicinalproduct_manufacturingbusinessoperationcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition.CountryLanguageComponent medicinalproductdefinition_countrylanguagecomponent:
+							Write(medicinalproductdefinition_countrylanguagecomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProduct.SpecialDesignationComponent medicinalproduct_specialdesignationcomponent:
-							Write(medicinalproduct_specialdesignationcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition.CrossReferenceComponent medicinalproductdefinition_crossreferencecomponent:
+							Write(medicinalproductdefinition_crossreferencecomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProductAuthorization.JurisdictionalAuthorizationComponent medicinalproductauthorization_jurisdictionalauthorizationcomponent:
-							Write(medicinalproductauthorization_jurisdictionalauthorizationcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition.OperationComponent medicinalproductdefinition_operationcomponent:
+							Write(medicinalproductdefinition_operationcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.MedicinalProductAuthorization.ProcedureComponent medicinalproductauthorization_procedurecomponent:
-							Write(medicinalproductauthorization_procedurecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductContraindication.OtherTherapyComponent medicinalproductcontraindication_othertherapycomponent:
-							Write(medicinalproductcontraindication_othertherapycomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductIndication.OtherTherapyComponent medicinalproductindication_othertherapycomponent:
-							Write(medicinalproductindication_othertherapycomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductIngredient.SpecifiedSubstanceComponent medicinalproductingredient_specifiedsubstancecomponent:
-							Write(medicinalproductingredient_specifiedsubstancecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductIngredient.StrengthComponent medicinalproductingredient_strengthcomponent:
-							Write(medicinalproductingredient_strengthcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductIngredient.ReferenceStrengthComponent medicinalproductingredient_referencestrengthcomponent:
-							Write(medicinalproductingredient_referencestrengthcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductIngredient.SubstanceComponent medicinalproductingredient_substancecomponent:
-							Write(medicinalproductingredient_substancecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductInteraction.InteractantComponent medicinalproductinteraction_interactantcomponent:
-							Write(medicinalproductinteraction_interactantcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPackaged.BatchIdentifierComponent medicinalproductpackaged_batchidentifiercomponent:
-							Write(medicinalproductpackaged_batchidentifiercomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPackaged.PackageItemComponent medicinalproductpackaged_packageitemcomponent:
-							Write(medicinalproductpackaged_packageitemcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPharmaceutical.CharacteristicsComponent medicinalproductpharmaceutical_characteristicscomponent:
-							Write(medicinalproductpharmaceutical_characteristicscomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPharmaceutical.RouteOfAdministrationComponent medicinalproductpharmaceutical_routeofadministrationcomponent:
-							Write(medicinalproductpharmaceutical_routeofadministrationcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPharmaceutical.TargetSpeciesComponent medicinalproductpharmaceutical_targetspeciescomponent:
-							Write(medicinalproductpharmaceutical_targetspeciescomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.MedicinalProductPharmaceutical.WithdrawalPeriodComponent medicinalproductpharmaceutical_withdrawalperiodcomponent:
-							Write(medicinalproductpharmaceutical_withdrawalperiodcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.MedicinalProductDefinition.CharacteristicComponent medicinalproductdefinition_characteristiccomponent:
+							Write(medicinalproductdefinition_characteristiccomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.MessageDefinition.FocusComponent messagedefinition_focuscomponent:
 							Write(messagedefinition_focuscomponent, writer, propertyName, cancellationToken);
@@ -17358,6 +17582,18 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.NutritionOrder.AdministrationComponent nutritionorder_administrationcomponent:
 							Write(nutritionorder_administrationcomponent, writer, propertyName, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.NutritionProduct.NutrientComponent nutritionproduct_nutrientcomponent:
+							Write(nutritionproduct_nutrientcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.NutritionProduct.IngredientComponent nutritionproduct_ingredientcomponent:
+							Write(nutritionproduct_ingredientcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.NutritionProduct.ProductCharacteristicComponent nutritionproduct_productcharacteristiccomponent:
+							Write(nutritionproduct_productcharacteristiccomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.NutritionProduct.InstanceComponent nutritionproduct_instancecomponent:
+							Write(nutritionproduct_instancecomponent, writer, propertyName, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.Observation.ReferenceRangeComponent observation_referencerangecomponent:
 							Write(observation_referencerangecomponent, writer, propertyName, cancellationToken);
 							break;
@@ -17387,6 +17623,21 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.Organization.ContactComponent organization_contactcomponent:
 							Write(organization_contactcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.PackagedProductDefinition.LegalStatusOfSupplyComponent packagedproductdefinition_legalstatusofsupplycomponent:
+							Write(packagedproductdefinition_legalstatusofsupplycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.PackagedProductDefinition.PackageComponent packagedproductdefinition_packagecomponent:
+							Write(packagedproductdefinition_packagecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.PackagedProductDefinition.ShelfLifeStorageComponent packagedproductdefinition_shelflifestoragecomponent:
+							Write(packagedproductdefinition_shelflifestoragecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.PackagedProductDefinition.PropertyComponent packagedproductdefinition_propertycomponent:
+							Write(packagedproductdefinition_propertycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.PackagedProductDefinition.ContainedItemComponent packagedproductdefinition_containeditemcomponent:
+							Write(packagedproductdefinition_containeditemcomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Parameters.ParameterComponent parameters_parametercomponent:
 							Write(parameters_parametercomponent, writer, propertyName, cancellationToken);
@@ -17469,6 +17720,9 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.QuestionnaireResponse.AnswerComponent questionnaireresponse_answercomponent:
 							Write(questionnaireresponse_answercomponent, writer, propertyName, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.RegulatedAuthorization.CaseComponent regulatedauthorization_casecomponent:
+							Write(regulatedauthorization_casecomponent, writer, propertyName, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.RelatedPerson.CommunicationComponent relatedperson_communicationcomponent:
 							Write(relatedperson_communicationcomponent, writer, propertyName, cancellationToken);
 							break;
@@ -17492,21 +17746,6 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.RiskAssessment.PredictionComponent riskassessment_predictioncomponent:
 							Write(riskassessment_predictioncomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.RiskEvidenceSynthesis.SampleSizeComponent riskevidencesynthesis_samplesizecomponent:
-							Write(riskevidencesynthesis_samplesizecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.RiskEvidenceSynthesis.RiskEstimateComponent riskevidencesynthesis_riskestimatecomponent:
-							Write(riskevidencesynthesis_riskestimatecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.RiskEvidenceSynthesis.PrecisionEstimateComponent riskevidencesynthesis_precisionestimatecomponent:
-							Write(riskevidencesynthesis_precisionestimatecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.RiskEvidenceSynthesis.CertaintyComponent riskevidencesynthesis_certaintycomponent:
-							Write(riskevidencesynthesis_certaintycomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.RiskEvidenceSynthesis.CertaintySubcomponentComponent riskevidencesynthesis_certaintysubcomponentcomponent:
-							Write(riskevidencesynthesis_certaintysubcomponentcomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.SearchParameter.ComponentComponent searchparameter_componentcomponent:
 							Write(searchparameter_componentcomponent, writer, propertyName, cancellationToken);
@@ -17571,101 +17810,59 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Subscription.ChannelComponent subscription_channelcomponent:
 							Write(subscription_channelcomponent, writer, propertyName, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.SubscriptionStatus.NotificationEventComponent subscriptionstatus_notificationeventcomponent:
+							Write(subscriptionstatus_notificationeventcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.SubscriptionTopic.ResourceTriggerComponent subscriptiontopic_resourcetriggercomponent:
+							Write(subscriptiontopic_resourcetriggercomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.SubscriptionTopic.QueryCriteriaComponent subscriptiontopic_querycriteriacomponent:
+							Write(subscriptiontopic_querycriteriacomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.SubscriptionTopic.EventTriggerComponent subscriptiontopic_eventtriggercomponent:
+							Write(subscriptiontopic_eventtriggercomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.SubscriptionTopic.CanFilterByComponent subscriptiontopic_canfilterbycomponent:
+							Write(subscriptiontopic_canfilterbycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.SubscriptionTopic.NotificationShapeComponent subscriptiontopic_notificationshapecomponent:
+							Write(subscriptiontopic_notificationshapecomponent, writer, propertyName, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.Substance.InstanceComponent substance_instancecomponent:
 							Write(substance_instancecomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Substance.IngredientComponent substance_ingredientcomponent:
 							Write(substance_ingredientcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstanceNucleicAcid.SubunitComponent substancenucleicacid_subunitcomponent:
-							Write(substancenucleicacid_subunitcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.MoietyComponent substancedefinition_moietycomponent:
+							Write(substancedefinition_moietycomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstanceNucleicAcid.LinkageComponent substancenucleicacid_linkagecomponent:
-							Write(substancenucleicacid_linkagecomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.PropertyComponent substancedefinition_propertycomponent:
+							Write(substancedefinition_propertycomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstanceNucleicAcid.SugarComponent substancenucleicacid_sugarcomponent:
-							Write(substancenucleicacid_sugarcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.MolecularWeightComponent substancedefinition_molecularweightcomponent:
+							Write(substancedefinition_molecularweightcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstancePolymer.MonomerSetComponent substancepolymer_monomersetcomponent:
-							Write(substancepolymer_monomersetcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.StructureComponent substancedefinition_structurecomponent:
+							Write(substancedefinition_structurecomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstancePolymer.StartingMaterialComponent substancepolymer_startingmaterialcomponent:
-							Write(substancepolymer_startingmaterialcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.RepresentationComponent substancedefinition_representationcomponent:
+							Write(substancedefinition_representationcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstancePolymer.RepeatComponent substancepolymer_repeatcomponent:
-							Write(substancepolymer_repeatcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.CodeComponent substancedefinition_codecomponent:
+							Write(substancedefinition_codecomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstancePolymer.RepeatUnitComponent substancepolymer_repeatunitcomponent:
-							Write(substancepolymer_repeatunitcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.NameComponent substancedefinition_namecomponent:
+							Write(substancedefinition_namecomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstancePolymer.DegreeOfPolymerisationComponent substancepolymer_degreeofpolymerisationcomponent:
-							Write(substancepolymer_degreeofpolymerisationcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.OfficialComponent substancedefinition_officialcomponent:
+							Write(substancedefinition_officialcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstancePolymer.StructuralRepresentationComponent substancepolymer_structuralrepresentationcomponent:
-							Write(substancepolymer_structuralrepresentationcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.RelationshipComponent substancedefinition_relationshipcomponent:
+							Write(substancedefinition_relationshipcomponent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.SubstanceProtein.SubunitComponent substanceprotein_subunitcomponent:
-							Write(substanceprotein_subunitcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceReferenceInformation.GeneComponent substancereferenceinformation_genecomponent:
-							Write(substancereferenceinformation_genecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceReferenceInformation.GeneElementComponent substancereferenceinformation_geneelementcomponent:
-							Write(substancereferenceinformation_geneelementcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceReferenceInformation.ClassificationComponent substancereferenceinformation_classificationcomponent:
-							Write(substancereferenceinformation_classificationcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceReferenceInformation.TargetComponent substancereferenceinformation_targetcomponent:
-							Write(substancereferenceinformation_targetcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSourceMaterial.FractionDescriptionComponent substancesourcematerial_fractiondescriptioncomponent:
-							Write(substancesourcematerial_fractiondescriptioncomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismComponent substancesourcematerial_organismcomponent:
-							Write(substancesourcematerial_organismcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSourceMaterial.AuthorComponent substancesourcematerial_authorcomponent:
-							Write(substancesourcematerial_authorcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSourceMaterial.HybridComponent substancesourcematerial_hybridcomponent:
-							Write(substancesourcematerial_hybridcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSourceMaterial.OrganismGeneralComponent substancesourcematerial_organismgeneralcomponent:
-							Write(substancesourcematerial_organismgeneralcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSourceMaterial.PartDescriptionComponent substancesourcematerial_partdescriptioncomponent:
-							Write(substancesourcematerial_partdescriptioncomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.MoietyComponent substancespecification_moietycomponent:
-							Write(substancespecification_moietycomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.PropertyComponent substancespecification_propertycomponent:
-							Write(substancespecification_propertycomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.StructureComponent substancespecification_structurecomponent:
-							Write(substancespecification_structurecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.IsotopeComponent substancespecification_isotopecomponent:
-							Write(substancespecification_isotopecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.MolecularWeightComponent substancespecification_molecularweightcomponent:
-							Write(substancespecification_molecularweightcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.RepresentationComponent substancespecification_representationcomponent:
-							Write(substancespecification_representationcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.CodeComponent substancespecification_codecomponent:
-							Write(substancespecification_codecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.NameComponent substancespecification_namecomponent:
-							Write(substancespecification_namecomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.OfficialComponent substancespecification_officialcomponent:
-							Write(substancespecification_officialcomponent, writer, propertyName, cancellationToken);
-							break;
-				case Hl7.Fhir.Model.SubstanceSpecification.RelationshipComponent substancespecification_relationshipcomponent:
-							Write(substancespecification_relationshipcomponent, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.SubstanceDefinition.SourceMaterialComponent substancedefinition_sourcematerialcomponent:
+							Write(substancedefinition_sourcematerialcomponent, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.SupplyDelivery.SuppliedItemComponent supplydelivery_supplieditemcomponent:
 							Write(supplydelivery_supplieditemcomponent, writer, propertyName, cancellationToken);
@@ -17826,6 +18023,75 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.VisionPrescription.PrismComponent visionprescription_prismcomponent:
 							Write(visionprescription_prismcomponent, writer, propertyName, cancellationToken);
 							break;
+				case Hl7.Fhir.Model.Citation.SummaryComponent citation_summarycomponent:
+							Write(citation_summarycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.ClassificationComponent citation_classificationcomponent:
+							Write(citation_classificationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.StatusDateComponent citation_statusdatecomponent:
+							Write(citation_statusdatecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.RelatesToComponent citation_relatestocomponent:
+							Write(citation_relatestocomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactComponent citation_citedartifactcomponent:
+							Write(citation_citedartifactcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactVersionComponent citation_citedartifactversioncomponent:
+							Write(citation_citedartifactversioncomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactStatusDateComponent citation_citedartifactstatusdatecomponent:
+							Write(citation_citedartifactstatusdatecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactTitleComponent citation_citedartifacttitlecomponent:
+							Write(citation_citedartifacttitlecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactAbstractComponent citation_citedartifactabstractcomponent:
+							Write(citation_citedartifactabstractcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactPartComponent citation_citedartifactpartcomponent:
+							Write(citation_citedartifactpartcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactRelatesToComponent citation_citedartifactrelatestocomponent:
+							Write(citation_citedartifactrelatestocomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormComponent citation_citedartifactpublicationformcomponent:
+							Write(citation_citedartifactpublicationformcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPublishedInComponent citation_citedartifactpublicationformpublishedincomponent:
+							Write(citation_citedartifactpublicationformpublishedincomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPeriodicReleaseComponent citation_citedartifactpublicationformperiodicreleasecomponent:
+							Write(citation_citedartifactpublicationformperiodicreleasecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactPublicationFormPeriodicReleaseDateOfPublicationComponent citation_citedartifactpublicationformperiodicreleasedateofpublicationcomponent:
+							Write(citation_citedartifactpublicationformperiodicreleasedateofpublicationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactWebLocationComponent citation_citedartifactweblocationcomponent:
+							Write(citation_citedartifactweblocationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactClassificationComponent citation_citedartifactclassificationcomponent:
+							Write(citation_citedartifactclassificationcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactClassificationWhoClassifiedComponent citation_citedartifactclassificationwhoclassifiedcomponent:
+							Write(citation_citedartifactclassificationwhoclassifiedcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactContributorshipComponent citation_citedartifactcontributorshipcomponent:
+							Write(citation_citedartifactcontributorshipcomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryComponent citation_citedartifactcontributorshipentrycomponent:
+							Write(citation_citedartifactcontributorshipentrycomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryAffiliationInfoComponent citation_citedartifactcontributorshipentryaffiliationinfocomponent:
+							Write(citation_citedartifactcontributorshipentryaffiliationinfocomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactContributorshipEntryContributionInstanceComponent citation_citedartifactcontributorshipentrycontributioninstancecomponent:
+							Write(citation_citedartifactcontributorshipentrycontributioninstancecomponent, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Citation.CitedArtifactContributorshipSummaryComponent citation_citedartifactcontributorshipsummarycomponent:
+							Write(citation_citedartifactcontributorshipsummarycomponent, writer, propertyName, cancellationToken);
+							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Account.AccountStatus> code_account_accountstatus:
 							Write(code_account_accountstatus, writer, propertyName, cancellationToken);
 							break;
@@ -17895,11 +18161,14 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Use> code_use:
 							Write(code_use, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClaimProcessingCodes> code_claimprocessingcodes:
-							Write(code_claimprocessingcodes, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.RemittanceOutcome> code_remittanceoutcome:
+							Write(code_remittanceoutcome, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClinicalImpression.ClinicalImpressionStatus> code_clinicalimpression_clinicalimpressionstatus:
 							Write(code_clinicalimpression_clinicalimpressionstatus, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ClinicalUseDefinition.ClinicalUseDefinitionType> code_clinicalusedefinition_clinicalusedefinitiontype:
+							Write(code_clinicalusedefinition_clinicalusedefinitiontype, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.CodeSystem.CodeSystemHierarchyMeaning> code_codesystem_codesystemhierarchymeaning:
 							Write(code_codesystem_codesystemhierarchymeaning, writer, propertyName, cancellationToken);
@@ -17916,8 +18185,8 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.CompositionStatus> code_compositionstatus:
 							Write(code_compositionstatus, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.v3_ConfidentialityClassification> code_composition_v3_confidentialityclassification:
-							Write(code_composition_v3_confidentialityclassification, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Composition.Confidentiality> code_composition_confidentiality:
+							Write(code_composition_confidentiality, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Consent.ConsentState> code_consent_consentstate:
 							Write(code_consent_consentstate, writer, propertyName, cancellationToken);
@@ -17961,8 +18230,11 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EpisodeOfCare.EpisodeOfCareStatus> code_episodeofcare_episodeofcarestatus:
 							Write(code_episodeofcare_episodeofcarestatus, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EvidenceVariableType> code_evidencevariabletype:
-							Write(code_evidencevariabletype, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EvidenceVariable.CharacteristicCombination> code_evidencevariable_characteristiccombination:
+							Write(code_evidencevariable_characteristiccombination, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.EvidenceVariableHandling> code_evidencevariablehandling:
+							Write(code_evidencevariablehandling, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ExplanationOfBenefit.ExplanationOfBenefitStatus> code_explanationofbenefit_explanationofbenefitstatus:
 							Write(code_explanationofbenefit_explanationofbenefitstatus, writer, propertyName, cancellationToken);
@@ -18036,20 +18308,23 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationRequest.medicationRequestIntent> code_medicationrequest_medicationrequestintent:
 							Write(code_medicationrequest_medicationrequestintent, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatusCodes> code_medicationstatement_medicationstatuscodes:
-							Write(code_medicationstatement_medicationstatuscodes, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MedicationStatement.MedicationStatementStatusCodes> code_medicationstatement_medicationstatementstatuscodes:
+							Write(code_medicationstatement_medicationstatementstatuscodes, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MessageDefinition.MessageSignificanceCategory> code_messagedefinition_messagesignificancecategory:
 							Write(code_messagedefinition_messagesignificancecategory, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.messageheader_response_request> code_messagedefinition_messageheader_response_request:
-							Write(code_messagedefinition_messageheader_response_request, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.messageheader_response_request> code_messageheader_response_request:
+							Write(code_messageheader_response_request, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.MolecularSequence.sequenceType> code_molecularsequence_sequencetype:
 							Write(code_molecularsequence_sequencetype, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.NamingSystem.NamingSystemType> code_namingsystem_namingsystemtype:
 							Write(code_namingsystem_namingsystemtype, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.NutritionProduct.NutritionProductStatus> code_nutritionproduct_nutritionproductstatus:
+							Write(code_nutritionproduct_nutritionproductstatus, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.OperationDefinition.OperationKind> code_operationdefinition_operationkind:
 							Write(code_operationdefinition_operationkind, writer, propertyName, cancellationToken);
@@ -18062,6 +18337,9 @@ namespace Hl7.Fhir.CustomSerializer
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.ResearchElementType> code_researchelementdefinition_researchelementtype:
 							Write(code_researchelementdefinition_researchelementtype, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchElementDefinition.VariableType> code_researchelementdefinition_variabletype:
+							Write(code_researchelementdefinition_variabletype, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.ResearchStudy.ResearchStudyStatus> code_researchstudy_researchstudystatus:
 							Write(code_researchstudy_researchstudystatus, writer, propertyName, cancellationToken);
@@ -18087,8 +18365,11 @@ namespace Hl7.Fhir.CustomSerializer
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.StructureDefinition.TypeDerivationRule> code_structuredefinition_typederivationrule:
 							Write(code_structuredefinition_typederivationrule, writer, propertyName, cancellationToken);
 							break;
-				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Subscription.SubscriptionStatus> code_subscription_subscriptionstatus:
-							Write(code_subscription_subscriptionstatus, writer, propertyName, cancellationToken);
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SubscriptionStatusCodes> code_subscriptionstatuscodes:
+							Write(code_subscriptionstatuscodes, writer, propertyName, cancellationToken);
+							break;
+				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.SubscriptionStatus.SubscriptionNotificationType> code_subscriptionstatus_subscriptionnotificationtype:
+							Write(code_subscriptionstatus_subscriptionnotificationtype, writer, propertyName, cancellationToken);
 							break;
 				case Hl7.Fhir.Model.Code<Hl7.Fhir.Model.Substance.FHIRSubstanceStatus> code_substance_fhirsubstancestatus:
 							Write(code_substance_fhirsubstancestatus, writer, propertyName, cancellationToken);

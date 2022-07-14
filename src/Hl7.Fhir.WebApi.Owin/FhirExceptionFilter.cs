@@ -12,11 +12,22 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http.Filters;
 using System.Web.Http;
+using Microsoft.Owin.Logging;
 
 namespace Hl7.Fhir.WebApi
 {
     public class FhirExceptionFilter : ExceptionFilterAttribute
     {
+        public FhirExceptionFilter(ILogger logger = null)
+        {
+            _logger = logger;
+        }
+
+        /// <summary>
+        /// Dependency injected logger
+        /// </summary>
+        private ILogger _logger { get; set; }
+
         OperationOutcome CreateOutcome(string message)
         {
             return new OperationOutcome().Error(message);
@@ -40,19 +51,23 @@ namespace Hl7.Fhir.WebApi
         {
             HttpResponseMessage errorResponse;
 
-            if (context.Exception is FhirServerException)
+            if (context.Exception is FhirServerException fex)
             {
-                var exception = (FhirServerException)context.Exception;
-                var outcome = exception.Outcome == null ? CreateOutcome(exception) : exception.Outcome;
-                errorResponse = context.Request.CreateResponse(exception.StatusCode, outcome);
+                var outcome = fex.Outcome == null ? CreateOutcome(fex) : fex.Outcome;
+                errorResponse = context.Request.CreateResponse(fex.StatusCode, outcome);
+                _logger?.WriteError(outcome.ToString(), fex);
             }
             else if (context.Exception is HttpResponseException)
             {
                 var he = (HttpResponseException)context.Exception;
                 errorResponse = context.Request.CreateResponse(he.Response.StatusCode, CreateOutcome(he.Response.ToString()));
+                _logger?.WriteCritical("Unhandled exception in the Server", context.Exception);
             }
             else
+            {
                 errorResponse = context.Request.CreateResponse(HttpStatusCode.InternalServerError, CreateOutcome(context.Exception));
+                _logger?.WriteCritical("Unhandled exception in the Server", context.Exception);
+            }
 
             throw new HttpResponseException(errorResponse);
         }

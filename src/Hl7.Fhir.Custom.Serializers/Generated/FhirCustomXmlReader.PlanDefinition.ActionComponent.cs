@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -105,6 +105,10 @@ namespace Hl7.Fhir.CustomSerializer
 						case "subjectReference":
 							result.Subject = new Hl7.Fhir.Model.ResourceReference();
 							Parse(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".subject", cancellationToken); // 130
+							break;
+						case "subjectCanonical":
+							result.Subject = new Hl7.Fhir.Model.Canonical();
+							Parse(result.Subject as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".subject", cancellationToken); // 130
 							break;
 						case "trigger":
 							var newItem_trigger = new Hl7.Fhir.Model.TriggerDefinition();
@@ -225,7 +229,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -309,6 +313,10 @@ namespace Hl7.Fhir.CustomSerializer
 						case "subjectReference":
 							result.Subject = new Hl7.Fhir.Model.ResourceReference();
 							await ParseAsync(result.Subject as Hl7.Fhir.Model.ResourceReference, reader, outcome, locationPath + ".subject", cancellationToken); // 130
+							break;
+						case "subjectCanonical":
+							result.Subject = new Hl7.Fhir.Model.Canonical();
+							await ParseAsync(result.Subject as Hl7.Fhir.Model.Canonical, reader, outcome, locationPath + ".subject", cancellationToken); // 130
 							break;
 						case "trigger":
 							var newItem_trigger = new Hl7.Fhir.Model.TriggerDefinition();

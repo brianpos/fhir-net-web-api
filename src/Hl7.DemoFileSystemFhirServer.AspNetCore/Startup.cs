@@ -13,27 +13,26 @@ using Hl7.Fhir.WebApi;
 using Hl7.Fhir.DemoFileSystemFhirServer;
 using System;
 using Microsoft.Extensions.Logging;
-#if !NETCOREAPP2_2
+using Hl7.Fhir.Introspection;
+using System.Reflection;
 using Microsoft.Extensions.Hosting;
-#endif
 
 namespace Hl7.DemoFileSystemFhirServer
 {
     public class Startup
     {
-#if !NETCOREAPP2_2
         public Startup(IWebHostEnvironment env)
         {
+            // Workaround for the R4B Citation resource
+            if (!Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
+            {
+                Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Hl7.Fhir.Model.Citation));
+                Hl7.Fhir.Model.ModelInfo.FhirCsTypeToString.Add(typeof(Hl7.Fhir.Model.Citation), "Citation");
+            }
+
             _env = env;
         }
         private IWebHostEnvironment _env;
-#else
-        public Startup(IHostingEnvironment env)
-        {
-            _env = env;
-        }
-        private IHostingEnvironment _env;
-#endif
 
         public IConfiguration Configuration { get; set; }
 
@@ -56,11 +55,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
             // Load the configuration settings
             var configBuilder = new ConfigurationBuilder()
-#if !NETCOREAPP2_2
                .SetBasePath(_env.ContentRootPath)
-#else
-               .SetBasePath(_env.ContentRootPath)
-#endif
                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                .AddEnvironmentVariables();
             Configuration = configBuilder.Build();
@@ -79,14 +74,13 @@ namespace Hl7.DemoFileSystemFhirServer
                 result.scopes_supported = new string[] { "openid", "profile", "launch", "patient/*.*", "user/*.*", "offline_access" };
                 result.response_types_supported = new string[] { "code", "code id_token", "id_token", "refresh_token" };
                 result.capabilities = new string[] { "launch-ehr", "launch-standalone", "client-public", "client-confidential-symmetric" };
+                result.code_challenge_methods_supported = new[] { "S256" };
                 return result;
             });
 
             services.AddLogging(logging => {
                 logging.AddConsole(config => {
-#if !NETCOREAPP2_2
                    //  config.LogToStandardErrorThreshold = LogLevel.Trace;
-#endif
                 });
             });
 
@@ -124,18 +118,10 @@ namespace Hl7.DemoFileSystemFhirServer
             }, reverseProxyAddresses);
 
             // register the Static Content
-#if NETCOREAPP2_2
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.FileProviders.Clear();
-                options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-            });
-#else
             services.AddRazorPages(options =>
             {
                 options.RootDirectory = "/wwwroot";
             });
-#endif
 
             // Tell the Net stack to only use TLS
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
@@ -153,11 +139,7 @@ namespace Hl7.DemoFileSystemFhirServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#if NETCOREAPP2_2
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-#else
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-#endif
         {
             if (env.IsDevelopment())
             {
@@ -175,9 +157,6 @@ namespace Hl7.DemoFileSystemFhirServer
             app.UseCors();
             app.UseAuthentication();
 
-#if NETCOREAPP2_2
-            app.UseMvc();
-#else
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
@@ -186,7 +165,6 @@ namespace Hl7.DemoFileSystemFhirServer
                 endpoints.MapRazorPages();
                 endpoints.MapFallbackToFile(System.IO.Path.Combine(env.WebRootPath, "content"));
             });
-#endif
         }
     }
 }

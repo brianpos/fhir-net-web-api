@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // GENERATED CODE - DO NOT EDIT
 // -----------------------------------------------------------------------------
 using System;
@@ -21,7 +21,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!reader.Read())
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -165,7 +165,7 @@ namespace Hl7.Fhir.CustomSerializer
 			while (ShouldSkipNodeType(reader.NodeType))
 				if (!await reader.ReadAsync().ConfigureAwait(false))
 					return;
-			
+
 			if (reader.MoveToFirstAttribute())
 			{
 				do
@@ -263,8 +263,8 @@ namespace Hl7.Fhir.CustomSerializer
 							await ParseAsync(result.RequestURLElement as Hl7.Fhir.Model.FhirString, reader, outcome, locationPath + ".requestURL", cancellationToken); // 180
 							break;
 						case "resource":
-							result.ResourceElement = new Hl7.Fhir.Model.Code<FHIRDefinedType>();
-							await ParseAsync(result.ResourceElement as Hl7.Fhir.Model.Code<FHIRDefinedType>, reader, outcome, locationPath + ".resource", cancellationToken); // 190
+							result.ResourceElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.FHIRDefinedType>();
+							await ParseAsync(result.ResourceElement as Hl7.Fhir.Model.Code<Hl7.Fhir.Model.FHIRDefinedType>, reader, outcome, locationPath + ".resource", cancellationToken); // 190
 							break;
 						case "response":
 							result.ResponseElement = new Hl7.Fhir.Model.Code<Hl7.Fhir.Model.TestScript.AssertionResponseTypes>();

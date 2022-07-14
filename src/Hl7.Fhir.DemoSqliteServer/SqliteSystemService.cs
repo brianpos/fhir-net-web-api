@@ -78,10 +78,6 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                 if (c != null)
                     con.Rest[0].Resource.Add(c);
             }
-            //foreach (var model in ModelFactory.GetAllModels(GetInputs(buri)))
-            //{
-            //    con.Rest[0].Resource.Add(model.GetRestResourceComponent());
-            //}
 
             return con;
         }

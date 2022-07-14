@@ -145,7 +145,7 @@ namespace Hl7.Fhir.CustomSerializer
         }
 
         public void Parse<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
-            where T : struct
+            where T : struct, Enum
         {
             // skip ignored elements
             while (ShouldSkipNodeType(reader.NodeType))
@@ -206,7 +206,7 @@ namespace Hl7.Fhir.CustomSerializer
         }
 
         public async Task ParseAsync<T>(Code<T> result, XmlReader reader, OperationOutcome outcome, string locationPath, CancellationToken cancellationToken)
-            where T : struct
+            where T : struct, System.Enum
         {
             // skip ignored elements
             while (ShouldSkipNodeType(reader.NodeType))

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Hl7.Fhir.WebApi;
-using System.Linq;
-using Hl7.Fhir.Utility;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Hl7.Fhir.Specification.Source;
-using System.IO;
+using Hl7.Fhir.Utility;
+using Hl7.Fhir.WebApi;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
@@ -20,7 +17,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         where TSP : class
     {
         public DirectorySystemService()
-{
+        {
             var _dirSource = new DirectorySource(Directory, new DirectorySourceSettings() { ExcludeSummariesForUnknownArtifacts = true, MultiThreaded = true, Mask = "*..xml" });
             var cacheResolver = new CachedResolver(
                 new MultiResolver(
@@ -55,7 +52,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             con.Name = "demoCapStmt";
             con.Experimental = true;
             con.Status = PublicationStatus.Active;
-            con.FhirVersion = FHIRVersion.N4_0_1;
+            con.FhirVersion = FHIRVersion.N4_3_0;
             // con.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
             con.Format = new string[] { "xml", "json" };
             con.Kind = CapabilityStatementKind.Instance;

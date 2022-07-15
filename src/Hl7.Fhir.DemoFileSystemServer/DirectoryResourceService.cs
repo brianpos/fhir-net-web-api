@@ -101,7 +101,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 FhirPathCompiler = compiler
             };
             settings.ConstraintsToIgnore = settings.ConstraintsToIgnore.Union(new []{
-                "ref-1", // causes issues with 
+                "ref-1", // causes issues with
                 // "ctm-1", // should permit prac roles too
                 // "sdf-0" // name properties should be usable as identifiers in code (no spaces etc)
 
@@ -270,7 +270,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         {
             var outcome = new OperationOutcome();
             ResourceValidationMode? mode = ResourceValidationMode.create;
-            Resource resource = operationParameters["resource"].Resource;
+            Resource resource = operationParameters["resource"]?.Resource;
             string profile = null;
 
             var modeParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "mode");
@@ -343,7 +343,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     profile = str.Value;
             }
 
-            if (resource.TypeName != this.ResourceName)
+            if (resource != null && resource.TypeName != this.ResourceName)
             {
                 outcome.Issue.Add(new OperationOutcome.IssueComponent()
                 {

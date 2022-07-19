@@ -40,11 +40,11 @@
     <Reference Include="Hl7.Fhir.ElementModel, Version=4.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.ElementModel.4.1.0\lib\net452\Hl7.Fhir.ElementModel.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.R4B.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.R4B.4.1.0\lib\net452\Hl7.Fhir.R4B.Core.dll</HintPath>
+    <Reference Include="Hl7.Fhir.R5.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.R5.4.1.0\lib\net452\Hl7.Fhir.R5.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.R4B.Specification, Version=4.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Specification.R4B.4.1.0\lib\net452\Hl7.Fhir.R4B.Specification.dll</HintPath>
+    <Reference Include="Hl7.Fhir.R5.Specification, Version=4.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Specification.R5.4.1.0\lib\net452\Hl7.Fhir.R5.Specification.dll</HintPath>
     </Reference>
     <Reference Include="Hl7.Fhir.Serialization, Version=4.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.Serialization.4.1.0\lib\net452\Hl7.Fhir.Serialization.dll</HintPath>

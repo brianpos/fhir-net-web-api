@@ -18,7 +18,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system
     /// </summary>
-    public class SqliteSystemService<TSP> : Hl7.Fhir.WebApi.IFhirSystemServiceR4<TSP>
+    public class SqliteSystemService<TSP> : Hl7.Fhir.WebApi.IFhirSystemServiceR5<TSP>
         where TSP : class
     {
         public SqliteSystemService()
@@ -82,7 +82,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             return con;
         }
 
-        public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
+        public IFhirResourceServiceR5<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
             FhirDbContext db = GetFhirDbContext(request.ServiceProvider);
             if (_indexer == null)

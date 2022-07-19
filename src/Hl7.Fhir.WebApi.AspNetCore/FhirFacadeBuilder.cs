@@ -22,7 +22,7 @@ namespace Hl7.Fhir.NetCoreApi
 {
     public static class FhirFacadeBuilder
     {
-        internal static IFhirSystemServiceR4<IServiceProvider> _systemService;
+        internal static IFhirSystemServiceR5<IServiceProvider> _systemService;
         internal static Dictionary<string, Uri> _supportedForwardedForSystems;
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Hl7.Fhir.NetCoreApi
         /// <param name="systemService">An instance of the System Service that is providing the resource service delegations and system level operations</param>
         /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any further, such as registering other output formatters (e.g. HTML)</param>
         /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
-        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
+        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR5<IServiceProvider> systemService, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
         {
             NetCoreApi.FhirFacadeBuilder._systemService = systemService;
             InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
@@ -46,7 +46,7 @@ namespace Hl7.Fhir.NetCoreApi
         /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
         public static void UseFhirServerController(this IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
         {
-            if (!services.Any(x => x.ServiceType == typeof(IFhirSystemServiceR4<IServiceProvider>)))
+            if (!services.Any(x => x.ServiceType == typeof(IFhirSystemServiceR5<IServiceProvider>)))
             {
                 throw new ApplicationException("Using the Dependency Injector approach to the facade requires a `IFhirSystemServiceR4<IServiceProvider>` to have been registered");
             }

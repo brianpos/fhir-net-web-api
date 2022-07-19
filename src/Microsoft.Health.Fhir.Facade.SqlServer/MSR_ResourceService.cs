@@ -18,7 +18,7 @@ using LinqKit;
 
 namespace Microsoft.Health.Fhir.Facade.SqlServer
 {
-    public class MSR_ResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
+    public class MSR_ResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR5<TSP>
         where TSP : class
     {
         public ModelBaseInputs<TSP> RequestDetails { get; set; }

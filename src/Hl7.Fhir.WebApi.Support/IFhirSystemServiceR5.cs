@@ -17,7 +17,7 @@ namespace Hl7.Fhir.WebApi
     /// Implementations of this interface cover the system scope of the FHIR Server
     /// </summary>
     /// <typeparam name="TSP">The Dependency Injector class - IServiceProvider for aspnetcore and IDependencyResolver for webapi</typeparam>
-    public interface IFhirSystemServiceR4<TSP>
+    public interface IFhirSystemServiceR5<TSP>
     {
         /// <summary>
         /// Retrieve the CapabilityStatement resource applicable for this server
@@ -32,7 +32,7 @@ namespace Hl7.Fhir.WebApi
         /// <param name="request"></param>
         /// <param name="resourceName"></param>
         /// <returns></returns>
-        IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName);
+        IFhirResourceServiceR5<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName);
 
         /// <summary>
         /// Process the bundle passed in (could be a batch or a transaction)

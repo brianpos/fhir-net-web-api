@@ -13,7 +13,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
     /// <summary>
     /// This is an implementation of the FHIR Service that sources all its files in the file system
     /// </summary>
-    public class MSR_SystemService<TSP> : Hl7.Fhir.WebApi.IFhirSystemServiceR4<TSP>
+    public class MSR_SystemService<TSP> : Hl7.Fhir.WebApi.IFhirSystemServiceR5<TSP>
         where TSP : class
     {
         public MSR_SystemService()
@@ -75,7 +75,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
         internal static Dictionary<string, Dictionary<string, short>> ResourceSearchParameterCache = new Dictionary<string, Dictionary<string, short>>();
         internal static Dictionary<string, int> ResourceTypeIds;
 
-        public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
+        public IFhirResourceServiceR5<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
             var msDB = GetMsFhirDbContext(request.ServiceProvider);
             if (ResourceTypeIds == null)

@@ -17,10 +17,10 @@ namespace Hl7.Fhir.WebApi
 {
 	public static class WebApiConfig
 	{
-        internal static IFhirSystemServiceR4<IDependencyScope> _systemService;
+        internal static IFhirSystemServiceR5<IDependencyScope> _systemService;
         internal static Dictionary<string, Uri> _supportedForwardedForSystems;
 
-        public static void Register(HttpConfiguration config, IFhirSystemServiceR4<IDependencyScope> systemService, Dictionary<string, Uri> supportedForwardedForSystems = null)
+        public static void Register(HttpConfiguration config, IFhirSystemServiceR5<IDependencyScope> systemService, Dictionary<string, Uri> supportedForwardedForSystems = null)
 		{
             _systemService = systemService;
             _supportedForwardedForSystems = supportedForwardedForSystems;

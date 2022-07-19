@@ -13,7 +13,7 @@ namespace Hl7.Fhir.WebApi
     public class BatchOperationProcessing<TSP>
         where TSP: class
     {
-        public Func<ModelBaseInputs<TSP>, string, IFhirResourceServiceR4<TSP>> GetResourceService { get; set; }
+        public Func<ModelBaseInputs<TSP>, string, IFhirResourceServiceR5<TSP>> GetResourceService { get; set; }
         public int DefaultPageSize { get; set; } = 40;
 
         public async System.Threading.Tasks.Task<Bundle> ProcessBatch(ModelBaseInputs<TSP> request, Bundle batch)

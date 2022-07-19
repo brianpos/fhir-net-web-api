@@ -105,7 +105,7 @@ namespace Hl7.DemoFileSystemFhirServer
             reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
 
             // services.AddSingleton<IFhirSystemServiceR4<IServiceProvider>>(systemService);
-            services.AddSingleton<IFhirSystemServiceR4<IServiceProvider>>((s) => {
+            services.AddSingleton<IFhirSystemServiceR5<IServiceProvider>>((s) => {
                 var systemService = new DirectorySystemService<System.IServiceProvider>();
                 systemService.InitializeIndexes();
                 return systemService;

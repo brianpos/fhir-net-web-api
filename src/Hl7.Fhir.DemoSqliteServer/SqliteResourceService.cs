@@ -13,7 +13,7 @@ using static Hl7.Fhir.DemoSqliteFhirServer.DemoSearchIndexer;
 
 namespace Hl7.Fhir.DemoSqliteFhirServer
 {
-    public class SqliteResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
+    public class SqliteResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR5<TSP>
         where TSP : class
     {
         public ModelBaseInputs<TSP> RequestDetails { get; set; }

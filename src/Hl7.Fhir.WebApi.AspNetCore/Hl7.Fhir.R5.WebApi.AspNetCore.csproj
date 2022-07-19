@@ -40,7 +40,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.WebApi.Support\Hl7.Fhir.R5.WebApi.Support.csproj" />
   </ItemGroup>
 
 </Project>

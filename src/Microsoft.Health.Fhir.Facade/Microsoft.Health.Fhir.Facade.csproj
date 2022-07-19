@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R4.WebApi.AspNetCore.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R5.WebApi.AspNetCore.csproj" />
     <ProjectReference Include="..\Microsoft.Health.Fhir.Facade.SqlServer\Microsoft.Health.Fhir.Facade.SqlServer.csproj" />
   </ItemGroup>
 

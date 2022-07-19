@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj" />
-    <ProjectReference Include="..\Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R4.WebApi.AspNetCore.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R5.DemoFileSystemServer.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R5.WebApi.AspNetCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,7 +35,7 @@ namespace UnitTestWebApi
         #endregion
 
 #if NETCOREAPP3_0_OR_GREATER
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task QuickTestCreatingOntoServerClosureTable()
         {
             // Call the closure operation on the Ontoserver database
@@ -60,7 +60,7 @@ namespace UnitTestWebApi
             DebugDumpOutputXml(closureResult);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task QuickClosureTableTests()
         {
             var cm = new Hl7.Fhir.DemoSqliteFhirServer.ClosureMaintainer("https://r4.ontoserver.csiro.au/fhir");

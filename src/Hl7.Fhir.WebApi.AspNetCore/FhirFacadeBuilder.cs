@@ -88,7 +88,7 @@ namespace Hl7.Fhir.NetCoreApi
 
                 // give caller opportunity to modify the mvc options
                 setupAction(options);
-            }).AddApplicationPart(typeof(FhirR4Controller).Assembly);
+            }).AddApplicationPart(typeof(FhirR5Controller).Assembly);
         }
 
         /// <summary>

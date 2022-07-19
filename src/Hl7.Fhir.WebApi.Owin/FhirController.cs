@@ -27,7 +27,7 @@ namespace Hl7.Fhir.WebApi
     /// http://hl7.org/fhir/r4/http.html
     /// </summary>
     [RoutePrefix("")]
-    public partial class FhirR4Controller : ApiController
+    public partial class FhirR5Controller : ApiController
     {
         internal ModelBaseInputs<IDependencyScope> GetInputs(string baseUrl)
         {

@@ -29,9 +29,9 @@ namespace Hl7.Fhir.WebApi
     /// http://hl7.org/fhir/r4/http.html
     /// </summary>
     [Route("")]
-    public partial class FhirR4Controller : Controller
+    public partial class FhirR5Controller : Controller
     {
-        public FhirR4Controller(IFhirSystemServiceR4<IServiceProvider> SystemService = null, ILogger<FhirR4Controller> logger = null)
+        public FhirR5Controller(IFhirSystemServiceR4<IServiceProvider> SystemService = null, ILogger<FhirR5Controller> logger = null)
         {
             _systemService = SystemService ?? NetCoreApi.FhirFacadeBuilder._systemService;
             _logger = logger;

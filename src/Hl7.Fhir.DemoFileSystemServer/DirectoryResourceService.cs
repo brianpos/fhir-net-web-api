@@ -158,11 +158,11 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
             rt.Interaction = new List<CapabilityStatement.ResourceInteractionComponent>()
             {
-                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Create },
-                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Read },
-                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Update },
-                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Delete },
-                new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.SearchType },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = TypeRestfulInteraction.Create },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = TypeRestfulInteraction.Read },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = TypeRestfulInteraction.Update },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = TypeRestfulInteraction.Delete },
+                new CapabilityStatement.ResourceInteractionComponent() { Code = TypeRestfulInteraction.SearchType },
                 //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Vread },
                 //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryInstance },
                 //new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.HistoryType },

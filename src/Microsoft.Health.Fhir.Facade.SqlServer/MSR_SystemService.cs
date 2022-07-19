@@ -45,7 +45,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
             con.Name = "demoCapStmt";
             con.Experimental = true;
             con.Status = PublicationStatus.Active;
-            con.FhirVersion = FHIRVersion.N4_0_1;
+            con.FhirVersion = FHIRVersion.N5_0_0Snapshot1;
             con.Format = new string[] { "xml", "json" };
             con.Kind = CapabilityStatementKind.Instance;
             con.Meta = new Meta();
@@ -58,7 +58,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
                     Operation = new List<Hl7.Fhir.Model.CapabilityStatement.OperationComponent>()
                 }
             };
-            con.Rest[0].Mode = CapabilityStatement.RestfulCapabilityMode.Server;
+            con.Rest[0].Mode = RestfulCapabilityMode.Server;
             con.Rest[0].Resource = new List<Hl7.Fhir.Model.CapabilityStatement.ResourceComponent>();
 
             foreach (var resName in ModelInfo.SupportedResources)

@@ -21,7 +21,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             var _dirSource = new DirectorySource(Directory, new DirectorySourceSettings() { ExcludeSummariesForUnknownArtifacts = true, MultiThreaded = true, Mask = "*..xml" });
             var cacheResolver = new CachedResolver(
                 new MultiResolver(
-                    _dirSource,
+                    // _dirSource,
                     ZipSource.CreateValidationSource()
                     ));
             _source = cacheResolver;
@@ -52,7 +52,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             con.Name = "demoCapStmt";
             con.Experimental = true;
             con.Status = PublicationStatus.Active;
-            con.FhirVersion = FHIRVersion.N4_3_0;
+            con.FhirVersion = FHIRVersion.N5_0_0Snapshot1;
             // con.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
             con.Format = new string[] { "xml", "json" };
             con.Kind = CapabilityStatementKind.Instance;
@@ -66,7 +66,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     Operation = new List<Hl7.Fhir.Model.CapabilityStatement.OperationComponent>()
                 }
             };
-            con.Rest[0].Mode = CapabilityStatement.RestfulCapabilityMode.Server;
+            con.Rest[0].Mode = RestfulCapabilityMode.Server;
             con.Rest[0].Resource = new List<Hl7.Fhir.Model.CapabilityStatement.ResourceComponent>();
 
             foreach (var resName in ModelInfo.SupportedResources)
@@ -82,7 +82,19 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         public IFhirResourceServiceR4<TSP> GetResourceService(ModelBaseInputs<TSP> request, string resourceName)
         {
             if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(resourceName))
-                throw new NotImplementedException();
+            {
+                if (resourceName == "Citation")
+                {
+                    // Workaround for the R4B Citation resource
+                    if (!Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
+                    {
+                        Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Hl7.Fhir.Model.Citation));
+                        Hl7.Fhir.Model.ModelInfo.FhirCsTypeToString.Add(typeof(Hl7.Fhir.Model.Citation), "Citation");
+                    }
+                }
+                if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(resourceName))
+                    throw new NotImplementedException();
+            }
 
             return new DirectoryResourceService<TSP>(request, resourceName, Directory, _source, _source) { Indexer = _indexer };
         }

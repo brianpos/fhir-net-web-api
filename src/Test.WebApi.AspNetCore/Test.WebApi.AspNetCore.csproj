@@ -10,6 +10,10 @@
   <PropertyGroup>
     <LangVersion>9</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="CustomSerializers.cs" />
+    <Compile Remove="CustomSerializersAllExamples.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="..\Hl7.DemoFileSystemFhirServer.AspNetCore\wwwroot\content\icon_choice.gif" Link="TestData\icon_choice.gif">
@@ -18,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="4.1.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R5" Version="4.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.7" />
@@ -28,19 +32,19 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net60'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.6" />
     <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net50'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.11" />
     <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.19" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.27" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.8" />
     <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
@@ -52,12 +56,14 @@
       <PrivateAssets>contentFiles</PrivateAssets>
       <Private>true</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Hl7.Fhir.Custom.Serializers\Hl7.Fhir.Custom.Serializers.csproj" />
-    <ProjectReference Include="..\Hl7.Fhir.HttpClient\Hl7.Fhir.R4.HttpClient.csproj" />
+    <!--<ProjectReference Include="..\Hl7.Fhir.Custom.Serializers\Hl7.Fhir.Custom.Serializers.csproj" />-->
   </ItemGroup>
 
   <ItemGroup>
     <None Update="TestData\examples.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\sdc-ig.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="TestPatientWithErrors.xml">

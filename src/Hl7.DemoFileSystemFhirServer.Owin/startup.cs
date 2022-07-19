@@ -30,7 +30,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 Hl7.Fhir.Model.ModelInfo.FhirCsTypeToString.Add(typeof(Hl7.Fhir.Model.Citation), "Citation");
             }
 
-            DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = @"c:\temp\demoserver-4.1.0";
+            DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = @"c:\temp\demoserver-r5";
             if (!System.IO.Directory.Exists(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory))
                 System.IO.Directory.CreateDirectory(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory);
 

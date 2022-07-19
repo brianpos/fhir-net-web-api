@@ -328,7 +328,7 @@ namespace UnitTestWebApi
             DebugDumpOutputXml(resultGood);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async System.Threading.Tasks.Task Http_SearchAzure()
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
@@ -343,7 +343,7 @@ namespace UnitTestWebApi
             Assert.AreEqual(2, result.Total.Value, "Expect 2 k patients");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async System.Threading.Tasks.Task Http_SearchAzureNoParams()
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
@@ -353,7 +353,7 @@ namespace UnitTestWebApi
             Assert.AreEqual(32, result.Total.Value, "volume on test server");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async System.Threading.Tasks.Task Http_SearchAzureWithSearchParams()
         {
             Hl7.Fhir.Rest.FhirHttpClient clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");
@@ -372,7 +372,7 @@ namespace UnitTestWebApi
             Assert.AreEqual(2, result.Total.Value, "Expect 2 ks");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async System.Threading.Tasks.Task Http_SearchContinueAzure()
         {
             var clientFhir = new Hl7.Fhir.Rest.FhirHttpClient("https://sqlonfhir-r4.azurewebsites.net/fhir");

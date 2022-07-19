@@ -31,6 +31,46 @@ namespace UnitTestWebApi
             };
             r.Active = true;
             r.Contained.Add(new List() { Id = "", Mode = ListMode.Snapshot, Status = List.ListStatus.Current });
+            // contain a resource that IS fine
+            r.Contained.Add(new Encounter() { Id = "enc1", Subject = new ResourceReference("#") });
+            var source = new CachedResolver(
+                        // Use the specification zip that is local (from the NuGet package)
+                        // ZipSource.CreateValidationSource()
+                        new ZipSource(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "specification.zip"))
+                    );
+            var settings = new ValidationSettings()
+            {
+                ResourceResolver = source,
+                GenerateSnapshot = true,
+                ResolveExternalReferences = false,
+                Trace = false
+            };
+
+            var validator = new Hl7.Fhir.Validation.Validator(settings);
+            OperationOutcome oo = validator.Validate(r);
+            SimpleCRUD.DebugDumpOutputXml(oo);
+        }
+
+        [TestMethod]
+        public void ResourceReferenceContainedIsFineReferencingParent()
+        {
+            var r = new Patient()
+            {
+                Id = "blah",
+                Active = true,
+                ManagingOrganization = new ResourceReference() { Display = "ACME Healthcare" }
+            };
+            r.Active = true;
+            // contain a resource that IS fine
+            r.Contained.Add(new Encounter()
+            {
+                Id = "enc1",
+                Class = new Coding("system", "code-1"),
+                Status = Encounter.EncounterStatus.InProgress,
+                Subject = new ResourceReference("#")
+            });
+            SimpleCRUD.DebugDumpOutputXml(r);
+
             var source = new CachedResolver(
                         // Use the specification zip that is local (from the NuGet package)
                         // ZipSource.CreateValidationSource()

@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462</TargetFrameworks>
-    <AssemblyName>Hl7.Fhir.R4B.WebApi.Owin</AssemblyName>
-    <PackageId>brianpos.Fhir.R4B.WebApi.Owin</PackageId>
+    <AssemblyName>Hl7.Fhir.R5.WebApi.Owin</AssemblyName>
+    <PackageId>brianpos.Fhir.R5.WebApi.Owin</PackageId>
     <Version>4.1.0-beta1</Version>
     <Title>HL7 Fhir WebApi (Owin) Facade Layer</Title>
     <Summary>Owin based FHIR WebApi Facade layer</Summary>
     <Description>This library Implements a FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>
     <PackageTags>HL7;FHIR;FHIR;Owin;WebAPI</PackageTags>
-    <Product>Hl7.Fhir.R4B.WebApi.Owin</Product>
+    <Product>Hl7.Fhir.R5.WebApi.Owin</Product>
     <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
     
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -21,7 +21,7 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4B" Version="4.1.0" />
+    <PackageReference Include="Hl7.Fhir.R5" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.7" />
   </ItemGroup>
   <ItemGroup>

@@ -136,18 +136,15 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                         {
                             foreach (var target in element.Target)
                             {
-                                if (target.Equivalence != ConceptMapEquivalence.Unmatched)
+                                var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
                                 {
-                                    var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
-                                    {
-                                        ClosureId = ctable.Id,
-                                        ChildCode = element.Code,
-                                        ParentCode = target.Code,
-                                        ConceptJson = element.ToJson()
-                                    };
-                                    DbContext.ClosureRelationships.Add(relationship);
-                                    Console.WriteLine(element.ToJson());
-                                }
+                                    ClosureId = ctable.Id,
+                                    ChildCode = element.Code,
+                                    ParentCode = target.Code,
+                                    ConceptJson = element.ToJson()
+                                };
+                                DbContext.ClosureRelationships.Add(relationship);
+                                Console.WriteLine(element.ToJson());
                             }
                         }
                         await DbContext.SaveChangesAsync(CancellationToken);
@@ -198,18 +195,15 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                         {
                             foreach (var target in element.Target)
                             {
-                                if (target.Equivalence != ConceptMapEquivalence.Unmatched)
+                                var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
                                 {
-                                    var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
-                                    {
-                                        ClosureId = ctable.Id,
-                                        ChildCode = element.Code,
-                                        ParentCode = target.Code,
-                                        ConceptJson = element.ToJson()
-                                    };
-                                    DbContext.ClosureRelationships.Add(relationship);
-                                    Console.WriteLine(element.ToJson());
-                                }
+                                    ClosureId = ctable.Id,
+                                    ChildCode = element.Code,
+                                    ParentCode = target.Code,
+                                    ConceptJson = element.ToJson()
+                                };
+                                DbContext.ClosureRelationships.Add(relationship);
+                                Console.WriteLine(element.ToJson());
                             }
                         }
                         await DbContext.SaveChangesAsync(CancellationToken);
@@ -271,18 +265,15 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
                     {
                         foreach (var target in element.Target)
                         {
-                            if (target.Equivalence != ConceptMapEquivalence.Unmatched)
+                            var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
                             {
-                                var relationship = new Hl7.Fhir.DemoSqliteFhirServer.DemoEntityModels.ClosureRelationship()
-                                {
-                                    ClosureId = ctable.Id,
-                                    ChildCode = element.Code,
-                                    ParentCode = target.Code,
-                                    ConceptJson = element.ToJson()
-                                };
-                                DbContext.ClosureRelationships.Add(relationship);
-                                Console.WriteLine(element.ToJson());
-                            }
+                                ClosureId = ctable.Id,
+                                ChildCode = element.Code,
+                                ParentCode = target.Code,
+                                ConceptJson = element.ToJson()
+                            };
+                            DbContext.ClosureRelationships.Add(relationship);
+                            Console.WriteLine(element.ToJson());
                         }
                     }
                     await DbContext.SaveChangesAsync(CancellationToken);

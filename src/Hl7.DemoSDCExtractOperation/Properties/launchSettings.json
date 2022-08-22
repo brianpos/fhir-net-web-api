@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Demo.Fhir.SDC.ExpandOperation": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7195",
+      "launchBrowser": false
+    }
+  }
+}

@@ -1,0 +1,183 @@
+<Questionnaire xmlns="http://hl7.org/fhir">
+  <id value="bit-of-everything" />
+  <meta>
+    <lastUpdated value="2022-05-04T02:26:46.8580057+10:00" />
+  </meta>
+  <extension url="http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-preferredTerminologyServer">
+    <valueUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir" />
+  </extension>
+  <url value="https://sqlonfhir-r4.azurewebsites.net/fhir/Questionnaire/bit-of-everything" />
+  <name value="BitOfEverything" />
+  <title value="Bit of everything" />
+  <status value="active" />
+  <date value="2021-06-14" />
+  <item>
+    <extension url="http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-preferredTerminologyServer">
+      <valueUrl value="https://sqlonfhir-r4.azurewebsites.net/fhir" />
+    </extension>
+    <linkId value="root" />
+    <text value="Bit of Everything" />
+    <type value="group" />
+    <item>
+      <linkId value="Item-label" />
+      <text value="display label" />
+      <type value="display" />
+    </item>
+    <item>
+      <linkId value="Item-string" />
+      <text value="string" />
+      <type value="string" />
+    </item>
+    <item>
+      <linkId value="Item-text" />
+      <text value="text" />
+      <type value="text" />
+    </item>
+    <item>
+      <linkId value="Item-bool" />
+      <code>
+        <code value="true" />
+      </code>
+      <text value="boolean" />
+      <type value="boolean" />
+    </item>
+    <item>
+      <linkId value="Item-date" />
+      <text value="date" />
+      <type value="date" />
+    </item>
+    <item>
+      <linkId value="Item-datetime" />
+      <text value="datetime" />
+      <type value="dateTime" />
+    </item>
+    <item>
+      <linkId value="Item-time" />
+      <text value="time" />
+      <type value="time" />
+    </item>
+    <item>
+      <linkId value="Item-integer" />
+      <text value="integer" />
+      <type value="integer" />
+    </item>
+    <item>
+      <extension url="http://hl7.org/fhir/StructureDefinition/questionnaire-unit">
+        <valueCoding>
+          <system value="http://unitsofmeasure.org" />
+          <code value="m" />
+          <display value="meters" />
+        </valueCoding>
+      </extension>
+      <linkId value="Item-decimal" />
+      <text value="decimal" />
+      <type value="decimal" />
+    </item>
+    <item>
+      <linkId value="Item-url" />
+      <text value="url" />
+      <type value="url" />
+    </item>
+    <item>
+      <linkId value="Item-reference" />
+      <text value="reference" />
+      <type value="reference" />
+    </item>
+    <item>
+      <linkId value="Item-attachment" />
+      <text value="attachment" />
+      <type value="attachment" />
+    </item>
+    <item>
+      <extension url="http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption">
+        <valueCoding>
+          <system value="http://unitsofmeasure.org" />
+          <code value="m" />
+          <display value="meters" />
+        </valueCoding>
+      </extension>
+      <extension url="http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption">
+        <valueCoding>
+          <system value="http://unitsofmeasure.org" />
+          <code value="cm" />
+          <display value="centimeters" />
+        </valueCoding>
+      </extension>
+      <linkId value="Item-quantity" />
+      <text value="quantity" />
+      <type value="quantity" />
+    </item>
+    <item>
+      <linkId value="Item-rb-local" />
+      <text value="radiobuttons (answerOptions)" />
+      <type value="choice" />
+      <repeats value="false" />
+      <answerOption>
+        <valueCoding>
+          <system value="http://example.org/coding-test" />
+          <code value="a" />
+          <display value="option A" />
+        </valueCoding>
+      </answerOption>
+      <answerOption>
+        <valueCoding>
+          <system value="http://example.org/coding-test" />
+          <code value="b" />
+          <display value="option B" />
+        </valueCoding>
+      </answerOption>
+    </item>
+    <item>
+      <linkId value="Item-rb" />
+      <text value="radiobuttons (answerValueSet)" />
+      <type value="choice" />
+      <repeats value="false" />
+      <answerValueSet value="http://sqlonfhir-r4.azurewebsites.net/fhir/ValueSet/866d7924e20711d48c540020182939f7" />
+    </item>
+    <item>
+      <extension url="http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl">
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/questionnaire-item-control" />
+            <code value="drop-down" />
+          </coding>
+        </valueCodeableConcept>
+      </extension>
+      <linkId value="Item10" />
+      <text value="drop-down (answerValueSet)" />
+      <type value="choice" />
+      <repeats value="false" />
+      <answerValueSet value="https://sqlonfhir-r4.azurewebsites.net/fhir/ValueSet/866d7924e20711d48c540020182939f7" />
+    </item>
+    <item>
+      <extension url="http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl">
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/questionnaire-item-control" />
+            <code value="autocomplete" />
+          </coding>
+        </valueCodeableConcept>
+      </extension>
+      <linkId value="Item11" />
+      <text value="autocomplete (countries)" />
+      <type value="choice" />
+      <repeats value="false" />
+      <answerValueSet value="https://sqlonfhir-r4.azurewebsites.net/fhir/ValueSet/25b0ec04fd3511d28b3e0020182939f7" />
+    </item>
+    <item>
+      <extension url="http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl">
+        <valueCodeableConcept>
+          <coding>
+            <system value="http://hl7.org/fhir/questionnaire-item-control" />
+            <code value="autocomplete" />
+          </coding>
+        </valueCodeableConcept>
+      </extension>
+      <linkId value="Item12" />
+      <text value="open-choice (countries)" />
+      <type value="open-choice" />
+      <repeats value="false" />
+      <answerValueSet value="https://sqlonfhir-r4.azurewebsites.net/fhir/ValueSet/25b0ec04fd3511d28b3e0020182939f7" />
+    </item>
+  </item>
+</Questionnaire>

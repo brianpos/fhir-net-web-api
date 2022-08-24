@@ -39,6 +39,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Health.Fhir.Facad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Health.Fhir.Facade", "Microsoft.Health.Fhir.Facade\Microsoft.Health.Fhir.Facade.csproj", "{FB918B25-C736-4C52-BE21-9D9C756C5564}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.StructuredDataCapture", "Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4.StructuredDataCapture.csproj", "{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Hl7.Fhir.StructuredDataCapture", "Test.Hl7.Fhir.StructuredDataCapture\Test.Hl7.Fhir.StructuredDataCapture.csproj", "{476FF6CE-682E-401A-BFD5-6DE000504AD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.DemoSDCExtractOperation", "Hl7.DemoSDCExtractOperation\Hl7.DemoSDCExtractOperation.csproj", "{78DBB9D6-9E23-47AD-B60B-2FB849253765}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

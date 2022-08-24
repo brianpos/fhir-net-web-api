@@ -4,7 +4,7 @@
     <TargetFrameworks>net60;net50;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4B.HttpClient</AssemblyName>
     <PackageId>brianpos.Fhir.R4B.HttpClient</PackageId>
-    <Version>4.1.0-beta1</Version>
+    <Version>4.2.1-beta1</Version>
     <Title>HL7 Fhir HttpClient</Title>
     <Summary>Class interfaces for the FHIR WebApi Models</Summary>
     <Description>Replacement FhirClient that provides an async only REST client using the httpclient. This is very useful in high volume cases such as inside Azure Web Functions where under load the default rest client can run out of sockets</Description>
@@ -21,8 +21,12 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4B" Version="4.1.0" />
+    <PackageReference Include="Hl7.Fhir.R4B" Version="4.2.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />
   </ItemGroup>
 
 </Project>

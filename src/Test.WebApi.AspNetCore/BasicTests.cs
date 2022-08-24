@@ -475,6 +475,85 @@ namespace UnitTestWebApi
                 System.IO.File.WriteAllBytes($"c:\\temp\\{resource.TypeName}-{resource.Id}.xml", serializer.SerializeToBytes(resource));
             }
         }
+
+        [TestMethod, Ignore]
+        public async Task ExtractNpmPackage()
+        {
+            var npmSource = new Hl7.Fhir.DemoSqliteFhirServer.Specification.NpmPackageSource();
+            //await npmSource.IndexPackage(@"E:\git\HL7\au-fhir-base\2021Aug\package.tgz", null);
+            //await npmSource.IndexPackage(@"E:\git\HL7\sdc\output\package.tgz", null);
+            await npmSource.IndexPackage(@"C:\temp\uscore-package-dev.tgz");
+            await npmSource.IndexPackage(@"C:\temp\hl7.fhir.r4.core-4.0.1.tgz");
+            // await npmSource.IndexPackage(@"C:\temp\uscore-package-4.1.0.tgz", null);
+
+            // test out the package source
+            var resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/StructureDefinition/Patient");
+            Assert.IsNotNull(resource);
+        }
+
+        [TestMethod, Ignore]
+        public async Task SaveNpmPackageIndex()
+        {
+            var npmSource = new Hl7.Fhir.DemoSqliteFhirServer.Specification.NpmPackageSource();
+            //await npmSource.IndexPackage(@"E:\git\HL7\au-fhir-base\2021Aug\package.tgz", null);
+            //await npmSource.IndexPackage(@"E:\git\HL7\sdc\output\package.tgz", null);
+            await npmSource.IndexPackage(@"C:\temp\uscore-package-dev.tgz");
+            await npmSource.IndexPackage(@"C:\temp\hl7.fhir.r4.core-4.0.1.tgz");
+            // await npmSource.IndexPackage(@"C:\temp\uscore-package-4.1.0.tgz", null);
+
+            await npmSource.SaveIndex(@"C:\temp\uscore-package-dev.tgz", @"C:\temp\uscore-package-dev.tgz.index.json");
+            await npmSource.SaveIndex(@"C:\temp\hl7.fhir.r4.core-4.0.1.tgz", @"C:\temp\hl7.fhir.r4.core-4.0.1.tgz.index.json");
+
+            // test out the package source
+            var resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/StructureDefinition/Patient");
+            Assert.IsNotNull(resource);
+        }
+
+        [TestMethod]
+        public async Task LoadNpmPackageIndex()
+        {
+            var npmSource = new Hl7.Fhir.DemoSqliteFhirServer.Specification.NpmPackageSource();
+            await npmSource.LoadIndex(@"C:\temp\uscore-package-dev.tgz", @"C:\temp\uscore-package-dev.tgz.index.json");
+            await npmSource.LoadIndex(@"C:\temp\hl7.fhir.r4.core-4.0.1.tgz", @"C:\temp\hl7.fhir.r4.core-4.0.1.tgz.index.json");
+
+            // test out the package source
+            var sw = Stopwatch.StartNew();
+            var resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            System.Diagnostics.Trace.WriteLine($"{sw.Elapsed}");
+            sw.Restart();
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            System.Diagnostics.Trace.WriteLine($"{sw.Elapsed}");
+            sw.Restart();
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            System.Diagnostics.Trace.WriteLine($"{sw.Elapsed}");
+            sw.Restart();
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/StructureDefinition/Patient");
+            Assert.IsNotNull(resource);
+            System.Diagnostics.Trace.WriteLine($"{sw.Elapsed}");
+            sw.Restart();
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/StructureDefinition/Practitioner");
+            Assert.IsNotNull(resource);
+            System.Diagnostics.Trace.WriteLine($"{sw.Elapsed}");
+            sw.Restart();
+            resource = npmSource.ResolveCanonical("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab");
+            Assert.IsNotNull(resource);
+            System.Diagnostics.Trace.WriteLine($"{sw.Elapsed}");
+        }
 #endif
         private static void CleanElement(ElementDefinition element)
         {

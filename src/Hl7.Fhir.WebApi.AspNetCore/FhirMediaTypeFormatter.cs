@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2017+ brianpos, Firely and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://github.com/ewoutkramer/fhir-net-api/blob/master/LICENSE
  */
@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Builder;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Hl7.Fhir.Serialization;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -40,6 +41,27 @@ namespace Hl7.Fhir.WebApi
 
         static readonly Regex _matchExceptionLocation = new Regex(@"\(at (?<loc>[a-zA-Z\.\[\]0-9]+)\)$");
         protected static Exception HandleBodyParsingFormatException(FormatException exception)
+        {
+            OperationOutcome oo = new OperationOutcome();
+            oo.Issue.Add(new OperationOutcome.IssueComponent()
+            {
+                Severity = OperationOutcome.IssueSeverity.Fatal,
+                Code = OperationOutcome.IssueType.Exception,
+                Details = new CodeableConcept() { Text = exception.Message }
+            });
+            MatchCollection matches = _matchExceptionLocation.Matches(exception.Message);
+            if (matches.Count > 0)
+            {
+                oo.Issue[0].Location = matches.Select(m => m.Groups["loc"].Value);
+                foreach (Match m in matches)
+                {
+                    oo.Issue[0].Details.Text = oo.Issue[0].Details.Text.Replace(m.Value, "");
+                }
+            }
+            return new FhirServerException(HttpStatusCode.BadRequest, oo, "Body parsing failed: " + exception.Message);
+        }
+
+        protected static Exception HandleBodyParsingFormatException(DeserializationFailedException exception)
         {
             OperationOutcome oo = new OperationOutcome();
             oo.Issue.Add(new OperationOutcome.IssueComponent()

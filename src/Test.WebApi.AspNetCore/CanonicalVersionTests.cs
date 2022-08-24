@@ -1,23 +1,7 @@
-﻿using Hl7.DemoFileSystemFhirServer;
-using Hl7.Fhir.Model;
-using Hl7.Fhir.Rest;
-using Hl7.Fhir.Rest.Legacy;
-using Hl7.Fhir.Serialization;
-using Hl7.Fhir.Specification.Source;
-using Hl7.Fhir.Specification.Terminology;
-using Hl7.Fhir.Validation;
+﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.WebApi;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Sockets;
+using System.Linq;
 using Task = System.Threading.Tasks.Task;
 
 namespace UnitTestWebApi
@@ -108,6 +92,24 @@ namespace UnitTestWebApi
 
             var result = CurrentCanonical.Current(new[] { q1, q2, q3, q4, q5 });
             Assert.AreEqual(q4.Version, result.Version);
+        }
+
+
+        [TestMethod]
+        public async Task SortCanonicalVersions()
+        {
+            var q1 = new Questionnaire { Version = "general1", Status = PublicationStatus.Active };
+            var q2 = new Questionnaire { Version = "general2", Status = PublicationStatus.Retired };
+            var q3 = new Questionnaire { Version = "general3", Status = PublicationStatus.Active };
+            var q4 = new Questionnaire { Version = "general1000", Status = PublicationStatus.Draft };
+            var q5 = new Questionnaire { Version = "general200", Status = PublicationStatus.Retired };
+            var q6 = new Questionnaire { Version = "general200" };
+            q3.versionAlgorithm(new Coding(null, "natural"));
+
+            IOrderedEnumerable<IVersionableConformanceResource> result = CurrentCanonical.Ordered(new[] { q1, q2, q3, q4, q5, q6 });
+            foreach (var item in result)
+                System.Diagnostics.Trace.WriteLine($"{item.Status?.ToString() ?? "(null)"}, {item.Version}");
+            Assert.AreEqual(q3.Version, result.First().Version);
         }
     }
 }

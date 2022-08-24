@@ -23,13 +23,6 @@ namespace Hl7.DemoFileSystemFhirServer
     {
         public Startup(IWebHostEnvironment env)
         {
-            // Workaround for the R4B Citation resource
-            if (!Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
-            {
-                Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Hl7.Fhir.Model.Citation));
-                Hl7.Fhir.Model.ModelInfo.FhirCsTypeToString.Add(typeof(Hl7.Fhir.Model.Citation), "Citation");
-            }
-
             _env = env;
         }
         private IWebHostEnvironment _env;

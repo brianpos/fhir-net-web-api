@@ -1,7 +1,7 @@
-﻿/* 
+﻿/*
  * Copyright (c) 2014, Furore (info@furore.com) and contributors
  * See the file CONTRIBUTORS for details.
- * 
+ *
  * This file is licensed under the BSD 3-Clause license
  * available at https://raw.githubusercontent.com/ewoutkramer/fhir-net-api/master/LICENSE
  */
@@ -49,13 +49,6 @@ namespace UnitTestWebApi
         [TestMethod, TestCategory("Round Trip")]
         public void XmlParseAllExamplesCustom2()
         {
-            // workaround for the citation resource.
-            if (!ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
-            {
-                ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Citation));
-                ModelInfo.FhirCsTypeToString.Add(typeof(Citation), "Citation");
-            }
-
             string examplesZipPath = @"TestData\examples.zip";
             var inputPath = ZipFile.OpenRead(examplesZipPath);
 

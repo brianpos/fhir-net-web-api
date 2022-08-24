@@ -23,13 +23,6 @@ namespace Hl7.DemoFileSystemFhirServer
         // parameter in the WebApp.Start method.
         public void Configuration(IAppBuilder appBuilder)
         {
-            // Workaround for the R4B Citation resource
-            if (!Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.ContainsKey("Citation"))
-            {
-                Hl7.Fhir.Model.ModelInfo.FhirTypeToCsType.Add("Citation", typeof(Hl7.Fhir.Model.Citation));
-                Hl7.Fhir.Model.ModelInfo.FhirCsTypeToString.Add(typeof(Hl7.Fhir.Model.Citation), "Citation");
-            }
-
             DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = @"c:\temp\demoserver-4.1.0";
             if (!System.IO.Directory.Exists(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory))
                 System.IO.Directory.CreateDirectory(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory);

@@ -59,6 +59,9 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             con.Meta = new Meta();
             con.Meta.LastUpdatedElement = Instant.Now();
 
+            con.Implementation = new CapabilityStatement.ImplementationComponent();
+            con.Implementation.Url = request.BaseUri.OriginalString.Trim('/');
+
             con.Rest = new List<Hl7.Fhir.Model.CapabilityStatement.RestComponent>
             {
                 new Hl7.Fhir.Model.CapabilityStatement.RestComponent()

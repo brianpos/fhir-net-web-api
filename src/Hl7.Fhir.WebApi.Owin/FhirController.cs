@@ -60,9 +60,10 @@ namespace Hl7.Fhir.WebApi
                     port = null;
                 else
                     port = ":" + port;
-                string proxyUrl = $"{proto}://{host}{port}";
+                string proxyUrl = $"{proto}://{host}{port}/";
                 if (!string.IsNullOrEmpty(prefix?.Trim('/')))
-                    proxyUrl += $"/{prefix.Trim('/')}";
+                    proxyUrl += $"{prefix.Trim('/')}/";
+
                 if (WebApiConfig._supportedForwardedForSystems?.ContainsKey(proxyUrl) == true)
                     baseUrl = WebApiConfig._supportedForwardedForSystems[proxyUrl];
                 else

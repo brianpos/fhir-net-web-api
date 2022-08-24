@@ -97,9 +97,9 @@ namespace Hl7.Fhir.WebApi
                     port = null;
                 else
                     port = ":" + port;
-                string proxyUrl = $"{proto}://{host}{port}";
+                string proxyUrl = $"{proto}://{host}{port}/";
                 if (!string.IsNullOrEmpty(prefix?.Trim('/')))
-                    proxyUrl += $"/{prefix.Trim('/')}";
+                    proxyUrl += $"{prefix.Trim('/')}/";
 
                 if (NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems?.ContainsKey(proxyUrl) == true)
                     baseUrl = NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems[proxyUrl];

@@ -691,6 +691,11 @@ namespace UnitTestWebApi
                 }
             };
 
+            // Capqbility statement
+            var cs = clientFhir.CapabilityStatement();
+            Assert.AreEqual("https://demo.org/testme/v2/metadata", cs.Url, "Should matching capability statement");
+            Assert.AreEqual("https://demo.org/testme/v2", cs.Implementation.Url, "Should matching capability statement");
+
             // Create a Patient
             Patient p = new Patient();
             p.Id = "pat1"; // if you support this format for the IDs (client allocated ID)

@@ -37,6 +37,8 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         }
 
 
+        static Serialization.FhirXmlSerializer _serializer = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings() { Pretty = true });
+        static Serialization.FhirXmlParser _parser = new Serialization.FhirXmlParser();
 
         public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
@@ -77,13 +79,14 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 throw new FhirServerException(System.Net.HttpStatusCode.BadRequest, validationOutcome, $"Validation failed: {validationOutcome.Errors} errors, {validationOutcome.Warnings} ({validationOutcome.Fatals} fatals)");
             }
 
+            var settings = new Serialization.SerializerSettings() { Pretty = true };
             File.WriteAllText(
                 path,
-                new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
+                _serializer.SerializeToString(resource));
             path = Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}..xml"); // the current version of the resource
             File.WriteAllText(
                 path,
-                new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(resource));
+                _serializer.SerializeToString(resource));
             resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
             // and update the search index
             Indexer.ScanResource(resource, Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}..xml"));
@@ -100,12 +103,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 TerminologyService = new Hl7.Fhir.Specification.Terminology.LocalTerminologyService(AsyncSource, new Specification.Terminology.ValueSetExpanderSettings() { MaxExpansionSize = 1500 }),
                 FhirPathCompiler = compiler
             };
-            settings.ConstraintsToIgnore = settings.ConstraintsToIgnore.Union(new []{
-                "ref-1", // causes issues with
-                // "ctm-1", // should permit prac roles too
-                // "sdf-0" // name properties should be usable as identifiers in code (no spaces etc)
+            //settings.ConstraintsToIgnore = settings.ConstraintsToIgnore.Union(new []{
+            //    "ref-1", // causes issues with
+            //    // "ctm-1", // should permit prac roles too
+            //    // "sdf-0" // name properties should be usable as identifiers in code (no spaces etc)
 
-            } ).Distinct().ToArray();
+            //} ).Distinct().ToArray();
             var validator = new Hl7.Fhir.Validation.Validator(settings);
             var outcome = validator.Validate(resource.ToTypedElement(), profiles);
 
@@ -141,7 +144,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
             string path = Path.Combine(ResourceDirectory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
             if (File.Exists(path))
-                return System.Threading.Tasks.Task.FromResult(new Fhir.Serialization.FhirXmlParser().Parse<Resource>(File.ReadAllText(path)));
+                return System.Threading.Tasks.Task.FromResult(_parser.Parse<Resource>(File.ReadAllText(path)));
             throw new FhirServerException(System.Net.HttpStatusCode.Gone, "It might have been deleted!");
         }
 
@@ -181,13 +184,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var parser = new Fhir.Serialization.FhirXmlParser();
             var files = Directory.EnumerateFiles(ResourceDirectory, $"{ResourceName}.{ResourceId}.?*.xml");
             foreach (var filename in files)
             {
                 if (filename.EndsWith("..xml"))
                     continue;
-                var resource = parser.Parse<Resource>(File.ReadAllText(filename));
+                var resource = _parser.Parse<Resource>(File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(RequestDetails.BaseUri,
                         resource.TypeName,
@@ -389,7 +391,6 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             resource.ResourceBase = RequestDetails.BaseUri;
 
             Dictionary<string, Resource> entries = new Dictionary<string, Resource>();
-            var parser = new Hl7.Fhir.Serialization.FhirXmlParser();
             string filter = $"{ResourceName}.*..xml";
             IEnumerable<string> filenames = null;
             var idparam = parameters.Where(kp => kp.Key == "_id");
@@ -424,7 +425,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     using (FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
-                        var resourceEntry = parser.Parse<Resource>(xr);
+                        var resourceEntry = _parser.Parse<Resource>(xr);
                         if (entries.ContainsKey(resourceEntry.Id))
                         {
                             if (String.Compare(entries[resourceEntry.Id].Meta.VersionId, resourceEntry.Meta.VersionId) < 0)
@@ -485,13 +486,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var parser = new Fhir.Serialization.FhirXmlParser();
             var files = Directory.EnumerateFiles(ResourceDirectory, $"{ResourceName}.*.*.xml");
             foreach (var filename in files)
             {
                 if (filename.EndsWith("..xml")) // this is the current version file, the version number file will have the real data
                     continue;
-                var resource = parser.Parse<Resource>(File.ReadAllText(filename));
+                var resource = _parser.Parse<Resource>(File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(RequestDetails.BaseUri,
                         resource.TypeName,

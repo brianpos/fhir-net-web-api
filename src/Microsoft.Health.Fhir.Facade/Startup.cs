@@ -87,8 +87,8 @@ namespace Hl7.DemoFileSystemFhirServer
             var systemService = new MSR_SystemService<System.IServiceProvider>();
             // systemService.InitializeIndexes();
             var reverseProxyAddresses = new System.Collections.Generic.Dictionary<string, System.Uri>();
-            reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
-            reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
+            // reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
+            // reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
 
             services.UseFhirServerController(systemService, options =>
             {

@@ -94,8 +94,8 @@ namespace Hl7.DemoFileSystemFhirServer
                 System.IO.Directory.CreateDirectory(DirectorySystemService<System.IServiceProvider>.Directory);
 
             var reverseProxyAddresses = new System.Collections.Generic.Dictionary<string, System.Uri>();
-            reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
-            reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
+            // reverseProxyAddresses.Add("https://demo.org", new System.Uri("https://demo.org/testme"));
+            // reverseProxyAddresses.Add("https://demo2.org", new System.Uri("https://demo.org/testme"));
 
             // services.AddSingleton<IFhirSystemServiceR4<IServiceProvider>>(systemService);
             services.AddSingleton<IFhirSystemServiceR4<IServiceProvider>>((s) => {

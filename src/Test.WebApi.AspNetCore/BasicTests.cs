@@ -150,7 +150,7 @@ namespace UnitTestWebApi
                 if (!string.IsNullOrEmpty(location))
                 {
                     System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
-                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/"), "proxy redirect detected");
+                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/v2/"), "proxy redirect detected");
                 }
                 Assert.AreEqual("wild-turkey-create", args.RawResponse.GetResponseHeader("test"), "Custom Response header missing");
             };
@@ -185,7 +185,7 @@ namespace UnitTestWebApi
                 if (!string.IsNullOrEmpty(location))
                 {
                     System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
-                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/"), "proxy redirect detected");
+                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/v2/"), "proxy redirect detected");
                 }
                 // Assert.AreEqual("wild-turkey-create", args.RawResponse.GetResponseHeader("test"), "Custom Response header missing");
             };
@@ -608,7 +608,7 @@ namespace UnitTestWebApi
                 if (!string.IsNullOrEmpty(location))
                 {
                     System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
-                    Assert.IsTrue(location.StartsWith("https://demo.org/testme/"), "proxy redirect not detected");
+                    Assert.IsTrue(location.StartsWith("https://demo.org/testme/v2/"), "proxy redirect not detected");
                 }
             };
 
@@ -859,6 +859,7 @@ namespace UnitTestWebApi
             e.RawRequest.Headers.Add("X-Forwarded-Proto", "https");
             e.RawRequest.Headers.Add("X-Forwarded-Host", "demo.org");
             e.RawRequest.Headers.Add("X-Forwarded-Port", "443");
+            e.RawRequest.Headers.Add("X-Forwarded-Prefix", "testme/v2");
         }
 
     }

@@ -527,7 +527,28 @@ namespace UnitTestWebApi
             Assert.AreEqual(0, failures); // Most of these are due to the rng-2 error in the core fhirpath implementation (which is being reviewed for compliance to the standard)
         }
 
-        [TestMethod, TestCategory("Round Trip")]
+        [TestMethod, Ignore] // re-enable this to check the new XML parser later
+        public void TestNewXmlParserNarrativeParsing()
+        {
+            var patient = new Patient { Id = "example" };
+            patient.Text = new Narrative() { Status = Narrative.NarrativeStatus.Generated, Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">some test data</div>" };
+            var patientXML = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(patient);
+
+            // now parse this back out with the old parser
+            var op = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Patient>(patientXML);
+            Assert.AreEqual(patient.Text.Div, op.Text.Div, "Old narrative should be the same");
+
+            // now parse this back out with the new parser
+            FhirXmlPocoDeserializer ds = new FhirXmlPocoDeserializer(typeof(Patient).Assembly);
+            using (var reader = SerializationUtil.XmlReaderFromXmlText(patientXML))
+            {
+                var np = ds.DeserializeResource(reader) as Patient;
+                Assert.AreEqual(patient.Text.Div, np.Text.Div, "New narrative should be the same");
+            }
+        }
+
+
+        [TestMethod, TestCategory("Round Trip"), Ignore]
         public void CompareAllExamples()
         {
             LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);

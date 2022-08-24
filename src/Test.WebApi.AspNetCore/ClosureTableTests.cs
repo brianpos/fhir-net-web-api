@@ -90,6 +90,48 @@ namespace UnitTestWebApi
             await cm.CheckRelationshipsForSearchConcept("brian_test", new Coding("http://loinc.org", "LP65139-5"));
             foreach (var cr in cm.DbContext.ClosureRelationships.ToList()) Console.WriteLine($"{cr.ParentCode} - {cr.ChildCode}");
         }
+
+        [TestMethod, Ignore]
+        public async Task ClosureBasedSearch()
+        {
+            var cm = new Hl7.Fhir.DemoSqliteFhirServer.ClosureMaintainer("https://r4.ontoserver.csiro.au/fhir");
+            await cm.InitializeAsync(@"c:\temp\Sqlite-closure.db");
+            await cm.DeleteClosureTable("brian_test");
+
+            // Prepare a closure table with some data as the fhir data DB is built up (this should occur as the data is saved into the FHIR Server)
+            await cm.InitializeClosureTable("brian_test", "http://loinc.org");
+            await cm.FhirServerUsesConcept("brian_test", new Coding("http://loinc.org", "29463-7"));
+            await cm.FhirServerUsesConcept("brian_test", new Coding("http://loinc.org", "3141-9"));
+            await cm.FhirServerUsesConcept("brian_test", new Coding("http://loinc.org", "8339-4"));
+
+            // Now we're going to simulate preparing some data for some specific searches... (with nodes that aren't in the dataset)
+            Console.WriteLine("");
+            await cm.CheckRelationshipsForSearchConcept("brian_test", new Coding("http://loinc.org", "LP415675-0"));
+            foreach (var cr in cm.DbContext.ClosureRelationships.ToList()) Console.WriteLine($"{cr.ParentCode} - {cr.ChildCode}");
+
+            Console.WriteLine("");
+            await cm.CheckRelationshipsForSearchConcept("brian_test", new Coding("http://loinc.org", "LP416421-8"));
+            foreach (var cr in cm.DbContext.ClosureRelationships.ToList()) Console.WriteLine($"{cr.ParentCode} - {cr.ChildCode}");
+
+            Console.WriteLine("");
+            await cm.CheckRelationshipsForSearchConcept("brian_test", new Coding("http://loinc.org", "LP65139-5"));
+            foreach (var cr in cm.DbContext.ClosureRelationships.ToList()) Console.WriteLine($"{cr.ParentCode} - {cr.ChildCode}");
+
+            Console.WriteLine("");
+            await cm.CheckRelationshipsForSearchConcept("brian_test", new Coding("http://loinc.org", "LP65139-5"));
+            foreach (var cr in cm.DbContext.ClosureRelationships.ToList()) Console.WriteLine($"{cr.ParentCode} - {cr.ChildCode}");
+
+            // Now can use this data to search with
+            // GET: [base]/Observation?code:below=http://loinc.org|LP415675-0,http://loinc.org|LP416421-8
+
+            // when :below or :above modifier is detected, join into the closure table.
+
+            // dbContext.ObservationSearchTable.Where(st => dbContext.closure.any(ct => ct.name == "brian_test" && ct.code == st.ObservationCodeValue && ct.parentCode = providedSearchValue));
+
+            // without the closure table as an indexable thing, need to
+            // searchValues = TerminologyServer.ResolvePossibleActualConceptsInOurtServer(providedSearchValue);
+            // dbContext.ObservationSearchTable.Where(st => st.ObservationCodeValue in (searchValues));
+        }
 #endif
     }
 }

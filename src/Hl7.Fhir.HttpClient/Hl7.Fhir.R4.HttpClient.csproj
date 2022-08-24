@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.R4B" Version="4.2.1" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
   </ItemGroup>
 
   <ItemGroup>

@@ -25,7 +25,7 @@
     <PackageReference Include="Hl7.Fhir.R4B" Version="4.2.1" />
     <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="4.2.1" />
     <PackageReference Include="LinqKit.Core" Version="1.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
   </ItemGroup>
 
   <ItemGroup>

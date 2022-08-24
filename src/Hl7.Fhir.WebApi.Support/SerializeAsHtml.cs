@@ -222,5 +222,164 @@ namespace Hl7.Fhir.WebApi
                 }
             }
         }
+
+        public static string ToHtmlJson(this Hl7.Fhir.Model.Resource me, CancellationToken ct, string baseUrl, SummaryType st)
+        {
+            var ms = new MemoryStream();
+            StreamWriter sw = new StreamWriter(ms);
+            WriteHtmlJson(me, sw, ct, baseUrl, st);
+            sw.Flush();
+            ms.Position = 0;
+            StreamReader sr = new StreamReader(ms);
+            return sr.ReadToEnd();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="me"></param>
+        /// <param name="sw"></param>
+        /// <param name="ct"></param>
+        /// <param name="baseUrl">Must end with the / (or be empty)</param>
+        /// <param name="st"></param>
+        public static void WriteHtmlJson(this Hl7.Fhir.Model.Resource me, StreamWriter sw, CancellationToken ct, string baseUrl, SummaryType st)
+        {
+            // Before we actually do any serialization, apply the Summary Type property
+            // (since this code doesn't handle this itself - yet)
+            var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st);
+            var resource = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(partialResource);
+
+            sw.WriteLine("<div class='fhir_resource'>");
+            sw.WriteLine("{<br/>");
+            sw.WriteLine($"  \"resourceType\": \"{resource.TypeName}\",");
+            WriteJsonChildProperties(resource.GetType(), resource.NamedChildren, 2, sw, ct, baseUrl, st);
+            sw.WriteLine("}");
+            sw.WriteLine("</div>");
+        }
+
+        private static void WriteJsonChildProperties(Type parent, IEnumerable<Model.ElementValue> namedChildren, int leadingTabs, StreamWriter sw, CancellationToken ct, string baseUrl, SummaryType st, bool linkToReference = false)
+        {
+            Introspection.ClassMapping.TryGetMappingForType(parent, Specification.FhirRelease.R4, out var mapping);
+            var chidren = namedChildren.ToList();
+            Model.ElementValue? prevChild = null;
+            foreach (var prop in chidren)
+            {
+                if (ct.IsCancellationRequested) break;
+                if (prop.Value != null)
+                {
+                    var pi = mapping?.FindMappedElementByName(prop.ElementName);
+                    if (prop.Value is Narrative)
+                    {
+                        sw.Write(new String(' ', leadingTabs));
+                        sw.WriteLine($"// Narrative omitted<br/>");
+                        continue; // skip emitting the Narrative
+                    }
+
+                    sw.Write(new String(' ', leadingTabs));
+                    sw.Write($"\"{prop.ElementName}\": ");
+                    if (pi.IsCollection)
+                    {
+                        sw.WriteLine($"[<br/>");
+                        leadingTabs += 2;
+                        sw.Write(new String(' ', leadingTabs));
+                    }
+                    bool linkToChildReference = false;
+                    if (prop.Value is ResourceReference resRef)
+                    {
+                        sw.WriteLine($"{{<br/>");
+                        if (resRef.Reference != null)
+                            linkToChildReference = true;
+                    }
+                    else if (prop.Value is Canonical can)
+                    {
+                        // Use a Resource Resolver here to locate the actual ID?
+                        if (!string.IsNullOrEmpty(can.Value))
+                        {
+                            // Double encoding is required as we're pushing the XML to be displayed as HTML
+                            var valStr = System.Net.WebUtility.HtmlEncode(System.Net.WebUtility.HtmlEncode(can.Value));
+                            if (valStr.StartsWith("#"))
+                                sw.Write($"\"<span class='canonical'><a href=\"{can.Value}\">{valStr}</a></span>\"");
+                            else
+                                sw.Write($"\"<span class='canonical'>{valStr}</span>\"");
+                        }
+                        sw.WriteLine($"<br/>");
+                    }
+                    else
+                    {
+                        if (prop.Value is PrimitiveType pt)
+                        {
+                            string valStr = PrimitiveTypeConverter.ConvertTo(pt.ObjectValue, typeof(string)) as string;
+                            if (pt is FhirString fs || pt is Markdown)
+                            {
+                                // Double encoding is required as we're pushing the XML to be displayed as HTML
+                                valStr = System.Net.WebUtility.HtmlEncode(System.Net.WebUtility.HtmlEncode(valStr));
+                            }
+                            if (pt is FhirBoolean)
+                            {
+                                sw.Write($"{valStr}");
+                            }
+                            else if (linkToReference && prop.ElementName == "reference")
+                            {
+                                sw.Write($"\"<span class='reference'><a href=\"{(valStr.StartsWith("#") ? "" : baseUrl)}{valStr}\">{valStr}</a></span>\"");
+                            }
+                            else
+                            {
+                                sw.Write($"\"{valStr}\"");
+                            }
+                            if (chidren.Last().Value == prop.Value)
+                                sw.WriteLine($"<br/>");
+                            else
+                                sw.WriteLine($",<br/>");
+                        }
+                        else
+                        {
+                            // This is a complex type
+                            if (prop.Value?.NamedChildren?.Any() == true)
+                            {
+                                sw.WriteLine($"{{<br/>");
+                            }
+                        }
+                    }
+                    if (prop.Value?.NamedChildren?.Any() == true)
+                    {
+                        if (prop.Value is Resource resource)
+                        {
+                            if (!string.IsNullOrEmpty(resource.Id))
+                                sw.Write($"<span class=\"{prop.ElementName}\" id=\"{resource.Id}\">");
+                            sw.Write(new String(' ', leadingTabs + 2));
+                            sw.WriteLine($"\"resourceType\": \"{resource.TypeName}\",<br/>");
+                        }
+                        WriteJsonChildProperties(prop.Value.GetType(), prop.Value.NamedChildren, leadingTabs + 2, sw, ct, baseUrl, st, linkToChildReference);
+                        if (prop.Value is Resource resourceEnd)
+                        {
+                            //sw.Write(new String(' ', leadingTabs));
+                            //sw.WriteLine($"}},<br/>");
+                            if (!string.IsNullOrEmpty(resourceEnd.Id))
+                                sw.WriteLine("</span>");
+                            leadingTabs -= 2;
+                        }
+                        sw.Write(new String(' ', leadingTabs));
+                        sw.Write($"}}");
+                        if (chidren.Last().Value == prop.Value)
+                            sw.WriteLine($"<br/>");
+                        else
+                            sw.WriteLine($",<br/>");
+                    }
+                    if (pi.IsCollection)
+                    {
+                        if (leadingTabs >= 2)
+                            leadingTabs -= 2;
+                        sw.Write(new String(' ', leadingTabs));
+                        sw.Write($"]");
+                        if (chidren.Last().Value == prop.Value)
+                            sw.WriteLine($"<br/>");
+                        else
+                            sw.WriteLine($",<br/>");
+                    }
+                }
+
+                prevChild = prop;
+            }
+        }
     }
 }

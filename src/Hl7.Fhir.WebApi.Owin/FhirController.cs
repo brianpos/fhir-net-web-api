@@ -63,7 +63,7 @@ namespace Hl7.Fhir.WebApi
                 string proxyUrl = $"{proto}://{host}{port}";
                 if (!string.IsNullOrEmpty(prefix?.Trim('/')))
                     proxyUrl += $"/{prefix.Trim('/')}";
-                if (WebApiConfig._supportedForwardedForSystems.ContainsKey(proxyUrl))
+                if (WebApiConfig._supportedForwardedForSystems?.ContainsKey(proxyUrl) == true)
                     baseUrl = WebApiConfig._supportedForwardedForSystems[proxyUrl];
                 else
                     baseUrl = new Uri(proxyUrl);

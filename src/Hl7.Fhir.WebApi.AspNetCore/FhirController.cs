@@ -101,7 +101,7 @@ namespace Hl7.Fhir.WebApi
                 if (!string.IsNullOrEmpty(prefix?.Trim('/')))
                     proxyUrl += $"/{prefix.Trim('/')}";
 
-                if (NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems.ContainsKey(proxyUrl))
+                if (NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems?.ContainsKey(proxyUrl) == true)
                     baseUrl = NetCoreApi.FhirFacadeBuilder._supportedForwardedForSystems[proxyUrl];
                 else
                     baseUrl = new Uri(proxyUrl);

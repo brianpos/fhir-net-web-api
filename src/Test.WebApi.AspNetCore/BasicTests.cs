@@ -32,8 +32,6 @@ namespace UnitTestWebApi
         [TestInitialize]
         public void PrepareTests()
         {
-            Type myType = typeof(FhirR4Controller);
-
             // Ensure that we grab an available IP port on the local workstation
             // http://stackoverflow.com/questions/9895129/how-do-i-find-an-available-port-before-bind-the-socket-with-the-endpoint
             string port = "9000";
@@ -138,10 +136,12 @@ namespace UnitTestWebApi
             p.Name = new System.Collections.Generic.List<HumanName>();
             p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
             p.BirthDate = new DateTime(1970, 3, 1).ToFhirDate(); // yes there are extensions to convert to FHIR format
+            // p.BirthDate = "1938-05";
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
             LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            clientFhir.PreferredFormat = ResourceFormat.Json;
             clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
@@ -363,7 +363,7 @@ namespace UnitTestWebApi
         }
 
 #if NETCOREAPP3_0_OR_GREATER
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestSqliteResolverWithValidation()
         {
             var builder = new DbContextOptionsBuilder<SpecificationContext>().UseSqlite(@"Data Source=c:\temp\Sqlite-specification.db");
@@ -387,12 +387,12 @@ namespace UnitTestWebApi
             DebugDumpOutputXml(outcome);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ExportSpecificationZipToSqlite()
         {
             var source = Hl7.Fhir.Specification.Source.ZipSource.CreateValidationSource();
             Dictionary<string, Resource> canonicalsRequired = new Dictionary<string, Resource>();
-    
+
             var builder = new DbContextOptionsBuilder<SpecificationContext>().UseSqlite(@"Data Source=c:\temp\Sqlite-specification.db");
             var dbContext = new SpecificationContext(builder.Options);
             dbContext.Database.EnsureCreated();
@@ -670,10 +670,10 @@ namespace UnitTestWebApi
             // Test Search
             var searchOrg = clientFhir.Search<Organization>(new[] { "name=Other" });
             DebugDumpOutputXml(searchOrg);
-            // Assert.IsTrue(searchOrg.SelfLink.OriginalString.StartsWith("https://demo.org/testme/"));
+            // Assert.IsTrue(searchOrg.SelfLink.OriginalString.StartsWith("https://demo.org/testme/v2/"));
             foreach (var entry in searchOrg.Entry)
             {
-                Assert.IsTrue(entry.FullUrl.StartsWith("urn:uuid:") || entry.FullUrl.StartsWith("https://demo.org/testme/"), $"Search Entry fullurl: {entry.FullUrl}");
+                Assert.IsTrue(entry.FullUrl.StartsWith("urn:uuid:") || entry.FullUrl.StartsWith("https://demo.org/testme/v2/"), $"Search Entry fullurl: {entry.FullUrl}");
             }
 
             // Custom operation
@@ -732,14 +732,14 @@ namespace UnitTestWebApi
             b.Data = System.IO.File.ReadAllBytes(@"TestData/icon_choice.gif");
             int dataLen = b.Data.Length;
             Console.WriteLine("Updating this resource content:");
-            DebugDumpOutputXml(b);
+            DebugDumpOutputJson(b);
 
             // Do a custom write of the Binary resource as the FHIR client forces it into a stream, rather than
             // just pushing the byte-stream, and ignoring the security context
-            // PUT ContentType: XML, Accept: Binary 
+            // PUT ContentType: XML, Accept: Binary
             HttpClient rawWriter = new HttpClient();
             rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/gif"));
-            HttpContent content = new System.Net.Http.StringContent(new FhirXmlSerializer().SerializeToString(b), System.Text.Encoding.UTF8, "application/fhir+xml");
+            HttpContent content = new System.Net.Http.StringContent(new FhirJsonSerializer().SerializeToString(b), System.Text.Encoding.UTF8, "application/fhir+json");
             var resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", content);
             Console.WriteLine("Raw Result:");
             Console.WriteLine(System.Convert.ToBase64String(await resRaw.Content.ReadAsByteArrayAsync()));
@@ -749,13 +749,13 @@ namespace UnitTestWebApi
 
             // PUT ContentType: XML, Accept: XML
             rawWriter.DefaultRequestHeaders.Accept.Clear();
-            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+xml"));
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+json"));
             resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", content);
-            var result = new FhirXmlParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
+            var result = new FhirJsonParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
             Console.WriteLine("Xml Result:");
             DebugDumpOutputXml(result);
             Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
-            Assert.AreEqual("application/fhir+xml", resRaw.Content.Headers.ContentType.MediaType);
+            Assert.AreEqual("application/fhir+json", resRaw.Content.Headers.ContentType.MediaType);
 
             Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
@@ -764,16 +764,16 @@ namespace UnitTestWebApi
 
             // Now Create it using the Binary input formatter
             rawWriter.DefaultRequestHeaders.Accept.Clear();
-            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+xml"));
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+json"));
             HttpContent binaryContent = new System.Net.Http.ByteArrayContent(b.Data);
             binaryContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/gif");
             binaryContent.Headers.Add("X-Security-Context", "Organization/3");
             resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", binaryContent);
-            result = new FhirXmlParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
+            result = new FhirJsonParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
             Console.WriteLine("Xml Result:");
             DebugDumpOutputXml(result);
             Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
-            Assert.AreEqual("application/fhir+xml", resRaw.Content.Headers.ContentType.MediaType);
+            Assert.AreEqual("application/fhir+json", resRaw.Content.Headers.ContentType.MediaType);
 
             Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");

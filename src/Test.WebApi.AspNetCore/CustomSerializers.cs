@@ -312,7 +312,7 @@ namespace Test.WebApi.AspNetCore
             // This is called when the current node is on the <valueCoding> node of the reader
             // when it returns, the node will be on the </valueCoding> or <valueCoding/> node
             // unless some error occurs, in which case, could be anywhere
-            // The context will be 
+            // The context will be
             Coding result = new Coding();
             if (reader.MoveToFirstAttribute())
             {

@@ -53,14 +53,14 @@ namespace UnitTestWebApi
             parameters.Add("concept", new Coding("http://loinc.org", "LP415675-0"));
             parameters.Add("concept", new Coding("http://loinc.org", "LP416421-8"));
             parameters.Add("concept", new Coding("http://loinc.org", "29463-7"));
-            parameters.Add("concept", new Coding("http://loinc.org", "3141-9"));
+            parameters.Add("concept", new Coding("http://loinc.org", "29463-7"));
             // parameters.Add("version", new FhirString("nominated_version"));
             DebugDumpOutputXml(parameters);
             closureResult = await terminologyServer.WholeSystemOperationAsync("closure", parameters);
             DebugDumpOutputXml(closureResult);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task QuickClosureTableTests()
         {
             var cm = new Hl7.Fhir.DemoSqliteFhirServer.ClosureMaintainer("https://r4.ontoserver.csiro.au/fhir");

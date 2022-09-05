@@ -280,6 +280,7 @@ namespace Hl7.Fhir.WebApi
                             dr.Contained = null;
 
                             // Add in the Meta Tag that indicates that this resource is only a partial
+                            if (resource.Meta == null) resource.Meta = new Meta();
                             resource.Meta.Tag = new List<Coding>
                             {
                                 new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
@@ -292,6 +293,7 @@ namespace Hl7.Fhir.WebApi
                             // summary doesn't have the text in it.
                             dr.Text = null;
                             // Add in the Meta Tag that indicates that this resource is only a partial
+                            if (resource.Meta == null) resource.Meta = new Meta();
                             resource.Meta.Tag = new List<Coding>
                             {
                                 new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")

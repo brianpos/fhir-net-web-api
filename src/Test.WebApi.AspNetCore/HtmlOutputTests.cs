@@ -1,17 +1,8 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.WebApi;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Cryptography.X509Certificates;
 using Task = System.Threading.Tasks.Task;
 
 namespace UnitTestWebApi

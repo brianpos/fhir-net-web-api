@@ -87,7 +87,10 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             File.WriteAllText(
                 path,
                 _serializer.SerializeToString(resource));
-            resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
+            if (validationMode == ResourceValidationMode.create)
+                resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
+            else
+                resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Update);
             // and update the search index
             Indexer.ScanResource(resource, Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}..xml"));
             return resource;
@@ -273,7 +276,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             var outcome = new OperationOutcome();
             ResourceValidationMode? mode = ResourceValidationMode.create;
             Resource resource = operationParameters["resource"]?.Resource;
-            string profile = null;
+            List<string> profiles = new List<string>();
 
             var modeParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "mode");
             if (modeParams.Count() > 1)
@@ -338,11 +341,13 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             var profileParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "profile");
             if (profileParams.Any())
             {
-                var value = profileParams.First().Value;
-                if (value is FhirUri code)
-                    profile = code.Value;
-                else if (value is FhirString str)
-                    profile = str.Value;
+                foreach (var value in profileParams.Select(p => p.Value))
+                {
+                    if (value is FhirUri code)
+                        profiles.Add(code.Value);
+                    else if (value is FhirString str)
+                        profiles.Add(str.Value);
+                }
             }
 
             if (resource != null && resource.TypeName != this.ResourceName)
@@ -361,7 +366,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 return outcome;
             }
 
-            var result = await ValidateResource(resource, mode.Value, null);
+            var result = await ValidateResource(resource, mode.Value, profiles.ToArray());
             outcome.Issue.AddRange(result.Issue);
             if (outcome.Success)
             {

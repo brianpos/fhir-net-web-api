@@ -32,10 +32,10 @@ namespace Hl7.Fhir.NetCoreApi
         /// <param name="systemService">An instance of the System Service that is providing the resource service delegations and system level operations</param>
         /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any further, such as registering other output formatters (e.g. HTML)</param>
         /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
-        public static void UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
+        public static IMvcBuilder UseFhirServerController(this IServiceCollection services, IFhirSystemServiceR4<IServiceProvider> systemService, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
         {
             NetCoreApi.FhirFacadeBuilder._systemService = systemService;
-            InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
+            return InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Hl7.Fhir.NetCoreApi
         /// <param name="services"></param>
         /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any further, such as registering other output formatters (e.g. HTML)</param>
         /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
-        public static void UseFhirServerController(this IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
+        public static IMvcBuilder UseFhirServerController(this IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
         {
             if (!services.Any(x => x.ServiceType == typeof(IFhirSystemServiceR4<IServiceProvider>)))
             {
@@ -54,10 +54,10 @@ namespace Hl7.Fhir.NetCoreApi
         }
 
 
-        private static void InternalUseFhirServerController(IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems)
+        private static IMvcBuilder InternalUseFhirServerController(IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems)
         {
             _supportedForwardedForSystems = supportedForwardedForSystems;
-            services.AddControllers(options =>
+            return services.AddControllers(options =>
             {
                 // remove the default formatters
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>();

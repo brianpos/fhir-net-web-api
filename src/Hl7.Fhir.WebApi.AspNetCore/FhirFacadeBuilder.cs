@@ -50,7 +50,7 @@ namespace Hl7.Fhir.NetCoreApi
             {
                 throw new ApplicationException("Using the Dependency Injector approach to the facade requires a `IFhirSystemServiceR4<IServiceProvider>` to have been registered");
             }
-            InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
+            return InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
         }
 
 

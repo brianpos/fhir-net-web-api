@@ -19,7 +19,12 @@ namespace Hl7.Fhir.WebApi
         public async System.Threading.Tasks.Task<Bundle> ProcessBatch(ModelBaseInputs<TSP> request, Bundle batch)
         {
             Bundle outcome = new Bundle();
-            outcome.Type = Bundle.BundleType.TransactionResponse;
+            // this should really be batchresponse if its a batch request
+            if (batch.Type == Bundle.BundleType.Transaction)
+                outcome.Type = Bundle.BundleType.TransactionResponse;
+            else
+                outcome.Type = Bundle.BundleType.BatchResponse;
+
             outcome.Entry = new List<Bundle.EntryComponent>();
             outcome.ResourceBase = request.BaseUri;
             if (batch.Entry != null)

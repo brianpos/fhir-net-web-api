@@ -213,7 +213,7 @@ namespace Hl7.Fhir.WebApi
             return con;
         }
 
-        [HttpGet, Route(@"{ResourceName:regex(^((?!(C|c)ontent)(?!(S|S)cripts)[[A-Za-z]])+$)}/{id:regex(^(?!$.+)([[A-Za-z0-9\.-]])+$)}")]
+        [HttpGet, Route(@"{ResourceName:regex(^((?!(C|c)ontent)(?!(S|S)cripts)(?!(S|S)wagger)[[A-Za-z]])+$)}/{id:regex(^(?!$.+)([[A-Za-z0-9\.-]])+$)}")]
         public Task<IActionResult> Get(string ResourceName, string id)
         {
             return Get(ResourceName, id, null);
@@ -221,7 +221,7 @@ namespace Hl7.Fhir.WebApi
 
         // GET fhir/patient/5/_history/4
         //[HttpGet, Route("{type}/{id}/_history/{vid}")]
-        [HttpGet, Route(@"{ResourceName:regex(^((?!(C|c)ontent)(?!(S|S)cripts)[[A-Za-z]])+$)}/{id:regex(^(?!$.+)([[A-Za-z0-9\.-]])+$)}/_history/{vid}")]
+        [HttpGet, Route(@"{ResourceName:regex(^((?!(C|c)ontent)(?!(S|S)cripts)(?!(S|S)wagger)[[A-Za-z]])+$)}/{id:regex(^(?!$.+)([[A-Za-z0-9\.-]])+$)}/_history/{vid}")]
         public async Task<IActionResult> Get(string ResourceName, string id, string vid)
         {
             LogMessage("GET: " + this.Request.GetDisplayUrl());

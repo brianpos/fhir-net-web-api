@@ -123,6 +123,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 options.OutputFormatters.Add(new Fhir.WebApi.SimpleHtmlFhirOutputFormatter());
             }, reverseProxyAddresses);
 
+            
             // register the Static Content
 #if NETCOREAPP2_2
             services.Configure<RazorViewEngineOptions>(options =>
@@ -131,6 +132,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 options.FileProviders.Add(new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
             });
 #else
+            services.AddSwaggerGen();
             services.AddRazorPages(options =>
             {
                 options.RootDirectory = "/wwwroot";
@@ -162,6 +164,11 @@ namespace Hl7.DemoFileSystemFhirServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherApi v1");
+                });
             }
 
             app.UseResponseCompression();

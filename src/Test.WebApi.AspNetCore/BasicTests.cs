@@ -105,6 +105,24 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
+        public void GetSwaggerUI()
+        {
+            HttpClient c = new HttpClient();
+            var result = c.GetAsync(_baseAddress + "Swagger/index.html").Result;
+
+            System.Diagnostics.Trace.WriteLine(result.ToString());
+
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode, "Should be status ok");
+            Assert.AreEqual("text/html", result.Content.Headers.ContentType.MediaType, "Should be status ok");
+
+            Assert.IsTrue(
+                result.Content
+                    .ReadAsStringAsync().GetAwaiter().GetResult()
+                    .Contains("./swagger-ui.css"),
+                "Does not seem to be the standard swagger ui html");
+        }
+
+        [TestMethod]
         public async Task GetCapabilityStatement()
         {
             LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);

@@ -38,6 +38,7 @@ namespace Hl7.Fhir.NetCoreApi
             InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
         }
 
+#if NETCOREAPP2_2
         /// <summary>
         /// Add the facade for the FHIR server using the provided System service model (using the dependency injector to provide the IFhirSystemService implementation)
         /// </summary>
@@ -53,11 +54,10 @@ namespace Hl7.Fhir.NetCoreApi
             InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
         }
 
-
         private static void InternalUseFhirServerController(IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems)
         {
             _supportedForwardedForSystems = supportedForwardedForSystems;
-#if NETCOREAPP2_2
+
             services.AddMvc(options =>
             {
                 // remove the default formatters
@@ -65,7 +65,25 @@ namespace Hl7.Fhir.NetCoreApi
                 // Note there is a default implementation of the json patch in here, need to know how to hook into that
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
 #else
-            services.AddControllers(options =>
+        /// <summary>
+        /// Add the facade for the FHIR server using the provided System service model (using the dependency injector to provide the IFhirSystemService implementation)
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="setupAction">This action is called once the options are all prepared, incase the caller wants to extend any further, such as registering other output formatters (e.g. HTML)</param>
+        /// <param name="supportedForwardedForSystems">A dictionary of server addresses forwarded from and what to (the value could include a virtual folder that should be assumed if the provided forwarded for address is detected)</param>
+        public static IMvcBuilder UseFhirServerController(this IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems = null)
+        {
+            if (!services.Any(x => x.ServiceType == typeof(IFhirSystemServiceR4<IServiceProvider>)))
+            {
+                throw new ApplicationException("Using the Dependency Injector approach to the facade requires a `IFhirSystemServiceR4<IServiceProvider>` to have been registered");
+            }
+            return InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
+        }
+
+        private static IMvcBuilder InternalUseFhirServerController(IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems)
+        {
+            _supportedForwardedForSystems = supportedForwardedForSystems;
+            return services.AddControllers(options =>
             {
                 // remove the default formatters
                 options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>();

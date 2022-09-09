@@ -103,7 +103,15 @@ namespace Hl7.Fhir.WebApi
             context.ContentType = YamlContentType.GetMediaTypeHeaderValue(context.ObjectType);
             // note that the base is called last, as this may overwrite the ContentType where the resource is of type Binary
             base.WriteResponseHeaders(context);
-            //   headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = "fhir.resource.json" };
+#if NET6_0_OR_GREATER
+            if (context.Object is Resource r)
+            {
+                string id = r.Id ?? Guid.NewGuid().ToFhirId();
+                if (id.StartsWith("urn:uuid:"))
+                    id = id.Substring(9);
+                context.HttpContext.Response.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = $"\"fhir.{r.TypeName}.{id}.yaml\"" }.ToString();
+            }
+#endif
         }
 
         public override async System.Threading.Tasks.Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)

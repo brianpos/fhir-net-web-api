@@ -4,17 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Hl7.Fhir.NetCoreApi;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
-using System.IO;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
 using Hl7.Fhir.WebApi;
 using Hl7.Fhir.DemoFileSystemFhirServer;
 using System;
 using Microsoft.Extensions.Logging;
-using Hl7.Fhir.Introspection;
-using System.Reflection;
 using Microsoft.Extensions.Hosting;
 
 namespace Hl7.DemoFileSystemFhirServer
@@ -86,7 +81,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
                 builder.AllowCredentials();
-                builder.WithExposedHeaders(new[] { "Content-Location", "Location", "Etag" });
+                builder.WithExposedHeaders(new[] { "Content-Location", "Location", "ETag" });
             }));
 
             DirectorySystemService<System.IServiceProvider>.Directory = settings.ServerBaseDirectory;
@@ -108,6 +103,11 @@ namespace Hl7.DemoFileSystemFhirServer
             {
                 // An example HTML formatter that puts the raw XML on the output
                 options.OutputFormatters.Add(new Fhir.WebApi.SimpleHtmlFhirOutputFormatter());
+
+                // Add support for YAML content
+                options.InputFormatters.Insert(0, new YamlFhirInputFormatter());
+                options.OutputFormatters.Add(new YamlFhirOutputFormatter());
+                options.Filters.Add(new YamlFormatParameterFilter());
             }, reverseProxyAddresses);
 
             // register the Static Content

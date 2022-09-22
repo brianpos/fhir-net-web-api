@@ -103,7 +103,7 @@ namespace UnitTestWebApi
             LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
             clientFhir.PreferredFormat = Hl7.Fhir.Rest.ResourceFormat.Json;
 
-            var examplesTarball = @"C:\temp\demoserver-4.2.1\examples.tgz";
+            var examplesTarball = @"C:\temp\demoserver-4.3.0\examples.tgz";
             Stream sourceStream;
             if (!System.IO.File.Exists(examplesTarball))
             {

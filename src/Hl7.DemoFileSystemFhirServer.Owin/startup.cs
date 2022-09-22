@@ -23,7 +23,7 @@ namespace Hl7.DemoFileSystemFhirServer
         // parameter in the WebApp.Start method.
         public void Configuration(IAppBuilder appBuilder)
         {
-            DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = @"c:\temp\demoserver-4.2.1";
+            DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = @"c:\temp\demoserver-4.3.0";
             if (!System.IO.Directory.Exists(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory))
                 System.IO.Directory.CreateDirectory(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory);
 

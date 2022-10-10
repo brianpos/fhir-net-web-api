@@ -8,36 +8,7 @@ using System.Linq;
 
 namespace Hl7.Fhir.WebApi
 {
-    public static class CurrentCanonical_Extensions
-    {
-        public const string ext_versionAlgorithm = "http://hl7.org/fhir/StructureDefinition/versionAlgorithm";
-        public static Coding versionAlgorithCoded(this IVersionableConformanceResource vcr)
-        {
-            var resource = vcr as DomainResource;
-            var result = resource?.GetExtensionValue<Coding>(ext_versionAlgorithm);
-            return result;
-        }
-        public static string versionAlgorithFhirPathExpression(this IVersionableConformanceResource vcr)
-        {
-            var resource = vcr as DomainResource;
-            var result = resource?.GetStringExtension(ext_versionAlgorithm);
-            return result;
-        }
-        public static void versionAlgorithm(this IVersionableConformanceResource vcr, string fhirpathExpression)
-        {
-            var resource = vcr as DomainResource;
-            resource?.RemoveExtension(ext_versionAlgorithm);
-            resource?.SetStringExtension(ext_versionAlgorithm, fhirpathExpression);
-        }
-        public static void versionAlgorithm(this IVersionableConformanceResource vcr, Coding algorithm)
-        {
-            var resource = vcr as DomainResource;
-            resource?.RemoveExtension(ext_versionAlgorithm);
-            resource?.SetExtension(ext_versionAlgorithm, algorithm);
-        }
-    }
-
-    public class CurrentCanonical
+    public static class CurrentCanonical
     {
         public static IVersionableConformanceResource Current(IEnumerable<IVersionableConformanceResource> vcrs)
         {
@@ -77,6 +48,35 @@ namespace Hl7.Fhir.WebApi
             var resource = vcr as DomainResource;
             return resource.Id;
         };
+    }
+
+    public static class CurrentCanonicalExtensions
+    {
+        public const string ext_versionAlgorithm = "http://hl7.org/fhir/StructureDefinition/versionAlgorithm";
+        public static Coding versionAlgorithCoded(this IVersionableConformanceResource vcr)
+        {
+            var resource = vcr as DomainResource;
+            var result = resource?.GetExtensionValue<Coding>(ext_versionAlgorithm);
+            return result;
+        }
+        public static string versionAlgorithFhirPathExpression(this IVersionableConformanceResource vcr)
+        {
+            var resource = vcr as DomainResource;
+            var result = resource?.GetStringExtension(ext_versionAlgorithm);
+            return result;
+        }
+        public static void versionAlgorithm(this IVersionableConformanceResource vcr, string fhirpathExpression)
+        {
+            var resource = vcr as DomainResource;
+            resource?.RemoveExtension(ext_versionAlgorithm);
+            resource?.SetStringExtension(ext_versionAlgorithm, fhirpathExpression);
+        }
+        public static void versionAlgorithm(this IVersionableConformanceResource vcr, Coding algorithm)
+        {
+            var resource = vcr as DomainResource;
+            resource?.RemoveExtension(ext_versionAlgorithm);
+            resource?.SetExtension(ext_versionAlgorithm, algorithm);
+        }
     }
 
     public class CurrentCanonicalComparer : IComparer<IVersionableConformanceResource>

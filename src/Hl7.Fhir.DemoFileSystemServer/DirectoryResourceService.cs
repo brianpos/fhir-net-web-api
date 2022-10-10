@@ -60,7 +60,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 if (int.TryParse(versionSection, out verFile))
                 {
                     if (verFile >= versionNumber)
-                        versionNumber = verFile+1;
+                        versionNumber = verFile + 1;
                 }
             }
             resource.Meta.VersionId = versionNumber.ToString();
@@ -213,6 +213,8 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             {
                 case "validate":
                     return await PerformOperation_Validate(operationParameters, summary);
+                case "current-canonical":
+                    return await PerformOperation_CurrentCanonical(operationParameters, summary);
             }
             if (operation == "count-em")
             {
@@ -381,6 +383,136 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     Details = new CodeableConcept(null, null, summaryMessage)
                 });
             }
+            return outcome;
+        }
+
+        private async Task<Resource> PerformOperation_CurrentCanonical(Parameters operationParameters, SummaryType summary)
+        {
+            var outcome = new OperationOutcome();
+            string url = null;
+            var statuses = new List<string>();
+
+            // read the URL parameter
+            var urlParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "url");
+            if (urlParams.Any())
+            {
+                if (urlParams.Count() > 1)
+                {
+                    outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                    {
+                        Code = OperationOutcome.IssueType.Informational,
+                        Severity = OperationOutcome.IssueSeverity.Information,
+                        Details = new CodeableConcept(null, null, "Multiple 'url' parameters provided, using the first one")
+                    });
+                }
+                var val = urlParams.FirstOrDefault().Value;
+                if (val == null)
+                {
+                    outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                    {
+                        Code = OperationOutcome.IssueType.Required,
+                        Severity = OperationOutcome.IssueSeverity.Error,
+                        Details = new CodeableConcept(null, null, "Parameter 'url' value is missing")
+                    });
+                }
+                else
+                {
+                    if (!(val is FhirString || val is FhirUri))
+                    {
+                        outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                        {
+                            Code = OperationOutcome.IssueType.Informational,
+                            Severity = OperationOutcome.IssueSeverity.Information,
+                            Details = new CodeableConcept(null, null, $"'url' parameters provided as {val.TypeName}, uri is defined in the specification")
+                        });
+                    }
+                    if (val is PrimitiveType p)
+                        url = p.ToString();
+                }
+            }
+            if (!urlParams.Any())
+            {
+                outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                {
+                    Code = OperationOutcome.IssueType.Required,
+                    Severity = OperationOutcome.IssueSeverity.Error,
+                    Details = new CodeableConcept(null, null, "Required parmeter 'url' missing")
+                });
+            }
+
+            // read the status parameter(s)
+            var statusParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "status");
+            if (statusParams.Any())
+            {
+                foreach (var value in statusParams.Select(p => p.Value))
+                {
+                    string psv = value.ToString();
+                    if (value is FhirUri code)
+                        psv = code.Value;
+                    else if (value is FhirString str)
+                        psv = str.Value;
+                    if (!string.IsNullOrEmpty(psv))
+                    {
+                        statuses.AddRange(psv.Split(','));
+                    }
+                }
+                // validate status value is in enumeration
+                foreach (var psv in statuses)
+                {
+                    PublicationStatus? ps = EnumUtility.ParseLiteral<PublicationStatus>(psv);
+                    if (!ps.HasValue)
+                    {
+                        outcome.Issue.Add(new OperationOutcome.IssueComponent()
+                        {
+                            Code = OperationOutcome.IssueType.Invalid,
+                            Severity = OperationOutcome.IssueSeverity.Error,
+                            Details = new CodeableConcept(null, null, $"Invalid 'status' parameter value [{psv}]")
+                        });
+                    }
+                }
+            }
+
+            // return the error if one was detected
+            if (!outcome.Success)
+            {
+                outcome.SetAnnotation<HttpStatusCode>(HttpStatusCode.BadRequest);
+                return outcome;
+            }
+
+            // Search for the resources using this canonical URL
+            var kvps = new List<KeyValuePair<string,string>>();
+            kvps.Add(new KeyValuePair<string, string>("url", url));
+            if (statuses.Any())
+                kvps.Add(new KeyValuePair<string, string>("status", string.Join(",", statuses)));
+            var bundle = await Search(kvps, null, summary, null);
+            if (!bundle.Entry.Any())
+            {
+                outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
+                {
+                    Code = OperationOutcome.IssueType.NotFound,
+                    Severity = OperationOutcome.IssueSeverity.Error,
+                    Details = new CodeableConcept(null, null, $"Canonical URL '{url}' was not found")
+                });
+                outcome.SetAnnotation(HttpStatusCode.NotFound);
+                return outcome;
+            }
+
+            // use the Canonical helper function to locate the current one
+            var ivrs = bundle.Entry.Select(e => e.Resource as IVersionableConformanceResource).Where(e => e != null);
+            var result = CurrentCanonical.Current(ivrs);
+            if (result != null)
+            {
+                return result as Resource;
+            }
+
+            // Could not evaluate the current version
+            outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
+            {
+                Code = OperationOutcome.IssueType.Processing,
+                Severity = OperationOutcome.IssueSeverity.Error,
+                Details = new CodeableConcept(null, null, $"Canonical URL '{url}' could not be calculated between versions {string.Join(",", ivrs.Select(i => i.Version))}")
+            });
+            outcome.SetAnnotation(HttpStatusCode.Ambiguous);
             return outcome;
         }
 

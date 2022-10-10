@@ -102,17 +102,46 @@ namespace Hl7.Fhir.WebApi
                 {
                     foreach (var val in searchIndex.Keys)
                     {
-                        if (val.StartsWith(value, StringComparison.CurrentCultureIgnoreCase))
+                        if (value.IndexOf(',') >= 0)
                         {
-                            items.AddRange(searchIndex[val]);
+                            // Split and check each value inside
+                            foreach (var item in value.Split(','))
+                            {
+                                if (!string.IsNullOrEmpty(item) && item.StartsWith(item, StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    items.AddRange(searchIndex[val]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (val.StartsWith(value, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                items.AddRange(searchIndex[val]);
+                            }
                         }
                     }
                     return items;
                 }
                 else
                 {
-                    if (searchIndex.ContainsKey(value))
-                        return searchIndex[value];
+                    if (value.IndexOf(',') < 0)
+                    {
+                        if (searchIndex.ContainsKey(value))
+                            return searchIndex[value];
+                    }
+                    else
+                    {
+                        // Split and check each value inside
+                        foreach (var item in value.Split(','))
+                        {
+                            if (!string.IsNullOrEmpty(item) && searchIndex.ContainsKey(item))
+                            {
+                                items.AddRange(searchIndex[item]);
+                            }
+                        }
+                        return items;
+                    }
                 }
                 return new string[] { };
             }

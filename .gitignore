@@ -166,3 +166,5 @@ build/runbuild.txt
 
 specification.zip
 dist/
+/src/infer-out
+/src/.infersharpconfig

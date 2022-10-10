@@ -4,9 +4,9 @@ using Hl7.Fhir.Model;
 
 namespace Hl7.Fhir.StructuredDataCapture
 {
-    public static class QuestionnaireSDC_Extensions
+    public static class StructuredDataCaptureExtensions
     {
-        public static Expression initialExpression(this Questionnaire.ItemComponent item)
+        public static Expression InitialExpression(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Expression>("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression");
             return result;
@@ -18,7 +18,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static Duration observationLinkPeriod(this Questionnaire.ItemComponent item)
+        public static Duration ObservationLinkPeriod(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Duration>("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observationLinkPeriod");
             if (result == null) // also check the older name for this extension
@@ -31,7 +31,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static IEnumerable<Coding> unitOptions(this Questionnaire.ItemComponent item)
+        public static IEnumerable<Coding> UnitOptions(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensions("http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption");
             return result.Where(e => e.Value is Coding).Select(e => e.Value as Coding);
@@ -42,7 +42,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static Coding unit(this Questionnaire.ItemComponent item)
+        public static Coding Unit(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Coding>("http://hl7.org/fhir/StructureDefinition/questionnaire-unit");
             return result;
@@ -53,7 +53,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static string unitValueSet(this Questionnaire.ItemComponent me)
+        public static string UnitValueSet(this Questionnaire.ItemComponent me)
         {
             var result = me.GetExtensionValue<Canonical>("http://hl7.org/fhir/StructureDefinition/questionnaire-unitValueSet")?.Value;
             return result;
@@ -64,7 +64,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static IEnumerable<string> mimeTypes(this Questionnaire.ItemComponent item)
+        public static IEnumerable<string> MimeTypes(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensions("http://hl7.org/fhir/StructureDefinition/mimeType");
             return result.Select(e => (e.Value as FhirString)?.Value).SkipWhile(s => string.IsNullOrEmpty(s));
@@ -75,7 +75,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static decimal? maxSize(this Questionnaire.ItemComponent item)
+        public static decimal? MaxSize(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<FhirDecimal>("http://hl7.org/fhir/StructureDefinition/maxSize")?.Value;
             return result;
@@ -86,7 +86,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static int? minLength(this Questionnaire.ItemComponent item)
+        public static int? MinLength(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Integer>("http://hl7.org/fhir/StructureDefinition/minLength")?.Value;
             return result;
@@ -97,7 +97,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static int? minOccurs(this Questionnaire.ItemComponent item)
+        public static int? MinOccurs(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Integer>("http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs")?.Value;
             return result;
@@ -108,7 +108,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static int? maxOccurs(this Questionnaire.ItemComponent item)
+        public static int? MaxOccurs(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Integer>("http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs")?.Value;
             return result;
@@ -119,7 +119,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static Base minValue(this Questionnaire.ItemComponent item)
+        public static Base MinValue(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtension("http://hl7.org/fhir/StructureDefinition/minValue");
             return result?.Value;
@@ -130,7 +130,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static Base maxValue(this Questionnaire.ItemComponent item)
+        public static Base MaxValue(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtension("http://hl7.org/fhir/StructureDefinition/maxValue");
             return result?.Value;
@@ -141,7 +141,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static Quantity minQuantity(this Questionnaire.ItemComponent item)
+        public static Quantity MinQuantity(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Quantity>("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-minQuantity");
             return result;
@@ -152,7 +152,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static Quantity maxQuantity(this Questionnaire.ItemComponent item)
+        public static Quantity MaxQuantity(this Questionnaire.ItemComponent item)
         {
             var result = item.GetExtensionValue<Quantity>("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-maxQuantity");
             return result;
@@ -163,7 +163,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public static int? maxDecimalPlaces(this Questionnaire.ItemComponent item)
+        public static int? MaxDecimalPlaces(this Questionnaire.ItemComponent item)
         {
             var result = item.GetIntegerExtension("http://hl7.org/fhir/StructureDefinition/maxDecimalPlaces");
             return result;
@@ -174,7 +174,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<ResourceReference> sourceQueries(this Questionnaire me)
+        public static IEnumerable<ResourceReference> SourceQueries(this Questionnaire me)
         {
             var result = me.GetExtensions("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-sourceQueries");
             return result.Where(e => e.Value is ResourceReference).Select(e => e.Value as ResourceReference);
@@ -186,9 +186,11 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         public class LaunchContext
         {
-            public string name { get; set; }
-            public Code type { get; set; }
-            public string description { get; set; }
+            public string Name { get; set; }
+
+            public Code Type { get; set; }
+
+            public string Description { get; set; }
         }
 
         /// <summary>
@@ -196,7 +198,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<LaunchContext> launchContexts(this Questionnaire me)
+        public static IEnumerable<LaunchContext> LaunchContexts(this Questionnaire me)
         {
             List<LaunchContext> results = new List<LaunchContext>();
             var extensions = me.GetExtensions("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext");
@@ -204,9 +206,9 @@ namespace Hl7.Fhir.StructuredDataCapture
             {
                 var lc = new LaunchContext()
                 {
-                    name = e.GetExtensionValue<Id>("name")?.Value ?? e.GetStringExtension("name"),
-                    type = e.GetExtensionValue<Code>("type"),
-                    description = e.GetStringExtension("description")
+                    Name = e.GetExtensionValue<Id>("name")?.Value ?? e.GetStringExtension("name"),
+                    Type = e.GetExtensionValue<Code>("type"),
+                    Description = e.GetStringExtension("description")
                 };
                 results.Add(lc);
             }
@@ -218,7 +220,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<Expression> variables(this Questionnaire me)
+        public static IEnumerable<Expression> Variables(this Questionnaire me)
         {
             var result = me.GetExtensions("http://hl7.org/fhir/StructureDefinition/variable");
             return result.Where(e => e.Value is Expression).Select(e => e.Value as Expression);
@@ -229,7 +231,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<Expression> variables(this Questionnaire.ItemComponent me)
+        public static IEnumerable<Expression> Variables(this Questionnaire.ItemComponent me)
         {
             var result = me.GetExtensions("http://hl7.org/fhir/StructureDefinition/variable");
             return result.Where(e => e.Value is Expression).Select(e => e.Value as Expression);
@@ -240,7 +242,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static Expression itemPopulationContext(this Questionnaire me)
+        public static Expression ItemPopulationContext(this Questionnaire me)
         {
             var result = me.GetExtensionValue<Expression>("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemPopulationContext");
             return result;
@@ -251,7 +253,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static Expression itemPopulationContext(this Questionnaire.ItemComponent me)
+        public static Expression ItemPopulationContext(this Questionnaire.ItemComponent me)
         {
             var result = me.GetExtensionValue<Expression>("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemPopulationContext");
             return result;
@@ -262,7 +264,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<Canonical> targetStructureMap(this Questionnaire me)
+        public static IEnumerable<Canonical> TargetStructureMap(this Questionnaire me)
         {
             var result = me.GetExtensions("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-targetStructureMap");
             return result.Where(e => e.Value is Canonical).Select(e => e.Value as Canonical);
@@ -273,7 +275,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<CodeableConcept> observationExtractCategory(this Questionnaire me)
+        public static IEnumerable<CodeableConcept> ObservationExtractCategory(this Questionnaire me)
         {
             var result = me.GetExtensions("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observation-extract-category");
             return result.Where(e => e.Value is CodeableConcept).Select(e => e.Value as CodeableConcept);
@@ -284,7 +286,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<CodeableConcept> observationExtractCategory(this Questionnaire.ItemComponent me)
+        public static IEnumerable<CodeableConcept> ObservationExtractCategory(this Questionnaire.ItemComponent me)
         {
             var result = me.GetExtensions("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observation-extract-category");
             return result.Where(e => e.Value is CodeableConcept).Select(e => e.Value as CodeableConcept);
@@ -295,7 +297,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static bool? observationExtract(this Questionnaire me)
+        public static bool? ObservationExtract(this Questionnaire me)
         {
             var result = me.GetBoolExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observationExtract");
             return result;
@@ -306,7 +308,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static bool? observationExtract(this Questionnaire.ItemComponent me)
+        public static bool? ObservationExtract(this Questionnaire.ItemComponent me)
         {
             var result = me.GetBoolExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observationExtract");
             return result;
@@ -317,7 +319,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static bool? observationExtract(this Coding me)
+        public static bool? ObservationExtract(this Coding me)
         {
             var result = me.GetBoolExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observationExtract");
             return result;
@@ -328,7 +330,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static bool? optionExclusive(this Questionnaire.AnswerOptionComponent me)
+        public static bool? OptionExclusive(this Questionnaire.AnswerOptionComponent me)
         {
             var result = me.GetBoolExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive");
             return result;
@@ -339,7 +341,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static string shortText(this Questionnaire.ItemComponent me)
+        public static string ShortText(this Questionnaire.ItemComponent me)
         {
             var result = me.GetStringExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-shortText");
             return result;
@@ -350,7 +352,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static string regex(this Questionnaire.ItemComponent me)
+        public static string Regex(this Questionnaire.ItemComponent me)
         {
             var result = me.GetStringExtension("http://hl7.org/fhir/StructureDefinition/regex");
             return result;
@@ -361,7 +363,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static string entryFormat(this Questionnaire.ItemComponent me)
+        public static string EntryFormat(this Questionnaire.ItemComponent me)
         {
             var result = me.GetStringExtension("http://hl7.org/fhir/StructureDefinition/entryFormat");
             return result;
@@ -372,7 +374,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<string> referenceResource(this Questionnaire.ItemComponent me)
+        public static IEnumerable<string> ReferenceResource(this Questionnaire.ItemComponent me)
         {
             var result = me.GetExtensions("http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource");
             return result.Select(e => (e.Value as Code)?.Value).SkipWhile(s => string.IsNullOrEmpty(s));
@@ -384,12 +386,17 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         public class QuestionnaireInvariant
         {
-            public string key { get; set; }
-            public string requirements { get; set; }
-            public OperationOutcome.IssueSeverity? severity { get; set; }
-            public string expression { get; set; }
-            public string human { get; set; }
-            public IEnumerable<string> location { get; set; }
+            public string Key { get; set; }
+
+            public string Requirements { get; set; }
+
+            public OperationOutcome.IssueSeverity? Severity { get; set; }
+
+            public string Expression { get; set; }
+            
+            public string Human { get; set; }
+            
+            public IEnumerable<string> Location { get; set; }
         }
 
         /// <summary>
@@ -397,9 +404,9 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<QuestionnaireInvariant> constraints(this Questionnaire me)
+        public static IEnumerable<QuestionnaireInvariant> Constraints(this Questionnaire me)
         {
-            return me.constraintsInternal();
+            return me.ConstraintsInternal();
         }
 
         /// <summary>
@@ -407,12 +414,12 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="me"></param>
         /// <returns></returns>
-        public static IEnumerable<QuestionnaireInvariant> constraints(this Questionnaire.ItemComponent me)
+        public static IEnumerable<QuestionnaireInvariant> Constraints(this Questionnaire.ItemComponent me)
         {
-            return me.constraintsInternal();
+            return me.ConstraintsInternal();
         }
 
-        private static IEnumerable<QuestionnaireInvariant> constraintsInternal(this IExtendable me)
+        private static IEnumerable<QuestionnaireInvariant> ConstraintsInternal(this IExtendable me)
         {
             List<QuestionnaireInvariant> results = new List<QuestionnaireInvariant>();
             var extensions = me.GetExtensions("http://hl7.org/fhir/StructureDefinition/questionnaire-constraint");
@@ -420,15 +427,15 @@ namespace Hl7.Fhir.StructuredDataCapture
             {
                 var invariant = new QuestionnaireInvariant()
                 {
-                    key = e.GetExtensionValue<Id>("key")?.Value ?? e.GetStringExtension("key"),
-                    requirements = e.GetStringExtension("requirements"),
-                    expression = e.GetStringExtension("expression"),
-                    human = e.GetStringExtension("human"),
-                    location = e.GetExtensions("location").Select(e => (e.Value as FhirString)?.Value).SkipWhile(s => string.IsNullOrEmpty(s)),
+                    Key = e.GetExtensionValue<Id>("key")?.Value ?? e.GetStringExtension("key"),
+                    Requirements = e.GetStringExtension("requirements"),
+                    Expression = e.GetStringExtension("expression"),
+                    Human = e.GetStringExtension("human"),
+                    Location = e.GetExtensions("location").Select(e => (e.Value as FhirString)?.Value).SkipWhile(s => string.IsNullOrEmpty(s)),
                 };
                 var severity = e.GetExtensionValue<Code>("severity")?.Value ?? e.GetStringExtension("severity");
                 if (!string.IsNullOrEmpty(severity))
-                    invariant.severity = Hl7.Fhir.Utility.EnumUtility.ParseLiteral<OperationOutcome.IssueSeverity>(severity);
+                    invariant.Severity = Hl7.Fhir.Utility.EnumUtility.ParseLiteral<OperationOutcome.IssueSeverity>(severity);
                 results.Add(invariant);
             }
             return results;

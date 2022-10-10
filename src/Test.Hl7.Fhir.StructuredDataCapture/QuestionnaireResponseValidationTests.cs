@@ -28,7 +28,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q2" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, null);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -40,7 +40,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.NotFound, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("questionnaireNotFound", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.questionnaire", outcome.Issue[0].Expression.First());
@@ -56,7 +56,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q2" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -68,7 +68,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidLinkId", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -87,7 +87,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -99,7 +99,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(1, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("repeats", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
         }
@@ -113,7 +113,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -125,7 +125,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("repeats", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -142,7 +142,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a3") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -154,7 +154,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("maxCount", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -168,7 +168,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs", new Integer(2));
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringMinOccurs" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -180,7 +180,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minCount", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -198,7 +198,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new FhirString("str1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new FhirString("str2") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new FhirString("str3") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -210,7 +210,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerOption", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[2]", outcome.Issue[0].Expression.First());
         }
@@ -222,7 +222,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringRequired" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -234,7 +234,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Required, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("required", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -251,7 +251,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1\r\nsmile") });
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q2" });
             qr.Item[1].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1\r\nsmile") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -263,7 +263,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidNewLine", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -277,7 +277,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -289,7 +289,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -303,7 +303,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateTextInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -315,7 +315,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -332,7 +332,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringMinMaxLength" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("fasdfa") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -345,14 +345,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minLength", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxLength", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[1].Expression.First());
@@ -370,7 +370,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("fasdfa@test.com.au") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("fasdfa@@test.com.au") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -383,7 +383,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("regex", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
@@ -398,7 +398,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("AU") }); // this is code
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("Australia") }); // this is display (it should not pass validation)
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -410,7 +410,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.CodeInvalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidCoding", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
         }
@@ -423,7 +423,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateBooleanInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -435,7 +435,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -449,7 +449,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateIntegerInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -461,7 +461,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -475,7 +475,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateInteger" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Integer(5) });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -498,7 +498,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateIntegerMinMax" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Integer(5) });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -511,14 +511,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxValue", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[1].Expression.First());
@@ -536,7 +536,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Integer(1) });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Integer(2) });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Integer(3) });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -548,7 +548,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerOption", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[2]", outcome.Issue[0].Expression.First());
         }
@@ -561,7 +561,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimalInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -573,7 +573,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -587,7 +587,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimal" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDecimal(5.6M) });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -610,7 +610,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimalMinMax" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDecimal(5.6M) });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -623,14 +623,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxValue", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[1].Expression.First());
@@ -646,7 +646,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimalMaxDecimalPlaces" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDecimal(-5.12340M) });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -659,7 +659,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("maxDecimalPlaces", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -673,7 +673,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDisplayAnswerIncluded" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -685,7 +685,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("displayAnswer", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -699,7 +699,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAbstractQuestionTypeIncluded" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -711,7 +711,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -730,7 +730,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent());
             qr.Item[0].Answer[0].Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer[0].Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1 smile") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -742,11 +742,11 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("groupShouldNotHaveAnswers", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Required, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("required", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[1].Expression.First());
@@ -767,7 +767,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent());
             qr.Item[0].Answer[0].Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer[0].Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1 smile") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -779,7 +779,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidLinkId", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -797,7 +797,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "grp1" });
             qr.Item[0].Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1 smile") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -809,7 +809,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Required, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("required", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -823,7 +823,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDateTimeInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -835,7 +835,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -856,7 +856,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDateTime("2022-06-30") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDateTime("1998") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDateTime("2022-07") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -869,14 +869,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[3]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxValue", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[4]", outcome.Issue[1].Expression.First());
@@ -890,7 +890,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDateInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -902,7 +902,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -923,7 +923,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Date("2022") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Date("1998") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Date("2023") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -936,14 +936,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[3]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxValue", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[4]", outcome.Issue[1].Expression.First());
@@ -961,7 +961,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Date("2022-01-01") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Date("2022-02-01") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Date("2022-03-01") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -973,7 +973,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerOption", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[2]", outcome.Issue[0].Expression.First());
         }
@@ -987,7 +987,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "AU", "Australia") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "BD", "Australia") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -999,7 +999,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.CodeInvalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidCoding", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
         }
@@ -1012,7 +1012,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("http://example.org") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1024,7 +1024,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -1038,7 +1038,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Code("http://example.org") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1050,7 +1050,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -1064,7 +1064,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceInvalidValueSetAsync" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "AU", "Australia") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1076,7 +1076,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Exception, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("tsError", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1090,7 +1090,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "string", "Australia") });
-            var validator = new QuestionnaireResponse_Validator(new ValidationSettings { TerminologyServerAddress = "https://r4.ontoserver.csiro.au/fhir" });
+            var validator = new QuestionnaireResponseValidator(new ValidationSettings { TerminologyServerAddress = "https://r4.ontoserver.csiro.au/fhir" });
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1102,7 +1102,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.CodeInvalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidCoding", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
         }
@@ -1116,7 +1116,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "string", "Australia") });
-            var validator = new QuestionnaireResponse_Validator(new ValidationSettings { TerminologyServerAddress = "https://r4.ontoserver.csiro.au/fhir" });
+            var validator = new QuestionnaireResponseValidator(new ValidationSettings { TerminologyServerAddress = "https://r4.ontoserver.csiro.au/fhir" });
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1128,7 +1128,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.CodeInvalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidCoding", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
         }
@@ -1141,7 +1141,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceStringAsync" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("Example free text") });
-            var validator = new QuestionnaireResponse_Validator(new ValidationSettings { TerminologyServerAddress = "https://r4.ontoserver.csiro.au/fhir" });
+            var validator = new QuestionnaireResponseValidator(new ValidationSettings { TerminologyServerAddress = "https://r4.ontoserver.csiro.au/fhir" });
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1166,7 +1166,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c2", "Code 2") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c2") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c3") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1178,7 +1178,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerOption", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[3]", outcome.Issue[0].Expression.First());
         }
@@ -1197,7 +1197,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c2") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1209,7 +1209,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("exclusiveAnswerOption", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
         }
@@ -1226,7 +1226,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Time("10:00:00") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Time("09:00:00") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1238,7 +1238,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerOption", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
@@ -1252,7 +1252,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateTimeInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1264,7 +1264,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -1282,7 +1282,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirUri(@"https://example.org/Patient/1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirUri(@"urn:uuid:c757873d-ec9a-4326-a141-556f43239520") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirUri(@"urn:uuid:c757873d-ec9a-4326-a141-556f43239520asdf") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1294,7 +1294,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidUrlValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
             Assert.AreEqual("invalidUrlValue", outcome.Issue[1].Details.Coding[0].Code);
@@ -1309,7 +1309,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateUrlInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1321,7 +1321,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -1347,7 +1347,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
                     Size = 500
                 }
             });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1378,7 +1378,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
                     Size = 500
                 }
             });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1390,7 +1390,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAttachmentType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1414,7 +1414,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
                     Size = 500
                 }
             });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1427,7 +1427,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("maxAttachmentSize", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1450,7 +1450,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
                     Size = 50200200
                 }
             });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1462,7 +1462,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("attachmentSizeInconsistent", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1475,7 +1475,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachmentInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1487,7 +1487,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1504,7 +1504,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuestionnaireDraft" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1516,7 +1516,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(1, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("questionnaireDraft", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.questionnaire", outcome.Issue[0].Expression.First());
         }
@@ -1533,7 +1533,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuestionnaireRetired" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1545,7 +1545,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(1, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("questionnaireRetired", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.questionnaire", outcome.Issue[0].Expression.First());
         }
@@ -1566,7 +1566,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1578,7 +1578,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(1, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("questionnaireInactive", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.authored", outcome.Issue[0].Expression.First());
         }
@@ -1599,7 +1599,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1611,7 +1611,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(1, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("questionnaireInactive", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.authored", outcome.Issue[0].Expression.First());
         }
@@ -1624,7 +1624,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("example value") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1636,7 +1636,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1649,7 +1649,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceRelative" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("Patient/example", "Example Patient") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1669,7 +1669,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceAbsolute" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("https://example.org/Patient/example", "Example Patient") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1689,7 +1689,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidURL" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("htsdtps://example.org/Chicken/example", "Example Patient") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1701,7 +1701,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidRefValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1714,7 +1714,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidResourceType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("https://example.org/Chicken/example", "Example Patient") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1726,7 +1726,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidRefResourceType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1742,7 +1742,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("Patient/example", "Example Patient") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("Organization/example", "Example Organization") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1754,7 +1754,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidRefResourceTypeRestriction", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[0].Expression.First());
         }
@@ -1770,7 +1770,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantity" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Kg" } });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1790,7 +1790,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityInvalidType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("example value") });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1802,7 +1802,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual(OperationOutcome.IssueSeverity.Fatal, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidAnswerType", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
         }
@@ -1818,7 +1818,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityMinMax" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Kg" } });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1831,14 +1831,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxValue", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[1].Expression.First());
@@ -1855,7 +1855,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityMinMaxCompatUnits" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10000, Unit = "m", Code = "m" } });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1868,14 +1868,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minValue", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.BusinessRule, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxValue", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[1].Expression.First());
@@ -1892,7 +1892,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityMinMaxIncompatUnits" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Miles", Code = "[mi_i]" } });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1905,14 +1905,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("minValueIncompatUnits", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("maxValueIncompatUnits", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[1].Expression.First());
@@ -1935,7 +1935,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             // providing no Unit (but still code) when there is no display defined in the unitOption will pass
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Code = "m", System = "http://unitsofmeasure.org" } });
 
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1959,7 +1959,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Australia", Code = "AU", System = "urn:iso:std:iso:3166" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Code = "BD", System = "urn:iso:std:iso:3166" } });
 
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1983,7 +1983,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "kilometer", System = "http://unitsofmeasure.org" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "kilometer", Code = "km", System = "http://unitsofmeasure.org" } });
 
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -1996,13 +1996,13 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.CodeInvalid, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidUnitValueSet", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.CodeInvalid, outcome.Issue[1].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
             Assert.AreEqual("invalidUnitValueSet", outcome.Issue[1].Details.Coding[0].Code);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[1]", outcome.Issue[1].Expression.First());
         }
@@ -2019,7 +2019,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityUnitsInvalid" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Kg", Code = "kg", System = "http://unitsofmeasure.org" } });
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -2032,7 +2032,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invalidUnit", outcome.Issue[0].Details.Coding[0].Code);
             Assert.AreEqual(0, outcome.Warnings);
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[0]", outcome.Issue[0].Expression.First());
@@ -2071,7 +2071,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a2" } });
             // qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a3" } });
 
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -2084,7 +2084,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Invariant, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invariant", outcome.Issue[0].Details.Coding[0].Code);
             // Also need to determine what location the report is on, the answer, or the item?
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -2109,7 +2109,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a2" } });
             // qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a3" } });
 
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -2122,7 +2122,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Invariant, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invariantExecution", outcome.Issue[0].Details.Coding[0].Code);
             // Also need to determine what location the report is on, the answer, or the item?
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -2147,7 +2147,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a2" } });
             // qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a3" } });
 
-            var validator = new QuestionnaireResponse_Validator();
+            var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             DebugDumpXml(q);
             DebugDumpXml(qr);
@@ -2160,7 +2160,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
             Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
             Assert.AreEqual(OperationOutcome.IssueType.Invariant, outcome.Issue[0].Code);
-            Assert.AreEqual(QuestionnaireResponse_Validator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
             Assert.AreEqual("invariantExecution", outcome.Issue[0].Details.Coding[0].Code);
             // Also need to determine what location the report is on, the answer, or the item?
             Assert.AreEqual("QuestionnaireResponse.item[0]", outcome.Issue[0].Expression.First());
@@ -2208,7 +2208,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
                 q = qDict[qr.Questionnaire];
                 Trace.WriteLine($"Validating {qr.Id} against '{qr.Questionnaire}'");
 
-                var validator = new QuestionnaireResponse_Validator();
+                var validator = new QuestionnaireResponseValidator();
                 var outcome = await validator.Validate(qr, q);
 
                 // strip out the warnings for the draft questionnaires
@@ -2285,7 +2285,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
                 q = qDict[qr.Questionnaire];
                 Trace.WriteLine($"Validating {qr.Id} against '{qr.Questionnaire}'");
 
-                var validator = new QuestionnaireResponse_Validator();
+                var validator = new QuestionnaireResponseValidator();
                 var outcome = await validator.Validate(qr, q);
 
                 // strip out the warnings for the draft questionnaires

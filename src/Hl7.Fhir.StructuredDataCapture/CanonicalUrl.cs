@@ -6,7 +6,7 @@ namespace Hl7.Fhir.StructuredDataCapture
     {
         public CanonicalUrl(string canonicalWithOptionalVersion)
         {
-            int index = canonicalWithOptionalVersion.IndexOf("|");
+            int index = canonicalWithOptionalVersion.IndexOf("|", System.StringComparison.CurrentCultureIgnoreCase);
             if (index != -1)
             {
                 Url = new FhirUri(canonicalWithOptionalVersion.Substring(0, index));

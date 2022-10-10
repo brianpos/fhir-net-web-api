@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Hl7.Fhir.StructuredDataCapture.QuestionnaireSDC_Extensions;
+using static Hl7.Fhir.StructuredDataCapture.StructuredDataCaptureExtensions;
 using Task = System.Threading.Tasks.Task;
 
 namespace Hl7.Fhir.StructuredDataCapture
@@ -26,7 +26,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         // System.Globalization.CultureInfo ci
     }
 
-    public class QuestionnaireResponse_Validator
+    public class QuestionnaireResponseValidator
     {
         public const string ErrorCodeSystem = "http://fhir.forms-lab.com/CodeSystem/errors";
 
@@ -250,7 +250,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             var severity = OperationOutcome.IssueSeverity.Error;
             var code = OperationOutcome.IssueType.Unknown;
             var details = new CodeableConcept(ErrorCodeSystem, error.ToString());
-            var fieldDisplayText = responseItem?.Text ?? itemDefinition?.shortText() ?? itemDefinition?.Text ?? (itemDefinition?.Code?.FirstOrDefault()?.Display) ?? itemDefinition?.LinkId ?? responseItem?.LinkId;
+            var fieldDisplayText = responseItem?.Text ?? itemDefinition?.ShortText() ?? itemDefinition?.Text ?? (itemDefinition?.Code?.FirstOrDefault()?.Display) ?? itemDefinition?.LinkId ?? responseItem?.LinkId;
             if (!string.IsNullOrEmpty(fieldDisplayText) && fieldDisplayText.EndsWith(":"))
                 fieldDisplayText = fieldDisplayText.Substring(0, fieldDisplayText.Length - 1);
             string diagnostics = null;
@@ -356,14 +356,14 @@ namespace Hl7.Fhir.StructuredDataCapture
 
                 case ValidationResult.invariant:
                     code = OperationOutcome.IssueType.Invariant;
-                    severity = invariant.severity ?? OperationOutcome.IssueSeverity.Error;
-                    details.Coding[0].Display = invariant.human;
-                    details.Coding.Add(new Coding(questionaireCanonicalUrl, invariant.key, invariant.human));
+                    severity = invariant.Severity ?? OperationOutcome.IssueSeverity.Error;
+                    details.Coding[0].Display = invariant.Human;
+                    details.Coding.Add(new Coding(questionaireCanonicalUrl, invariant.Key, invariant.Human));
                     if (!string.IsNullOrEmpty(fieldDisplayText))
-                        details.Text = $"{fieldDisplayText}: {invariant.human}";
+                        details.Text = $"{fieldDisplayText}: {invariant.Human}";
                     else
-                        details.Text = $"{invariant.human}";
-                    diagnostics = invariant.expression;
+                        details.Text = $"{invariant.Human}";
+                    diagnostics = invariant.Expression;
                     break;
 
                 case ValidationResult.invariantExecution:
@@ -371,10 +371,10 @@ namespace Hl7.Fhir.StructuredDataCapture
                     code = OperationOutcome.IssueType.Invariant;
                     details.Coding[0].Display = "invalid validation expression";
                     if (!string.IsNullOrEmpty(fieldDisplayText))
-                        details.Text = $"{fieldDisplayText}: Unable to evaluate custom validation rule {invariant.human}";
+                        details.Text = $"{fieldDisplayText}: Unable to evaluate custom validation rule {invariant.Human}";
                     else
-                        details.Text = $"Unable to evaluate custom validation rule {invariant.human}";
-                    diagnostics = invariant.expression;
+                        details.Text = $"Unable to evaluate custom validation rule {invariant.Human}";
+                    diagnostics = invariant.Expression;
                     diagnostics = String.Join("\r\n", diagnostics, exceptionThrown.Message);
                     break;
 
@@ -387,37 +387,37 @@ namespace Hl7.Fhir.StructuredDataCapture
                 case ValidationResult.minCount:
                     code = OperationOutcome.IssueType.BusinessRule;
                     details.Coding[0].Display = "not enough";
-                    details.Text = $"{fieldDisplayText}: Expected minimum of {itemDefinition.minOccurs()} answers, received {responseItem.Answer.Count}";
+                    details.Text = $"{fieldDisplayText}: Expected minimum of {itemDefinition.MinOccurs()} answers, received {responseItem.Answer.Count}";
                     break;
 
                 case ValidationResult.maxCount:
                     code = OperationOutcome.IssueType.BusinessRule;
                     details.Coding[0].Display = "too many";
-                    details.Text = $"{fieldDisplayText}: Exceeded maximum of {itemDefinition.maxOccurs()} answers, received {responseItem.Answer.Count}";
+                    details.Text = $"{fieldDisplayText}: Exceeded maximum of {itemDefinition.MaxOccurs()} answers, received {responseItem.Answer.Count}";
                     break;
 
                 case ValidationResult.minValue:
                     code = OperationOutcome.IssueType.BusinessRule;
                     details.Coding[0].Display = "too small";
-                    details.Text = $"{fieldDisplayText}: Expected the minimum value {ConvertValueForErrorMessage(itemDefinition, itemDefinition.minValue() ?? itemDefinition.minQuantity())}, received {ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}";
+                    details.Text = $"{fieldDisplayText}: Expected the minimum value {ConvertValueForErrorMessage(itemDefinition, itemDefinition.MinValue() ?? itemDefinition.MinQuantity())}, received {ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}";
                     break;
 
                 case ValidationResult.maxValue:
                     code = OperationOutcome.IssueType.BusinessRule;
                     details.Coding[0].Display = "too big";
-                    details.Text = $"{fieldDisplayText}: Exceeded the maximum value {ConvertValueForErrorMessage(itemDefinition, itemDefinition.maxValue() ?? itemDefinition.maxQuantity())}, received {ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}";
+                    details.Text = $"{fieldDisplayText}: Exceeded the maximum value {ConvertValueForErrorMessage(itemDefinition, itemDefinition.MaxValue() ?? itemDefinition.MaxQuantity())}, received {ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}";
                     break;
 
                 case ValidationResult.maxDecimalPlaces:
                     code = OperationOutcome.IssueType.BusinessRule;
                     details.Coding[0].Display = "too precise";
-                    details.Text = $"{fieldDisplayText}: Exceeded maximum decimal places {itemDefinition.maxDecimalPlaces()}, received {CountDecimalDigits((responseItem.Answer[answerIndex.Value].Value as FhirDecimal).Value.Value)}";
+                    details.Text = $"{fieldDisplayText}: Exceeded maximum decimal places {itemDefinition.MaxDecimalPlaces()}, received {CountDecimalDigits((responseItem.Answer[answerIndex.Value].Value as FhirDecimal).Value.Value)}";
                     break;
 
                 case ValidationResult.minLength:
                     code = OperationOutcome.IssueType.BusinessRule;
                     details.Coding[0].Display = "too short";
-                    details.Text = $"{fieldDisplayText}: Expected the minimum value {itemDefinition.minLength()} characters, received {responseItem.Answer[answerIndex.Value].Value.ToString().Length}";
+                    details.Text = $"{fieldDisplayText}: Expected the minimum value {itemDefinition.MinLength()} characters, received {responseItem.Answer[answerIndex.Value].Value.ToString().Length}";
                     break;
 
                 case ValidationResult.maxLength:
@@ -463,7 +463,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                     code = OperationOutcome.IssueType.BusinessRule;
                     details.Coding[0].Display = "attachment too large";
                     var att2 = responseItem.Answer[answerIndex.Value].Value as Attachment;
-                    details.Text = $"{fieldDisplayText}: Exceeded the maximum attachment size {NumericBytesForErrorMessage((int)itemDefinition.maxSize())}, received {NumericBytesForErrorMessage(att2.Data?.Length)}";
+                    details.Text = $"{fieldDisplayText}: Exceeded the maximum attachment size {NumericBytesForErrorMessage((int)itemDefinition.MaxSize())}, received {NumericBytesForErrorMessage(att2.Data?.Length)}";
                     break;
 
                 case ValidationResult.attachmentSizeInconsistent:
@@ -480,7 +480,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                     details.Coding[0].Display = $"unsupported attachment type '{att4.ContentType}'";
                     // TODO: Make the mime type(s) more user friendly
                     // use this package? https://www.nuget.org/packages/MimeTypeMapOfficial
-                    details.Text = $"{fieldDisplayText}: attachment '{att4.ContentType}' is not one of the supported types {String.Join(", ", itemDefinition?.mimeTypes())}";
+                    details.Text = $"{fieldDisplayText}: attachment '{att4.ContentType}' is not one of the supported types {String.Join(", ", itemDefinition?.MimeTypes())}";
                     break;
 
                 case ValidationResult.regex:
@@ -488,8 +488,8 @@ namespace Hl7.Fhir.StructuredDataCapture
                     code = OperationOutcome.IssueType.Invalid;
                     details.Coding[0].Display = "invalid format";
                     details.Text = $"{fieldDisplayText}: The value '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}' does not match the defined format";
-                    if (!string.IsNullOrEmpty(itemDefinition.entryFormat())) details.Text += $" {itemDefinition.entryFormat()}";
-                    diagnostics = itemDefinition.regex();
+                    if (!string.IsNullOrEmpty(itemDefinition.EntryFormat())) details.Text += $" {itemDefinition.EntryFormat()}";
+                    diagnostics = itemDefinition.Regex();
                     break;
 
                 case ValidationResult.regexTimeout:
@@ -497,7 +497,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                     code = OperationOutcome.IssueType.Exception;
                     details.Coding[0].Display = "can't verify format";
                     details.Text = $"{fieldDisplayText}: was unable to verify the format of the entry within {_settings.RegexTimeout.TotalSeconds} seconds";
-                    diagnostics = itemDefinition.regex();
+                    diagnostics = itemDefinition.Regex();
                     break;
 
                 case ValidationResult.invalidRefValue:
@@ -518,36 +518,34 @@ namespace Hl7.Fhir.StructuredDataCapture
                     severity = OperationOutcome.IssueSeverity.Error;
                     code = OperationOutcome.IssueType.Value;
                     details.Coding[0].Display = "incorrect resource type";
-                    details.Text = $"{fieldDisplayText}: The value '{(responseItem.Answer[answerIndex.Value].Value as ResourceReference)?.Reference}' does not refer to a {String.Join(", ", itemDefinition.referenceResource())}";
-                    if (!string.IsNullOrEmpty(itemDefinition.entryFormat())) details.Text += $" {itemDefinition.entryFormat()}";
-                    diagnostics = itemDefinition.regex();
+                    details.Text = $"{fieldDisplayText}: The value '{(responseItem.Answer[answerIndex.Value].Value as ResourceReference)?.Reference}' does not refer to a {String.Join(", ", itemDefinition.ReferenceResource())}";
                     break;
 
                 case ValidationResult.minValueIncompatUnits:
                     severity = OperationOutcome.IssueSeverity.Error;
                     code = OperationOutcome.IssueType.Value;
                     details.Coding[0].Display = "incompatible units";
-                    details.Text = $"{fieldDisplayText}: Cannot convert value '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}' to '{itemDefinition.minQuantity()?.Unit}' to verify minimum value";
+                    details.Text = $"{fieldDisplayText}: Cannot convert value '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}' to '{itemDefinition.MinQuantity()?.Unit}' to verify minimum value";
                     break;
 
                 case ValidationResult.maxValueIncompatUnits:
                     severity = OperationOutcome.IssueSeverity.Error;
                     code = OperationOutcome.IssueType.Value;
                     details.Coding[0].Display = "incompatible units";
-                    details.Text = $"{fieldDisplayText}: Cannot convert value '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}' to '{itemDefinition.maxQuantity()?.Unit}' to verify maximum value";
+                    details.Text = $"{fieldDisplayText}: Cannot convert value '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}' to '{itemDefinition.MaxQuantity()?.Unit}' to verify maximum value";
                     break;
 
                 case ValidationResult.invalidUnit:
                     severity = OperationOutcome.IssueSeverity.Error;
                     code = OperationOutcome.IssueType.Value;
                     details.Coding[0].Display = "invalid units";
-                    details.Text = $"{fieldDisplayText}: The value '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}' does not use '{string.Join("', '", itemDefinition.unitOptions().Select(uo => uo.Display ?? uo.Code))}'";
+                    details.Text = $"{fieldDisplayText}: The value '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}' does not use '{string.Join("', '", itemDefinition.UnitOptions().Select(uo => uo.Display ?? uo.Code))}'";
                     break;
 
                 case ValidationResult.invalidUnitValueSet:
                     code = OperationOutcome.IssueType.CodeInvalid;
                     details.Coding[0].Display = "invalid unit";
-                    details.Text = $"{fieldDisplayText}: invalid unit '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}', is not in '{itemDefinition.unitValueSet()}'";
+                    details.Text = $"{fieldDisplayText}: invalid unit '{ConvertValueForErrorMessage(itemDefinition, responseItem.Answer[answerIndex.Value].Value)}', is not in '{itemDefinition.UnitValueSet()}'";
                     break;
 
                 default:
@@ -656,7 +654,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         string ConvertValueForErrorMessage(Questionnaire.ItemComponent itemDefinition, Base value)
         {
             if (value == null) return "";
-            string units = itemDefinition.unit()?.Display;
+            string units = itemDefinition.Unit()?.Display;
 
             switch (itemDefinition.Type)
             {
@@ -710,7 +708,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             return value.ToString();
         }
 
-        public QuestionnaireResponse_Validator(ValidationSettings settings = null)
+        public QuestionnaireResponseValidator(ValidationSettings settings = null)
         {
             _settings = settings ?? new ValidationSettings()
             {
@@ -776,7 +774,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                 // Check that the structure matches
                 var symbolTable = new Hl7.FhirPath.Expressions.SymbolTable(Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable);
                 symbolTable.AddVar("questionnaire", q.ToTypedElement());
-                foreach (var variableExpression in q.variables())
+                foreach (var variableExpression in q.Variables())
                 {
                     //    var values = EvaluateFhirPath(symbolTable, variableExpression, outcome, "variable");
                     //    Questionnaire_PrePopulate_Observation.AddVariable(symbolTable, variableExpression.Name, values);
@@ -861,7 +859,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                 // Mandatory
                 ReportValidationMessage(ValidationResult.required, itemDef, new[] { pathExpression }, status, item, null, null);
             }
-            var minOccurs = itemDef.minOccurs();
+            var minOccurs = itemDef.MinOccurs();
             if (minOccurs.HasValue && item.Answer.Count < minOccurs.Value)
             {
                 // not enough answers
@@ -874,7 +872,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             // so bail any further testing
             if (item is FakeItem) return;
 
-            var maxOccurs = itemDef.maxOccurs();
+            var maxOccurs = itemDef.MaxOccurs();
             if (maxOccurs.HasValue && item.Answer.Count > maxOccurs.Value)
             {
                 // too many answers
@@ -1080,7 +1078,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                 }
 
                 // Check option Exclusive http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive
-                if (typeOptions.Any(to => to.optionExclusive() == true))
+                if (typeOptions.Any(to => to.OptionExclusive() == true))
                 {
                     if (item.Answer.Count > 1)
                     {
@@ -1152,7 +1150,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 
         private void ValidateQuantityUnitValueAgainstValueSet(QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, Coding coding, QuestionnaireResponse.QuestionnaireResponseStatus status)
         {
-            if (!string.IsNullOrEmpty(itemDef.unitValueSet()))
+            if (!string.IsNullOrEmpty(itemDef.UnitValueSet()))
             {
                 // if there are no computable units (code) specified, then this needs to be reported as an error
                 if (string.IsNullOrEmpty(coding.System) || string.IsNullOrEmpty(coding.Code))
@@ -1170,7 +1168,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                     ts = new FhirClient(_settings.TerminologyServerAddress, _settings.TerminologyServerFhirClientSettings);
 
                 // split the AnswerValueSet value into canonical and version.
-                var canonical = new CanonicalUrl(itemDef.unitValueSet());
+                var canonical = new CanonicalUrl(itemDef.UnitValueSet());
                 Task validateCode = ts.ValidateCodeAsync(url: canonical.Url, version: canonical.Version, coding: coding)
                     .ContinueWith((result) =>
                     {
@@ -1197,7 +1195,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         private void ValidateQuantityValue(bool v, QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, Quantity value, QuestionnaireResponse.QuestionnaireResponseStatus status)
         {
             // Check for units http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption
-            var unitOptions = itemDef.unitOptions().ToList();
+            var unitOptions = itemDef.UnitOptions().ToList();
             if (unitOptions.Any())
             {
                 if (!unitOptions.Any(uo =>
@@ -1218,20 +1216,20 @@ namespace Hl7.Fhir.StructuredDataCapture
             ValidateQuantityUnitValueAgainstValueSet(item, itemDef, answerIndex, answerItemPathExpression, new Coding(value.System, value.Code, value.Unit), status);
 
             // Min value
-            if (itemDef.minQuantity() != null)
+            if (itemDef.MinQuantity() != null)
             {
-                if (!CanConvertUnits(itemDef.minQuantity(), value))
+                if (!CanConvertUnits(itemDef.MinQuantity(), value))
                     ReportValidationMessage(ValidationResult.minValueIncompatUnits, itemDef, answerItemPathExpression, status, item, answerIndex, null);
-                else if (CompareQuantity(itemDef.minQuantity(), value) > 0)
+                else if (CompareQuantity(itemDef.MinQuantity(), value) > 0)
                     ReportValidationMessage(ValidationResult.minValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
             }
 
             // max value
-            if (itemDef.maxQuantity() != null)
+            if (itemDef.MaxQuantity() != null)
             {
-                if (!CanConvertUnits(itemDef.maxQuantity(), value))
+                if (!CanConvertUnits(itemDef.MaxQuantity(), value))
                     ReportValidationMessage(ValidationResult.maxValueIncompatUnits, itemDef, answerItemPathExpression, status, item, answerIndex, null);
-                else if (CompareQuantity(itemDef.maxQuantity(), value) < 0)
+                else if (CompareQuantity(itemDef.MaxQuantity(), value) < 0)
                     ReportValidationMessage(ValidationResult.maxValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
             }
 
@@ -1311,7 +1309,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                         }
 
                         // http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource
-                        var resourceTypes = itemDef.referenceResource().ToList();
+                        var resourceTypes = itemDef.ReferenceResource().ToList();
                         if (!string.IsNullOrEmpty(ri.ResourceType) && resourceTypes.Any())
                         {
                             if (!resourceTypes.Contains(ri.ResourceType))
@@ -1361,12 +1359,12 @@ namespace Hl7.Fhir.StructuredDataCapture
         private void ValidateDateTimeValue(bool v, QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, FhirDateTime value, QuestionnaireResponse.QuestionnaireResponseStatus status)
         {
             // min value
-            var min = itemDef.minValue() as FhirDateTime;
+            var min = itemDef.MinValue() as FhirDateTime;
             if (min != null && DateCompare(min.Value, value.Value) > 0)
                 ReportValidationMessage(ValidationResult.minValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
             // max value
-            var max = itemDef.maxValue() as FhirDateTime;
+            var max = itemDef.MaxValue() as FhirDateTime;
             if (max != null && DateCompare(max.Value, value.Value) < 0)
                 ReportValidationMessage(ValidationResult.maxValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
         }
@@ -1374,12 +1372,12 @@ namespace Hl7.Fhir.StructuredDataCapture
         private void ValidateDateValue(bool v, QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, Date value, QuestionnaireResponse.QuestionnaireResponseStatus status)
         {
             // min value
-            var min = itemDef.minValue() as Date;
+            var min = itemDef.MinValue() as Date;
             if (min != null && DateCompare(min.Value, value.Value) > 0)
                 ReportValidationMessage(ValidationResult.minValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
             // max value
-            var max = itemDef.maxValue() as Date;
+            var max = itemDef.MaxValue() as Date;
             if (max != null && DateCompare(max.Value, value.Value) < 0)
                 ReportValidationMessage(ValidationResult.maxValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
@@ -1390,12 +1388,12 @@ namespace Hl7.Fhir.StructuredDataCapture
         private void ValidateIntegerValue(bool v, QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, Integer fi, QuestionnaireResponse.QuestionnaireResponseStatus status)
         {
             // min value
-            var min = itemDef.minValue() as Integer;
+            var min = itemDef.MinValue() as Integer;
             if (min != null && min.Value > fi.Value)
                 ReportValidationMessage(ValidationResult.minValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
             // max value
-            var max = itemDef.maxValue() as Integer;
+            var max = itemDef.MaxValue() as Integer;
             if (max != null && max.Value < fi.Value)
                 ReportValidationMessage(ValidationResult.maxValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
@@ -1406,17 +1404,17 @@ namespace Hl7.Fhir.StructuredDataCapture
         private void ValidateDecimalValue(bool v, QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, FhirDecimal fd, QuestionnaireResponse.QuestionnaireResponseStatus status)
         {
             // min value
-            var min = itemDef.minValue() as FhirDecimal;
+            var min = itemDef.MinValue() as FhirDecimal;
             if (min != null && min.Value > fd.Value)
                 ReportValidationMessage(ValidationResult.minValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
             // max value
-            var max = itemDef.maxValue() as FhirDecimal;
+            var max = itemDef.MaxValue() as FhirDecimal;
             if (max != null && max.Value < fd.Value)
                 ReportValidationMessage(ValidationResult.maxValue, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
             // max decimal places
-            var maxDecPlaces = itemDef.maxDecimalPlaces();
+            var maxDecPlaces = itemDef.MaxDecimalPlaces();
             if (fd.Value.HasValue && maxDecPlaces.HasValue && CountDecimalDigits(fd.Value.Value) > maxDecPlaces.Value)
             {
                 ReportValidationMessage(ValidationResult.maxDecimalPlaces, itemDef, answerItemPathExpression, status, item, answerIndex, null);
@@ -1441,13 +1439,13 @@ namespace Hl7.Fhir.StructuredDataCapture
             }
 
             // Max File Size (bytes)
-            if (att.Data?.Length > itemDef.maxSize())
+            if (att.Data?.Length > itemDef.MaxSize())
             {
                 ReportValidationMessage(ValidationResult.maxAttachmentSize, itemDef, answerItemPathExpression, status, item, answerIndex, null);
             }
 
             // Supported Types
-            var mimeTypes = itemDef.mimeTypes();
+            var mimeTypes = itemDef.MimeTypes();
             if (mimeTypes?.Any() == true && (!mimeTypes.Contains(att.ContentType) || string.IsNullOrEmpty(att.ContentType)))
             {
                 ReportValidationMessage(ValidationResult.invalidAttachmentType, itemDef, answerItemPathExpression, status, item, answerIndex, null);
@@ -1461,7 +1459,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                 ReportValidationMessage(ValidationResult.invalidNewLine, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
             // Min Length
-            if (strOpen.Value?.Length < itemDef.minLength())
+            if (strOpen.Value?.Length < itemDef.MinLength())
                 ReportValidationMessage(ValidationResult.minLength, itemDef, answerItemPathExpression, status, item, answerIndex, null);
 
             // Max length
@@ -1470,7 +1468,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 
             // Check the Regex rules http://hl7.org/fhir/StructureDefinition/regex
             // Suggest including the entryFormat extension to guide the use of the regex violation (placeholder text)
-            var regexValue = itemDef.regex();
+            var regexValue = itemDef.Regex();
             if (!string.IsNullOrEmpty(regexValue))
             {
                 // https://docs.microsoft.com/en-us/dotnet/standard/base-types/best-practices
@@ -1517,10 +1515,10 @@ namespace Hl7.Fhir.StructuredDataCapture
                 //    var values = EvaluateFhirPath(symbolTable, variableExpression, outcome, "variable");
                 //    Questionnaire_PrePopulate_Observation.AddVariable(symbolTable, variableExpression.Name, values);
                 //}
-                invariants = itemDef.constraints();
+                invariants = itemDef.Constraints();
             }
             else
-                invariants = Q.constraints();
+                invariants = Q.Constraints();
             if (invariants != null && invariants.Any())
             {
                 FhirEvaluationContext ctxt;
@@ -1535,7 +1533,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                             itemSpecificTable.AddVar("qitem", itemDef.ToTypedElement());
                         }
                         var compiler = new FhirPathCompiler(itemSpecificTable);
-                        var expr = compiler.Compile(invariant.expression);
+                        var expr = compiler.Compile(invariant.Expression);
 
                         IEnumerable<ITypedElement> result;
                         if (itemDef != null)
@@ -1546,7 +1544,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                         if (result.Count() != 1 || !(bool)result.First().Value)
                         {
                             // TODO: Need to re-evaluate the location paths (if specified)
-                            if (invariant.location.Any())
+                            if (invariant.Location.Any())
                             {
 
                             }

@@ -31,7 +31,7 @@ namespace Hl7.DemoFhirAzureFunctionApp
             {
                 var q = await ResolveQuestionnaire(client, qr);
 
-                var extractor = new Hl7.Fhir.StructuredDataCapture.QuestionnaireResponse_Extract();
+                var extractor = new Hl7.Fhir.StructuredDataCapture.QuestionnaireResponseExtract();
                 var extractResults = await extractor.PerformExtractOperation(qr, q);
                 return req.FormatFhirDataOutput(HttpStatusCode.OK, extractResults);
             }
@@ -54,7 +54,7 @@ namespace Hl7.DemoFhirAzureFunctionApp
             {
                 var q = await ResolveQuestionnaire(client, qr);
 
-                var extractor = new Hl7.Fhir.StructuredDataCapture.QuestionnaireResponse_Extract();
+                var extractor = new Hl7.Fhir.StructuredDataCapture.QuestionnaireResponseExtract();
                 var extractResults = await extractor.PerformExtractOperation(qr, q);
                 return req.FormatFhirDataOutput(HttpStatusCode.OK, extractResults);
             }

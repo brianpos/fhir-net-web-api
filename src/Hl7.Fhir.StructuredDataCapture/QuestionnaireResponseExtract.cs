@@ -11,7 +11,7 @@ namespace Hl7.Fhir.StructuredDataCapture
     /// <summary>
     /// http://build.fhir.org/ig/HL7/sdc/extraction.html#obs-extract
     /// </summary>
-    public class QuestionnaireResponse_Extract
+    public class QuestionnaireResponseExtract
     {
         public Task<Resource> PerformExtractOperation(QuestionnaireResponse qr, Questionnaire q)
         {
@@ -20,8 +20,8 @@ namespace Hl7.Fhir.StructuredDataCapture
             results.Type = Bundle.BundleType.Transaction;
 
             // Observation based extraction
-            bool extractAllItems = q.observationExtract() == true;
-            IEnumerable<CodeableConcept> defaultObservationExtractCategory = q.observationExtractCategory();
+            bool extractAllItems = q.ObservationExtract() == true;
+            IEnumerable<CodeableConcept> defaultObservationExtractCategory = q.ObservationExtractCategory();
             foreach (var itemDef in q.Item)
             {
                 var itemsA = qr.Item.Where(i => i.LinkId == itemDef.LinkId);
@@ -32,7 +32,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             // ...
 
             // StructureMap based extraction
-            foreach (var sm in q.targetStructureMap())
+            foreach (var sm in q.TargetStructureMap())
             {
                 // retrieve the StructureMap
 
@@ -55,10 +55,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 
         private void ExtractItemObservationData(QuestionnaireResponse qr, Bundle results, OperationOutcome outcome, Questionnaire.ItemComponent itemDef, IEnumerable<QuestionnaireResponse.ItemComponent> itemsA, bool extractAllItems, IEnumerable<CodeableConcept> defaultObservationExtractCategory)
         {
-            if (extractAllItems || itemDef.observationExtract() == true || itemDef.observationExtractCategory().Any())
+            if (extractAllItems || itemDef.ObservationExtract() == true || itemDef.ObservationExtractCategory().Any())
             {
-                if (itemDef.observationExtractCategory().Any())
-                    defaultObservationExtractCategory = itemDef.observationExtractCategory();
+                if (itemDef.ObservationExtractCategory().Any())
+                    defaultObservationExtractCategory = itemDef.ObservationExtractCategory();
                 foreach (var answer in itemsA.SelectMany(a => a.Answer))
                 {
                     // this item is expected to be extracted
@@ -91,20 +91,20 @@ namespace Hl7.Fhir.StructuredDataCapture
                     }
                     if (qr.Author != null)
                         obs.Performer.Add(qr.Author);
-                    if (itemDef.observationExtractCategory().Any())
-                        obs.Category.AddRange(itemDef.observationExtractCategory());
+                    if (itemDef.ObservationExtractCategory().Any())
+                        obs.Category.AddRange(itemDef.ObservationExtractCategory());
                     obs.Code = new CodeableConcept();
-                    if (itemDef.Code.Any(code => code.observationExtract().HasValue))
+                    if (itemDef.Code.Any(code => code.ObservationExtract().HasValue))
                     {
-                        if (itemDef.Code.Any(code => code.observationExtract() == true))
+                        if (itemDef.Code.Any(code => code.ObservationExtract() == true))
                         {
                             // there was an item explicitly indicated to be included
-                            obs.Code.Coding.AddRange(itemDef.Code.Where(code => code.observationExtract() == true));
+                            obs.Code.Coding.AddRange(itemDef.Code.Where(code => code.ObservationExtract() == true));
                         }
                         else
                         {
                             // there were no explicitly included items, but there was some that were to be excluded (so include all the others)
-                            obs.Code.Coding.AddRange(itemDef.Code.Where(code => code.observationExtract() != false));
+                            obs.Code.Coding.AddRange(itemDef.Code.Where(code => code.ObservationExtract() != false));
                         }
                     }
                     else
@@ -117,9 +117,9 @@ namespace Hl7.Fhir.StructuredDataCapture
                     {
                         code.Extension.Clear();
                     }
-                    if (itemDef.unit() != null && (answer.Value is FhirDecimal || answer.Value is Integer))
+                    if (itemDef.Unit() != null && (answer.Value is FhirDecimal || answer.Value is Integer))
                     {
-                        var unit = itemDef.unit();
+                        var unit = itemDef.Unit();
                         var qty = new Quantity();
                         qty.Unit = unit.Display;
                         qty.System = unit.System;

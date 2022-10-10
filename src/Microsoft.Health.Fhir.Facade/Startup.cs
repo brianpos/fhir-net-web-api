@@ -74,7 +74,7 @@ namespace Hl7.DemoFileSystemFhirServer
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
                 builder.AllowCredentials();
-                builder.WithExposedHeaders(new[] { "Content-Location", "Location", "Etag" });
+                builder.WithExposedHeaders(new[] { "Content-Location", "Location", "ETag" });
             }));
 
             services.AddScoped<FHIR_R4Context, FHIR_R4Context>();

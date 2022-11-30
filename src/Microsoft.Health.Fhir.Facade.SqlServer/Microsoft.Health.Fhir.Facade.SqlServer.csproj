@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net60;</TargetFrameworks>
+    <TargetFrameworks>net70;</TargetFrameworks>
     <AssemblyName>Microsoft.Health.Fhir.Facade.SqlServer</AssemblyName>
     <PackageId>brianpos.Fhir.R4B.Microsoft.FhirServer.Sql</PackageId>
     <Version>4.3.0-beta1</Version>

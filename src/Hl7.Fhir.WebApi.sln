@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Support"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Custom.Serializers", "Hl7.Fhir.Custom.Serializers\Hl7.Fhir.Custom.Serializers.csproj", "{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.HttpClient", "Hl7.Fhir.HttpClient\Hl7.Fhir.R4.HttpClient.csproj", "{0D50F573-7AF8-416D-8364-7EDD21F5503C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoFileSystemServer", "Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj", "{1B81B226-5E4E-41C4-B85C-D6605D60C918}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
@@ -83,10 +81,6 @@ Global
 		{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D50F573-7AF8-416D-8364-7EDD21F5503C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D50F573-7AF8-416D-8364-7EDD21F5503C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D50F573-7AF8-416D-8364-7EDD21F5503C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D50F573-7AF8-416D-8364-7EDD21F5503C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Release|Any CPU.ActiveCfg = Release|Any CPU

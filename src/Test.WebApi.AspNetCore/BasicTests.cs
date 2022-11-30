@@ -90,6 +90,9 @@ namespace UnitTestWebApi
         public void GetStaticContent()
         {
             HttpClient c = new HttpClient();
+#if NET6_0_OR_GREATER
+            c.DefaultRequestVersion = HttpVersion.Version30;
+#endif
             var result = c.GetAsync(_baseAddress + "content/icon_page.gif").Result;
 
             System.Diagnostics.Trace.WriteLine(result.ToString());
@@ -112,6 +115,9 @@ namespace UnitTestWebApi
             Assert.IsNotNull(result.FhirVersion, "Should at least report the version of fhir active");
 
             HttpClient client = new HttpClient();
+#if NET6_0_OR_GREATER
+            client.DefaultRequestVersion = HttpVersion.Version30;
+#endif
             var rawResult = await client.GetAsync($"{_baseAddress}");
             var cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
             System.Diagnostics.Trace.WriteLine($"{cs.Url}");
@@ -161,6 +167,22 @@ namespace UnitTestWebApi
             Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
             Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
             Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
+        }
+
+
+        [TestMethod]
+        public void CreateConditionWithOnset()
+        {
+            var p = new Condition();
+            p.Subject = new ResourceReference(null, "demo");
+            p.Onset = new Period() { Start = "2020-09-10T21:56:54.671Z" };
+
+            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            clientFhir.PreferredFormat = ResourceFormat.Json;
+
+            var result = clientFhir.Create(p);
+
+            Assert.IsNotNull(result.Id, "Newly created condition should have an ID");
         }
 
         [TestMethod]

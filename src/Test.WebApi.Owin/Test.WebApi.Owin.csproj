@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SimpleCRUDusingHttpClientWrapper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.2.0" />
     <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="4.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
@@ -18,6 +22,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hl7.DemoFileSystemFhirServer.Owin\Hl7.DemoFileSystemFhirServer.Owin.csproj" />
-    <ProjectReference Include="..\Hl7.Fhir.HttpClient\Hl7.Fhir.R4.HttpClient.csproj" />
   </ItemGroup>
 </Project>

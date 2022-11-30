@@ -283,7 +283,17 @@ namespace Test.WebApi.AspNetCore
         [TestMethod]
         public void XmlParserStandardWithErrors()
         {
-            var fs = new Hl7.Fhir.Serialization.FhirXmlParser(new ParserSettings() { AcceptUnknownMembers = true, AllowUnrecognizedEnums = true, PermissiveParsing = true });
+            var settings = new ParserSettings()
+            {
+                AcceptUnknownMembers = true,
+                AllowUnrecognizedEnums = true,
+                PermissiveParsing = true,
+                ExceptionHandler = (source, args) => {
+                    // don't throw it!
+                    System.Diagnostics.Trace.WriteLine(args.Message);
+                }
+            };
+            var fs = new Hl7.Fhir.Serialization.FhirXmlParser(settings);
             // var fs = new Hl7.Fhir.Serialization.FhirXmlParser();
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream, Encoding.UTF8);
@@ -301,7 +311,7 @@ namespace Test.WebApi.AspNetCore
                 }
                 UnitTestWebApi.BasicFacade.DebugDumpOutputXml(p);
             }
-            catch(System.FormatException ex)
+            catch (System.FormatException ex)
             {
                 Assert.AreEqual("Type checking the data: Literal 'chicken' cannot be parsed as a decimal. (at Patient.extension[2].valueDecimal[0])", ex.Message);
             }
@@ -623,7 +633,7 @@ namespace Test.WebApi.AspNetCore
 
         public void GenerateSerializer(Type type)
         {
-            var cm = ClassMapping.Create(type);
+            ClassMapping.TryCreate(type, out var cm, Hl7.Fhir.Specification.FhirRelease.R4B);
             System.Diagnostics.Trace.WriteLine($"public static void Serialize({type.Name} name, string propertyName, XmlWriter writer, CancellationToken cancellationToken)");
             System.Diagnostics.Trace.WriteLine("{");
             System.Diagnostics.Trace.WriteLine("\tif (cancellationToken.IsCancellationRequested) return;");

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net60;</TargetFrameworks>
+    <TargetFrameworks>net70;</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

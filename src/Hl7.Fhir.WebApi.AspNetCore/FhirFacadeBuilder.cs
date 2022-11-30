@@ -53,6 +53,19 @@ namespace Hl7.Fhir.NetCoreApi
             return InternalUseFhirServerController(services, setupAction, supportedForwardedForSystems);
         }
 
+        /// <summary>
+        /// Add the facade for the FHIR server using the provided System service model (using the dependency injector to provide the IFhirSystemService implementation)
+        /// </summary>
+        /// <param name="services"></param>
+        public static IMvcBuilder UseFhirServerController(this IServiceCollection services)
+        {
+            if (!services.Any(x => x.ServiceType == typeof(IFhirSystemServiceR4<IServiceProvider>)))
+            {
+                throw new ApplicationException("Using the Dependency Injector approach to the facade requires a `IFhirSystemServiceR4<IServiceProvider>` to have been registered");
+            }
+            return InternalUseFhirServerController(services, (options) => { }, null);
+        }
+
 
         private static IMvcBuilder InternalUseFhirServerController(IServiceCollection services, Action<MvcOptions> setupAction, Dictionary<string, Uri> supportedForwardedForSystems)
         {

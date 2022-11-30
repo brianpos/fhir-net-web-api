@@ -80,6 +80,8 @@ namespace Hl7.Fhir.WebApi
 
                     // Write the element start text
                     sw.Write($"&lt;{prop.ElementName}");
+                    if (pi.Choice == Introspection.ChoiceType.DatatypeChoice)
+                        sw.Write($"{prop.Value.TypeName.ToUpper()[0]}{prop.Value.TypeName.Substring(1)}");
 
                     // check for any attributes
                     if (prop.Value?.NamedChildren?.Any() == true)
@@ -217,7 +219,10 @@ namespace Hl7.Fhir.WebApi
                             leadingTabs -= 2;
                         }
                         sw.Write(new String(' ', leadingTabs));
-                        sw.WriteLine($"&lt;/{prop.ElementName}&gt;<br/>");
+                        if (pi.Choice == Introspection.ChoiceType.DatatypeChoice)
+                            sw.WriteLine($"&lt;/{prop.ElementName}{prop.Value.TypeName.ToUpper()[0]}{prop.Value.TypeName.Substring(1)}&gt;<br/>");
+                        else
+                            sw.WriteLine($"&lt;/{prop.ElementName}&gt;<br/>");
                     }
                 }
             }

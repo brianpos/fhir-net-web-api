@@ -36,6 +36,10 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         private CachedResolver _source;
 
+        public IResourceResolver Source { get { return _source; } }
+
+        public IAsyncResourceResolver AsyncSource { get { return _source; } }
+
         public void InitializeIndexes()
         {
             _indexer = new SearchIndexer();
@@ -87,7 +91,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(resourceName))
                 throw new NotImplementedException();
 
-            return new DirectoryResourceService<TSP>(request, resourceName, Directory, _source, _source) { Indexer = _indexer };
+            return new DirectoryResourceService<TSP>(request, resourceName, Directory, _source, _source, _indexer);
         }
 
         public System.Threading.Tasks.Task<Resource> PerformOperation(ModelBaseInputs<TSP> request, string operation, Parameters operationParameters, SummaryType summary)

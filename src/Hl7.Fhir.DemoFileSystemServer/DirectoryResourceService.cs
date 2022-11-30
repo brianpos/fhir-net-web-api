@@ -36,6 +36,16 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             this.AsyncSource = AsyncSource;
         }
 
+        public DirectoryResourceService(ModelBaseInputs<TSP> requestDetails, string resourceName, string directory, IResourceResolver Source, IAsyncResourceResolver AsyncSource, SearchIndexer indexer)
+        {
+            this.RequestDetails = requestDetails;
+            this.ResourceDirectory = directory;
+            this.ResourceName = resourceName;
+            this.Source = Source;
+            this.AsyncSource = AsyncSource;
+            this.Indexer = indexer;
+        }
+
 
         static Serialization.FhirXmlSerializer _serializer = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings() { Pretty = true });
         static Serialization.FhirXmlParser _parser = new Serialization.FhirXmlParser();

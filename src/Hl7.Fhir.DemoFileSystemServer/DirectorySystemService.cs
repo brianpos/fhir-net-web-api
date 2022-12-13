@@ -91,6 +91,9 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             if (!Hl7.Fhir.Model.ModelInfo.IsCoreModelType(resourceName))
                 throw new NotImplementedException();
 
+            if (ModelInfo.IsConformanceResource(resourceName))
+                return new CanonicalResourceService<TSP>(request, resourceName, Directory, _source, _source, _indexer);
+
             return new DirectoryResourceService<TSP>(request, resourceName, Directory, _source, _source, _indexer);
         }
 

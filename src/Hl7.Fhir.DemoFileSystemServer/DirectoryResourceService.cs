@@ -27,13 +27,13 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         public IResourceResolver Source { get; private set; }
         public IAsyncResourceResolver AsyncSource { get; private set; }
 
-        public DirectoryResourceService(ModelBaseInputs<TSP> requestDetails, string resourceName, string directory, IResourceResolver Source, IAsyncResourceResolver AsyncSource)
+        public DirectoryResourceService(ModelBaseInputs<TSP> requestDetails, string resourceName, string directory, IResourceResolver source, IAsyncResourceResolver asyncSource)
         {
             this.RequestDetails = requestDetails;
             this.ResourceDirectory = directory;
             this.ResourceName = resourceName;
-            this.Source = Source;
-            this.AsyncSource = AsyncSource;
+            this.Source = source;
+            this.AsyncSource = asyncSource;
         }
 
         public DirectoryResourceService(ModelBaseInputs<TSP> requestDetails, string resourceName, string directory, IResourceResolver Source, IAsyncResourceResolver AsyncSource, SearchIndexer indexer)
@@ -47,10 +47,10 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         }
 
 
-        static Serialization.FhirXmlSerializer _serializer = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings() { Pretty = true });
-        static Serialization.FhirXmlParser _parser = new Serialization.FhirXmlParser();
+        protected static Serialization.FhirXmlSerializer _serializer = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings() { Pretty = true });
+        protected static Serialization.FhirXmlParser _parser = new Serialization.FhirXmlParser();
 
-        public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
+        virtual public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-create");
 
@@ -86,6 +86,11 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 var message = $"Validation failed: {validationOutcome.Errors} errors, {validationOutcome.Warnings}";
                 if (validationOutcome.Fatals > 0)
                     message += $" ({validationOutcome.Fatals} fatals)";
+
+                // Temporarily remove the warnings/information messages
+                validationOutcome.Issue.RemoveAll(i => i.Severity == OperationOutcome.IssueSeverity.Warning);
+                validationOutcome.Issue.RemoveAll(i => i.Severity == OperationOutcome.IssueSeverity.Information);
+
                 throw new FhirServerException(System.Net.HttpStatusCode.BadRequest, validationOutcome, $"Validation failed: {validationOutcome.Errors} errors, {validationOutcome.Warnings} ({validationOutcome.Fatals} fatals)");
             }
 
@@ -143,7 +148,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return Task<OperationOutcome>.FromResult(outcome);
         }
 
-        public Task<string> Delete(string id, string ifMatch)
+        virtual public Task<string> Delete(string id, string ifMatch)
         {
             string path = Path.Combine(ResourceDirectory, $"{this.ResourceName}.{id}..xml");
             if (File.Exists(path))
@@ -151,7 +156,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult<string>(null);
         }
 
-        public Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
+        virtual public Task<Resource> Get(string resourceId, string VersionId, SummaryType summary)
         {
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-get");
 
@@ -161,7 +166,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             throw new FhirServerException(System.Net.HttpStatusCode.Gone, "It might have been deleted!");
         }
 
-        public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
+        virtual public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
         {
             var rt = new Hl7.Fhir.Model.CapabilityStatement.ResourceComponent();
             rt.TypeElement = new Code<ResourceType>() { ObjectValue = ResourceName };
@@ -187,7 +192,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult(rt);
         }
 
-        public Task<Bundle> InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        virtual public Task<Bundle> InstanceHistory(string ResourceId, DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta()
@@ -217,14 +222,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult(result);
         }
 
-        public async Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
+        virtual public async Task<Resource> PerformOperation(string operation, Parameters operationParameters, SummaryType summary)
         {
             switch (operation.ToLower())
             {
                 case "validate":
                     return await PerformOperation_Validate(operationParameters, summary);
-                case "current-canonical":
-                    return await PerformOperation_CurrentCanonical(operationParameters, summary);
             }
             if (operation == "count-em")
             {
@@ -247,7 +250,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        public async Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
+        virtual public async Task<Resource> PerformOperation(string id, string operation, Parameters operationParameters, SummaryType summary)
         {
             switch (operation.ToLower())
             {
@@ -283,7 +286,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             throw new NotImplementedException();
         }
 
-        private async Task<Resource> PerformOperation_Validate(Parameters operationParameters, SummaryType summary)
+        protected async Task<Resource> PerformOperation_Validate(Parameters operationParameters, SummaryType summary)
         {
             var outcome = new OperationOutcome();
             ResourceValidationMode? mode = ResourceValidationMode.create;
@@ -396,137 +399,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return outcome;
         }
 
-        private async Task<Resource> PerformOperation_CurrentCanonical(Parameters operationParameters, SummaryType summary)
-        {
-            var outcome = new OperationOutcome();
-            string url = null;
-            var statuses = new List<string>();
-
-            // read the URL parameter
-            var urlParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "url");
-            if (urlParams.Any())
-            {
-                if (urlParams.Count() > 1)
-                {
-                    outcome.Issue.Add(new OperationOutcome.IssueComponent()
-                    {
-                        Code = OperationOutcome.IssueType.Informational,
-                        Severity = OperationOutcome.IssueSeverity.Information,
-                        Details = new CodeableConcept(null, null, "Multiple 'url' parameters provided, using the first one")
-                    });
-                }
-                var val = urlParams.FirstOrDefault().Value;
-                if (val == null)
-                {
-                    outcome.Issue.Add(new OperationOutcome.IssueComponent()
-                    {
-                        Code = OperationOutcome.IssueType.Required,
-                        Severity = OperationOutcome.IssueSeverity.Error,
-                        Details = new CodeableConcept(null, null, "Parameter 'url' value is missing")
-                    });
-                }
-                else
-                {
-                    if (!(val is FhirString || val is FhirUri))
-                    {
-                        outcome.Issue.Add(new OperationOutcome.IssueComponent()
-                        {
-                            Code = OperationOutcome.IssueType.Informational,
-                            Severity = OperationOutcome.IssueSeverity.Information,
-                            Details = new CodeableConcept(null, null, $"'url' parameters provided as {val.TypeName}, uri is defined in the specification")
-                        });
-                    }
-                    if (val is PrimitiveType p)
-                        url = p.ToString();
-                }
-            }
-            if (!urlParams.Any())
-            {
-                outcome.Issue.Add(new OperationOutcome.IssueComponent()
-                {
-                    Code = OperationOutcome.IssueType.Required,
-                    Severity = OperationOutcome.IssueSeverity.Error,
-                    Details = new CodeableConcept(null, null, "Required parmeter 'url' missing")
-                });
-            }
-
-            // read the status parameter(s)
-            var statusParams = operationParameters.Parameter.Where(p => p.Name?.ToLower() == "status");
-            if (statusParams.Any())
-            {
-                foreach (var value in statusParams.Select(p => p.Value))
-                {
-                    string psv = value.ToString();
-                    if (value is FhirUri code)
-                        psv = code.Value;
-                    else if (value is FhirString str)
-                        psv = str.Value;
-                    if (!string.IsNullOrEmpty(psv))
-                    {
-                        statuses.AddRange(psv.Split(','));
-                    }
-                }
-                // validate status value is in enumeration
-                foreach (var psv in statuses)
-                {
-                    PublicationStatus? ps = EnumUtility.ParseLiteral<PublicationStatus>(psv);
-                    if (!ps.HasValue)
-                    {
-                        outcome.Issue.Add(new OperationOutcome.IssueComponent()
-                        {
-                            Code = OperationOutcome.IssueType.Invalid,
-                            Severity = OperationOutcome.IssueSeverity.Error,
-                            Details = new CodeableConcept(null, null, $"Invalid 'status' parameter value [{psv}]")
-                        });
-                    }
-                }
-            }
-
-            // return the error if one was detected
-            if (!outcome.Success)
-            {
-                outcome.SetAnnotation<HttpStatusCode>(HttpStatusCode.BadRequest);
-                return outcome;
-            }
-
-            // Search for the resources using this canonical URL
-            var kvps = new List<KeyValuePair<string,string>>();
-            kvps.Add(new KeyValuePair<string, string>("url", url));
-            if (statuses.Any())
-                kvps.Add(new KeyValuePair<string, string>("status", string.Join(",", statuses)));
-            var bundle = await Search(kvps, null, summary, null);
-            if (!bundle.Entry.Any())
-            {
-                outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
-                {
-                    Code = OperationOutcome.IssueType.NotFound,
-                    Severity = OperationOutcome.IssueSeverity.Error,
-                    Details = new CodeableConcept(null, null, $"Canonical URL '{url}' was not found")
-                });
-                outcome.SetAnnotation(HttpStatusCode.NotFound);
-                return outcome;
-            }
-
-            // use the Canonical helper function to locate the current one
-            var ivrs = bundle.Entry.Select(e => e.Resource as IVersionableConformanceResource).Where(e => e != null);
-            var result = CurrentCanonical.Current(ivrs);
-            if (result != null)
-            {
-                return result as Resource;
-            }
-
-            // Could not evaluate the current version
-            outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
-            {
-                Code = OperationOutcome.IssueType.Processing,
-                Severity = OperationOutcome.IssueSeverity.Error,
-                Details = new CodeableConcept(null, null, $"Canonical URL '{url}' could not be calculated between versions {string.Join(",", ivrs.Select(i => i.Version))}")
-            });
-            outcome.SetAnnotation(HttpStatusCode.Ambiguous);
-            return outcome;
-        }
-
-        public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary, string sortby)
+        virtual public Task<Bundle> Search(IEnumerable<KeyValuePair<string, string>> parameters, int? Count, SummaryType summary, string sortby)
         {
             // This is a Brute force search implementation - just scan all the files
             Bundle resource = new Bundle();
@@ -623,7 +496,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return System.Threading.Tasks.Task.FromResult(resource);
         }
 
-        public Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
+        virtual public Task<Bundle> TypeHistory(DateTimeOffset? since, DateTimeOffset? Till, int? Count, SummaryType summary)
         {
             Bundle result = new Bundle();
             result.Meta = new Meta()

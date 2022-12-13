@@ -32,13 +32,15 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             {
                 // This validation was successful, check that the canonical URL/Version/algorithm doesn't
                 // create some invalid state for the server to be in
+
+                // consistency with other instances
                 var kvps = new List<KeyValuePair<string, string>>();
                 kvps.Add(new KeyValuePair<string, string>("url", icr.Url));
                 var bundle = await Search(kvps, null, SummaryType.True, null);
 
                 var ivrs = bundle.Entry
                     .Select(e => e.Resource as IVersionableConformanceResource)
-                    .Where(e => (e as Resource).Id != resource.Id)
+                    .Where(e => e != null && (e as Resource).Id != resource.Id)
                     .ToList(); // exclude itself (for updates)
 
                 // Verify that this version doesn't already exist too.
@@ -72,6 +74,54 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                         Severity = OperationOutcome.IssueSeverity.Error,
                         Details = new CodeableConcept(null, null, $"Ambiguous version algorithms would result: {string.Join(",", existingVerAlg.Union(existingFhirpathAlg))} is the existing algorithm")
                     });
+                }
+
+                // Is the canonical version number of valid against the algorithm selected.
+                var alg = existingVerAlg.FirstOrDefault() ?? icr.versionAlgorithCoded()?.Code;
+                if (!string.IsNullOrEmpty(icr.Version))
+                {
+                    switch (alg)
+                    {
+                        case "alpha":
+                            // No special validation rules
+                            break;
+                        case "semver":
+                            if (!SemVersion.TryParse(icr.Version, out var ver))
+                            {
+                                outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
+                                {
+                                    Code = OperationOutcome.IssueType.Value,
+                                    Severity = OperationOutcome.IssueSeverity.Error,
+                                    Details = new CodeableConcept(null, null, $"Version {icr.Version} is not a semver value")
+                                });
+                            }
+                            break;
+                        case "integer":
+                            if (!decimal.TryParse(icr.Version, out decimal iValue))
+                            {
+                                outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
+                                {
+                                    Code = OperationOutcome.IssueType.Value,
+                                    Severity = OperationOutcome.IssueSeverity.Error,
+                                    Details = new CodeableConcept(null, null, $"Version {icr.Version} is not a integer value")
+                                });
+                            }
+                            break;
+                        case "date":
+                            if (!FhirDateTime.IsValidValue(icr.Version))
+                            {
+                                outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
+                                {
+                                    Code = OperationOutcome.IssueType.Value,
+                                    Severity = OperationOutcome.IssueSeverity.Error,
+                                    Details = new CodeableConcept(null, null, $"Version {icr.Version} is not a date value")
+                                });
+                            }
+                            break;
+                        case "natural":
+                            // No special validation rules
+                            break;
+                    }
                 }
             }
 

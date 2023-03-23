@@ -125,6 +125,8 @@ namespace Hl7.Fhir.WebApi
                 }
                 else
                 {
+                    if (string.IsNullOrEmpty(value))
+                        continue;
                     if (value.IndexOf(',') < 0)
                     {
                         if (searchIndex.ContainsKey(value))

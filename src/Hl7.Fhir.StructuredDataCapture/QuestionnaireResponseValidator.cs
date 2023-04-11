@@ -617,7 +617,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public string NumericBytesForErrorMessage(int? value)
+        public string NumericBytesForErrorMessage(long? value)
         {
             if (!value.HasValue)
                 return "(unknown) bytes";

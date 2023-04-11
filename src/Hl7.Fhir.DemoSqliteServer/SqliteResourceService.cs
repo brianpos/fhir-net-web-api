@@ -58,7 +58,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
         public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
         {
             var rt = new Hl7.Fhir.Model.CapabilityStatement.ResourceComponent();
-            rt.TypeElement = new Code<ResourceType>() { ObjectValue = ResourceName };
+            rt.TypeElement = new () { ObjectValue = ResourceName };
             rt.ReadHistory = true;
             rt.UpdateCreate = true;
             rt.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;

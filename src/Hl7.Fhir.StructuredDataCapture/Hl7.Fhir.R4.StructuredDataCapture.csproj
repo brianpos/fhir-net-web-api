@@ -21,8 +21,8 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4B" Version="4.3.0" />
-    <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="4.3.0" />
+    <PackageReference Include="Hl7.Fhir.R4B" Version="5.0.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="5.0.0" />
     <PackageReference Include="Fhir.Metrics" Version="1.2.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>

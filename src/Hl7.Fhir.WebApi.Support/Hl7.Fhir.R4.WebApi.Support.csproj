@@ -21,7 +21,7 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4B" Version="4.3.0" />
+    <PackageReference Include="Hl7.Fhir.R4B" Version="5.0.0" />
     <PackageReference Include="NaturalSort.Extension" Version="3.2.0" />
   </ItemGroup>
 

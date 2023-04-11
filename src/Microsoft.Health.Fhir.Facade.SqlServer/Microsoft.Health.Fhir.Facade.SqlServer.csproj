@@ -22,8 +22,8 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4B" Version="4.3.0" />
-    <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="4.3.0" />
+    <PackageReference Include="Hl7.Fhir.R4B" Version="5.0.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="5.0.0" />
     <PackageReference Include="LinqKit.Core" Version="1.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
   </ItemGroup>

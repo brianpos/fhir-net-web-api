@@ -32,7 +32,7 @@ namespace Microsoft.Health.Fhir.Facade.SqlServer
         public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
         {
             var rt = new Hl7.Fhir.Model.CapabilityStatement.ResourceComponent();
-            rt.TypeElement = new Code<Hl7.Fhir.Model.ResourceType>() { ObjectValue = ResourceName };
+            rt.TypeElement = new () { ObjectValue = ResourceName };
             rt.ReadHistory = true;
             rt.UpdateCreate = true;
             rt.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;

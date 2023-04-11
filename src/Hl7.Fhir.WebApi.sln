@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Owin", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Support", "Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj", "{1752B9AD-8F42-4A19-88A5-BD1F68C98228}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Custom.Serializers", "Hl7.Fhir.Custom.Serializers\Hl7.Fhir.Custom.Serializers.csproj", "{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoFileSystemServer", "Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj", "{1B81B226-5E4E-41C4-B85C-D6605D60C918}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
@@ -77,10 +75,6 @@ Global
 		{1752B9AD-8F42-4A19-88A5-BD1F68C98228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1752B9AD-8F42-4A19-88A5-BD1F68C98228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1752B9AD-8F42-4A19-88A5-BD1F68C98228}.Release|Any CPU.Build.0 = Release|Any CPU
-		{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{915E4E35-F48F-45B4-8ED2-DD95BC6C581E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B81B226-5E4E-41C4-B85C-D6605D60C918}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -97,6 +91,18 @@ Global
 		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{476FF6CE-682E-401A-BFD5-6DE000504AD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{476FF6CE-682E-401A-BFD5-6DE000504AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{476FF6CE-682E-401A-BFD5-6DE000504AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{476FF6CE-682E-401A-BFD5-6DE000504AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DBB9D6-9E23-47AD-B60B-2FB849253765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DBB9D6-9E23-47AD-B60B-2FB849253765}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DBB9D6-9E23-47AD-B60B-2FB849253765}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DBB9D6-9E23-47AD-B60B-2FB849253765}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,7 @@ using Firely.Fhir.Packages;
 using Hl7.DemoFileSystemFhirServer;
 using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
-using Hl7.Fhir.Rest.Legacy;
+using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.WebApi;
@@ -100,8 +100,9 @@ namespace UnitTestWebApi
         [TestMethod, TestCategory("Round Trip")]
         public async Task UploadAllExamples()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.PreferredFormat = Hl7.Fhir.Rest.ResourceFormat.Json;
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
+            clientFhir.Settings.PreferredFormat = Hl7.Fhir.Rest.ResourceFormat.Json;
 
             var examplesTarball = @"C:\temp\demoserver-4.3.0\examples.tgz";
             Stream sourceStream;
@@ -154,7 +155,7 @@ namespace UnitTestWebApi
 
             var nt = new NameTable();
             var xmlParserClassic = new FhirXmlParser();
-            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+            // var xmlParserCustom = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
             var xmlSerializer = new FhirXmlSerializer(new SerializerSettings() { Pretty = true });
 
             var filesWithValidationErrorKnownInSimplifierPackage = new string[] {
@@ -551,7 +552,8 @@ namespace UnitTestWebApi
         [TestMethod, TestCategory("Round Trip"), Ignore]
         public void CompareAllExamples()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
             string examplesZipPath = @"TestData\examples.zip";
             var inputPath = ZipFile.OpenRead(examplesZipPath);
 
@@ -562,7 +564,7 @@ namespace UnitTestWebApi
 
             var nt = new NameTable();
             var xmlParserClassic = new FhirXmlParser();
-            var xmlParserCustom = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
+            // var xmlParserCustom = new Hl7.Fhir.CustomSerializer.FhirCustomXmlReader();
             var xmlSerializer = new FhirXmlSerializer(new SerializerSettings() { Pretty = true });
 
             System.Threading.Tasks.Parallel.ForEach(files,

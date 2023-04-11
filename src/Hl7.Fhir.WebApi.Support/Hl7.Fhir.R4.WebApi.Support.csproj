@@ -23,6 +23,7 @@
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.R4B" Version="5.0.0" />
     <PackageReference Include="NaturalSort.Extension" Version="3.2.0" />
+    <PackageReference Include="Semver" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">

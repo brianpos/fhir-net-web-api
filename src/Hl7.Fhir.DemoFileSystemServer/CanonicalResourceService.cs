@@ -44,13 +44,13 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     .ToList(); // exclude itself (for updates)
 
                 // Verify that this version doesn't already exist too.
-                if (ivrs.Any(v => v.Version == icr.Version))
+                if (ivrs.Any(v => v.Version == icr.Version)) // this also needs to permit copies for alternate FHIR versions too
                 {
                     outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
                     {
                         Code = OperationOutcome.IssueType.Duplicate,
                         Severity = OperationOutcome.IssueSeverity.Error,
-                        Details = new CodeableConcept(null, null, $"Version {icr.Version} already exists")
+                        Details = new CodeableConcept(null, null, $"Version {icr.Version} of {icr.Url} already exists")
                     });
                 }
 
@@ -86,7 +86,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                             // No special validation rules
                             break;
                         case "semver":
-                            if (!SemVersion.TryParse(icr.Version, out var ver))
+                            if (!Semver.SemVersion.TryParse(icr.Version, Semver.SemVersionStyles.Any, out var ver))
                             {
                                 outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
                                 {

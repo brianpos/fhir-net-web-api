@@ -83,11 +83,11 @@ namespace Hl7.Fhir.WebApi
     {
         public CurrentCanonicalComparer(IEnumerable<IVersionableConformanceResource> vcrs)
         {
-            _algorithm = algorithm.alpha;
+            _algorithm = Algorithm.alpha;
             var fhirpath = vcrs.FirstOrDefault(vcr => !string.IsNullOrEmpty(vcr.versionAlgorithFhirPathExpression())).versionAlgorithFhirPathExpression();
             if (!string.IsNullOrEmpty(fhirpath))
             {
-                _algorithm = algorithm.fhirpath;
+                _algorithm = Algorithm.fhirpath;
                 _fhirpathExpression = fhirpath;
                 _st = new SymbolTable(FhirPathCompiler.DefaultSymbolTable);
                 _st.AddVar("version1", "");
@@ -103,11 +103,11 @@ namespace Hl7.Fhir.WebApi
                 {
                     switch (coding.Code)
                     {
-                        case "semver": _algorithm = algorithm.semver; break;
-                        case "integer": _algorithm = algorithm.integer; break;
-                        case "alpha": _algorithm = algorithm.alpha; break;
-                        case "date": _algorithm = algorithm.date; break;
-                        case "natural": _algorithm = algorithm.natural; break;
+                        case "semver": _algorithm = Algorithm.semver; break;
+                        case "integer": _algorithm = Algorithm.integer; break;
+                        case "alpha": _algorithm = Algorithm.alpha; break;
+                        case "date": _algorithm = Algorithm.date; break;
+                        case "natural": _algorithm = Algorithm.natural; break;
                     }
                 }
                 System.Diagnostics.Trace.WriteLine($"Sorting by {_algorithm}");
@@ -117,7 +117,7 @@ namespace Hl7.Fhir.WebApi
 
         }
 
-        private enum algorithm
+        private enum Algorithm
         {
             semver,
             integer,
@@ -126,7 +126,7 @@ namespace Hl7.Fhir.WebApi
             natural,
             fhirpath
         };
-        private algorithm _algorithm;
+        private Algorithm _algorithm;
         private string _fhirpathExpression;
         CompiledExpression _fhirpathCompiledExpression;
         SymbolTable _st;
@@ -136,24 +136,27 @@ namespace Hl7.Fhir.WebApi
         {
             switch (_algorithm)
             {
-                case algorithm.alpha: return String.Compare(x.Version, y.Version);
-                case algorithm.date: return String.Compare(x.Version, y.Version);
-                case algorithm.integer:
+                case Algorithm.alpha: return String.Compare(x.Version, y.Version);
+                case Algorithm.date: return String.Compare(x.Version, y.Version);
+                case Algorithm.integer:
                     {
                         if (decimal.TryParse(x.Version, out decimal xD) && decimal.TryParse(y.Version, out decimal yD))
                             return xD.CompareTo(yD);
                         System.Diagnostics.Trace.WriteLine($"Unable to compare {x.Version} to {y.Version}");
                         return 0;
                     }
-                case algorithm.semver:
+                case Algorithm.semver:
                     {
-                        var xS = Hl7.Fhir.Utility.SemVersion.Parse(x.Version);
-                        var yS = Utility.SemVersion.Parse(y.Version);
-                        return Utility.SemVersion.Compare(xS, yS);
+                        var xS = Semver.SemVersion.Parse(x.Version, Semver.SemVersionStyles.Any);
+                        var yS = Semver.SemVersion.Parse(y.Version, Semver.SemVersionStyles.Any);
+                        return xS.CompareSortOrderTo(yS);
+                        //var xS = Hl7.Fhir.Utility.SemVersion.Parse(x.Version);
+                        //var yS = Utility.SemVersion.Parse(y.Version);
+                        //return Utility.SemVersion.Compare(xS, yS);
                     }
-                case algorithm.natural:
+                case Algorithm.natural:
                     return _nsComparer.Compare(x.Version, y.Version);
-                case algorithm.fhirpath:
+                case Algorithm.fhirpath:
                     {
                         _st.AddVar("version1", x.Version);
                         _st.AddVar("version2", y.Version);

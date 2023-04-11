@@ -9,7 +9,6 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
 using System.Net.Http;
-using Hl7.Fhir.Rest.Legacy;
 
 namespace UnitTestWebApi
 {
@@ -110,7 +109,8 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
             //clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
             //clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
             clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
@@ -146,7 +146,7 @@ namespace UnitTestWebApi
             // and try again with JSON
             try
             {
-                clientFhir.PreferredFormat = ResourceFormat.Json;
+                clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
                 var result = clientFhir.Create<Patient>(p);
 
                 Assert.Fail("Version1.9 of the fhir client fails parsing - even if I disagree with it");
@@ -175,7 +175,8 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
             var result = clientFhir.Update<Patient>(p);
             DebugDumpOutputXml(result);
 
@@ -215,7 +216,8 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
             var result = clientFhir.Update<Patient>(p);
             DebugDumpOutputXml(result);
 
@@ -235,7 +237,8 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
             var result = clientFhir.Create<Patient>(p);
             DebugDumpOutputXml(result);
 
@@ -291,7 +294,8 @@ namespace UnitTestWebApi
         [TestMethod]
         public async System.Threading.Tasks.Task GetCapabilityStatement()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
             var result = clientFhir.CapabilityStatement();
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");
@@ -318,7 +322,8 @@ namespace UnitTestWebApi
         [TestMethod]
         public void WholeSystemHistory()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
 
             // Create a Patient
             Patient p = new Patient();
@@ -464,7 +469,8 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationCountResourceTypeInstances()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            FhirClient clientFhir = new FhirClient(_baseAddress);
+            clientFhir.Settings.VerifyFhirVersion = false;
             var result = clientFhir.TypeOperation<Patient>("count-em", null, true) as OperationOutcome;
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a capability statement returned");

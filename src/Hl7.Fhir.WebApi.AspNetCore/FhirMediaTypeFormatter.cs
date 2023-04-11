@@ -11,11 +11,11 @@ using System;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Builder;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Linq;
 using Hl7.Fhir.Serialization;
+using Hl7.Fhir.Utility;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -39,23 +39,39 @@ namespace Hl7.Fhir.WebApi
             return false;
         }
 
+        // Handles formats like "...for a dateTime (at 1,159)"
         static readonly Regex _matchExceptionLocation = new Regex(@"\(at (?<loc>[a-zA-Z\.\[\]0-9]+)\)$");
+
+        // Handles formats like "...for a dateTime. At Patient.deceased.value, line 1, position 159."
+        static readonly Regex _matchExceptionLocationWithExpression = new Regex(@" At (?<expr>[a-zA-Z\.\[\]0-9]+), (?<loc>line [0-9]+, position [0-9]+)\.$| At (?<loc>line [0-9]+, position [0-9]+)\.$");
+
         protected static Exception HandleBodyParsingFormatException(FormatException exception)
         {
             OperationOutcome oo = new OperationOutcome();
-            oo.Issue.Add(new OperationOutcome.IssueComponent()
+            var issue = new OperationOutcome.IssueComponent()
             {
                 Severity = OperationOutcome.IssueSeverity.Fatal,
                 Code = OperationOutcome.IssueType.Exception,
                 Details = new CodeableConcept() { Text = exception.Message }
-            });
+            };
+            oo.Issue.Add(issue);
             MatchCollection matches = _matchExceptionLocation.Matches(exception.Message);
             if (matches.Count > 0)
             {
-                oo.Issue[0].Location = matches.Select(m => m.Groups["loc"].Value);
+                issue.Location = matches.Select(m => m.Groups["loc"].Value);
                 foreach (Match m in matches)
                 {
-                    oo.Issue[0].Details.Text = oo.Issue[0].Details.Text.Replace(m.Value, "");
+                    issue.Details.Text = issue.Details.Text.Replace(m.Value, "");
+                }
+            }
+            matches = _matchExceptionLocationWithExpression.Matches(exception.Message);
+            if (matches.Count > 0)
+            {
+                issue.Location = matches.Select(m => m.Groups["loc"].Value);
+                issue.Expression = matches.Select(m => m.Groups["expr"].Value).ToArray();
+                foreach (Match m in matches)
+                {
+                    issue.Details.Text = issue.Details.Text.Replace(m.Value, "");
                 }
             }
             return new FhirServerException(HttpStatusCode.BadRequest, oo, "Body parsing failed: " + exception.Message);
@@ -64,20 +80,47 @@ namespace Hl7.Fhir.WebApi
         protected static Exception HandleBodyParsingFormatException(DeserializationFailedException exception)
         {
             OperationOutcome oo = new OperationOutcome();
-            oo.Issue.Add(new OperationOutcome.IssueComponent()
+            foreach (var e in exception.Exceptions)
             {
-                Severity = OperationOutcome.IssueSeverity.Fatal,
-                Code = OperationOutcome.IssueType.Exception,
-                Details = new CodeableConcept() { Text = exception.Message }
-            });
-            MatchCollection matches = _matchExceptionLocation.Matches(exception.Message);
-            if (matches.Count > 0)
-            {
-                oo.Issue[0].Location = matches.Select(m => m.Groups["loc"].Value);
-                foreach (Match m in matches)
+                var issue = new OperationOutcome.IssueComponent()
                 {
-                    oo.Issue[0].Details.Text = oo.Issue[0].Details.Text.Replace(m.Value, "");
+                    Severity = OperationOutcome.IssueSeverity.Fatal,
+                    Code = OperationOutcome.IssueType.Exception,
+                    Details = new CodeableConcept() { Text = e.Message }
+                };
+                oo.Issue.Add(issue);
+                if (e is CodedException ce)
+                {
+                    issue.Details.Coding.Add(new Coding("http://firely.com/CodeSystem/ErrorMessages", ce.ErrorCode));
                 }
+                MatchCollection matches = _matchExceptionLocation.Matches(e.Message);
+                if (matches.Count > 0)
+                {
+                    issue.Location = matches.Select(m => m.Groups["loc"].Value).ToArray();
+                    issue.Expression = matches.Select(m => m.Groups["expr"].Value).ToArray();
+                    foreach (Match m in matches)
+                    {
+                        issue.Details.Text = issue.Details.Text.Replace(m.Value, "");
+                    }
+                }
+                else
+                {
+                    matches = _matchExceptionLocationWithExpression.Matches(e.Message);
+                    if (matches.Count > 0)
+                    {
+                        issue.Location = matches.Select(m => m.Groups["loc"].Value).ToArray();
+                        issue.Expression = matches.Select(m => m.Groups["expr"].Value).ToArray();
+                        foreach (Match m in matches)
+                        {
+                            issue.Details.Text = issue.Details.Text.Replace(m.Value, "");
+                        }
+                    }
+                }
+            }
+            if (exception.PartialResult is Resource r)
+            {
+                System.Diagnostics.Debug.WriteLine(r.ToXml(new FhirXmlSerializationSettings() { Pretty = true }));
+            //    oo.Contained.Add(r);
             }
             return new FhirServerException(HttpStatusCode.BadRequest, oo, "Body parsing failed: " + exception.Message);
         }

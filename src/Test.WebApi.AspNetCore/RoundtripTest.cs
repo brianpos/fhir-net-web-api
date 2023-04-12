@@ -104,7 +104,7 @@ namespace UnitTestWebApi
             clientFhir.Settings.VerifyFhirVersion = false;
             clientFhir.Settings.PreferredFormat = Hl7.Fhir.Rest.ResourceFormat.Json;
 
-            var examplesTarball = @"C:\temp\demoserver-4.3.0\examples.tgz";
+            var examplesTarball = @"C:\temp\demoserver-5.0.0\examples.tgz";
             Stream sourceStream;
             if (!System.IO.File.Exists(examplesTarball))
             {
@@ -350,6 +350,10 @@ namespace UnitTestWebApi
             var filesWithValidationError = new string[] {
                 "package/.index.json",
                 "package/package.json",
+
+                "package/CapabilityStatement-phr.json", // has a duplicate canonical URL with another example
+                "package/CapabilityStatement-messagedefinition.json", // has a duplicate canonical URL with another example
+                "package/CodeSystem-snomedct.json",
 
                 "package/Observation-decimal.json",
                 "package/Questionnaire-qs1.json",

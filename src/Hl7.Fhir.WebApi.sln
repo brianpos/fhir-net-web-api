@@ -21,21 +21,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.WebApi.Owin", "Test.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.DemoFileSystemFhirServer.Owin", "Hl7.DemoFileSystemFhirServer.Owin\Hl7.DemoFileSystemFhirServer.Owin.csproj", "{79E3D0DC-BFDF-451E-89DE-52AF77F2F416}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.AspNetCore", "Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R4.WebApi.AspNetCore.csproj", "{7825ADC5-51C5-403A-B5D2-FF1E5B69AA77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.AspNetCore", "Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R4B.WebApi.AspNetCore.csproj", "{7825ADC5-51C5-403A-B5D2-FF1E5B69AA77}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Owin", "Hl7.Fhir.WebApi.Owin\Hl7.Fhir.R4.WebApi.Owin.csproj", "{F219EEF4-570C-4DFE-9EE4-D11D5D093D5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.Owin", "Hl7.Fhir.WebApi.Owin\Hl7.Fhir.R4B.WebApi.Owin.csproj", "{F219EEF4-570C-4DFE-9EE4-D11D5D093D5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Support", "Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj", "{1752B9AD-8F42-4A19-88A5-BD1F68C98228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.Support", "Hl7.Fhir.R4B.WebApi.Support\Hl7.Fhir.R4B.WebApi.Support.csproj", "{1752B9AD-8F42-4A19-88A5-BD1F68C98228}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoFileSystemServer", "Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj", "{1B81B226-5E4E-41C4-B85C-D6605D60C918}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.DemoFileSystemServer", "Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4B.DemoFileSystemServer.csproj", "{1B81B226-5E4E-41C4-B85C-D6605D60C918}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Health.Fhir.Facade.SqlServer", "Microsoft.Health.Fhir.Facade.SqlServer\Microsoft.Health.Fhir.Facade.SqlServer.csproj", "{473462AB-2895-4BA1-BF1C-8535A9D450C4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Health.Fhir.Facade", "Microsoft.Health.Fhir.Facade\Microsoft.Health.Fhir.Facade.csproj", "{FB918B25-C736-4C52-BE21-9D9C756C5564}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.StructuredDataCapture", "Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4.StructuredDataCapture.csproj", "{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.StructuredDataCapture", "Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj", "{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Hl7.Fhir.StructuredDataCapture", "Test.Hl7.Fhir.StructuredDataCapture\Test.Hl7.Fhir.StructuredDataCapture.csproj", "{476FF6CE-682E-401A-BFD5-6DE000504AD2}"
 EndProject
@@ -83,14 +79,6 @@ Global
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{473462AB-2895-4BA1-BF1C-8535A9D450C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB918B25-C736-4C52-BE21-9D9C756C5564}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Release|Any CPU.ActiveCfg = Release|Any CPU

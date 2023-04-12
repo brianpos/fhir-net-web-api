@@ -44,7 +44,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.R4B.WebApi.Support\Hl7.Fhir.R4B.WebApi.Support.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />

@@ -33,25 +33,25 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.8" />
-    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net60'">
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.8" />
-    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net50'">
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.11" />
-    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.19" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.8" />
-    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4.DemoSqliteServer.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

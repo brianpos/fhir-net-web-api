@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4.StructuredDataCapture.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj" />
   </ItemGroup>
 
 </Project>

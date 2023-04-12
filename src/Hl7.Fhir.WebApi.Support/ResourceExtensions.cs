@@ -9,10 +9,10 @@
 using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Hl7.Fhir.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -62,6 +62,35 @@ namespace Hl7.Fhir.WebApi
             if (string.IsNullOrEmpty(me.Query))
                 return new Uri(me.OriginalString + "?" + query.TrimStart('?').TrimEnd('&'));
             return new Uri(me.OriginalString + "&" + query.TrimEnd('&'));
+        }
+
+        /// <summary>
+        /// Convert the FhirDateTime to a DateTimeOffset, but without forcing the timezone offset to some arbitrary zone
+        /// instead retaining the offset included in the value
+        /// (this routine will set to UTC if the content does not contain a zone itself)
+        /// </summary>
+        /// <param name="me"></param>
+        /// <returns></returns>
+        public static DateTimeOffset? ToDateTimeOffsetForFacade(this Hl7.Fhir.Model.FhirDateTime me)
+        {
+            // TODO: Complain bitterly that this is lossy and very brittle outside GMT/UTC zones
+            // This loses the data that is in the value
+            // return me.ToDateTimeOffset(DateTimeOffset.Now.Offset);
+            // This is an extract of the code that eventually gets hit by the above call, except without forcing the data
+            // to any pre-defined timezone, allow it to remain in it's native zone representation.
+            // (not UTC or some server defined value)
+
+            // May not be just a time spec (without a date). Look for values like Thh:mm or hh:mm
+            if (me.Value.IndexOf(":") == 2 || me.Value.IndexOf(":") == 3)
+                return null;
+                // throw Error.Format("A date(time) cannot contain just a time");
+
+            if (!me.Value.Contains("T") && me.Value.Length <= 10)
+            {
+                // MV: when there is no time-part, consider this then as a UTC datetime by adding Zulu = UTC(+0)
+                return XmlConvert.ToDateTimeOffset(me.Value + "Z");
+            }
+            return XmlConvert.ToDateTimeOffset(me.Value);
         }
 
         #region << Resource Extension Methods >>

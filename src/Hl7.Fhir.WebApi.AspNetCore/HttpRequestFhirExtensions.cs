@@ -91,7 +91,7 @@ namespace Hl7.Fhir.WebApi
             string param = request.GetParameter(name);
             if (param == null) return null;
             var t = new Hl7.Fhir.Model.FhirDateTime(param);
-            return t.ToDateTimeOffset();
+            return t.ToDateTimeOffsetForFacade();
         }
 
         public static int? GetIntParameter(this HttpRequest request, string name)

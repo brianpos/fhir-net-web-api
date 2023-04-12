@@ -189,8 +189,10 @@ namespace Hl7.Fhir.WebApi
             {
                 if (!context.HttpContext.Response.Headers.ContainsKey(x_correlation_id))
                     context.HttpContext.Response.Headers.Add(x_correlation_id, context.HttpContext.Request.Headers[x_correlation_id]);
+#if DEBUG
                 if (context.HttpContext.Request.Headers[x_correlation_id] != context.HttpContext.Response.Headers[x_correlation_id])
                     System.Diagnostics.Trace.WriteLine($"Hl7.Fhir.WebApi.FhirMediaTypeOutputFormatter: X-Correlation-Id headers didn't match request vs response");
+#endif
             }
         }
     }

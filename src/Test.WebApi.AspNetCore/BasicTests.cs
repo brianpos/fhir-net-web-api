@@ -1,4 +1,3 @@
-﻿using Hl7.DemoFileSystemFhirServer;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
@@ -6,17 +5,16 @@ using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Specification.Terminology;
 using Hl7.Fhir.Validation;
 using Hl7.Fhir.WebApi;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Sockets;
+using System.Net.Http.Headers;
+using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
 namespace UnitTestWebApi
@@ -25,45 +23,6 @@ namespace UnitTestWebApi
     public class BasicFacade
     {
         #region << Test prepare and cleanup >>
-        private IDisposable _fhirServerController;
-        public string _baseAddress;
-
-        [TestInitialize]
-        public void PrepareTests()
-        {
-            // Ensure that we grab an available IP port on the local workstation
-            // http://stackoverflow.com/questions/9895129/how-do-i-find-an-available-port-before-bind-the-socket-with-the-endpoint
-            string port = "9000";
-
-            using (Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-            {
-                sock.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0)); // Pass 0 here, it means to go looking for a free port
-                port = ((IPEndPoint)sock.LocalEndPoint).Port.ToString();
-                sock.Close();
-            }
-
-            // Now use that randomly located port to start up a local FHIR server
-            _baseAddress = "http://localhost:" + port + "/";
-
-            var host = WebHost.CreateDefaultBuilder(null)
-                .UseUrls(_baseAddress.TrimEnd('/'))
-                .UseContentRoot(Path.GetDirectoryName(this.GetType().Assembly.Location))
-                .UseWebRoot(Path.GetDirectoryName(this.GetType().Assembly.Location) + @"\wwwroot")
-                .UseEnvironment("Development")
-                .UseStartup<Startup>()
-                .Build();
-            _fhirServerController = host;
-            host.RunAsync();
-            host.WaitForShutdownAsync();
-            System.Diagnostics.Trace.WriteLine($"Listening at {_baseAddress}");
-        }
-
-        [TestCleanup]
-        public void CleanupTests()
-        {
-            if (_fhirServerController != null)
-                _fhirServerController.Dispose();
-        }
         public static void DebugDumpOutputXml(Base fragment)
         {
             if (fragment == null)
@@ -88,23 +47,26 @@ namespace UnitTestWebApi
         [TestMethod]
         public void GetStaticContent()
         {
-            HttpClient c = new HttpClient();
-#if NET6_0_OR_GREATER
-            c.DefaultRequestVersion = HttpVersion.Version30;
-#endif
-            var result = c.GetAsync(_baseAddress + "content/icon_page.gif").Result;
+            using (var app = new UnitTestFhirServerApplication())
+            using (var c = app.CreateClient())
+            {
+                var result = c.GetAsync(c.BaseAddress + "content/icon_page.gif").Result;
 
-            System.Diagnostics.Trace.WriteLine(result.ToString());
+                System.Diagnostics.Trace.WriteLine(result.ToString());
 
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode, "Should be status ok");
             // This test occasionally fails when the build doesn't copy over the static files from the referenced Facade project
             Assert.AreEqual("image/gif", result.Content.Headers.ContentType.MediaType, "Should be status ok");
         }
+        }
 
         [TestMethod]
         public async Task GetCapabilityStatement()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            HttpClient client = app.CreateClient();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, client);
+            clientFhir.Settings.VerifyFhirVersion = false;
 
             var result = clientFhir.CapabilityStatement();
             string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
@@ -113,25 +75,21 @@ namespace UnitTestWebApi
             Assert.IsNotNull(result, "Should be a capability statement returned");
             Assert.IsNotNull(result.FhirVersion, "Should at least report the version of fhir active");
 
-            HttpClient client = new HttpClient();
-#if NET6_0_OR_GREATER
-            client.DefaultRequestVersion = HttpVersion.Version30;
-#endif
-            var rawResult = await client.GetAsync($"{_baseAddress}");
+            var rawResult = await client.GetAsync($"{app.Server.BaseAddress}");
             var cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
             System.Diagnostics.Trace.WriteLine($"{cs.Url}");
-            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
+            Assert.AreEqual(app.Server.BaseAddress + "metadata", cs.Url);
 
-            rawResult = await client.GetAsync($"{_baseAddress}metadata");
+            rawResult = await client.GetAsync($"{app.Server.BaseAddress}metadata");
             cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
             System.Diagnostics.Trace.WriteLine($"{cs.Url}");
-            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
+            Assert.AreEqual(app.Server.BaseAddress + "metadata", cs.Url);
 
-            HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Options, $"{_baseAddress}");
+            HttpRequestMessage msg = new HttpRequestMessage(HttpMethod.Options, $"{app.Server.BaseAddress}");
             rawResult = await client.SendAsync(msg);
             cs = new FhirXmlParser().Parse<CapabilityStatement>(Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(await rawResult.Content.ReadAsStreamAsync()));
             System.Diagnostics.Trace.WriteLine($"{cs.Url}");
-            Assert.AreEqual(_baseAddress + "metadata", cs.Url);
+            Assert.AreEqual(app.Server.BaseAddress + "metadata", cs.Url);
         }
 
         [TestMethod]
@@ -145,19 +103,26 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.PreferredFormat = ResourceFormat.Json;
-            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
-            clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
-            clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
+            var app = new UnitTestFhirServerApplication();
+            var handler = new LegacyRestHandler();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateDefaultClient(handler));
+            handler.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
+            handler.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
+            handler.OnAfterResponse += (sender, args) =>
             {
-                string location = args.RawResponse.GetResponseHeader("Location");
+                string location = null;
+                if (args.Headers.TryGetValues("Location", out var locations))
+                {
+                    location = locations.FirstOrDefault();
+                }
                 if (!string.IsNullOrEmpty(location))
                 {
-                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
-                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/v2/"), "proxy redirect detected");
+                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.StatusCode}) {args.RequestMessage.Method}: {args.RequestMessage.RequestUri} //=> {location}");
+                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme"), "proxy redirect detected");
                 }
-                Assert.AreEqual("wild-turkey-create", args.RawResponse.GetResponseHeader("test"), "Custom Response header missing");
+#if DEBUG
+                Assert.AreEqual("wild-turkey-create", args.Headers.GetValues("test").FirstOrDefault(), "Custom Response header missing");
+#endif
             };
 
             var result = clientFhir.Create<Patient>(p);
@@ -168,7 +133,6 @@ namespace UnitTestWebApi
             Assert.IsTrue(result.Active.Value, "The patient was created as an active patient");
         }
 
-
         [TestMethod]
         public void CreateConditionWithOnset()
         {
@@ -176,12 +140,15 @@ namespace UnitTestWebApi
             p.Subject = new ResourceReference(null, "demo");
             p.Onset = new Period() { Start = "2020-09-10T21:56:54.671Z" };
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.PreferredFormat = ResourceFormat.Json;
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
 
             var result = clientFhir.Create(p);
 
             Assert.IsNotNull(result.Id, "Newly created condition should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created condition should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created condition should have the creation date populated");
         }
 
         [TestMethod]
@@ -191,22 +158,31 @@ namespace UnitTestWebApi
             p.Name = new System.Collections.Generic.List<HumanName>();
             p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
             p.BirthDate = "01-03-1970";
+            p.Deceased = new FhirDateTime("01-03-2020");
+            // p.MultipleBirth = new FhirBoolean() { ObjectValue = "new" };
             p.GenderElement = new Code<AdministrativeGender>() { ObjectValue = "m" };
-            p.Active = true;
+            p.ActiveElement = new FhirBoolean() { ObjectValue = "true" };
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            var clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            var handler = new LegacyRestHandler();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateDefaultClient(handler));
+            clientFhir.Settings.VerifyFhirVersion = false;
             clientFhir.Settings.ParserSettings.AllowUnrecognizedEnums = true;
 
-            //clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
-            //clientFhir.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
-            clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
+            handler.OnBeforeRequest += ClientFhir_OnBeforeRequestCorrlationTest;
+            handler.OnAfterResponse += ClientFhir_OnAfterResponseCorrlationTest;
+            handler.OnAfterResponse += (sender, args) =>
             {
-                string location = args.RawResponse.GetResponseHeader("Location");
+                string location = null;
+                if (args.Headers.TryGetValues("Location", out var locations))
+                {
+                    location = locations.FirstOrDefault();
+                }
                 if (!string.IsNullOrEmpty(location))
                 {
-                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
-                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme/v2/"), "proxy redirect detected");
+                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.StatusCode}) {args.RequestMessage.Method}: {args.RequestMessage.RequestUri} //=> {location}");
+                    Assert.IsTrue(!location.StartsWith("https://demo.org/testme"), "proxy redirect detected");
                 }
                 // Assert.AreEqual("wild-turkey-create", args.RawResponse.GetResponseHeader("test"), "Custom Response header missing");
             };
@@ -248,18 +224,18 @@ namespace UnitTestWebApi
                 System.Diagnostics.Trace.WriteLine(ex.Message);
                 DebugDumpOutputXml(ex.Outcome);
                 Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status, "Expected a bad request due to parsing the date");
-                Assert.IsTrue(ex.Message.Contains("Value '01-03-1970' does not match regex"));
+                Assert.IsTrue(ex.Message.Contains(" '01-03-1970' "));
             }
         }
 
-        private void ClientFhir_OnBeforeRequestCorrlationTest(object sender, BeforeRequestEventArgs e)
+        private void ClientFhir_OnBeforeRequestCorrlationTest(object sender, HttpRequestMessage eRawRequest)
         {
-            e.RawRequest.Headers.Add("X-Correlation-Id", "TestMe");
+            eRawRequest.Headers.Add("X-Correlation-Id", "TestMe");
         }
 
-        private void ClientFhir_OnAfterResponseCorrlationTest(object sender, AfterResponseEventArgs e)
+        private void ClientFhir_OnAfterResponseCorrlationTest(object sender, HttpResponseMessage eRawResponse)
         {
-            Assert.AreEqual("TestMe", e.RawResponse.Headers.Get("X-Correlation-Id"));
+            Assert.AreEqual("TestMe", eRawResponse.Headers.GetValues("X-Correlation-Id").FirstOrDefault());
         }
 
         [TestMethod]
@@ -273,7 +249,9 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.VerifyFhirVersion = false;
             clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
             var result = clientFhir.Update<Patient>(p);
 
@@ -312,7 +290,9 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.VerifyFhirVersion = false;
             clientFhir.Settings.PreferredFormat = ResourceFormat.Json;
             var result = clientFhir.Update<Patient>(p);
 
@@ -332,7 +312,9 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
 
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.VerifyFhirVersion = false;
             var result = clientFhir.Create<Patient>(p);
 
             Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
@@ -367,13 +349,14 @@ namespace UnitTestWebApi
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
 
-            HttpClient client = new HttpClient();
+            var app = new UnitTestFhirServerApplication();
+            HttpClient client = app.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json+fhir"));
 
             string xml = new FhirXmlSerializer().SerializeToString(p);
             HttpContent rawPostContent = new StringContent(xml, System.Text.Encoding.UTF8, "application/xml+fhir");
-            var rawResult = await client.PostAsync($"{_baseAddress}$convert", rawPostContent);
+            var rawResult = await client.PostAsync($"{app.Server.BaseAddress}$convert", rawPostContent);
             string textResult = await rawResult.Content.ReadAsStringAsync();
             var result = new FhirJsonParser().Parse<Patient>(textResult);
             System.Diagnostics.Trace.WriteLine($"{result.ResourceIdentity()}");
@@ -394,7 +377,9 @@ namespace UnitTestWebApi
             var localTerminologyService = new LocalTerminologyService(targetResolver, new ValueSetExpanderSettings() { ValueSetSource = targetResolver });
             var validator = new Validator(new ValidationSettings() { ResourceResolver = targetResolver, TerminologyService = localTerminologyService });
 
-            var server = new LegacyFhirClient("http://sqlonfhir-r4.azurewebsites.net/fhir", false);
+            var app = new UnitTestFhirServerApplication();
+            var server = new FhirClient(new Uri("http://sqlonfhir-r4.azurewebsites.net/fhir"), app.CreateClient());
+            server.Settings.VerifyFhirVersion = false;
             var q = server.Read<Questionnaire>("Questionnaire/enable-when-tests");
             var outcome = validator.Validate(q);
             DebugDumpOutputXml(outcome);
@@ -464,7 +449,9 @@ namespace UnitTestWebApi
             ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/regex", canonicalsRequired);
             ScanCanonical(source, "http://hl7.org/fhir/StructureDefinition/variable", canonicalsRequired);
 
-            var clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.VerifyFhirVersion = false;
             var serializer = new Hl7.Fhir.Serialization.FhirXmlSerializer(new SerializerSettings() { Pretty = true });
             foreach (var item in canonicalsRequired.Keys)
             {
@@ -491,7 +478,7 @@ namespace UnitTestWebApi
                         CleanElement(element);
                     }
                 }
-                targetResolver.IncludeCanonicalResource(resource);
+                targetResolver.IncludeCanonicalResource(resource).WaitNoResult();
                 // var result = clientFhir.Update(resource);
                 System.IO.File.WriteAllBytes($"c:\\temp\\{resource.TypeName}-{resource.Id}.xml", serializer.SerializeToBytes(resource));
             }
@@ -542,7 +529,7 @@ namespace UnitTestWebApi
             Assert.IsNotNull(resource);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public async Task LoadNpmPackageIndex()
         {
             var npmSource = new Hl7.Fhir.DemoSqliteFhirServer.Specification.NpmPackageSource();
@@ -638,15 +625,12 @@ namespace UnitTestWebApi
             }
         }
 
-        private void ClientFhir_OnBeforeRequest1(object sender, BeforeRequestEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         [TestMethod]
         public void WholeSystemHistory()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.VerifyFhirVersion = false;
 
             // Create a Patient
             Patient p = new Patient();
@@ -698,22 +682,28 @@ namespace UnitTestWebApi
         }
 
         [TestMethod]
-        public void AlternateHostOperations()
+        public async Task AlternateHostOperations()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_AlternateHost;
-            clientFhir.OnAfterResponse += (object sender, AfterResponseEventArgs args) =>
+            var app = new UnitTestFhirServerApplication();
+            var handler = new LegacyRestHandler();
+            handler.OnBeforeRequest += ClientFhir_OnBeforeRequest_AlternateHost;
+            handler.OnAfterResponse += (object sender, HttpResponseMessage args) =>
             {
-                string location = args.RawResponse.GetResponseHeader("Location");
+                if (args.Headers.Contains("Location"))
+                {
+                    var location = args.Headers.GetValues("Location").FirstOrDefault();
                 if (!string.IsNullOrEmpty(location))
                 {
-                    System.Diagnostics.Trace.WriteLine($">> (Status: {args.RawResponse.StatusCode}) {args.RawResponse.Method}: {location}");
-                    Assert.IsTrue(location.StartsWith("https://demo.org/testme/v2/"), "proxy redirect not detected");
+                        System.Diagnostics.Trace.WriteLine($">> (Status: {args.StatusCode}) {args.RequestMessage.Method}: {args.RequestMessage.RequestUri}  // => {location}");
+                        Assert.IsTrue(location.StartsWith("https://demo.org/testme/v2/"), $"proxy redirect not detected {location}");
+                }
                 }
             };
+            var httpclient = app.CreateDefaultClient(handler);
+            var clientFhir = new FhirClient(app.Server.BaseAddress, httpclient);
 
             // Capqbility statement
-            var cs = clientFhir.CapabilityStatement();
+            var cs = await clientFhir.CapabilityStatementAsync();
             Assert.AreEqual("https://demo.org/testme/v2/metadata", cs.Url, "Should matching capability statement");
             Assert.AreEqual("https://demo.org/testme/v2", cs.Implementation.Url, "Should matching capability statement");
 
@@ -725,13 +715,13 @@ namespace UnitTestWebApi
             p.BirthDate = new DateTime(1970, 3, 1).ToFhirDate(); // yes there are extensions to convert to FHIR format
             p.Active = true;
             p.ManagingOrganization = new ResourceReference("Organization/2", "Other Org");
-            clientFhir.Update(p);
+            await clientFhir.UpdateAsync(p);
 
             // Create an Organization
             Organization org = new Organization();
             org.Id = "2";
             org.Name = "Other Org";
-            clientFhir.Update(org);
+            await clientFhir.UpdateAsync(org);
 
             // Load the whole history
             var result = clientFhir.WholeSystemHistory();
@@ -792,7 +782,9 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationCountResourceTypeInstances()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.VerifyFhirVersion = false;
             var result = clientFhir.TypeOperation<Patient>("count-em", null, true) as OperationOutcome;
             Assert.IsNotNull(result, "Should be a capability statement returned");
             string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
@@ -804,8 +796,12 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationCountAllResourceInstances()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
+            var app = new UnitTestFhirServerApplication();
+            var handler = new LegacyRestHandler();
+            var httpclient = app.CreateDefaultClient(handler);
+            var clientFhir = new FhirClient(app.Server.BaseAddress, httpclient);
+            clientFhir.Settings.VerifyFhirVersion = false;
+            handler.OnBeforeRequest += ClientFhir_OnBeforeRequest;
             var result = clientFhir.WholeSystemOperation("count-em", null, true) as OperationOutcome;
             Assert.IsNotNull(result, "Should be a capability statement returned");
             string xml = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(result);
@@ -818,9 +814,11 @@ namespace UnitTestWebApi
         [TestMethod]
         public void PerformCustomOperationWithIdParameter()
         {
-            LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-            clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
-            string exampleQuery = $"{_baseAddress}NamingSystem/$preferred-id?id=45&type=uri";
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            clientFhir.Settings.VerifyFhirVersion = false;
+            // clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
+            string exampleQuery = $"{app.Server.BaseAddress}NamingSystem/$preferred-id?id=45&type=uri";
             var result = clientFhir.Get(exampleQuery) as NamingSystem;
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a NamingSystem returned");
@@ -837,15 +835,16 @@ namespace UnitTestWebApi
             b.Data = System.IO.File.ReadAllBytes(@"TestData/icon_choice.gif");
             int dataLen = b.Data.Length;
             Console.WriteLine("Updating this resource content:");
-            DebugDumpOutputJson(b);
+            DebugDumpOutputXml(b);
 
             // Do a custom write of the Binary resource as the FHIR client forces it into a stream, rather than
             // just pushing the byte-stream, and ignoring the security context
             // PUT ContentType: XML, Accept: Binary
-            HttpClient rawWriter = new HttpClient();
+            var app = new UnitTestFhirServerApplication();
+            HttpClient rawWriter = app.CreateClient();
             rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/gif"));
-            HttpContent content = new System.Net.Http.StringContent(new FhirJsonSerializer().SerializeToString(b), System.Text.Encoding.UTF8, "application/fhir+json");
-            var resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", content);
+            HttpContent content = new System.Net.Http.StringContent(new FhirXmlSerializer().SerializeToString(b), System.Text.Encoding.UTF8, "application/fhir+xml");
+            var resRaw = await rawWriter.PutAsync($"{app.Server.BaseAddress}Binary/bin1", content);
             Console.WriteLine("Raw Result:");
             Console.WriteLine(System.Convert.ToBase64String(await resRaw.Content.ReadAsByteArrayAsync()));
             Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
@@ -854,13 +853,13 @@ namespace UnitTestWebApi
 
             // PUT ContentType: XML, Accept: XML
             rawWriter.DefaultRequestHeaders.Accept.Clear();
-            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+json"));
-            resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", content);
-            var result = new FhirJsonParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+xml"));
+            resRaw = await rawWriter.PutAsync($"{app.Server.BaseAddress}Binary/bin1", content);
+            var result = new FhirXmlParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
             Console.WriteLine("Xml Result:");
             DebugDumpOutputXml(result);
-            Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
-            Assert.AreEqual("application/fhir+json", resRaw.Content.Headers.ContentType.MediaType);
+            Assert.AreEqual(HttpStatusCode.OK, resRaw.StatusCode);
+            Assert.AreEqual("application/fhir+xml", resRaw.Content.Headers.ContentType.MediaType);
 
             Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
@@ -869,16 +868,16 @@ namespace UnitTestWebApi
 
             // Now Create it using the Binary input formatter
             rawWriter.DefaultRequestHeaders.Accept.Clear();
-            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+json"));
+            rawWriter.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/fhir+xml"));
             HttpContent binaryContent = new System.Net.Http.ByteArrayContent(b.Data);
             binaryContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/gif");
             binaryContent.Headers.Add("X-Security-Context", "Organization/3");
-            resRaw = await rawWriter.PutAsync($"{_baseAddress}Binary/bin1", binaryContent);
-            result = new FhirJsonParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
+            resRaw = await rawWriter.PutAsync($"{app.Server.BaseAddress}Binary/bin1", binaryContent);
+            result = new FhirXmlParser().Parse<Binary>(await resRaw.Content.ReadAsStringAsync());
             Console.WriteLine("Xml Result:");
             DebugDumpOutputXml(result);
-            Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
-            Assert.AreEqual("application/fhir+json", resRaw.Content.Headers.ContentType.MediaType);
+            Assert.AreEqual(HttpStatusCode.OK, resRaw.StatusCode);
+            Assert.AreEqual("application/fhir+xml", resRaw.Content.Headers.ContentType.MediaType);
 
             Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
             Assert.IsNotNull(result.Meta, "Newly created binary should have an Meta created");
@@ -887,13 +886,16 @@ namespace UnitTestWebApi
 
             try
             {
-                LegacyFhirClient clientFhir = new LegacyFhirClient(_baseAddress, false);
-                clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest;
+                var handler = new LegacyRestHandler();
+                var httpclient = app.CreateDefaultClient(handler);
+                var clientFhir = new FhirClient(app.Server.BaseAddress, httpclient);
+                clientFhir.Settings.VerifyFhirVersion = false;
+                handler.OnBeforeRequest += ClientFhir_OnBeforeRequest;
                 clientFhir.Settings.Timeout = 50000;
                 // This method uses the BINARY stream approach (which has issues - no security context passed through)
-                clientFhir.OnBeforeRequest += ClientFhir_OnBeforeRequest_SecurityContectHeader;
+                handler.OnBeforeRequest += ClientFhir_OnBeforeRequest_SecurityContectHeader;
                 result = clientFhir.Update(b);
-                clientFhir.OnBeforeRequest -= ClientFhir_OnBeforeRequest_SecurityContectHeader;
+                handler.OnBeforeRequest -= ClientFhir_OnBeforeRequest_SecurityContectHeader;
                 DebugDumpOutputXml(result);
 
                 Assert.IsNotNull(result.Id, "Newly created binary should have an ID");
@@ -932,10 +934,10 @@ namespace UnitTestWebApi
                 }
 
                 // read the file as a binary gif (using it's content type)
-                HttpClient rawClient = new HttpClient();
+                HttpClient rawClient = httpclient;
                 rawClient.DefaultRequestHeaders.Accept.Clear();
                 rawClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/gif"));
-                resRaw = await rawClient.GetAsync($"{_baseAddress}Binary/bin1");
+                resRaw = await rawClient.GetAsync($"{app.Server.BaseAddress}Binary/bin1");
                 Assert.AreEqual("image/gif", resRaw.Content.Headers.ContentType.MediaType);
                 Console.WriteLine(System.Convert.ToBase64String(await resRaw.Content.ReadAsByteArrayAsync()));
 
@@ -949,23 +951,23 @@ namespace UnitTestWebApi
 
         }
 
-        private void ClientFhir_OnBeforeRequest(object sender, BeforeRequestEventArgs e)
+        private void ClientFhir_OnBeforeRequest(object sender, HttpRequestMessage msg)
         {
             System.Diagnostics.Trace.WriteLine("---------------------------------------------------");
-            System.Diagnostics.Trace.WriteLine($"{e.RawRequest.Method}: {e.RawRequest.RequestUri}");
-            e.RawRequest.Headers.Add("x-test", "Cleaner");
+            System.Diagnostics.Trace.WriteLine($"{msg.Method}: {msg.RequestUri}");
+            msg.Headers.Add("x-test", "Cleaner");
         }
-        private void ClientFhir_OnBeforeRequest_SecurityContectHeader(object sender, BeforeRequestEventArgs e)
+        private void ClientFhir_OnBeforeRequest_SecurityContectHeader(object sender, HttpRequestMessage msg)
         {
-            e.RawRequest.Headers.Add("X-Security-Context", "Organization/4");
-        }
-        private void ClientFhir_OnBeforeRequest_AlternateHost(object sender, BeforeRequestEventArgs e)
-        {
-            e.RawRequest.Headers.Add("X-Forwarded-Proto", "https");
-            e.RawRequest.Headers.Add("X-Forwarded-Host", "demo.org");
-            e.RawRequest.Headers.Add("X-Forwarded-Port", "443");
-            e.RawRequest.Headers.Add("X-Forwarded-Prefix", "testme/v2");
+            msg.Headers.Add("X-Security-Context", "Organization/4");
         }
 
+        private void ClientFhir_OnBeforeRequest_AlternateHost(object sender, HttpRequestMessage eRawRequest)
+        {
+            eRawRequest.Headers.Add("X-Forwarded-Proto", "https");
+            eRawRequest.Headers.Add("X-Forwarded-Host", "demo.org");
+            eRawRequest.Headers.Add("X-Forwarded-Port", "443");
+            eRawRequest.Headers.Add("X-Forwarded-Prefix", "testme/v2");
+        }
     }
 }

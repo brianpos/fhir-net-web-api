@@ -46,6 +46,7 @@ namespace Hl7.Fhir.WebApi
 
             return outcome;
         }
+        const string x_correlation_id = "X-Correlation-Id";
 
         public override void OnException(HttpActionExecutedContext context)
         {
@@ -67,6 +68,17 @@ namespace Hl7.Fhir.WebApi
             {
                 errorResponse = context.Request.CreateResponse(HttpStatusCode.InternalServerError, CreateOutcome(context.Exception));
                 _logger?.WriteCritical("Unhandled exception in the Server", context.Exception);
+            }
+
+            // echo any X-Correlation-Id Headers if encountered
+            if (context.Request.Headers.Contains(x_correlation_id))
+            {
+                if (!errorResponse.Headers.Contains(x_correlation_id))
+                    errorResponse.Headers.Add(x_correlation_id, context.Request.Headers.GetValues(x_correlation_id));
+#if DEBUG
+                if (context.Request.Headers.GetValues(x_correlation_id).ToString() != errorResponse.Headers.GetValues(x_correlation_id).ToString())
+                    System.Diagnostics.Trace.WriteLine($"Hl7.Fhir.WebApi.FhirMediaTypeOutputFormatter: X-Correlation-Id headers didn't match request vs response");
+#endif
             }
 
             throw new HttpResponseException(errorResponse);

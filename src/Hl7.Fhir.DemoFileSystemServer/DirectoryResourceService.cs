@@ -52,7 +52,9 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
         virtual public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
+#if DEBUG
             RequestDetails.SetResponseHeaderValue("test", "wild-turkey-create");
+#endif
 
             if (String.IsNullOrEmpty(resource.Id))
                 resource.Id = Guid.NewGuid().ToFhirId();

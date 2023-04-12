@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Test.WebApi.AspNetCore\LegacyRestHandler.cs" Link="LegacyRestHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.2.0" />
     <PackageReference Include="Hl7.Fhir.Specification.R4B" Version="5.0.0" />
     <PackageReference Include="Hl7.Fhir.Validation.Legacy.R4B" Version="5.0.0" />

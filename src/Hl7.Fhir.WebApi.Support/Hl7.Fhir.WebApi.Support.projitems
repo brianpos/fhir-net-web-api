@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0a985d02-91b3-4d2f-95a0-fcd8bf8635b1</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Hl7.Fhir.WebApi.Support</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BatchOperationProcessing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CurrentCanonical.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FhirSmartAppLaunchConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IFhirResourceServiceR4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IFhirSystemServiceR4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelAnnotations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelBaseInputs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OperationOutcomeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResourceExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerializeAsHtml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ServerException.cs" />
+  </ItemGroup>
+</Project>

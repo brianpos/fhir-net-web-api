@@ -37,6 +37,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Hl7.Fhir.StructuredDat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.DemoSDCExtractOperation", "Hl7.DemoSDCExtractOperation\Hl7.DemoSDCExtractOperation.csproj", "{78DBB9D6-9E23-47AD-B60B-2FB849253765}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.WebApi.Support", "Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.shproj", "{0A985D02-91B3-4D2F-95A0-FCD8BF8635B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Support", "Hl7.Fhir.R4.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj", "{795E0267-9CB2-46E4-B2A7-F9AE3D7661CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R5.WebApi.Support", "Hl7.Fhir.R5.WebApi.Support\Hl7.Fhir.R5.WebApi.Support.csproj", "{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,11 +97,25 @@ Global
 		{78DBB9D6-9E23-47AD-B60B-2FB849253765}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78DBB9D6-9E23-47AD-B60B-2FB849253765}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78DBB9D6-9E23-47AD-B60B-2FB849253765}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795E0267-9CB2-46E4-B2A7-F9AE3D7661CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795E0267-9CB2-46E4-B2A7-F9AE3D7661CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795E0267-9CB2-46E4-B2A7-F9AE3D7661CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795E0267-9CB2-46E4-B2A7-F9AE3D7661CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F1474921-5D08-49DD-81D2-E85293369801}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{0a985d02-91b3-4d2f-95a0-fcd8bf8635b1}*SharedItemsImports = 13
+		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{1752b9ad-8f42-4a19-88a5-bd1f68c98228}*SharedItemsImports = 5
+		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{78a22d9d-aa52-4466-9dce-3fca8ba67f7c}*SharedItemsImports = 5
+		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{795e0267-9cb2-46e4-b2a7-f9ae3d7661ce}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

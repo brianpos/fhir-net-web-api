@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.WebApi.Owin", "Test.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.DemoFileSystemFhirServer.Owin", "Hl7.DemoFileSystemFhirServer.Owin\Hl7.DemoFileSystemFhirServer.Owin.csproj", "{79E3D0DC-BFDF-451E-89DE-52AF77F2F416}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.AspNetCore", "Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R4B.WebApi.AspNetCore.csproj", "{7825ADC5-51C5-403A-B5D2-FF1E5B69AA77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.AspNetCore", "Hl7.Fhir.R4B.WebApi.AspNetCore\Hl7.Fhir.R4B.WebApi.AspNetCore.csproj", "{7825ADC5-51C5-403A-B5D2-FF1E5B69AA77}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.Owin", "Hl7.Fhir.WebApi.Owin\Hl7.Fhir.R4B.WebApi.Owin.csproj", "{F219EEF4-570C-4DFE-9EE4-D11D5D093D5B}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.Support", "Hl7.Fhir.R4.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj", "{795E0267-9CB2-46E4-B2A7-F9AE3D7661CE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R5.WebApi.Support", "Hl7.Fhir.R5.WebApi.Support\Hl7.Fhir.R5.WebApi.Support.csproj", "{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.WebApi.AspNetCore", "Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.shproj", "{398A5346-4AB2-4650-B35C-624F31124F97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,8 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{0a985d02-91b3-4d2f-95a0-fcd8bf8635b1}*SharedItemsImports = 13
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{1752b9ad-8f42-4a19-88a5-bd1f68c98228}*SharedItemsImports = 5
+		Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems*{398a5346-4ab2-4650-b35c-624f31124f97}*SharedItemsImports = 13
+		Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems*{7825adc5-51c5-403a-b5d2-ff1e5b69aa77}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{78a22d9d-aa52-4466-9dce-3fca8ba67f7c}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{795e0267-9cb2-46e4-b2a7-f9ae3d7661ce}*SharedItemsImports = 5
 	EndGlobalSection

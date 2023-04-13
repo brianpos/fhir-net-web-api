@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj" />
-    <ProjectReference Include="..\Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.R4B.WebApi.AspNetCore.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.R4B.WebApi.AspNetCore\Hl7.Fhir.R4B.WebApi.AspNetCore.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

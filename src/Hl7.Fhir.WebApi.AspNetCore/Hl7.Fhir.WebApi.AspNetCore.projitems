@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>398a5346-4ab2-4650-b35c-624f31124f97</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Hl7.Fhir.WebApi.AspNetCore</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BinaryFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Const.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FhirController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FhirExceptionFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FhirFacadeBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FhirMediaType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FhirMediaTypeFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FhirObjectResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FormatParameterFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpHeadersExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpRequestFhirExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonFhirFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonFhirFormatter2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JsonFhirInputFormatter3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimpleHtmlFhirFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XmlFhirFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XmlFhirInputFormatter3.cs" />
+  </ItemGroup>
+</Project>

@@ -18,6 +18,8 @@
   </PropertyGroup>
 
   <Import Project="..\platforms.props" />
+
+  <Import Project="..\Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems" Label="Shared" />
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>

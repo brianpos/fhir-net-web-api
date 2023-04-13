@@ -190,7 +190,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4B.DemoFileSystemServer.csproj">
+    <ProjectReference Include="..\Hl7.Fhir.R4B.DemoFileSystemServer\Hl7.Fhir.R4B.DemoFileSystemServer.csproj">
       <Project>{1b81b226-5e4e-41c4-b85c-d6605d60c918}</Project>
       <Name>Hl7.Fhir.R4B.DemoFileSystemServer</Name>
     </ProjectReference>

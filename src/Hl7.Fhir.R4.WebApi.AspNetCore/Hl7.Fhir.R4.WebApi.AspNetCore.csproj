@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net70;net60;net50;netcoreapp3.1;</TargetFrameworks>
+    <AssemblyName>Hl7.Fhir.R4.WebApi.AspNetCore</AssemblyName>
+    <PackageId>brianpos.Fhir.R4.WebApi.AspNetCore</PackageId>
+    <Version>5.0.0-beta1</Version>
+    <Title>HL7 Fhir WebApi (AspNetCore) Facade Layer</Title>
+    <Summary>AspNetCore based FHIR WebApi Facade layer</Summary>
+    <Description>This library Implements a FHIR Facade that you can add to other projects where you provide the storage engine through implementing a set of model interface classes</Description>
+    <PackageTags>HL7;FHIR;FHIR;NetCore;WebAPI</PackageTags>
+    <Product>Hl7.Fhir.R4.WebApi.AspNetCore</Product>
+    <RootNamespace>Hl7.Fhir.WebApi</RootNamespace>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <Import Project="..\platforms.props" />
+
+  <Import Project="..\Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems" Label="Shared" />
+  <Import Project="..\fhir-net-web-api.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Hl7.Fhir.R4" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net70'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net60'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net50'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hl7.Fhir.R4.WebApi.Support\Hl7.Fhir.R4.WebApi.Support.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+  </ItemGroup>
+
+</Project>

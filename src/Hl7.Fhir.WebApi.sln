@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.Owin", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.WebApi.Support", "Hl7.Fhir.R4B.WebApi.Support\Hl7.Fhir.R4B.WebApi.Support.csproj", "{1752B9AD-8F42-4A19-88A5-BD1F68C98228}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.DemoFileSystemServer", "Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.R4B.DemoFileSystemServer.csproj", "{1B81B226-5E4E-41C4-B85C-D6605D60C918}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.DemoFileSystemServer", "Hl7.Fhir.R4B.DemoFileSystemServer\Hl7.Fhir.R4B.DemoFileSystemServer.csproj", "{1B81B226-5E4E-41C4-B85C-D6605D60C918}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
 EndProject
@@ -44,6 +44,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R5.WebApi.Support", "Hl7.Fhir.R5.WebApi.Support\Hl7.Fhir.R5.WebApi.Support.csproj", "{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.WebApi.AspNetCore", "Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.shproj", "{398A5346-4AB2-4650-B35C-624F31124F97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.WebApi.AspNetCore", "Hl7.Fhir.R4.WebApi.AspNetCore\Hl7.Fhir.R4.WebApi.AspNetCore.csproj", "{2F27B978-92F3-4B5F-A7E4-8836BE6D30C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R5.WebApi.AspNetCore", "Hl7.Fhir.R5.WebApi.AspNetCore\Hl7.Fhir.R5.WebApi.AspNetCore.csproj", "{49C3DA51-9E26-4D93-B96E-4C9687F88BEF}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.DemoFileSystemServer", "Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.shproj", "{BF88A3DB-1689-4F3C-9A9A-B331955CD15B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoFileSystemServer", "Hl7.Fhir.R4.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj", "{C945797F-31F9-4B9B-B0E3-FDBBFA881E69}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R5.DemoFileSystemServer", "Hl7.Fhir.R5.DemoFileSystemServer\Hl7.Fhir.R5.DemoFileSystemServer.csproj", "{A912EA68-E4DA-4948-BB82-FA653CD18B3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +117,22 @@ Global
 		{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78A22D9D-AA52-4466-9DCE-3FCA8BA67F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F27B978-92F3-4B5F-A7E4-8836BE6D30C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F27B978-92F3-4B5F-A7E4-8836BE6D30C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F27B978-92F3-4B5F-A7E4-8836BE6D30C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F27B978-92F3-4B5F-A7E4-8836BE6D30C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49C3DA51-9E26-4D93-B96E-4C9687F88BEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C3DA51-9E26-4D93-B96E-4C9687F88BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C3DA51-9E26-4D93-B96E-4C9687F88BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C3DA51-9E26-4D93-B96E-4C9687F88BEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C945797F-31F9-4B9B-B0E3-FDBBFA881E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C945797F-31F9-4B9B-B0E3-FDBBFA881E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C945797F-31F9-4B9B-B0E3-FDBBFA881E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C945797F-31F9-4B9B-B0E3-FDBBFA881E69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A912EA68-E4DA-4948-BB82-FA653CD18B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A912EA68-E4DA-4948-BB82-FA653CD18B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A912EA68-E4DA-4948-BB82-FA653CD18B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A912EA68-E4DA-4948-BB82-FA653CD18B3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,9 +143,15 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{0a985d02-91b3-4d2f-95a0-fcd8bf8635b1}*SharedItemsImports = 13
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{1752b9ad-8f42-4a19-88a5-bd1f68c98228}*SharedItemsImports = 5
+		Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.projitems*{1b81b226-5e4e-41c4-b85c-d6605d60c918}*SharedItemsImports = 5
+		Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems*{2f27b978-92f3-4b5f-a7e4-8836be6d30c3}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems*{398a5346-4ab2-4650-b35c-624f31124f97}*SharedItemsImports = 13
+		Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems*{49c3da51-9e26-4d93-b96e-4c9687f88bef}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems*{7825adc5-51c5-403a-b5d2-ff1e5b69aa77}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{78a22d9d-aa52-4466-9dce-3fca8ba67f7c}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{795e0267-9cb2-46e4-b2a7-f9ae3d7661ce}*SharedItemsImports = 5
+		Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.projitems*{a912ea68-e4da-4948-bb82-fa653cd18b3b}*SharedItemsImports = 5
+		Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.projitems*{bf88a3db-1689-4f3c-9a9a-b331955cd15b}*SharedItemsImports = 13
+		Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.projitems*{c945797f-31f9-4b9b-b0e3-fdbbfa881e69}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

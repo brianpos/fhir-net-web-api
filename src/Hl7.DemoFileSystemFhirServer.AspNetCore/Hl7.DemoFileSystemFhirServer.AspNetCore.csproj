@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.Specification.Data.R4B" Version="5.0.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.Data.R4B" Version="5.1.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.10.0" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
-    <PackageReference Include="YamlDotNet" Version="12.0.0" />
+    <PackageReference Include="YamlDotNet" Version="13.1.0" />
   </ItemGroup>
 
   <ItemGroup>

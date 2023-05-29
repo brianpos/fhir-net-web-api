@@ -68,7 +68,7 @@ namespace Hl7.DemoFileSystemFhirServer
 
             services.AddLogging(logging => {
                 logging.AddConsole(config => {
-                   //  config.LogToStandardErrorThreshold = LogLevel.Trace;
+                    //  config.LogToStandardErrorThreshold = LogLevel.Trace;
                 });
             });
 
@@ -103,6 +103,13 @@ namespace Hl7.DemoFileSystemFhirServer
             {
                 // An example HTML formatter that puts the raw XML on the output
                 options.OutputFormatters.Add(new Fhir.WebApi.SimpleHtmlFhirOutputFormatter());
+
+                // Sub in the latest formatter (not included by default - know what you are doing here)
+                options.InputFormatters.RemoveType<JsonFhirInputFormatter>();
+                options.InputFormatters.RemoveType<JsonFhirInputFormatter2>();
+                options.InputFormatters.RemoveType<XmlFhirInputFormatter>();
+                options.InputFormatters.Insert(0, new JsonFhirInputFormatter3());
+                options.InputFormatters.Insert(0, new XmlFhirInputFormatter3());
 
                 // Add support for YAML content
                 options.InputFormatters.Insert(0, new YamlFhirInputFormatter());

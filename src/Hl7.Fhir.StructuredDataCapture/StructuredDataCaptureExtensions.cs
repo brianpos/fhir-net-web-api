@@ -304,6 +304,28 @@ namespace Hl7.Fhir.StructuredDataCapture
         }
 
         /// <summary>
+        /// http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-isSubject
+        /// </summary>
+        /// <param name="me"></param>
+        /// <returns></returns>
+        public static bool? IsSubject(this Questionnaire.ItemComponent me)
+        {
+            var result = me.GetBoolExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-isSubject");
+            return result;
+        }
+
+        /// <summary>
+        /// http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaireresponse-isSubject
+        /// </summary>
+        /// <param name="me"></param>
+        /// <returns></returns>
+        public static bool? IsSubject(this QuestionnaireResponse.ItemComponent me)
+        {
+            var result = me.GetBoolExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaireresponse-isSubject");
+            return result;
+        }
+
+        /// <summary>
         /// http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-observationExtract
         /// </summary>
         /// <param name="me"></param>

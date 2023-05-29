@@ -64,7 +64,9 @@ namespace Hl7.Fhir.WebApi
                     {
                         var settings = new FhirXmlPocoDeserializerSettings()
                         {
-                            Validator = null
+                            AnnotateResourceParseExceptions = true,
+                            ValidateOnFailedParse = true,
+                            // Validator = null, // Since we can handle multiple issues, let this through
                         };
                         var ds = new FhirXmlPocoDeserializer(settings);
                         Resource resource = ds.DeserializeResource(reader);

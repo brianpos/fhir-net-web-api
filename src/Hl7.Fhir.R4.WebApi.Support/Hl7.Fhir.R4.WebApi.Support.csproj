@@ -4,7 +4,7 @@
     <TargetFrameworks>net70;net60;net50;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4.WebApi.Support</AssemblyName>
     <PackageId>brianpos.Fhir.R4.WebApi.Support</PackageId>
-    <Version>5.1.0-beta1</Version>
+    <Version>5.2.0-beta1</Version>
     <Title>HL7 Fhir WebApi Interfaces</Title>
     <Summary>Class interfaces for the FHIR WebApi Models</Summary>
     <Description>This library contains the interface definitions that an implementation should use to create the storage layer for a FHIR server using the FHIR WebApi Facade</Description>
@@ -23,7 +23,7 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.R4" Version="5.1.0" />
+    <PackageReference Include="Hl7.Fhir.R4" Version="5.2.0" />
     <PackageReference Include="NaturalSort.Extension" Version="3.2.0" />
     <PackageReference Include="Semver" Version="2.3.0" />
   </ItemGroup>

@@ -82,7 +82,9 @@ namespace Hl7.Fhir.WebApi
                                 return (null, originalException);
                             }
                         },
-                        // Validator = null
+                        AnnotateResourceParseExceptions = true,
+                        ValidateOnFailedParse = true,
+                        // Validator = null, // Since we can handle multiple issues, let this through
                     };
                     var ds = new FhirJsonPocoDeserializer(settings);
                     using (var streamReader = context.ReaderFactory(ms, encoding))

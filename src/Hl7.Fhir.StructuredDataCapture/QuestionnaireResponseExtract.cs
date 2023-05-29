@@ -59,8 +59,12 @@ namespace Hl7.Fhir.StructuredDataCapture
             {
                 if (itemDef.ObservationExtractCategory().Any())
                     defaultObservationExtractCategory = itemDef.ObservationExtractCategory();
-                foreach (var answer in itemsA.SelectMany(a => a.Answer))
+                foreach (var itemA in itemsA.Where(ia => ia.LinkId == itemDef.LinkId))
                 {
+                    if (!itemDef.Code.Any())
+                        continue;
+                    foreach (var answer in itemA.Answer)
+                    {
                     // this item is expected to be extracted
                     Observation obs = new Observation();
                     obs.BasedOn = qr.BasedOn;
@@ -85,7 +89,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                             {
                                 Severity = OperationOutcome.IssueSeverity.Information,
                                 Code = OperationOutcome.IssueType.Value,
-                                Details = new CodeableConcept() { Text = $"Precision of Authored value {qr.Authored} cannot be used in the objservation issued property"}
+                                    Details = new CodeableConcept() { Text = $"Precision of Authored value {qr.Authored} cannot be used in the observation issued property" }
                             });
                         }
                     }
@@ -147,6 +151,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                     }
                     results.AddResourceEntry(obs, $"urn:uuid:{Guid.NewGuid().ToFhirId()}");
                 }
+            }
             }
 
             // Check for child items

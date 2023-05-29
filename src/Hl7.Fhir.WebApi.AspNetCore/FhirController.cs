@@ -7,7 +7,7 @@
  */
 
 using Hl7.Fhir.Model;
-using Hl7.Fhir.NetCoreApi.R4;
+using Hl7.Fhir.NetCoreApi;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath.Sprache;

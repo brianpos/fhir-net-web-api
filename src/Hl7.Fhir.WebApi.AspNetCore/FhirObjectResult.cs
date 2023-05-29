@@ -9,7 +9,7 @@
 using Hl7.Fhir.Model;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hl7.Fhir.NetCoreApi.R4
+namespace Hl7.Fhir.NetCoreApi
 {
     public class FhirObjectResult : ObjectResult
     {

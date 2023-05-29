@@ -12,7 +12,7 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.Linq;
 
-namespace Hl7.Fhir.NetCoreApi.R4
+namespace Hl7.Fhir.NetCoreApi
 {
     public class FhirFormatParameterFilter : IResultFilter
     {

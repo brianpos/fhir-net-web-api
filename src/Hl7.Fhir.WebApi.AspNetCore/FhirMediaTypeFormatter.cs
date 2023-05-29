@@ -79,48 +79,20 @@ namespace Hl7.Fhir.WebApi
 
         protected static Exception HandleBodyParsingFormatException(DeserializationFailedException exception)
         {
-            OperationOutcome oo = new OperationOutcome();
-            foreach (var e in exception.Exceptions)
+            //var outcome = exception.ToOperationOutcome();
+            //outcome.ForBackwardCompatibilty(R4);
+            //outcome.TranslateFrench();
+
+            OperationOutcome oo = exception.ToOperationOutcome();
+            foreach (var issue in oo.Issue)
             {
-                var issue = new OperationOutcome.IssueComponent()
-                {
-                    Severity = OperationOutcome.IssueSeverity.Fatal,
-                    Code = OperationOutcome.IssueType.Exception,
-                    Details = new CodeableConcept() { Text = e.Message }
-                };
-                oo.Issue.Add(issue);
-                if (e is CodedException ce)
-                {
-                    issue.Details.Coding.Add(new Coding("http://firely.com/CodeSystem/ErrorMessages", ce.ErrorCode));
-                }
-                MatchCollection matches = _matchExceptionLocation.Matches(e.Message);
-                if (matches.Count > 0)
-                {
-                    issue.Location = matches.Select(m => m.Groups["loc"].Value).ToArray();
-                    issue.Expression = matches.Select(m => m.Groups["expr"].Value).ToArray();
-                    foreach (Match m in matches)
-                    {
-                        issue.Details.Text = issue.Details.Text.Replace(m.Value, "");
-                    }
-                }
-                else
-                {
-                    matches = _matchExceptionLocationWithExpression.Matches(e.Message);
-                    if (matches.Count > 0)
-                    {
-                        issue.Location = matches.Select(m => m.Groups["loc"].Value).ToArray();
-                        issue.Expression = matches.Select(m => m.Groups["expr"].Value).ToArray();
-                        foreach (Match m in matches)
-                        {
-                            issue.Details.Text = issue.Details.Text.Replace(m.Value, "");
-                        }
-                    }
-                }
+                // Tweak the severity on specific issues that we can be more tollerant of
+                // ...
             }
             if (exception.PartialResult is Resource r)
             {
                 System.Diagnostics.Debug.WriteLine(r.ToXml(new FhirXmlSerializationSettings() { Pretty = true }));
-            //    oo.Contained.Add(r);
+                //    oo.Contained.Add(r);
             }
             return new FhirServerException(HttpStatusCode.BadRequest, oo, "Body parsing failed: " + exception.Message);
         }

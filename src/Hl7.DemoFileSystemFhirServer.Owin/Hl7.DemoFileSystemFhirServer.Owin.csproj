@@ -34,20 +34,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Firely.Fhir.Packages, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0ddea2cfac6b533f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Firely.Fhir.Packages.4.0.0\lib\netstandard2.0\Firely.Fhir.Packages.dll</HintPath>
+    <Reference Include="Fhir.Metrics, Version=1.2.2.0, Culture=neutral, PublicKeyToken=43e377ac229b6873, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fhir.Metrics.1.2.2\lib\netstandard2.0\Fhir.Metrics.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.Base, Version=5.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Base.5.1.0\lib\netstandard2.0\Hl7.Fhir.Base.dll</HintPath>
+    <Reference Include="Firely.Fhir.Packages, Version=4.1.0.0, Culture=neutral, PublicKeyToken=0ddea2cfac6b533f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Firely.Fhir.Packages.4.1.0\lib\netstandard2.0\Firely.Fhir.Packages.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.Conformance, Version=5.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Conformance.5.1.0\lib\netstandard2.0\Hl7.Fhir.Conformance.dll</HintPath>
+    <Reference Include="Hl7.Fhir.Base, Version=5.2.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Base.5.2.0\lib\netstandard2.0\Hl7.Fhir.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Conformance, Version=5.2.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Conformance.5.2.0\lib\netstandard2.0\Hl7.Fhir.Conformance.dll</HintPath>
     </Reference>
     <Reference Include="Hl7.Fhir.ElementModel, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.ElementModel.4.3.0\lib\net452\Hl7.Fhir.ElementModel.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.R4B, Version=5.1.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.R4B.5.1.0\lib\netstandard2.0\Hl7.Fhir.R4B.dll</HintPath>
+    <Reference Include="Hl7.Fhir.R4B, Version=5.2.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.R4B.5.2.0\lib\netstandard2.0\Hl7.Fhir.R4B.dll</HintPath>
     </Reference>
     <Reference Include="Hl7.Fhir.R4B.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.R4B.4.3.0\lib\net452\Hl7.Fhir.R4B.Core.dll</HintPath>

@@ -8,11 +8,9 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Hl7.Fhir.WebApi;
-using System.Buffers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using Hl7.Fhir.NetCoreApi.R4;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;

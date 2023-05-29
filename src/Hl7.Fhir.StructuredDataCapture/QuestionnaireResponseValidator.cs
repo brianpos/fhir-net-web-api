@@ -146,7 +146,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             maxLength,
 
             /// <summary>
-            /// 'string' type items cannot incldue newline characters, use a 'text' type for these
+            /// 'string' type items cannot include newline characters, use a 'text' type for these
             /// </summary>
             invalidNewLine,
 

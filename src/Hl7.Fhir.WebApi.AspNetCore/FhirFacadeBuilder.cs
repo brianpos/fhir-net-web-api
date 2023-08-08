@@ -75,9 +75,8 @@ namespace Hl7.Fhir.NetCoreApi
                 // Note there is a default implementation of the json patch in here, need to know how to hook into that
                 // options.InputFormatters.RemoveType<Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter>();
 
-                options.InputFormatters.Add(new XmlFhirInputFormatter());
-                // options.InputFormatters.Add(new JsonFhirInputFormatter());
-                options.InputFormatters.Add(new JsonFhirInputFormatter2());
+                options.InputFormatters.Add(new XmlFhirInputFormatter3());
+                options.InputFormatters.Add(new JsonFhirInputFormatter3());
                 options.InputFormatters.Add(new BinaryFhirInputFormatter());
 
                 options.OutputFormatters.Clear();

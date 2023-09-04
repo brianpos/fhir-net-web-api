@@ -120,7 +120,7 @@ namespace Hl7.Fhir.WebApi
                     }
                     if (r.HasAnnotation<FilterOutputToElements>())
                     {
-                        jps.SummaryFilter = SerializationFilter.ForElements(r.Annotation<FilterOutputToElements>().ToString().Split(","));
+                        jps.SummaryFilter = SerializationFilter.ForElements(r.Annotation<FilterOutputToElements>().Value);
                     }
                     JsonSerializerOptions _serializerOptions = new JsonSerializerOptions().ForFhir(serializerSettings: jps);
                     _serializerOptions.WriteIndented = true; // make it pretty

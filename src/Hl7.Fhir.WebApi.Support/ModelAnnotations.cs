@@ -49,19 +49,20 @@ namespace Hl7.Fhir.WebApi
     /// </summary>
     public class FilterOutputToElements
     {
-        string _value;
+        string[] _value;
         public static implicit operator FilterOutputToElements(string value)
         {
             return new FilterOutputToElements(value);
         }
         public FilterOutputToElements(string value)
         {
-            _value = value;
+            _value = value?.Split(',').Select(v => v.Trim()).ToArray();
         }
 
+        public string[] Value => _value;
         public override string ToString()
         {
-            return _value;
+            return String.Join(", ", _value);
         }
 
     }

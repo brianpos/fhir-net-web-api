@@ -171,7 +171,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         virtual public Task<CapabilityStatement.ResourceComponent> GetRestResourceComponent()
         {
             var rt = new Hl7.Fhir.Model.CapabilityStatement.ResourceComponent();
-            rt.TypeElement = new () { ObjectValue = ResourceName };
+            rt.TypeElement = new() { ObjectValue = ResourceName };
             rt.ReadHistory = true;
             rt.UpdateCreate = true;
             rt.Versioning = CapabilityStatement.ResourceVersionPolicy.Versioned;
@@ -417,6 +417,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             IEnumerable<string> filenames = null;
             var idparam = parameters.Where(kp => kp.Key == "_id");
             List<string> usedParameters = new List<string>();
+            bool elementsFilterActive = false;
             if (idparam.Any())
             {
                 // Even though this is a trashy demo app, don't permit walking the file system
@@ -426,6 +427,13 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             }
             foreach (var p in parameters)
             {
+                if (p.Key == "_elements")
+                {
+                    usedParameters.Add(p.Key);
+                    resource.SetAnnotation(new FilterOutputToElements(p.Value));
+                    elementsFilterActive = true;
+                    continue;
+                }
                 var r = Indexer.Search(ResourceName, p.Key, p.Value);
                 if (r != null)
                 {
@@ -472,7 +480,15 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                         {
                             Mode = Bundle.SearchEntryMode.Match
                         };
+                if (elementsFilterActive)
+                {
+                    // Add in the Meta Tag that indicates that this resource is only a partial
+                    if (item.Meta == null) item.Meta = new Meta();
+                    if (!item.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                        item.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
+                }
             }
+
             resource.Total = resource.Entry.Count(e => e.Search.Mode == Bundle.SearchEntryMode.Match);
             if (Count.HasValue)
                 resource.Entry = resource.Entry.Take(Count.Value).ToList();

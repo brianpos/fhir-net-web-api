@@ -206,7 +206,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             {
                 var lc = new LaunchContext()
                 {
-                    Name = e.GetExtensionValue<Id>("name")?.Value ?? e.GetStringExtension("name"),
+                    Name = e.GetExtensionValue<Coding>("name")?.Code ?? e.GetExtensionValue<Id>("name")?.Value ?? e.GetStringExtension("name"),
                     Type = e.GetExtensionValue<Code>("type"),
                     Description = e.GetStringExtension("description")
                 };

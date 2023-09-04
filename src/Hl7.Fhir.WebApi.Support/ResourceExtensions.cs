@@ -18,6 +18,8 @@ namespace Hl7.Fhir.WebApi
 {
     public static class ResourceExtensions
     {
+        public const string SubsettedSystem = "http://terminology.hl7.org/CodeSystem/v3-ObservationValue";
+
         #region << Parameter Extractions Extensions >>
         public static string GetString(this Parameters me, string name)
         {

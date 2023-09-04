@@ -18,9 +18,6 @@ using Hl7.Fhir.Utility;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Text;
-using System.Diagnostics;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Threading;
 using System.Buffers;
 
 using Microsoft.AspNetCore.Http;
@@ -147,18 +144,28 @@ namespace Hl7.Fhir.WebApi
                             // We will only honor the summary type during serialization of the outcome
                             // if the resource wasn't a stored OpOutcome we are returning
                             OperationOutcome resource = (OperationOutcome)context.Object;
+                            string[] elements = null;
+                            if (resource.HasAnnotation<FilterOutputToElements>())
+                            {
+                                elements = resource.Annotation<FilterOutputToElements>().Value;
+                            }
                             if (string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
                                 st = resource.Annotation<SummaryType>();
-                            new FhirJsonSerializer().Serialize(resource, jsonwriter, st);
+                            new FhirJsonSerializer().Serialize(resource, jsonwriter, st, elements);
                         }
                         else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
                         {
                             if (context.Object != null)
                             {
                                 Resource r = context.Object as Resource;
+                                string[] elements = null;
+                                if (r.HasAnnotation<FilterOutputToElements>())
+                                {
+                                    elements = r.Annotation<FilterOutputToElements>().Value;
+                                }
                                 if (r.HasAnnotation<SummaryType>())
                                     st = r.Annotation<SummaryType>();
-                                new FhirJsonSerializer().Serialize(r, jsonwriter, st);
+                                new FhirJsonSerializer().Serialize(r, jsonwriter, st, elements);
                             }
                         }
                         jsonwriter.Flush();

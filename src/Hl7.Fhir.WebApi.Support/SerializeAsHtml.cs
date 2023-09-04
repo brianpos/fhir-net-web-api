@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -41,7 +42,12 @@ namespace Hl7.Fhir.WebApi
         {
             // Before we actually do any serialization, apply the Summary Type property
             // (since this code doesn't handle this itself - yet)
-            var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st);
+            string[] elements = null;
+            if (me.HasAnnotation<FilterOutputToElements>())
+            {
+                elements = me.Annotation<FilterOutputToElements>().Value;
+            }
+            var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st, null, elements);
             var resource = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(partialResource);
 
             sw.WriteLine("<div class='fhir_resource'>");
@@ -251,7 +257,12 @@ namespace Hl7.Fhir.WebApi
         {
             // Before we actually do any serialization, apply the Summary Type property
             // (since this code doesn't handle this itself - yet)
-            var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st);
+            string[] elements = null;
+            if (me.HasAnnotation<FilterOutputToElements>())
+            {
+                elements = me.Annotation<FilterOutputToElements>().Value;
+            }
+            var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st, null, elements);
             var resource = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(partialResource);
 
             sw.WriteLine("<div class='fhir_resource'>");

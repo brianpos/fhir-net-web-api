@@ -17,12 +17,7 @@ using Hl7.Fhir.Serialization;
 using System.Text;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Utility;
-using System.Diagnostics;
-using System.Threading;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Hl7.Fhir.ElementModel;
 
 namespace Hl7.Fhir.WebApi
@@ -117,18 +112,28 @@ namespace Hl7.Fhir.WebApi
                         // We will only honor the summary type during serialization of the outcome
                         // if the resource wasn't a stored OpOutcome we are returning
                         OperationOutcome resource = (OperationOutcome)context.Object;
+                        string[] elements = null;
+                        if (resource.HasAnnotation<FilterOutputToElements>())
+                        {
+                            elements = resource.Annotation<FilterOutputToElements>().Value;
+                        }
                         if (!string.IsNullOrEmpty(resource.Id) && resource.HasAnnotation<SummaryType>())
                             st = resource.Annotation<SummaryType>();
-                        new FhirXmlSerializer().Serialize(resource, writer, st);
+                        new FhirXmlSerializer().Serialize(resource, writer, st, null, elements);
                     }
                     else if (typeof(Resource).IsAssignableFrom(context.ObjectType))
                     {
                         if (context.Object != null)
                         {
                             Resource r = context.Object as Resource;
+                            string[] elements = null;
+                            if (r.HasAnnotation<FilterOutputToElements>())
+                            {
+                                elements = r.Annotation<FilterOutputToElements>().Value;
+                            }
                             if (r.HasAnnotation<SummaryType>())
                                 st = r.Annotation<SummaryType>();
-                            new FhirXmlSerializer().Serialize(r, writer, st);
+                            new FhirXmlSerializer().Serialize(r, writer, st, null, elements);
                         }
                     }
                     writer.Flush();

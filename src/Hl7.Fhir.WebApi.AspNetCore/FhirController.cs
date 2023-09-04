@@ -260,7 +260,7 @@ namespace Hl7.Fhir.WebApi
             }
         }
 
-        private static void PrepareResourceForOutputWithSummary(ModelBaseInputs<IServiceProvider> inputs, SummaryType summary, Resource resource)
+        private void PrepareResourceForOutputWithSummary(ModelBaseInputs<IServiceProvider> inputs, SummaryType summary, Resource resource)
         {
             if (resource != null)
             {
@@ -302,6 +302,16 @@ namespace Hl7.Fhir.WebApi
                     }
                 }
                 resource.SetAnnotation(summary);
+
+                // apply the _elements parameter
+                if (!resource.HasAnnotation<FilterOutputToElements>())
+                {
+                    var elemsParam = Request.GetParameter("_elements");
+                    if (!string.IsNullOrEmpty(elemsParam))
+                    {
+                        resource.SetAnnotation(new FilterOutputToElements(elemsParam));
+                    }
+                }
             }
         }
 
@@ -536,6 +546,18 @@ namespace Hl7.Fhir.WebApi
                 result.ResourceBase = inputs.BaseUri;
 
                 PrepareResourceForOutputWithSummary(inputs, summary, result);
+
+                // apply the subset filter if required
+                if (result.HasAnnotation<FilterOutputToElements>())
+                {
+                    // Add in the Meta Tag that indicates that this resource is only a partial
+                    foreach (Resource resource in result.Entry.Select(e => e.Resource))
+                    {
+                        if (resource.Meta == null) resource.Meta = new Meta();
+                        if (!resource.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                            resource.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
+                    }
+                }
                 return result;
             }
             catch (NotImplementedException)
@@ -580,6 +602,18 @@ namespace Hl7.Fhir.WebApi
                 result.ResourceBase = inputs.BaseUri;
 
                 PrepareResourceForOutputWithSummary(inputs, summary, result);
+
+                // apply the subset filter if required
+                if (result.HasAnnotation<FilterOutputToElements>())
+                {
+                    // Add in the Meta Tag that indicates that this resource is only a partial
+                    foreach (Resource resource in result.Entry.Select(e => e.Resource))
+                    {
+                        if (resource.Meta == null) resource.Meta = new Meta();
+                        if (!resource.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                            resource.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
+                    }
+                }
                 return result;
             }
             catch (NotImplementedException)
@@ -609,6 +643,18 @@ namespace Hl7.Fhir.WebApi
                 result.ResourceBase = inputs.BaseUri;
 
                 PrepareResourceForOutputWithSummary(inputs, summary, result);
+
+                // apply the subset filter if required
+                if (result.HasAnnotation<FilterOutputToElements>())
+                {
+                    // Add in the Meta Tag that indicates that this resource is only a partial
+                    foreach (Resource resource in result.Entry.Select(e => e.Resource))
+                    {
+                        if (resource.Meta == null) resource.Meta = new Meta();
+                        if (!resource.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                            resource.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
+                    }
+                }
                 return result;
             }
             catch (NotImplementedException)
@@ -658,6 +704,18 @@ namespace Hl7.Fhir.WebApi
 
                 // this.Request.SaveEntry(result);
                 PrepareResourceForOutputWithSummary(inputs, summary, result);
+
+                // apply the subset filter if required
+                if (result.HasAnnotation<FilterOutputToElements>())
+                {
+                    // Add in the Meta Tag that indicates that this resource is only a partial
+                    foreach (Resource resource in result.Entry.Select(e => e.Resource))
+                    {
+                        if (resource.Meta == null) resource.Meta = new Meta();
+                        if (!resource.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                            resource.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
+                    }
+                }
                 return result;
             }
             catch (NotImplementedException)
@@ -686,6 +744,18 @@ namespace Hl7.Fhir.WebApi
                 result.ResourceBase = inputs.BaseUri;
 
                 PrepareResourceForOutputWithSummary(inputs, summary, result);
+
+                // apply the subset filter if required
+                if (result.HasAnnotation<FilterOutputToElements>())
+                {
+                    // Add in the Meta Tag that indicates that this resource is only a partial
+                    foreach (Resource resource in result.Entry.Select(e => e.Resource))
+                    {
+                        if (resource.Meta == null) resource.Meta = new Meta();
+                        if (!resource.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                            resource.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
+                    }
+                }
                 return result;
             }
             catch (NotImplementedException)

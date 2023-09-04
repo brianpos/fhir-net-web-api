@@ -96,6 +96,16 @@ namespace Hl7.Fhir.WebApi
                 }
                 catch (DeserializationFailedException exception)
                 {
+                    var outcome = exception.ToOperationOutcome();
+                    if (outcome.Fatals == 0 && exception.PartialResult is Resource r)
+                    {
+                        // If the errors are not fatal and we have a resource then we can return it
+                        // and the validation layer that follows will be able to grab it
+                        // But we'll tack the outcome into the resource incase models want to refer back to it
+                        r.AddAnnotation(outcome);
+                        return InputFormatterResult.Success(r);
+                    }
+
                     throw HandleBodyParsingFormatException(exception);
                 }
             }

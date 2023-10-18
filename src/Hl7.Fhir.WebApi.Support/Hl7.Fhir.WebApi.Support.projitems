@@ -12,8 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)BatchOperationProcessing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CurrentCanonical.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FhirSmartAppLaunchConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IFhirResourceServiceR4.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IFhirSystemServiceR4.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IFhirResourceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IFhirSystemService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelAnnotations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelBaseInputs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OperationOutcomeExtensions.cs" />

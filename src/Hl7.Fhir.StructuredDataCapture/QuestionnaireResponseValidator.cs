@@ -351,7 +351,10 @@ namespace Hl7.Fhir.StructuredDataCapture
                 case ValidationResult.required:
                     code = OperationOutcome.IssueType.Required;
                     details.Coding[0].Display = "required";
-                    details.Text = $"{fieldDisplayText}: Mandatory field does not have an answer";
+                    if (itemDefinition.Type == Questionnaire.QuestionnaireItemType.Group)
+                        details.Text = $"{fieldDisplayText}: Mandatory group does not have answer(s)";
+                    else
+                        details.Text = $"{fieldDisplayText}: Mandatory field does not have an answer";
                     break;
 
                 case ValidationResult.invariant:
@@ -670,7 +673,6 @@ namespace Hl7.Fhir.StructuredDataCapture
                     // TODO: Date value output formatting - needs to be able to handle client side language
                     System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("en-US");
                     return string.Join(" ", (value as Date).ToDateTimeOffset().Value.Date.ToString(ci), units);
-                    // break;
                 case Questionnaire.QuestionnaireItemType.DateTime:
                     // TODO: DateTime value output formatting - needs to be able to handle client side language
                     break;

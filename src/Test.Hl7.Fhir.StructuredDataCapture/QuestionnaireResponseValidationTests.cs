@@ -753,6 +753,33 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
         }
 
         [TestMethod]
+        public async Task ValidateGroupRequired()
+        {
+            var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateGroupWithStringInvalidNesting" };
+            q.Item.Add(new Questionnaire.ItemComponent { LinkId = "grp1", Type = Questionnaire.QuestionnaireItemType.Group, Required = true });
+            q.Item[0].Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String });
+            q.Item[0].Item.Add(new Questionnaire.ItemComponent { LinkId = "q2", Type = Questionnaire.QuestionnaireItemType.String });
+
+            var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateGroupWithStringInvalidNesting" };
+            qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "grp1" });
+
+            var validator = new QuestionnaireResponseValidator();
+            var outcome = await validator.Validate(qr, q);
+            DebugDumpXml(q);
+            DebugDumpXml(qr);
+            DebugDumpXml(outcome);
+
+            Assert.AreEqual(1, outcome.Issue.Count); // 1 for invalid nesting, 2 for mandatory fields missing (due to nesting)
+            Assert.AreEqual(0, outcome.Fatals);
+            Assert.AreEqual(1, outcome.Errors);
+            Assert.AreEqual(0, outcome.Warnings);
+            Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+            Assert.AreEqual(OperationOutcome.IssueType.Required, outcome.Issue[0].Code);
+            Assert.AreEqual(QuestionnaireResponseValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+            Assert.AreEqual("required", outcome.Issue[0].Details.Coding[0].Code);
+        }
+
+        [TestMethod]
         public async Task ValidateGroupWithStringInvalidNestingLinkId()
         {
             // check that the mandatory fields in grp1 weren't fired, as there is no grp1 included

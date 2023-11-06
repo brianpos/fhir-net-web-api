@@ -676,13 +676,19 @@ namespace Hl7.Fhir.StructuredDataCapture
                 case Questionnaire.QuestionnaireItemType.DateTime:
                     // TODO: DateTime value output formatting - needs to be able to handle client side language
                     break;
-                case Questionnaire.QuestionnaireItemType.Choice:
+#if FHIR_R5
+				case Questionnaire.QuestionnaireItemType.Coding:
+					if (value is Coding coding) return coding.Display ?? coding.Code;
+					break;
+#else
+				case Questionnaire.QuestionnaireItemType.Choice:
                     if (value is Coding coding) return coding.Display ?? coding.Code;
                     break;
                 case Questionnaire.QuestionnaireItemType.OpenChoice:
                     if (value is Coding codingOpen) return codingOpen.Display ?? codingOpen.Code;
                     break;
-                case Questionnaire.QuestionnaireItemType.Attachment:
+#endif
+				case Questionnaire.QuestionnaireItemType.Attachment:
                     // just return the first n chars of the attachment?
                     if (value is Attachment att)
                     {
@@ -1016,6 +1022,33 @@ namespace Hl7.Fhir.StructuredDataCapture
                     else
                         ReportValidationMessage(ValidationResult.invalidAnswerType, itemDef, answerItemPathExpression, status, item, answerIndex, null);
                     break;
+#if FHIR_R5
+                case Questionnaire.QuestionnaireItemType.Coding:
+					if (item.Answer[answerIndex].Value is Coding coding)
+					{
+						// validate the coding
+						ValidateCodingValue(item, itemDef, answerIndex, answerItemPathExpression, coding, status);
+					}
+					else
+                    {
+                        // The answerConstraint property can permit other types of values
+                        if (itemDef.AnswerConstraint == Questionnaire.QuestionnaireAnswerConstraint.OptionsOrString)
+                        {
+                            // This is the equivalent of open-choice in R4/R4B
+                            if (item.Answer[answerIndex].Value is FhirString strVal)
+                            {
+                                ValidateStringValue(false, item, itemDef, answerIndex, answerItemPathExpression, strVal, status);
+                            }
+                            else
+                                ReportValidationMessage(ValidationResult.invalidAnswerOption, itemDef, answerItemPathExpression, status, item, answerIndex, null);
+                        }
+                        else
+                        {
+						ReportValidationMessage(ValidationResult.invalidAnswerType, itemDef, answerItemPathExpression, status, item, answerIndex, null);
+                        }
+                    }
+					break;
+#else
                 case Questionnaire.QuestionnaireItemType.Choice:
                     if (item.Answer[answerIndex].Value is Coding coding)
                     {
@@ -1039,6 +1072,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                     else
                         ReportValidationMessage(ValidationResult.invalidAnswerType, itemDef, answerItemPathExpression, status, item, answerIndex, null);
                     break;
+#endif
                 case Questionnaire.QuestionnaireItemType.Attachment:
                     if (item.Answer[answerIndex].Value is Attachment att)
                     {

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0a985d02-91b3-4d2f-95a0-fcd8bf8635b1</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Hl7.Fhir.StructuredDataCapture</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CanonicalUrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)QuestionnaireResponseExtract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)QuestionnaireResponseValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)QuestionnaireValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StructuredDataCaptureExtensions.cs" />
+  </ItemGroup>
+</Project>

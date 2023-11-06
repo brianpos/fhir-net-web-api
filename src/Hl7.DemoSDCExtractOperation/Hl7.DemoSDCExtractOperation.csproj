@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.33" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.R4B.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj" />
     <ProjectReference Include="..\Hl7.Fhir.R4B.WebApi.AspNetCore\Hl7.Fhir.R4B.WebApi.AspNetCore.csproj" />
   </ItemGroup>
   <ItemGroup>

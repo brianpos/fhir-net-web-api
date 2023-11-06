@@ -75,7 +75,6 @@ namespace Hl7.Fhir.StructuredDataCapture
 		/// <param name="Q"></param>
 		/// <param name="itemDefinition"></param>
 		/// <param name="locationExpression"></param>
-		/// <param name="answerIndex"></param>
 		/// <param name="invariant"></param>
 		/// <param name="exceptionThrown"></param>
 		/// <returns></returns>

@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.DemoFileSystem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.DemoSqliteServer", "Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj", "{BB361399-9AF7-4C48-8DC3-715D6F77507C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.StructuredDataCapture", "Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj", "{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Hl7.Fhir.StructuredDataCapture", "Test.Hl7.Fhir.StructuredDataCapture\Test.Hl7.Fhir.StructuredDataCapture.csproj", "{476FF6CE-682E-401A-BFD5-6DE000504AD2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.DemoSDCExtractOperation", "Hl7.DemoSDCExtractOperation\Hl7.DemoSDCExtractOperation.csproj", "{78DBB9D6-9E23-47AD-B60B-2FB849253765}"
@@ -54,6 +52,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.DemoFileSystemServer", "Hl7.Fhir.R4.DemoFileSystemServer\Hl7.Fhir.R4.DemoFileSystemServer.csproj", "{C945797F-31F9-4B9B-B0E3-FDBBFA881E69}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R5.DemoFileSystemServer", "Hl7.Fhir.R5.DemoFileSystemServer\Hl7.Fhir.R5.DemoFileSystemServer.csproj", "{A912EA68-E4DA-4948-BB82-FA653CD18B3B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4.StructuredDataCapture", "Hl7.Fhir.R4.StructuredDataCapture\Hl7.Fhir.R4.StructuredDataCapture.csproj", "{7AC11A42-17AA-4FD7-9B30-C0C759412429}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R5.StructuredDataCapture", "Hl7.Fhir.R5.StructuredDataCapture\Hl7.Fhir.R5.StructuredDataCapture.csproj", "{7D91EDD9-CEF9-4B67-9623-98C9146046BD}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.StructuredDataCapture", "Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.StructuredDataCapture.shproj", "{8C2BE087-2FC3-4551-85F6-74B04F780E42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.R4B.StructuredDataCapture", "Hl7.Fhir.R4B.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj", "{B5E31670-46BB-4474-BD29-C3B454CB3E7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,10 +103,6 @@ Global
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB361399-9AF7-4C48-8DC3-715D6F77507C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0FAE701-F963-4626-B2AE-0EF7FE6374A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{476FF6CE-682E-401A-BFD5-6DE000504AD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{476FF6CE-682E-401A-BFD5-6DE000504AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{476FF6CE-682E-401A-BFD5-6DE000504AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -133,6 +135,18 @@ Global
 		{A912EA68-E4DA-4948-BB82-FA653CD18B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A912EA68-E4DA-4948-BB82-FA653CD18B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A912EA68-E4DA-4948-BB82-FA653CD18B3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC11A42-17AA-4FD7-9B30-C0C759412429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC11A42-17AA-4FD7-9B30-C0C759412429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AC11A42-17AA-4FD7-9B30-C0C759412429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC11A42-17AA-4FD7-9B30-C0C759412429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D91EDD9-CEF9-4B67-9623-98C9146046BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D91EDD9-CEF9-4B67-9623-98C9146046BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D91EDD9-CEF9-4B67-9623-98C9146046BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D91EDD9-CEF9-4B67-9623-98C9146046BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E31670-46BB-4474-BD29-C3B454CB3E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E31670-46BB-4474-BD29-C3B454CB3E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E31670-46BB-4474-BD29-C3B454CB3E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E31670-46BB-4474-BD29-C3B454CB3E7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -150,7 +164,11 @@ Global
 		Hl7.Fhir.WebApi.AspNetCore\Hl7.Fhir.WebApi.AspNetCore.projitems*{7825adc5-51c5-403a-b5d2-ff1e5b69aa77}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{78a22d9d-aa52-4466-9dce-3fca8ba67f7c}*SharedItemsImports = 5
 		Hl7.Fhir.WebApi.Support\Hl7.Fhir.WebApi.Support.projitems*{795e0267-9cb2-46e4-b2a7-f9ae3d7661ce}*SharedItemsImports = 5
+		Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.StructuredDataCapture.projitems*{7ac11a42-17aa-4fd7-9b30-c0c759412429}*SharedItemsImports = 5
+		Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.StructuredDataCapture.projitems*{7d91edd9-cef9-4b67-9623-98c9146046bd}*SharedItemsImports = 5
+		Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.StructuredDataCapture.projitems*{8c2be087-2fc3-4551-85f6-74b04f780e42}*SharedItemsImports = 13
 		Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.projitems*{a912ea68-e4da-4948-bb82-fa653cd18b3b}*SharedItemsImports = 5
+		Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.StructuredDataCapture.projitems*{b5e31670-46bb-4474-bd29-c3b454cb3e7a}*SharedItemsImports = 5
 		Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.projitems*{bf88a3db-1689-4f3c-9a9a-b331955cd15b}*SharedItemsImports = 13
 		Hl7.Fhir.DemoFileSystemServer\Hl7.Fhir.DemoFileSystemServer.projitems*{c945797f-31f9-4b9b-b0e3-fdbbfa881e69}*SharedItemsImports = 5
 	EndGlobalSection

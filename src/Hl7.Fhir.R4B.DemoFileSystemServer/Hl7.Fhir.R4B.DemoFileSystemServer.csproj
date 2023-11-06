@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hl7.Fhir.R4B.WebApi.Support\Hl7.Fhir.R4B.WebApi.Support.csproj" />
-    <ProjectReference Include="..\Hl7.Fhir.StructuredDataCapture\Hl7.Fhir.R4B.StructuredDataCapture.csproj" />
   </ItemGroup>
 
   <ItemGroup>

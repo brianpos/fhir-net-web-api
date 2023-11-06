@@ -317,6 +317,11 @@ namespace Hl7.Fhir.StructuredDataCapture
 			table.Add(name, () => { return value; });
 		}
 
+		public static void AddFakeFunction(Hl7.FhirPath.Expressions.SymbolTable table, string name)
+		{
+			table.Add(name, (IEnumerable<ITypedElement> f) => { return ElementNode.EmptyList; }, doNullProp: true);
+		}
+
 		public async Task<OperationOutcome> Validate(Questionnaire q)
 		{
 			// Check the canonical versioning algorithm and version don't contradict each other
@@ -343,9 +348,18 @@ namespace Hl7.Fhir.StructuredDataCapture
 				ReportValidationMessage(ValidationResult.questionnaireRetired, q, null, new[] { "Questionnaire.status" }, null);
 			}
 
-			//// Check that the structure matches
+			// Check that the structure matches
 			var symbolTable = new Hl7.FhirPath.Expressions.SymbolTable(Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable);
+			// Register the SDC specific functions/variables
+			// from http://build.fhir.org/ig/HL7/sdc/expressions.html#fhirpath-supplements
 			symbolTable.AddVar("questionnaire", q.ToTypedElement());
+			AddFakeFunction(symbolTable, "answers");
+			AddFakeFunction(symbolTable, "ordinal");
+			AddFakeFunction(symbolTable, "sum");
+			AddFakeFunction(symbolTable, "min");
+			AddFakeFunction(symbolTable, "max");
+			// AddVariable(symbolTable, "count"); Isn't this already a function?
+			AddFakeFunction(symbolTable, "avg");
 
 			// Register any launch contexts
 			foreach (var lc in q.LaunchContexts())

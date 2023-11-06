@@ -19,11 +19,15 @@
   <ItemGroup>
     <None Remove="TestData\Questionnaire.bit-of-everything.xml" />
     <None Remove="TestData\Questionnaire.health-status-example.json" />
+    <None Remove="TestData\Questionnaire.variables-example.json" />
     <None Remove="TestData\sqlonfhir-r4-questionnaireresponses.xml" />
     <None Remove="TestData\sqlonfhir-r4-questionnaires.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="TestData\Questionnaire.variables-example.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestData\Questionnaire.bit-of-everything.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -135,6 +135,31 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		}
 
 		[TestMethod]
+		public async Task TestVariablesExampleFromSpec()
+		{
+			// https://build.fhir.org/ig/HL7/sdc/Questionnaire-questionnaire-sdc-profile-example-framingham-hchd-lhc.json
+			string testFile = @"TestData\Questionnaire.variables-example.json";
+			var q = new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+
+			if (outcome.Issue.Any())
+				DebugDumpXml(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Exception, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("invalidFhirpathExpression", outcome.Issue[0].Details.Coding[0].Code);
+			// Also need to determine what location the report is on, the answer, or the item?
+			Assert.AreEqual("Questionnaire.extension[0].expression", outcome.Issue[0].Expression.First());
+		}
+
+		[TestMethod]
 		public async Task ValidateInvariantWithQuestionnaireVariable()
 		{
 			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateInvariantQuestionnaire", Version = "0.1" };

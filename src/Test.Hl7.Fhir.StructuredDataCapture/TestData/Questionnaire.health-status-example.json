@@ -127,7 +127,7 @@
               "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
               "valueExpression": {
                 "language": "text/fhirpath",
-                "expression": "%patient.telecom.where(system='phone').first().value"
+                "expression": "%patient.telecom.where(system='phone').first().value.answers()"
               }
             }
           ]

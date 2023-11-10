@@ -14,5 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)QuestionnaireResponseValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QuestionnaireValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StructuredDataCaptureExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypedVariableSymbolTable.cs" />
   </ItemGroup>
 </Project>

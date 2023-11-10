@@ -58,7 +58,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			Trace.WriteLine($"Validated Qs: {totalValidated}");
 			Trace.WriteLine($"Errors: {errors}");
 			Trace.WriteLine($"Warnings: {warnings}");
-			Assert.AreEqual(3, errors, $"Expected 3 errors, found {errors}/{warnings}");
+			Assert.AreEqual(3, errors, $"Expected 3 errors, found Errors:{errors} - Warnings:{warnings}");
 		}
 
 		[TestMethod, Ignore]
@@ -124,12 +124,12 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
                 DebugDumpXml(outcome);
 
 			// Cool we found 4 errors with the validator!
-            Assert.AreEqual(4, outcome.Errors);
+            Assert.AreEqual(7, outcome.Errors);
 			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
 			Assert.AreEqual(OperationOutcome.IssueType.Exception, outcome.Issue[0].Code);
 			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
 			Assert.AreEqual("invalidFhirpathExpression", outcome.Issue[0].Details.Coding[0].Code);
-			Assert.AreEqual(0, outcome.Warnings);
+			Assert.AreEqual(1, outcome.Warnings);
 			Assert.AreEqual("Questionnaire.extension[1].expression", outcome.Issue[0].Expression.First());
 
 		}
@@ -146,10 +146,10 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			if (outcome.Issue.Any())
 				DebugDumpXml(outcome);
 
-			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(5, outcome.Issue.Count, "Expected 5 total issues");
 			Assert.AreEqual(0, outcome.Fatals);
-			Assert.AreEqual(1, outcome.Errors);
-			Assert.AreEqual(0, outcome.Warnings);
+			Assert.AreEqual(4, outcome.Errors);
+			Assert.AreEqual(1, outcome.Warnings);
 
 			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
 			Assert.AreEqual(OperationOutcome.IssueType.Exception, outcome.Issue[0].Code);
@@ -230,6 +230,62 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			Assert.AreEqual(OperationOutcome.IssueType.Exception, outcome.Issue[0].Code);
 			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
 			Assert.AreEqual("invalidFhirpathExpression", outcome.Issue[0].Details.Coding[0].Code);
+			// Also need to determine what location the report is on, the answer, or the item?
+			Assert.AreEqual("Questionnaire.item[0].extension[0].extension[2]", outcome.Issue[0].Expression.First());
+		}
+
+		[TestMethod]
+		public async Task ValidateConstraintExpression()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateConstraintExpression" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			var ce = new Extension() { Url = "http://hl7.org/fhir/StructureDefinition/questionnaire-constraint" };
+			ce.SetExtension("key", new Id("k1"));
+			ce.SetExtension("severity", new Code("warning"));
+			ce.SetStringExtension("expression", "true");
+			ce.SetStringExtension("human", "Dodgy invariant/constraint");
+			q.Item[0].Extension.Add(ce);
+
+			// qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a3" } });
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXml(outcome);
+
+			Assert.AreEqual(0, outcome.Issue.Count);
+		}
+
+		[TestMethod]
+		public async Task ValidateConstraintExpressionReturningAString()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateConstraintExpressionReturningAString" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			var ce = new Extension() { Url = "http://hl7.org/fhir/StructureDefinition/questionnaire-constraint" };
+			ce.SetExtension("key", new Id("k1"));
+			ce.SetExtension("severity", new Code("warning"));
+			ce.SetStringExtension("expression", "'a string' | 'some other string'");
+			ce.SetStringExtension("human", "Dodgy invariant/constraint");
+			q.Item[0].Extension.Add(ce);
+
+			// qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a3" } });
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXml(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("invalidConstraint", outcome.Issue[0].Details.Coding[0].Code);
 			// Also need to determine what location the report is on, the answer, or the item?
 			Assert.AreEqual("Questionnaire.item[0].extension[0].extension[2]", outcome.Issue[0].Expression.First());
 		}

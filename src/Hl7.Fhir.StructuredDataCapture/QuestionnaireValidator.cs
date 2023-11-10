@@ -1,4 +1,5 @@
 ﻿using Hl7.Fhir.ElementModel;
+using Hl7.Fhir.FhirPath.Validator;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.FhirPath;
@@ -51,9 +52,20 @@ namespace Hl7.Fhir.StructuredDataCapture
 			invalidFhirQuery,
 
 			/// <summary>
+			/// Extended fhirpath validation checking failed
+			/// </summary>
+			invalidFhirpathExpressionTypes,
+
+			/// <summary>
+			/// The constraint fhirpath expression does not return a boolean value
+			/// </summary>
+			invalidConstraint,
+
+			/// <summary>
 			/// Fhirpath expression refers to a variable that is not defined
 			/// </summary>
 			undefinedVariable,
+
 			invalidExtensionType,
 			sourceQueryNotFound,
 			questionnaireRetired,
@@ -107,6 +119,13 @@ namespace Hl7.Fhir.StructuredDataCapture
 					details.Text = $"The Questionnaire has been marked as retired";
 					break;
 
+				case ValidationResult.sourceQueryNotFound:
+					severity = OperationOutcome.IssueSeverity.Error;
+					code = OperationOutcome.IssueType.NotFound;
+					details.Coding[0].Display = "Source Query not found";
+					details.Text = $"The Source Query not found";
+					break;
+
 				//case ValidationResult.questionnaireDraft:
 				//    severity = OperationOutcome.IssueSeverity.Warning;
 				//    code = OperationOutcome.IssueType.BusinessRule;
@@ -135,12 +154,12 @@ namespace Hl7.Fhir.StructuredDataCapture
 				//    details.Text = $"{fieldDisplayText}: The type 'Group' should not use the 'answer' property, use the 'item' property for children";
 				//    break;
 
-				//case ValidationResult.invalidType:
-				//    severity = OperationOutcome.IssueSeverity.Fatal; // mark corrupt type issues as fatal
-				//    code = OperationOutcome.IssueType.Structure;
-				//    details.Coding[0].Display = "invalid item Type";
-				//    details.Text = $"{fieldDisplayText}: The type 'Question' is not selectable - use a specific child item type instead";
-				//    break;
+				case ValidationResult.invalidExtensionType:
+					severity = OperationOutcome.IssueSeverity.Error; // mark corrupt type issues as fatal
+					code = OperationOutcome.IssueType.Structure;
+					details.Coding[0].Display = "invalid extension value type";
+					details.Text = $"{fieldDisplayText}: An unexpected extension value type was encountered.";
+					break;
 
 				//case ValidationResult.displayAnswer:
 				//    severity = OperationOutcome.IssueSeverity.Fatal; // mark corrupt type issues as fatal
@@ -164,9 +183,26 @@ namespace Hl7.Fhir.StructuredDataCapture
 				case ValidationResult.invalidFhirpathExpression:
 					code = OperationOutcome.IssueType.Exception;
 					severity = OperationOutcome.IssueSeverity.Error;
-					details.Coding[0].Display = "Invalid fhirpath expression";
+					details.Coding[0].Display = "Invalid fhirpath expression (grammar)";
 					details.Text = $"{fieldDisplayText}: fhirpath expression does not compile";
-					diagnostics = $"Expression: {fhirpathExpressionText}\r\nException: {exceptionThrown.Message}";
+					diagnostics = $"Expression: {fhirpathExpressionText}\r\nException: {exceptionThrown?.Message ?? "(null)"}";
+					break;
+
+				case ValidationResult.invalidConstraint:
+					code = OperationOutcome.IssueType.Value;
+					severity = OperationOutcome.IssueSeverity.Error;
+					details.Coding[0].Display = "Expression does not return a boolean";
+					details.Text = $"{fieldDisplayText}: Constraint expression does not return a boolean value";
+					if (exceptionThrown is ValidationMessageException vme)
+						diagnostics = $"Expression: {fhirpathExpressionText}\r\nExpression returns: {vme.ReturnType}";
+					break;
+
+				case ValidationResult.invalidFhirpathExpressionTypes:
+					code = OperationOutcome.IssueType.Invalid;
+					severity = OperationOutcome.IssueSeverity.Error;
+					details.Coding[0].Display = "Invalid fhirpath expression (types)";
+					details.Text = $"{fieldDisplayText}: fhirpath expression contains type";
+					diagnostics = $"Expression: {fhirpathExpressionText}\r\nException: {exceptionThrown?.Message ?? "(null)"}";
 					break;
 
 				case ValidationResult.invalidRegex:
@@ -222,6 +258,9 @@ namespace Hl7.Fhir.StructuredDataCapture
 					System.Diagnostics.Debugger.Break(); // wake up/slap the developer to actually deal with this
 					break;
 			}
+
+			if (details.Text?.StartsWith(":") == true)
+				details.Text = details.Text.TrimStart(new char[] { ' ', ':' });
 
 			if (_settings.Logger != null)
 			{
@@ -312,12 +351,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 			return String.Compare(date1.Substring(0, minPrecision), date2.Substring(0, minPrecision));
 		}
 
-		public static void AddVariable(Hl7.FhirPath.Expressions.SymbolTable table, string name, IEnumerable<ITypedElement> value)
-		{
-			table.Add(name, () => { return value; });
-		}
-
-		public static void AddFakeFunction(Hl7.FhirPath.Expressions.SymbolTable table, string name)
+		public static void AddFakeFunction(TypedVariableSymbolTable table, string name)
 		{
 			table.Add(name, (IEnumerable<ITypedElement> f) => { return ElementNode.EmptyList; }, doNullProp: true);
 		}
@@ -349,10 +383,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 
 			// Check that the structure matches
-			var symbolTable = new Hl7.FhirPath.Expressions.SymbolTable(Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable);
+			var symbolTable = new TypedVariableSymbolTable(Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable);
 			// Register the SDC specific functions/variables
 			// from http://build.fhir.org/ig/HL7/sdc/expressions.html#fhirpath-supplements
-			symbolTable.AddVar("questionnaire", q.ToTypedElement());
+			symbolTable.AddVar("questionnaire", q.ToTypedElement(), typeof(Questionnaire));
 			AddFakeFunction(symbolTable, "answers");
 			AddFakeFunction(symbolTable, "ordinal");
 			AddFakeFunction(symbolTable, "sum");
@@ -370,7 +404,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					ReportValidationMessage(ValidationResult.variableHasNoName, q, null, new[] { "Questionnaire" }, null, null);
 					continue;
 				}
-				AddVariable(symbolTable, lc.Name, ElementNode.EmptyList); // the type of this will be in lc.Type
+				symbolTable.AddVar(lc.Name, ElementNode.EmptyList, ModelInfo.ModelInspector.FindClassMapping(lc.Type.Value)); // the type of this will be in lc.Type
 			}
 
 			// Register a sourceQuery
@@ -384,7 +418,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				foreach (var b in sqBundle)
 				{
-					symbolTable.AddVar(b.Id, b.ToTypedElement());
+					symbolTable.AddVar(b.Id, b.ToTypedElement(), typeof(Bundle));
 				}
 			}
 
@@ -397,7 +431,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					if (!string.IsNullOrEmpty(fs.Value))
 					{
 						// Add the context to the symbol table so that it can be found in expressions down the tree
-						AddVariable(symbolTable, fs.Value, ElementNode.EmptyList);
+						symbolTable.AddVar(fs.Value, ElementNode.EmptyList);
 					}
 				}
 				else
@@ -410,12 +444,12 @@ namespace Hl7.Fhir.StructuredDataCapture
 			foreach (var expr in q.Extension.Where(ext => _namedExpressionExtensions.Contains(ext.Url)).Select(ext => ext.Value as Expression))
 			{
 				var pathExpression = $"Questionnaire.extension[{q.Extension.IndexOf(q.Extension.First(e => e.Value == expr))}]";
-				ValidateExpression(expr, q, symbolTable, pathExpression, null, true);
+				var expressionResultTypes = ValidateExpression(expr, q, symbolTable, pathExpression, null, true);
 
 				if (!string.IsNullOrEmpty(expr.Expression_) && !string.IsNullOrEmpty(expr.Name))
 				{
 					// Add the context to the symbol table so that it can be found in expressions down the tree
-					AddVariable(symbolTable, expr.Name, ElementNode.EmptyList);
+					symbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionResultTypes);
 				}
 			}
 
@@ -461,7 +495,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
 		});
 
-		private void ValidateItems(Questionnaire Q, SymbolTable symbolTable, string pathExpression, List<Questionnaire.ItemComponent> itemDefinitions)
+		private void ValidateItems(Questionnaire Q, TypedVariableSymbolTable symbolTable, string pathExpression, List<Questionnaire.ItemComponent> itemDefinitions)
 		{
 			foreach (var itemDef in itemDefinitions)
 			{
@@ -469,11 +503,11 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 		}
 
-		private void ValidateItem(Questionnaire Q, SymbolTable symbolTable, string itemPathExpression, Questionnaire.ItemComponent itemDef)
+		private void ValidateItem(Questionnaire Q, TypedVariableSymbolTable symbolTable, string itemPathExpression, Questionnaire.ItemComponent itemDef)
 		{
 			// System.Diagnostics.Trace.WriteLine($"Validating item '{itemDef.LinkId}' - {itemDef.Text}");
-			var itemSymbolTable = new SymbolTable(symbolTable);
-			AddVariable(itemSymbolTable, "qitem", ElementNode.EmptyList);
+			var itemSymbolTable = new TypedVariableSymbolTable(symbolTable);
+			itemSymbolTable.AddVar("qitem", ElementNode.EmptyList, typeof(QuestionnaireResponse.ItemComponent));
 
 			// Process all the expression based details
 			// http://build.fhir.org/ig/HL7/sdc/expressions.html
@@ -481,12 +515,12 @@ namespace Hl7.Fhir.StructuredDataCapture
 			foreach (var expr in itemDef.Extension.Where(ext => _namedExpressionExtensions.Contains(ext.Url)).Select(ext => ext.Value as Expression))
 			{
 				var pathExpression = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(itemDef.Extension.First(e => e.Value == expr))}]";
-				ValidateExpression(expr, Q, symbolTable, pathExpression, itemDef, true);
+				var expressionReturnTypes = ValidateExpression(expr, Q, symbolTable, pathExpression, itemDef, true);
 
 				if (!string.IsNullOrEmpty(expr.Expression_) && !string.IsNullOrEmpty(expr.Name))
 				{
 					// Add the context to the symbol table so that it can be found in expressions down the tree
-					AddVariable(symbolTable, expr.Name, ElementNode.EmptyList);
+					symbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionReturnTypes);
 				}
 			}
 
@@ -579,8 +613,9 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 		}
 
-		void ValidateExpression(Hl7.Fhir.Model.Expression expr, Questionnaire Q, SymbolTable symbolTable, string pathExpression, Questionnaire.ItemComponent itemDef, bool requiresName)
+		FhirPathVisitorProps ValidateExpression(Hl7.Fhir.Model.Expression expr, Questionnaire Q, TypedVariableSymbolTable symbolTable, string pathExpression, Questionnaire.ItemComponent itemDef, bool requiresName)
 		{
+			FhirPathVisitorProps result = null;
 			if (string.IsNullOrEmpty(expr.Expression_))
 			{
 				ReportValidationMessage(ValidationResult.variableNoExpression, Q, itemDef, new[] { pathExpression }, null, null);
@@ -594,6 +629,8 @@ namespace Hl7.Fhir.StructuredDataCapture
 					try
 					{
 						fpc.Compile(expr.Expression_);
+						result = ValidateFhirPathExpressionValidity(symbolTable, itemDef, new[] { pathExpression + ".expression" }, $"Name='{expr.Name}'", expr.Expression_, fpc);
+						// TODO: Now check if the output is of the correct type
 					}
 					catch (Exception ex)
 					{
@@ -612,12 +649,26 @@ namespace Hl7.Fhir.StructuredDataCapture
 						try
 						{
 							fpc.Compile(expression);
+							var partType = ValidateFhirPathExpressionValidity(symbolTable, itemDef, new[] { pathExpression + ".expression" }, $"Name='{expr.Name}'", expression, fpc);
+							// Verify if this is one of the acceptable formats according to
+							// http://hl7.org/fhir/uv/sdc/STU3/expressions.html#x-fhir-query-enhancements
+							List<string> xfhirquerytypes = new List<string>() { "string", "coding", "identifier", "reference", "quantity" };
+							if (!xfhirquerytypes.Any(t => partType.CanBeOfType(t)))
+							{
+								// x-fhir-query fragments need to return a string to be injected into the query string.
+								ReportValidationMessage(ValidationResult.invalidFhirpathExpressionTypes, Q, itemDef, new[] { pathExpression + ".expression" }, null, expression);
+							}
 						}
 						catch (Exception ex)
 						{
 							ReportValidationMessage(ValidationResult.invalidFhirpathExpression, Q, itemDef, new[] { pathExpression + ".expression" }, null, expression, ex);
 						}
 					}
+					// TODO: Infer what return type this query variable should contain.
+					// is it a search, or a get of a single resource?
+					result = new FhirPathVisitorProps();
+					// for now assume it is a search and hence a bundle being returned
+					result.AddType(ModelInfo.ModelInspector, typeof(Bundle));
 				}
 			}
 
@@ -628,9 +679,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 					ReportValidationMessage(ValidationResult.variableHasNoName, Q, itemDef, new[] { pathExpression }, null, null);
 				}
 			}
+			return result;
 		}
 
-		void ValidateConstraints(Questionnaire Q, SymbolTable symbolTable, Questionnaire.ItemComponent itemDef, string pathToConstraint)
+		void ValidateConstraints(Questionnaire Q, TypedVariableSymbolTable symbolTable, Questionnaire.ItemComponent itemDef, string pathToConstraint)
 		{
 			IExtendable context = (IExtendable)itemDef ?? Q;
 			foreach (var inv in StructuredDataCaptureExtensions.ConstraintExtensions(context))
@@ -646,17 +698,84 @@ namespace Hl7.Fhir.StructuredDataCapture
 				{
 					// Validate this fhirpath expression
 					FhirPathCompiler fpc = new FhirPathCompiler(symbolTable);
+					var indexOfExpression = inv.sourceExtension.Extension.IndexOf(inv.sourceExtension.Extension.First(ext => ext.Url == "expression"));
 					try
 					{
 						fpc.Compile(inv.Expression);
+						FhirPathVisitorProps result = ValidateFhirPathExpressionValidity(symbolTable, itemDef, new[] { $"{pathToConstraintExpression}.expression" }, $"Invariant={inv.Key}", inv.Expression, fpc);
+
+						// Now check if the resulting output type  is a boolean, as that's what invariants need to have
+						if (result.ToString() != "boolean")
+						{
+							// This is not a valid invariant style expression
+							var exVal = new ValidationMessageException() { ReturnType = result.ToString() };
+							ReportValidationMessage(ValidationResult.invalidConstraint, Q, itemDef, new[] { $"{pathToConstraintExpression}.extension[{indexOfExpression}]" }, inv, inv.Expression, exVal);
+						}
 					}
 					catch (Exception ex)
 					{
-						var indexOfExpression = inv.sourceExtension.Extension.IndexOf(inv.sourceExtension.Extension.First(ext => ext.Url == "expression"));
+						// The questionnaire constraint doesn't use the `expression` datatype, so we need to refer to the correct complex extension part
 						ReportValidationMessage(ValidationResult.invalidFhirpathExpression, Q, itemDef, new[] { $"{pathToConstraintExpression}.extension[{indexOfExpression}]" }, inv, inv.Expression, ex);
 					}
 				}
 			}
+		}
+
+		private FhirPathVisitorProps ValidateFhirPathExpressionValidity(TypedVariableSymbolTable symbolTable, Questionnaire.ItemComponent itemDef, string[] pathToExpressionForError, string name, string expression, FhirPathCompiler fpc)
+		{
+			var ce = fpc.Parse(expression);
+
+			// Now that we know we have a valid fhirpath expression (from compilation perspective)
+			// let's check that the types will all work!
+			BaseFhirPathExpressionVisitor visitor = new BaseFhirPathExpressionVisitor(ModelInfo.ModelInspector, ModelInfo.SupportedResources, ModelInfo.OpenTypes);
+			foreach (var vr in symbolTable.GetVariableMappings())
+			{
+				visitor.RegisterVariable(vr.Key, vr.Value?.Types.FirstOrDefault().ClassMapping);
+			}
+			// visitor.RegisterVariable("questionnaire", ModelInfo.ModelInspector.FindOrImportClassMapping(typeof(Questionnaire)));
+			if (itemDef != null)
+			{
+				// visitor.RegisterVariable("qItem", ModelInfo.ModelInspector.FindOrImportClassMapping(typeof(Questionnaire.ItemComponent)));
+				visitor.SetContext("QuestionnaireResponse.item");
+			}
+			else
+			{
+				visitor.SetContext("QuestionnaireResponse");
+			}
+
+			var result = ce.Accept(visitor);
+
+			// TODO: Cleanup how this validation issue message is converted from the fhirpath checker into an
+			// issue in this validator's outcome results - so that it can be better localised 
+			if (visitor.Outcome.Issue.Any())
+			{
+				foreach (var issue in visitor.Outcome.Issue)
+				{
+					issue.Diagnostics = $"Expression: {expression}\r\nExpression Return Type(s): {result.ToString()}\r\n{visitor.ToString()}";
+					issue.Expression = pathToExpressionForError;
+					if (!string.IsNullOrEmpty(itemDef?.LinkId))
+					{
+						string loc = $"linkId='{itemDef.LinkId}'";
+						if (name?.EndsWith("=''") != true)
+							loc += $"\r\n{name}";
+						issue.Location = new[] { loc };
+					}
+
+					// If there was no coding added, we'll put our own in here.
+					if (!issue.Details.Coding.Any())
+					{
+						issue.Details.Coding.Add(
+							new Coding(
+								ErrorCodeSystem,
+								ValidationResult.invalidFhirpathExpressionTypes.ToString(),
+								"Invalid fhirpath expression (type check)"
+								)
+							);
+					}
+					outcomeIssues.Enqueue(issue);
+				}
+			}
+			return result;
 		}
 
 		/*
@@ -1240,5 +1359,17 @@ namespace Hl7.Fhir.StructuredDataCapture
 
 
 		*/
+
+		private class ValidationMessageException : Exception
+		{
+			public ValidationMessageException()
+			{
+			}
+			public ValidationMessageException(string message) : base(message)
+			{
+			}
+			public string ParseTreeDebug { get; set; }
+			public string ReturnType { get; set; }
+		}
 	}
 }

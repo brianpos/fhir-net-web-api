@@ -2,6 +2,7 @@
 using Hl7.Fhir.FhirPath.Validator;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
 using Hl7.FhirPath.Expressions;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,9 @@ namespace Hl7.Fhir.StructuredDataCapture
 
 		public enum ValidationResult
 		{
+			/// <summary>
+			/// This type should never be used, and is the catchall '0' case
+			/// </summary>
 			unknown,
 
 			/// <summary>
@@ -66,9 +70,29 @@ namespace Hl7.Fhir.StructuredDataCapture
 			/// </summary>
 			undefinedVariable,
 
+			/// <summary>
+			/// A variable with the same name has already been defined for this item/context
+			/// </summary>
+			duplicateVariable,
+
+			/// <summary>
+			/// An expression extension was provided that did not use an expression datatype
+			/// </summary>
 			invalidExtensionType,
+
+			/// <summary>
+			/// The source query bundle was not able to be resolved
+			/// </summary>
 			sourceQueryNotFound,
+
+			/// <summary>
+			/// Simple information message that this resource has been retired
+			/// </summary>
 			questionnaireRetired,
+
+			/// <summary>
+			/// The regex expression doesn't compile
+			/// </summary>
 			invalidRegex,
 
 			// TODO: Add in validation error types as new checks are included
@@ -126,59 +150,37 @@ namespace Hl7.Fhir.StructuredDataCapture
 					details.Text = $"The Source Query not found";
 					break;
 
-				//case ValidationResult.questionnaireDraft:
-				//    severity = OperationOutcome.IssueSeverity.Warning;
-				//    code = OperationOutcome.IssueType.BusinessRule;
-				//    details.Coding[0].Display = "Questionnaire inactive";
-				//    details.Text = $"The Questionnaire is defined as a draft template";
-				//    break;
-
-				//case ValidationResult.questionnaireRetired:
-				//    severity = OperationOutcome.IssueSeverity.Warning;
-				//    code = OperationOutcome.IssueType.BusinessRule;
-				//    details.Coding[0].Display = "Questionnaire inactive";
-				//    details.Text = $"The Questionnaire has been retired";
-				//    break;
-
-				//case ValidationResult.questionnaireInactive:
-				//    severity = OperationOutcome.IssueSeverity.Warning;
-				//    code = OperationOutcome.IssueType.BusinessRule;
-				//    details.Coding[0].Display = "Questionnaire inactive";
-				//    details.Text = $"The authored date is outside the permitted period defined in the Questionnaire";
-				//    break;
-
-				//case ValidationResult.groupShouldNotHaveAnswers:
-				//    severity = OperationOutcome.IssueSeverity.Fatal; // mark corrupt type issues as fatal
-				//    code = OperationOutcome.IssueType.Structure;
-				//    details.Coding[0].Display = "invalid group child items";
-				//    details.Text = $"{fieldDisplayText}: The type 'Group' should not use the 'answer' property, use the 'item' property for children";
-				//    break;
-
 				case ValidationResult.invalidExtensionType:
-					severity = OperationOutcome.IssueSeverity.Error; // mark corrupt type issues as fatal
+					severity = OperationOutcome.IssueSeverity.Error;
 					code = OperationOutcome.IssueType.Structure;
 					details.Coding[0].Display = "invalid extension value type";
 					details.Text = $"{fieldDisplayText}: An unexpected extension value type was encountered.";
 					break;
 
-				//case ValidationResult.displayAnswer:
-				//    severity = OperationOutcome.IssueSeverity.Fatal; // mark corrupt type issues as fatal
-				//    code = OperationOutcome.IssueType.Structure;
-				//    details.Coding[0].Display = "Display has answer";
-				//    details.Text = $"{fieldDisplayText}: Display items do not support answers";
-				//    break;
+				case ValidationResult.variableNoExpression:
+					severity = OperationOutcome.IssueSeverity.Error;
+					code = OperationOutcome.IssueType.Value;
+					details.Coding[0].Display = "Missing expression";
+					details.Text = $"{fieldDisplayText}: No expression has been provided";
+					break;
 
-				//case ValidationResult.invalidAnswerOption:
-				//    code = OperationOutcome.IssueType.BusinessRule;
-				//    details.Coding[0].Display = "invalid value";
-				//    details.Text = $"{fieldDisplayText}: was not in the set of permitted values";
-				//    break;
+				case ValidationResult.variableHasNoName:
+					severity = OperationOutcome.IssueSeverity.Error;
+					code = OperationOutcome.IssueType.Value;
+					details.Coding[0].Display = "Missing name";
+					details.Text = $"{fieldDisplayText}: Variable requires a name";
+					break;
 
-				//case ValidationResult.required:
-				//    code = OperationOutcome.IssueType.Required;
-				//    details.Coding[0].Display = "required";
-				//    details.Text = $"{fieldDisplayText}: Mandatory field does not have an answer";
-				//    break;
+				case ValidationResult.duplicateVariable:
+					severity = OperationOutcome.IssueSeverity.Error;
+					code = OperationOutcome.IssueType.BusinessRule;
+					details.Coding[0].Display = "duplicate variable";
+					if (exceptionThrown is ValidationMessageException vmeDv)
+					{
+						details.Text = $"{fieldDisplayText}: A duplicate variable name '{vmeDv.VariableName}' has been defined";
+						diagnostics = $"All defined local variables: '{string.Join("', '", vmeDv.SymbolTable.LocalVariableNames())}'";
+					}
+					break;
 
 				case ValidationResult.invalidFhirpathExpression:
 					code = OperationOutcome.IssueType.Exception;
@@ -202,7 +204,9 @@ namespace Hl7.Fhir.StructuredDataCapture
 					severity = OperationOutcome.IssueSeverity.Error;
 					details.Coding[0].Display = "Invalid fhirpath expression (types)";
 					details.Text = $"{fieldDisplayText}: fhirpath expression contains type";
-					diagnostics = $"Expression: {fhirpathExpressionText}\r\nException: {exceptionThrown?.Message ?? "(null)"}";
+					diagnostics = $"Expression: {fhirpathExpressionText}";
+					if (exceptionThrown != null)
+						diagnostics += $"\r\nException: {exceptionThrown?.Message ?? "(null)"}";
 					break;
 
 				case ValidationResult.invalidRegex:
@@ -212,25 +216,6 @@ namespace Hl7.Fhir.StructuredDataCapture
 					details.Text = $"{fieldDisplayText}: regex expression does not compile";
 					diagnostics = exceptionThrown.Message;
 					break;
-
-				//case ValidationResult.invariantExecution:
-				//    severity = OperationOutcome.IssueSeverity.Warning; // not sure if this is right...
-				//    code = OperationOutcome.IssueType.Invariant;
-				//    details.Coding[0].Display = "invalid validation expression";
-				//    if (!string.IsNullOrEmpty(fieldDisplayText))
-				//        details.Text = $"{fieldDisplayText}: Unable to evaluate custom validation rule {invariant.Human}";
-				//    else
-				//        details.Text = $"Unable to evaluate custom validation rule {invariant.Human}";
-				//    diagnostics = invariant.Expression;
-				//    diagnostics = String.Join("\r\n", diagnostics, exceptionThrown.Message);
-				//    break;
-
-				//case ValidationResult.invalidNewLine:
-				//    severity = OperationOutcome.IssueSeverity.Fatal; // mark corrupt type issues as fatal
-				//    code = OperationOutcome.IssueType.BusinessRule;
-				//    details.Coding[0].Display = "contains newline";
-				//    details.Text = $"{fieldDisplayText}: 'string' type questions cannot contain newline characters";
-				//    break;
 
 				//case ValidationResult.tsError:
 				//    code = OperationOutcome.IssueType.Exception;
@@ -398,27 +383,34 @@ namespace Hl7.Fhir.StructuredDataCapture
 			// Register any launch contexts
 			foreach (var lc in q.LaunchContexts())
 			{
+				var lcExtensionIndex = q.Extension.IndexOf(lc.sourceExtension);
 				if (string.IsNullOrEmpty(lc.Name))
 				{
-					// TODO: Path for error nee to be reported.
-					ReportValidationMessage(ValidationResult.variableHasNoName, q, null, new[] { "Questionnaire" }, null, null);
+					ReportValidationMessage(ValidationResult.variableHasNoName, q, null, new[] { $"Questionnaire.extension[{lcExtensionIndex}]" }, null, null);
 					continue;
 				}
-				symbolTable.AddVar(lc.Name, ElementNode.EmptyList, ModelInfo.ModelInspector.FindClassMapping(lc.Type.Value)); // the type of this will be in lc.Type
+				if (!symbolTable.HasLocalVariable(lc.Name))
+					symbolTable.AddVar(lc.Name, ElementNode.EmptyList, ModelInfo.ModelInspector.FindClassMapping(lc.Type.Value)); // the type of this will be in lc.Type
+				else
+					ReportValidationMessage(ValidationResult.duplicateVariable, q, null, new[] { $"Questionnaire.extension[{lcExtensionIndex}]" }, null, null, new ValidationMessageException() { VariableName = lc.Name, SymbolTable = symbolTable });
 			}
 
 			// Register a sourceQuery
 			foreach (var sq in q.SourceQueries())
 			{
+				int sqIndex = q.Extension.IndexOf(sq.Annotation<Extension>());
 				var sqBundle = q.Contained.Where(c => "#" + c.Id == sq.Reference);
 				if (!sqBundle.Any())
 				{
 					// TODO: Path for error nee to be reported.
-					ReportValidationMessage(ValidationResult.sourceQueryNotFound, q, null, new[] { "Questionnaire" }, null, null);
+					ReportValidationMessage(ValidationResult.sourceQueryNotFound, q, null, new[] { $"Questionnaire.extension[{sqIndex}]" }, null, null);
 				}
 				foreach (var b in sqBundle)
 				{
-					symbolTable.AddVar(b.Id, b.ToTypedElement(), typeof(Bundle));
+					if (!symbolTable.HasLocalVariable(b.Id))
+						symbolTable.AddVar(b.Id, b.ToTypedElement(), typeof(Bundle));
+					else
+						ReportValidationMessage(ValidationResult.duplicateVariable, q, null, new[] { $"Questionnaire.extension[{sqIndex}]" }, null, null, new ValidationMessageException() { VariableName = b.Id, SymbolTable = symbolTable });
 				}
 			}
 
@@ -431,7 +423,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 					if (!string.IsNullOrEmpty(fs.Value))
 					{
 						// Add the context to the symbol table so that it can be found in expressions down the tree
-						symbolTable.AddVar(fs.Value, ElementNode.EmptyList);
+						if (!symbolTable.HasLocalVariable(fs.Value))
+							symbolTable.AddVar(fs.Value, ElementNode.EmptyList);
+						else
+							ReportValidationMessage(ValidationResult.duplicateVariable, q, null, new[] { pathExpression }, null, null, new ValidationMessageException() { VariableName = fs.Value, SymbolTable = symbolTable });
 					}
 				}
 				else
@@ -449,7 +444,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 				if (!string.IsNullOrEmpty(expr.Expression_) && !string.IsNullOrEmpty(expr.Name))
 				{
 					// Add the context to the symbol table so that it can be found in expressions down the tree
-					symbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionResultTypes);
+					if (!symbolTable.HasLocalVariable(expr.Name))
+						symbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionResultTypes);
+					else
+						ReportValidationMessage(ValidationResult.duplicateVariable, q, null, new[] { pathExpression }, null, null, new ValidationMessageException() { VariableName = expr.Name, SymbolTable = symbolTable });
 				}
 			}
 
@@ -503,10 +501,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 		}
 
-		private void ValidateItem(Questionnaire Q, TypedVariableSymbolTable symbolTable, string itemPathExpression, Questionnaire.ItemComponent itemDef)
+		private void ValidateItem(Questionnaire Q, TypedVariableSymbolTable parentSymbolTable, string itemPathExpression, Questionnaire.ItemComponent itemDef)
 		{
 			// System.Diagnostics.Trace.WriteLine($"Validating item '{itemDef.LinkId}' - {itemDef.Text}");
-			var itemSymbolTable = new TypedVariableSymbolTable(symbolTable);
+			var itemSymbolTable = new TypedVariableSymbolTable(parentSymbolTable);
 			itemSymbolTable.AddVar("qitem", ElementNode.EmptyList, typeof(QuestionnaireResponse.ItemComponent));
 
 			// Process all the expression based details
@@ -514,13 +512,20 @@ namespace Hl7.Fhir.StructuredDataCapture
 			// Validate and register any variable, candidate expression && item population contexts
 			foreach (var expr in itemDef.Extension.Where(ext => _namedExpressionExtensions.Contains(ext.Url)).Select(ext => ext.Value as Expression))
 			{
+				if (String.Compare(expr.Language, "text/CQL", true) == 0)
+					continue;
 				var pathExpression = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(itemDef.Extension.First(e => e.Value == expr))}]";
-				var expressionReturnTypes = ValidateExpression(expr, Q, symbolTable, pathExpression, itemDef, true);
+				var expressionReturnTypes = ValidateExpression(expr, Q, itemSymbolTable, pathExpression, itemDef, true);
 
 				if (!string.IsNullOrEmpty(expr.Expression_) && !string.IsNullOrEmpty(expr.Name))
 				{
 					// Add the context to the symbol table so that it can be found in expressions down the tree
-					symbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionReturnTypes);
+					if (!itemSymbolTable.HasLocalVariable(expr.Name))
+						itemSymbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionReturnTypes);
+					else
+					{
+						ReportValidationMessage(ValidationResult.duplicateVariable, Q, itemDef, new[] { pathExpression }, null, null, new ValidationMessageException() { VariableName = expr.Name, SymbolTable = itemSymbolTable });
+					}
 				}
 			}
 
@@ -530,7 +535,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				string extPath = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(ext)}]";
 				if (ext.Value is Hl7.Fhir.Model.Expression expr)
 				{
-					ValidateExpression(expr, Q, symbolTable, extPath, itemDef, false);
+					ValidateExpression(expr, Q, itemSymbolTable, extPath, itemDef, false);
 				}
 				else
 				{
@@ -539,7 +544,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 
 			// constraint http://hl7.org/fhir/StructureDefinition/questionnaire-constraint
-			ValidateConstraints(Q, symbolTable, itemDef, itemPathExpression);
+			ValidateConstraints(Q, itemSymbolTable, itemDef, itemPathExpression);
 
 			// Validate any regex expressions will compile (are valid)
 			foreach (var extensionRegex in itemDef.Extension.Where(ext => ext.Url == "http://hl7.org/fhir/StructureDefinition/regex"))
@@ -562,49 +567,9 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 			}
 
-			/// * When copying for the QuestionnaireValidator refer to FHIR-41196
-			///   - validate warning for missing unitOption or unitValueSet on quantity types
+			// * When copying for the QuestionnaireValidator refer to FHIR-41196
+			//   - validate warning for missing unitOption or unitValueSet on quantity types
 
-			// check repeats/mandatory/min count/max count
-			//if (item.Answer.Count > 1 && itemDef.Repeats != true)
-			//{
-			//    // too many responses (for non repeating item)
-			//    ReportValidationMessage(ValidationResult.repeats, itemDef, new[] { pathExpression }, status, item, null, null);
-			//}
-			//if (item.Answer.Count == 0 && itemDef.Required == true)
-			//{
-			//    // Mandatory
-			//    ReportValidationMessage(ValidationResult.required, itemDef, new[] { pathExpression }, status, item, null, null);
-			//}
-			//var minOccurs = itemDef.MinOccurs();
-			//if (minOccurs.HasValue && item.Answer.Count < minOccurs.Value)
-			//{
-			//    // not enough answers
-			//    ReportValidationMessage(ValidationResult.minCount, itemDef, new[] { pathExpression }, status, item, null, null);
-			//}
-
-			//// May need to move the invariant processing up to here
-
-			//// This was a Fake Item introduced to check for Mandatory/min count child items
-			//// so bail any further testing
-			//if (item is FakeItem) return;
-
-			//var maxOccurs = itemDef.MaxOccurs();
-			//if (maxOccurs.HasValue && item.Answer.Count > maxOccurs.Value)
-			//{
-			//    // too many answers
-			//    ReportValidationMessage(ValidationResult.maxCount, itemDef, new[] { pathExpression }, status, item, null, null);
-			//}
-			//if (itemDef.Type == Questionnaire.QuestionnaireItemType.Display && item.Answer.Count > 0)
-			//{
-			//    // Display Items should't have answers
-			//    ReportValidationMessage(ValidationResult.displayAnswer, itemDef, new[] { pathExpression }, status, item, null, null);
-			//}
-			//if (itemDef.Type == Questionnaire.QuestionnaireItemType.Question)
-			//{
-			//    // "Question" Items should't be used
-			//    ReportValidationMessage(ValidationResult.invalidType, itemDef, new[] { pathExpression }, status, item, null, null);
-			//}
 
 			// process any child items too
 			if (itemDef.Item != null)
@@ -730,7 +695,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 			BaseFhirPathExpressionVisitor visitor = new BaseFhirPathExpressionVisitor(ModelInfo.ModelInspector, ModelInfo.SupportedResources, ModelInfo.OpenTypes);
 			foreach (var vr in symbolTable.GetVariableMappings())
 			{
-				visitor.RegisterVariable(vr.Key, vr.Value?.Types.FirstOrDefault().ClassMapping);
+				visitor.RegisterVariable(vr.Key, vr.Value);
 			}
 			// visitor.RegisterVariable("questionnaire", ModelInfo.ModelInspector.FindOrImportClassMapping(typeof(Questionnaire)));
 			if (itemDef != null)
@@ -1370,6 +1335,8 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 			public string ParseTreeDebug { get; set; }
 			public string ReturnType { get; set; }
+			public string VariableName { get; set; }
+			public TypedVariableSymbolTable SymbolTable { get; set; }
 		}
 	}
 }

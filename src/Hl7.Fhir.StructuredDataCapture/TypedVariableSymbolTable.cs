@@ -73,6 +73,15 @@ namespace Hl7.Fhir.StructuredDataCapture
 			_variables.Add(name, props);
 		}
 
+		public bool HasLocalVariable(string name)
+		{
+			if (_variables.ContainsKey(name))
+				return true;
+			return false;
+		}
+
+		public IEnumerable<string> LocalVariableNames() => _variables.Keys;
+
 		private Dictionary<string, FhirPathVisitorProps> _variables = new Dictionary<string, FhirPathVisitorProps>();
 
 		// GetVariableMappings: returns an IEnumerable of the _variables collection appended to the parent's variables

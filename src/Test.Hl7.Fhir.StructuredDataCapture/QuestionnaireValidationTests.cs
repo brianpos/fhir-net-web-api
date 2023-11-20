@@ -51,7 +51,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 					warnings++;
 
 				if (outcome.Issue.Any())
-					DebugDumpXml(outcome);
+					DebugDumpXmlDiagnostics(outcome);
 			}
 
 			Trace.WriteLine("--------");
@@ -104,6 +104,8 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			catch (Hl7.Fhir.ElementModel.StructuralTypeException fex)
 			{
 				Trace.WriteLine($"* Error parsing content {fex.Message}");
+				Trace.WriteLine("--------");
+				Trace.WriteLine(hapiServer.LastBodyAsText);
 			}
 
 			Trace.WriteLine("--------");
@@ -121,7 +123,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var outcome = await validator.Validate(q);
 
             if (outcome.Issue.Any())
-                DebugDumpXml(outcome);
+				DebugDumpXmlDiagnostics(outcome);
 
 			// Cool we found 4 errors with the validator!
             Assert.AreEqual(7, outcome.Errors);
@@ -134,6 +136,33 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
 		}
 
+		public static void DebugDumpXmlDiagnostics(OperationOutcome outcome)
+		{
+			foreach (var issue in outcome.Issue)
+			{
+				Trace.WriteLine($"# {issue.Severity} {issue.Code} {issue.Details?.Text}");
+				if (issue.Details != null)
+				{
+					foreach (var coding in issue.Details.Coding)
+					{
+						Trace.WriteLine($"    * {coding.Code} \"{coding.Display}\"");
+					}
+				}
+				if (issue.Expression.Any())
+				{
+					Trace.WriteLine($"    * Location: {string.Join(",", issue.Expression)}");
+				}
+				if (issue.Location.Any())
+				{
+					Trace.WriteLine($"    * Location (alternate): {string.Join(",", issue.Location)}");
+				}
+				if (!string.IsNullOrEmpty(issue.Diagnostics))
+					Trace.WriteLine($"    => {issue.Diagnostics.Replace("\r\n", "\r\n       ")}");
+				Trace.WriteLine("");
+			}
+			DebugDumpXml(outcome);
+		}
+
 		[TestMethod]
 		public async Task TestVariablesExampleFromSpec()
 		{
@@ -144,7 +173,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			var outcome = await validator.Validate(q);
 
 			if (outcome.Issue.Any())
-				DebugDumpXml(outcome);
+				DebugDumpXmlDiagnostics(outcome);
 
 			Assert.AreEqual(5, outcome.Issue.Count, "Expected 5 total issues");
 			Assert.AreEqual(0, outcome.Fatals);
@@ -192,7 +221,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			var outcome = await validator.Validate(q);
 			DebugDumpXml(q);
 
-			DebugDumpXml(outcome);
+			DebugDumpXmlDiagnostics(outcome);
 
 			// This a completely clean questionnaire with multiple expressions, one using the %questionnaire variable
 			Assert.AreEqual(0, outcome.Issue.Count);
@@ -219,7 +248,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			var outcome = await validator.Validate(q);
 			DebugDumpXml(q);
 
-			DebugDumpXml(outcome);
+			DebugDumpXmlDiagnostics(outcome);
 
 			Assert.AreEqual(1, outcome.Issue.Count);
 			Assert.AreEqual(0, outcome.Fatals);
@@ -252,7 +281,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			var outcome = await validator.Validate(q);
 			DebugDumpXml(q);
 
-			DebugDumpXml(outcome);
+			DebugDumpXmlDiagnostics(outcome);
 
 			Assert.AreEqual(0, outcome.Issue.Count);
 		}
@@ -275,7 +304,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			var outcome = await validator.Validate(q);
 			DebugDumpXml(q);
 
-			DebugDumpXml(outcome);
+			DebugDumpXmlDiagnostics(outcome);
 
 			Assert.AreEqual(1, outcome.Issue.Count);
 			Assert.AreEqual(0, outcome.Fatals);
@@ -309,7 +338,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			var outcome = await validator.Validate(q);
 			DebugDumpXml(q);
 
-			DebugDumpXml(outcome);
+			DebugDumpXmlDiagnostics(outcome);
 
 			Assert.AreEqual(1, outcome.Issue.Count);
 			Assert.AreEqual(0, outcome.Fatals);
@@ -337,7 +366,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var validator = new QuestionnaireValidator();
             var outcome = await validator.Validate(q);
             DebugDumpXml(q);
-            DebugDumpXml(outcome);
+			DebugDumpXmlDiagnostics(outcome);
             Assert.AreEqual(0, outcome.Issue.Count);
         }
 
@@ -352,7 +381,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			var outcome = await validator.Validate(q);
 			DebugDumpXml(q);
 
-			DebugDumpXml(outcome);
+			DebugDumpXmlDiagnostics(outcome);
 
 			Assert.AreEqual(1, outcome.Issue.Count);
 			Assert.AreEqual(0, outcome.Fatals);

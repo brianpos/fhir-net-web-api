@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
 
 namespace Hl7.Fhir.StructuredDataCapture
 {
@@ -177,7 +178,12 @@ namespace Hl7.Fhir.StructuredDataCapture
 		public static IEnumerable<ResourceReference> SourceQueries(this Questionnaire me)
 		{
 			var result = me.GetExtensions("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-sourceQueries");
-			return result.Where(e => e.Value is ResourceReference).Select(e => e.Value as ResourceReference);
+			return result.Where(e => e.Value is ResourceReference).Select(e => 
+			{
+				var result = e.Value as ResourceReference;
+				result.SetAnnotation(e);
+				return result;
+			});
 		}
 
 		/// <summary>
@@ -186,6 +192,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 		/// </summary>
 		public class LaunchContext
 		{
+			public Extension sourceExtension { get; set; }
 			public string Name { get; set; }
 
 			public Code Type { get; set; }
@@ -206,6 +213,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 			{
 				var lc = new LaunchContext()
 				{
+					sourceExtension = e,
 					Name = e.GetExtensionValue<Coding>("name")?.Code ?? e.GetExtensionValue<Id>("name")?.Value ?? e.GetStringExtension("name"),
 					Type = e.GetExtensionValue<Code>("type"),
 					Description = e.GetStringExtension("description")

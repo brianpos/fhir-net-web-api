@@ -461,7 +461,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, q, null, new[] { pathExpression }, null, null, new ExtensionValidationMessageException("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-assembleContext", "string", ext.Value.TypeName));
+					ReportValidationMessage(ValidationResult.invalidExtensionType, q, null, new[] { pathExpression }, null, null, new ExtensionValidationMessageException("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-assembleContext", "string", ext.Value?.TypeName ?? "(null)"));
 				}
 			}
 
@@ -567,7 +567,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value.TypeName));
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value?.TypeName ?? "(null)"));
 				}
 			}
 
@@ -581,7 +581,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value.TypeName));
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value?.TypeName ?? "(null)"));
 				}
 			}
 
@@ -605,7 +605,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(extensionRegex.Url, "Expression", extensionRegex.Value.TypeName));
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(extensionRegex.Url, "Expression", extensionRegex.Value?.TypeName ?? "(null)"));
 				}
 			}
 

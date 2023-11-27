@@ -58,7 +58,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			Trace.WriteLine($"Validated Qs: {totalValidated}");
 			Trace.WriteLine($"Errors: {errors}");
 			Trace.WriteLine($"Warnings: {warnings}");
-			Assert.AreEqual(3, errors, $"Expected 3 errors, found Errors:{errors} - Warnings:{warnings}");
+			Assert.AreEqual(13, errors, $"Expected 3 errors, found Errors:{errors} - Warnings:{warnings}");
 		}
 
 		[TestMethod, Ignore]
@@ -357,6 +357,20 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		// Now start the unit tests rather than the integration tests above
 
         [TestMethod]
+		public async Task ValidateSDC_Fuction()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateStringRegex" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/entryFormat", new FhirString(@"blah@example.com"));
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+			DebugDumpXmlDiagnostics(outcome);
+			Assert.AreEqual(0, outcome.Issue.Count);
+		}
+
+
+		[TestMethod]
         public async Task ValidateStringRegex()
         {
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateStringRegex" };
@@ -396,5 +410,110 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			Assert.AreEqual("Questionnaire.item[0].extension[1]", outcome.Issue[0].Expression.First());
 		}
 
+		[TestMethod]
+		public async Task ValidateXFhirQuery()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateXFhirQuery" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			q.Item[0].AddExtension("http://hl7.org/fhir/StructureDefinition/variable", new Expression() 
+			{
+				Name = "patId",
+				Language = "text/fhirpath",
+				Expression_ = "'1'"
+			});
+			q.Item[0].AddExtension("http://hl7.org/fhir/StructureDefinition/variable", new Expression()
+			{
+				Name = "var1",
+				Language = "application/x-fhir-query",
+				Expression_ = "Procedure?patient={{%patId}}"
+			});
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(0, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(0, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+		}
+
+		[TestMethod]
+		public async Task ValidateXFhirQueryWithResourceId()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateXFhirQuery" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/variable", new Expression()
+			{
+				Name = "var1",
+				Language = "application/x-fhir-query",
+				Expression_ = "Procedure/45"
+			});
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(0, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(0, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+		}
+
+		[TestMethod]
+		public async Task ValidateXFhirQueryNoParamsWarning()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateXFhirQuery" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/variable", new Expression()
+			{
+				Name = "var1",
+				Language = "application/x-fhir-query",
+				Expression_ = "Procedure"
+			});
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(0, outcome.Errors);
+			Assert.AreEqual(1, outcome.Warnings);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("xpathQueryNoFilter", outcome.Issue[0].Details.Coding[0].Code);
+			Assert.AreEqual("Questionnaire.item[0].extension[0].expression", outcome.Issue[0].Expression.First());
+		}
+
+		[TestMethod]
+		public async Task ValidateXFhirQueryWrongType()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateXFhirQuery" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/variable", new FhirString(@"blah@example.com"));
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("invalidExtensionType", outcome.Issue[0].Details.Coding[0].Code);
+			Assert.AreEqual(0, outcome.Warnings);
+			Assert.AreEqual("Questionnaire.item[0].extension[0]", outcome.Issue[0].Expression.First());
+		}
 	}
 }

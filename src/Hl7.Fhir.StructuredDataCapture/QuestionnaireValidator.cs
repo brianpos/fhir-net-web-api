@@ -95,6 +95,16 @@ namespace Hl7.Fhir.StructuredDataCapture
 			/// </summary>
 			invalidRegex,
 
+			/// <summary>
+			/// x-fhir-query provided that has no filter criteria on an open search!
+			/// </summary>
+			xpathQueryNoFilter,
+
+			/// <summary>
+			/// The expression language is unknown (fhirpath, CQL, x-fhir-query)
+			/// </summary>
+			unknownExpressionLanguage,
+
 			// TODO: Add in validation error types as new checks are included
 		}
 
@@ -155,6 +165,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 					code = OperationOutcome.IssueType.Structure;
 					details.Coding[0].Display = "invalid extension value type";
 					details.Text = $"{fieldDisplayText}: An unexpected extension value type was encountered.";
+					if (exceptionThrown is ExtensionValidationMessageException evme)
+					{
+						details.Text = $"{fieldDisplayText}: Extension {evme.Url} requires type: '{evme.TypeRequired}',  found: '{evme.TypeUsed}'";
+					}
 					break;
 
 				case ValidationResult.variableNoExpression:
@@ -203,7 +217,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					code = OperationOutcome.IssueType.Invalid;
 					severity = OperationOutcome.IssueSeverity.Error;
 					details.Coding[0].Display = "Invalid fhirpath expression (types)";
-					details.Text = $"{fieldDisplayText}: fhirpath expression contains type";
+					details.Text = $"{fieldDisplayText}: fhirpath expression returns unexpected type";
 					diagnostics = $"Expression: {fhirpathExpressionText}";
 					if (exceptionThrown != null)
 						diagnostics += $"\r\nException: {exceptionThrown?.Message ?? "(null)"}";
@@ -215,6 +229,22 @@ namespace Hl7.Fhir.StructuredDataCapture
 					details.Coding[0].Display = "Invalid regex expression";
 					details.Text = $"{fieldDisplayText}: regex expression does not compile";
 					diagnostics = exceptionThrown.Message;
+					break;
+
+				case ValidationResult.xpathQueryNoFilter:
+					code = OperationOutcome.IssueType.Value;
+					severity = OperationOutcome.IssueSeverity.Warning;
+					details.Coding[0].Display = "x-fhir-query expression has no query parameters";
+					details.Text = $"{fieldDisplayText}: x-fhir-query expression does not contain any query parameters - may return more data than desired (unless something constrains output - such as security)";
+					diagnostics = $"Expression: {fhirpathExpressionText}";
+					break;
+
+				case ValidationResult.unknownExpressionLanguage:
+					code = OperationOutcome.IssueType.Value;
+					severity = OperationOutcome.IssueSeverity.Warning;
+					details.Coding[0].Display = "x-fhir-query unknown expression language";
+					details.Text = $"{fieldDisplayText}: x-fhir-query unknown expression language";
+					diagnostics = exceptionThrown?.Message;
 					break;
 
 				//case ValidationResult.tsError:
@@ -431,7 +461,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, q, null, new[] { pathExpression }, null, null, null);
+					ReportValidationMessage(ValidationResult.invalidExtensionType, q, null, new[] { pathExpression }, null, null, new ExtensionValidationMessageException("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-assembleContext", "string", ext.Value.TypeName));
 				}
 			}
 
@@ -510,22 +540,34 @@ namespace Hl7.Fhir.StructuredDataCapture
 			// Process all the expression based details
 			// http://build.fhir.org/ig/HL7/sdc/expressions.html
 			// Validate and register any variable, candidate expression && item population contexts
-			foreach (var expr in itemDef.Extension.Where(ext => _namedExpressionExtensions.Contains(ext.Url)).Select(ext => ext.Value as Expression))
+			foreach (var ext in itemDef.Extension.Where(ext => _namedExpressionExtensions.Contains(ext.Url)))
 			{
-				if (String.Compare(expr.Language, "text/CQL", true) == 0)
-					continue;
-				var pathExpression = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(itemDef.Extension.First(e => e.Value == expr))}]";
-				var expressionReturnTypes = ValidateExpression(expr, Q, itemSymbolTable, pathExpression, itemDef, true);
-
-				if (!string.IsNullOrEmpty(expr.Expression_) && !string.IsNullOrEmpty(expr.Name))
+				string extPath = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(ext)}]";
+				if (ext.Value is Hl7.Fhir.Model.Expression expr)
 				{
-					// Add the context to the symbol table so that it can be found in expressions down the tree
-					if (!itemSymbolTable.HasLocalVariable(expr.Name))
-						itemSymbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionReturnTypes);
-					else
-					{
-						ReportValidationMessage(ValidationResult.duplicateVariable, Q, itemDef, new[] { pathExpression }, null, null, new ValidationMessageException() { VariableName = expr.Name, SymbolTable = itemSymbolTable });
+					if (String.Compare(expr.Language, "text/CQL", true) == 0)
+						continue;
+					var pathExpression = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(itemDef.Extension.First(e => e.Value == expr))}]";
+					var expressionReturnTypes = ValidateExpression(expr, Q, itemSymbolTable, pathExpression, itemDef, true);
+
+					if (string.IsNullOrEmpty(expr.Language)) {
+						// No expression defined, so can't exactly test anything ;) 
+						ReportValidationMessage(ValidationResult.variableNoExpression, Q, itemDef, new[] { pathExpression }, null);
 					}
+					else if (!string.IsNullOrEmpty(expr.Name))
+					{
+						// Add the context to the symbol table so that it can be found in expressions down the tree
+						if (!itemSymbolTable.HasLocalVariable(expr.Name))
+							itemSymbolTable.AddVar(expr.Name, ElementNode.EmptyList, expressionReturnTypes);
+						else
+						{
+							ReportValidationMessage(ValidationResult.duplicateVariable, Q, itemDef, new[] { pathExpression }, null, null, new ValidationMessageException() { VariableName = expr.Name, SymbolTable = itemSymbolTable });
+						}
+					}
+				}
+				else
+				{
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value.TypeName));
 				}
 			}
 
@@ -539,7 +581,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null);
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value.TypeName));
 				}
 			}
 
@@ -563,7 +605,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null);
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(extensionRegex.Url, "Expression", extensionRegex.Value.TypeName));
 				}
 			}
 
@@ -602,7 +644,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 						ReportValidationMessage(ValidationResult.invalidFhirpathExpression, Q, itemDef, new[] { pathExpression + ".expression" }, null, expr.Expression_, ex);
 					}
 				}
-				if (expr.Language == "application/x-fhir-query")
+				else if (expr.Language == "application/x-fhir-query")
 				{
 					// validate this fhir-query expression
 					// parse out any embedded fhirpath expressions, and use those
@@ -617,11 +659,11 @@ namespace Hl7.Fhir.StructuredDataCapture
 							var partType = ValidateFhirPathExpressionValidity(symbolTable, itemDef, new[] { pathExpression + ".expression" }, $"Name='{expr.Name}'", expression, fpc);
 							// Verify if this is one of the acceptable formats according to
 							// http://hl7.org/fhir/uv/sdc/STU3/expressions.html#x-fhir-query-enhancements
-							List<string> xfhirquerytypes = new List<string>() { "string", "coding", "identifier", "reference", "quantity" };
+							List<string> xfhirquerytypes = new List<string>() { "string", "coding", "identifier", "reference", "Quantity" };
 							if (!xfhirquerytypes.Any(t => partType.CanBeOfType(t)))
 							{
 								// x-fhir-query fragments need to return a string to be injected into the query string.
-								ReportValidationMessage(ValidationResult.invalidFhirpathExpressionTypes, Q, itemDef, new[] { pathExpression + ".expression" }, null, expression);
+								ReportValidationMessage(ValidationResult.invalidFhirpathExpressionTypes, Q, itemDef, new[] { pathExpression + ".expression" }, null, expression, new ValidationMessageException($"Requires type: string\r\nReturns: {partType}"));
 							}
 						}
 						catch (Exception ex)
@@ -629,11 +671,115 @@ namespace Hl7.Fhir.StructuredDataCapture
 							ReportValidationMessage(ValidationResult.invalidFhirpathExpression, Q, itemDef, new[] { pathExpression + ".expression" }, null, expression, ex);
 						}
 					}
-					// TODO: Infer what return type this query variable should contain.
+
+					// Infer what return type this query variable should contain.
 					// is it a search, or a get of a single resource?
 					result = new FhirPathVisitorProps();
-					// for now assume it is a search and hence a bundle being returned
-					result.AddType(ModelInfo.ModelInspector, typeof(Bundle));
+					var replacedQuery = Regex.Replace(expr.Expression_, @"\{\{.*?\}\}", "example");
+					var uriQuery = new Uri(replacedQuery, UriKind.RelativeOrAbsolute);
+					if (!uriQuery.IsAbsoluteUri)
+						uriQuery = new Uri("http://example.org/" + uriQuery.OriginalString);
+					var queryParams = uriQuery.Query;
+
+					// Check if there is a valid resource type in the query (yup, this is wrong, need to calc the segments correctly)
+					string resourceType = null; // the default type
+					string resourceId = null;
+					foreach (var segment in uriQuery.Segments)
+					{
+						if (ModelInfo.SupportedResources.Contains(segment.TrimEnd('/')))
+						{
+							resourceType = segment.TrimEnd('/');
+						}
+						else
+						{
+							if (resourceType != null && !segment.StartsWith("$") && !segment.StartsWith("_history"))
+							{
+								resourceId = segment.TrimEnd('/');
+							}
+						}
+					}
+					var segments = uriQuery.Segments.Where(s => ModelInfo.SupportedResources.Contains(s.TrimEnd('/'))).ToList();
+					var segmentfiltered = uriQuery.Segments.Where(s => ModelInfo.SupportedResources.Contains(s.TrimEnd('/'))).ToList();
+					if (segmentfiltered.Any())
+						resourceType = segmentfiltered.First().TrimEnd('/');
+
+					if (uriQuery.AbsolutePath.Contains("$"))
+					{
+						// This is an operation!
+						string opName = uriQuery.Segments.Last();
+						var OpResultTypeName = opName.Substring(1).ToLower() switch
+						{
+							"validate" => "OperationOutcome",
+							"meta" => "Parameters",
+							"meta-add" => "Parameters",
+							"meta-delete" => "Parameters",
+							"convert" => "Resource", // can't do any better than this
+							"graphql" => "Bundle",
+
+							// Large Resource ops
+							"add" => resourceType,
+							"remove" => resourceType,
+							"filter" => resourceType,
+							"current-canonical" => resourceType,
+
+							// Resource based ops
+							"apply" => "Resource", // can't do any better than this
+							"subset" => "CapabilityStatement",
+							"implements" => "OperationOutcome",
+							"conforms" => "OperationOutcome,CapabilityStatement",
+							"versions" => "Parameters",
+							"lookup" => "Parameters",
+							"validate-code" => "Parameters",
+							"subsumes" => "Parameters,OperationOutcome",
+							"find-matches" => "Parameters",
+							"document" => "Bundle",
+							"translate" => "Parameters",
+							"generate" => "Bundle",
+							"docref" => "Bundle",
+							"everything" => "Bundle",
+							"find" => "Bundle",
+							"evaluate-measure" => "Bundle",
+							"care-gaps" => "Bundle",
+							"lastn" => "Bundle",
+							"stats" => "Parameters",
+							"match" => "Bundle",
+							"transform" => "Resource",  // can't do any better than this
+							"expand" => "ValueSet",
+
+							// The default
+							_ => "Bundle"
+						};
+						foreach (var t in OpResultTypeName.Split(','))
+						{
+							result.AddType(ModelInfo.ModelInspector, ModelInfo.ModelInspector.GetTypeForFhirType(t));
+						}
+					}
+					else
+					{
+						if (resourceId != null)
+							result.AddType(ModelInfo.ModelInspector, ModelInfo.ModelInspector.GetTypeForFhirType(resourceType));
+						else
+						{
+							// for now assume it is a search and hence a bundle being returned
+							result.AddType(ModelInfo.ModelInspector, typeof(Bundle));
+
+							// if there are no parameters, create a warning that the query being applied has no filter applied
+							// and may return more than is desired
+							if (string.IsNullOrEmpty(queryParams))
+							{
+								ReportValidationMessage(ValidationResult.xpathQueryNoFilter, Q, itemDef, new[] { pathExpression + ".expression" }, null, expr.Expression_);
+							}
+						}
+					}
+				}
+				else if (expr.Language == "text/CQL")
+				{
+					// these are ok, we can just skip these
+				}
+				else
+				{
+					// unknown language provided
+					ReportValidationMessage(ValidationResult.unknownExpressionLanguage, Q, itemDef, new[] { pathExpression + ".expression" }, null, expr.Expression_, new ExtensionValidationMessageException("Language: " + expr.Language));
 				}
 			}
 
@@ -1337,6 +1483,24 @@ namespace Hl7.Fhir.StructuredDataCapture
 			public string ReturnType { get; set; }
 			public string VariableName { get; set; }
 			public TypedVariableSymbolTable SymbolTable { get; set; }
+		}
+
+		private class ExtensionValidationMessageException : Exception
+		{
+			public ExtensionValidationMessageException(string url, string TypeRequired, string TypeUsed)
+			{
+				this.Url = url;
+				this.TypeRequired = TypeRequired;
+				this.TypeUsed = TypeUsed;
+			}
+
+			public ExtensionValidationMessageException(string message) : base(message)
+			{
+			}
+
+			public string Url { get; set; }
+			public string TypeUsed { get; set; }
+			public string TypeRequired { get; set; }
 		}
 	}
 }

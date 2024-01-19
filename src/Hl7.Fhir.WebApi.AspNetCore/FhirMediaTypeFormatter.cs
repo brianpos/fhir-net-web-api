@@ -16,6 +16,8 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Utility;
+using Microsoft.Extensions.Primitives;
+using System.Resources;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -117,6 +119,71 @@ namespace Hl7.Fhir.WebApi
             // The null case here is to support the deleted FhirObjectResult
             if (type == null)
                 return true;
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override bool CanWriteResult(OutputFormatterCanWriteContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (SupportedMediaTypes.Count == 0)
+            {
+                var message = $"No media types found in '{GetType().FullName}.{nameof(SupportedMediaTypes)}'. Add at least one media type to the list of supported media types.";
+
+                throw new InvalidOperationException(message);
+            }
+
+            if (!CanWriteType(context.ObjectType))
+            {
+                return false;
+            }
+
+            if (!context.ContentType.HasValue)
+            {
+                // If the desired content type is set to null, then the current formatter can write anything
+                // it wants.
+                context.ContentType = new StringSegment(SupportedMediaTypes[0]);
+                return true;
+            }
+            else
+            {
+                var parsedContentType = new MediaType(context.ContentType);
+                for (var i = 0; i < SupportedMediaTypes.Count; i++)
+                {
+                    var supportedMediaType = new MediaType(SupportedMediaTypes[i]);
+                    if (supportedMediaType.HasWildcard)
+                    {
+                        // For supported media types that are wildcard patterns, confirm that the requested
+                        // media type satisfies the wildcard pattern (e.g., if "text/entity+json;v=2" requested
+                        // and formatter supports "text/*+json").
+                        // We only do this when comparing against server-defined content types (e.g., those
+                        // from [Produces] or Response.ContentType), otherwise we'd potentially be reflecting
+                        // back arbitrary Accept header values.
+                        if (context.ContentTypeIsServerDefined
+                            && parsedContentType.IsSubsetOf(supportedMediaType))
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        // For supported media types that are not wildcard patterns, confirm that this formatter
+                        // supports a more specific media type than requested e.g. OK if "text/*" requested and
+                        // formatter supports "text/plain".
+                        // contentType is typically what we got in an Accept header.
+                        if (supportedMediaType.IsSubsetOfIgnoreParameters(parsedContentType))
+                        {
+                            context.ContentType = new StringSegment(SupportedMediaTypes[i]);
+                            return true;
+                        }
+                    }
+                }
+            }
+
             return false;
         }
 

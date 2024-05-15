@@ -281,10 +281,8 @@ namespace Hl7.Fhir.WebApi
 
                             // Add in the Meta Tag that indicates that this resource is only a partial
                             if (resource.Meta == null) resource.Meta = new Meta();
-                            resource.Meta.Tag = new List<Coding>
-                            {
-                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
-                            };
+                            if (!resource.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                                resource.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
                             break;
                         case Hl7.Fhir.Rest.SummaryType.Text:
                             // what do we need to filter here
@@ -294,10 +292,8 @@ namespace Hl7.Fhir.WebApi
                             dr.Text = null;
                             // Add in the Meta Tag that indicates that this resource is only a partial
                             if (resource.Meta == null) resource.Meta = new Meta();
-                            resource.Meta.Tag = new List<Coding>
-                            {
-                                new Coding("http://terminology.hl7.org/CodeSystem/v3-ObservationValue", "SUBSETTED")
-                            };
+                            if (!resource.Meta.Tag.Any(c => c.System == ResourceExtensions.SubsettedSystem && c.Code == "SUBSETTED"))
+                                resource.Meta.Tag.Add(new Coding(ResourceExtensions.SubsettedSystem, "SUBSETTED"));
                             break;
                     }
                 }

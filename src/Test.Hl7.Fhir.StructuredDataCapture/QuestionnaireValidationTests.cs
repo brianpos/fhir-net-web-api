@@ -4,6 +4,7 @@ using Hl7.Fhir.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 using System.Linq;
+using Test.Hl7.Fhir.StructuredDataCapture;
 using Task = System.Threading.Tasks.Task;
 
 namespace Hl7.Fhir.StructuredDataCapture.Test

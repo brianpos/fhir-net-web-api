@@ -19,7 +19,6 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Hl7.Fhir.FhirPath.ElementNavFhirExtensions.PrepareFhirSymbolTableFunctions();
         }
 
-
         private Bundle GetTestQuestionnaires()
         {
             string testFile = @"TestData\sqlonfhir-r4-questionnaires.xml";

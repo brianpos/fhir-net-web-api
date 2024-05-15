@@ -2,7 +2,6 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Task = System.Threading.Tasks.Task;
@@ -23,6 +22,12 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             string testFile = @"TestData\Questionnaire.health-status-example.json";
             return new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
         }
+
+		private Questionnaire GetLargeComplexQuestionnaire()
+		{
+			string testFile = @"TestData\MBS715-NoReadOnly.json";
+			return new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+		}
 
 		private Bundle GetTestQuestionnaires()
 		{

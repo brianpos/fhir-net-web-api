@@ -322,7 +322,7 @@ namespace Hl7.Fhir.WebApi
                     }
                     else
                     {
-                        if (prop.Value is PrimitiveType pt)
+                        if (prop.Value is PrimitiveType pt && pt.ObjectValue != null)
                         {
                             string valStr = PrimitiveTypeConverter.ConvertTo(pt.ObjectValue, typeof(string)) as string;
                             if (pt is FhirString fs || pt is Markdown)

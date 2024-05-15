@@ -12,6 +12,7 @@ using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Language.Debugging;
 using System.Net;
 using Hl7.Fhir.Specification.Source;
+using Hl7.Fhir.Specification.Terminology;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {

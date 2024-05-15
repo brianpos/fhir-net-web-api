@@ -71,7 +71,11 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		{
 			var hapiServer = new FhirClient("http://hapi.fhir.org/baseR4", new FhirClientSettings() { VerifyFhirVersion = false, PreferCompressedResponses = true, ParserSettings = new ParserSettings() { PermissiveParsing = true } });
 			// Need to discover why this isn't working, and how to select the parser that I enhanced.
-			hapiServer.Settings.SerializationEngine = FhirSerializationEngineFactory.Ostrich(ModelInfo.ModelInspector);
+			hapiServer.Settings.SerializationEngine = new BlindParsingEngine(ModelInfo.ModelInspector, _ => true);
+			hapiServer.Settings.ParserSettings.AllowUnrecognizedEnums = true;
+			hapiServer.Settings.ParserSettings.TruncateDateTimeToDate = true;
+			Bundle bun = new Bundle();
+
 			int totalValidated = 0;
 			int errors = 0, warnings = 0;
 			var IndexDefinitions = async Task (Bundle qs) =>
@@ -90,12 +94,14 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 						warnings++;
 
 					if (outcome.Issue.Any())
-						DebugDumpXml(outcome);
+						DebugDumpXmlDiagnostics(outcome);
+
+					bun.Entry.AddRange(qs.Entry);
 				}
 			};
 
 			// Load in the Questionnaire Bundle
-			Bundle qs = await hapiServer.SearchAsync<Questionnaire>(pageSize: 6000);
+			Bundle qs = await hapiServer.SearchAsync<Questionnaire>(pageSize: 10);
 
 			await IndexDefinitions(qs);
 			try
@@ -117,6 +123,10 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			Trace.WriteLine($"Validated Qs: {totalValidated}");
 			Trace.WriteLine($"Errors: {errors}");
 			Trace.WriteLine($"Warnings: {warnings}");
+
+			// Dump out the entire bundle of HAPI questionnaires
+			System.IO.File.WriteAllText(@"c:\temp\hapi-questionnaires.json", bun.ToJson(new FhirJsonSerializationSettings() { Pretty = true }));
+
 			Assert.AreEqual(0, errors, $"Expected no errors, found {errors}/{warnings}");
 		}
 

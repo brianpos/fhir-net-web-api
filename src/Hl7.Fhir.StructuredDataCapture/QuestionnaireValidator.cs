@@ -500,10 +500,11 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 
 			// Register any variable, candidate expression && item population contexts
-			foreach (var expr in q.Extension.Where(ext => _namedExpressionExtensions.Contains(ext.Url)).Select(ext => ext.Value as Expression))
+			foreach (var ext in q.Extension.Where(ext => _namedExpressionExtensions.Contains(ext.Url)))
 			{
-				var pathExpression = $"Questionnaire.extension[{q.Extension.IndexOf(q.Extension.First(e => e.Value == expr))}]";
-				var expressionResultTypes = ValidateExpression(expr, q, symbolTable, pathExpression, null, true);
+				var expr = ext.Value as Expression;
+				var pathExpression = $"Questionnaire.extension[{q.Extension.IndexOf(ext)}]";
+				var expressionResultTypes = ValidateExpression(expr, q, symbolTable, pathExpression, null, ext.Url != candidateExpressionUrl);
 
 				if (!string.IsNullOrEmpty(expr.Expression_) && !string.IsNullOrEmpty(expr.Name))
 				{
@@ -513,6 +514,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					else
 						ReportValidationMessage(ValidationResult.duplicateVariable, q, null, new[] { pathExpression }, null, null, new ValidationMessageException() { VariableName = expr.Name, SymbolTable = symbolTable });
 				}
+				
 			}
 
 			ValidateItems(q, symbolTable, "Questionnaire.item", q.Item);
@@ -541,19 +543,19 @@ namespace Hl7.Fhir.StructuredDataCapture
 			return outcome;
 		}
 
-		List<string> _namedExpressionExtensions = new List<string>(new[] {
+		const string candidateExpressionUrl = "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-candidateExpression";
+		readonly List<string> _namedExpressionExtensions = new List<string>(new[] {
+			candidateExpressionUrl,
 			"http://hl7.org/fhir/StructureDefinition/variable",
-			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-candidateExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemPopulationContext",
 		});
 
-		List<string> _expressionExtensions = new List<string>(new[] {
+		readonly List<string> _expressionExtensions = new List<string>(new[] {
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-contextExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-enableWhenExpression",
-			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerOptionsToggleExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
 		});
 
@@ -595,7 +597,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					if (String.Compare(expr.Language, "text/CQL", true) == 0)
 						continue;
 					var pathExpression = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(itemDef.Extension.First(e => e.Value == expr))}]";
-					var expressionReturnTypes = ValidateExpression(expr, Q, itemSymbolTable, pathExpression, itemDef, true);
+					var expressionReturnTypes = ValidateExpression(expr, Q, itemSymbolTable, pathExpression, itemDef, ext.Url != candidateExpressionUrl);
 
 					if (string.IsNullOrEmpty(expr.Language)) {
 						// No expression defined, so can't exactly test anything ;) 
@@ -623,6 +625,24 @@ namespace Hl7.Fhir.StructuredDataCapture
 			{
 				string extPath = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(ext)}]";
 				if (ext.Value is Hl7.Fhir.Model.Expression expr)
+				{
+					ValidateExpression(expr, Q, itemSymbolTable, extPath, itemDef, false);
+				}
+				else
+				{
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value?.TypeName ?? "(null)"));
+				}
+			}
+			const string aote = "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerOptionsToggleExpression";
+			foreach (var ext in itemDef.Extension.Where(ext => ext.Url == aote))
+			{
+				string extPath = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(ext)}]";
+				// it's in a child expression of this one
+				var exprExtension = ext.GetExtension("expression");
+				if (exprExtension != null)
+					extPath += $".extension[{ext.Extension.IndexOf(exprExtension)}]";
+
+				if (exprExtension?.Value is Hl7.Fhir.Model.Expression expr)
 				{
 					ValidateExpression(expr, Q, itemSymbolTable, extPath, itemDef, false);
 				}
@@ -860,7 +880,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					try
 					{
 						fpc.Compile(inv.Expression);
-						FhirPathVisitorProps result = ValidateFhirPathExpressionValidity(Q, symbolTable, itemDef, new[] { $"{pathToConstraintExpression}.expression" }, $"Invariant={inv.Key}", inv.Expression, fpc);
+						FhirPathVisitorProps result = ValidateFhirPathExpressionValidity(Q, symbolTable, itemDef, new[] { $"{pathToConstraintExpression}.extension[{indexOfExpression}]" }, $"Invariant={inv.Key}", inv.Expression, fpc);
 
 						// Now check if the resulting output type  is a boolean, as that's what invariants need to have
 						if (result.ToString() != "boolean")
@@ -944,6 +964,12 @@ namespace Hl7.Fhir.StructuredDataCapture
 						if (name?.EndsWith("=''") != true)
 							loc += $"\r\n{name}";
 						issue.Location = new[] { loc };
+					}
+
+					// prefix the details text value with the item label
+					if (itemDef != null)
+					{
+						issue.Details.Text = $"{itemDef.Text ?? itemDef.LinkId}: {issue.Details.Text}";
 					}
 
 					// If there was no coding added, we'll put our own in here.

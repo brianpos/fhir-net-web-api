@@ -2,6 +2,7 @@
 using Hl7.Fhir.FhirPath.Validator;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
 using Hl7.FhirPath.Expressions;
@@ -354,7 +355,23 @@ namespace Hl7.Fhir.StructuredDataCapture
 					PreferCompressedResponses = true
 				}
 			};
+			_source = new CachedResolver(ZipSource.CreateValidationSource());
 		}
+
+		public QuestionnaireValidator(IResourceResolver source, ValidationSettings settings = null)
+		{
+			_settings = settings ?? new ValidationSettings()
+			{
+				TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
+				TerminologyServerFhirClientSettings = new FhirClientSettings()
+				{
+					VerifyFhirVersion = false,
+					PreferCompressedResponses = true
+				}
+			};
+			_source = source;
+		}
+		IResourceResolver _source;
 		ValidationSettings _settings;
 		List<Task> AsyncValidations = new List<System.Threading.Tasks.Task>();
 		ConcurrentQueue<OperationOutcome.IssueComponent> outcomeIssues = new ConcurrentQueue<OperationOutcome.IssueComponent>();
@@ -389,6 +406,8 @@ namespace Hl7.Fhir.StructuredDataCapture
 			// assembleContext & subQuestionnaire
 			// this will also need to actually resolve the canonical to the sub-questionnaire to be able to check that all the names are present when required
 
+			// Before doing the validations index the linkIds so that expression checking has direct access to the items.
+			IndexItems(q.Item, _itemsByLinkId);
 
 
 			// Report an information message if the questionnaire definition is retired
@@ -636,7 +655,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					try
 					{
 						fpc.Compile(expr.Expression_);
-						result = ValidateFhirPathExpressionValidity(symbolTable, itemDef, new[] { pathExpression + ".expression" }, $"Name='{expr.Name}'", expr.Expression_, fpc);
+						result = ValidateFhirPathExpressionValidity(Q, symbolTable, itemDef, new[] { pathExpression + ".expression" }, $"Name='{expr.Name}'", expr.Expression_, fpc);
 						// TODO: Now check if the output is of the correct type
 					}
 					catch (Exception ex)
@@ -656,7 +675,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 						try
 						{
 							fpc.Compile(expression);
-							var partType = ValidateFhirPathExpressionValidity(symbolTable, itemDef, new[] { pathExpression + ".expression" }, $"Name='{expr.Name}'", expression, fpc);
+							var partType = ValidateFhirPathExpressionValidity(Q, symbolTable, itemDef, new[] { pathExpression + ".expression" }, $"Name='{expr.Name}'", expression, fpc);
 							// Verify if this is one of the acceptable formats according to
 							// http://hl7.org/fhir/uv/sdc/STU3/expressions.html#x-fhir-query-enhancements
 							List<string> xfhirquerytypes = new List<string>() { "string", "coding", "identifier", "reference", "Quantity" };
@@ -813,7 +832,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					try
 					{
 						fpc.Compile(inv.Expression);
-						FhirPathVisitorProps result = ValidateFhirPathExpressionValidity(symbolTable, itemDef, new[] { $"{pathToConstraintExpression}.expression" }, $"Invariant={inv.Key}", inv.Expression, fpc);
+						FhirPathVisitorProps result = ValidateFhirPathExpressionValidity(Q, symbolTable, itemDef, new[] { $"{pathToConstraintExpression}.expression" }, $"Invariant={inv.Key}", inv.Expression, fpc);
 
 						// Now check if the resulting output type  is a boolean, as that's what invariants need to have
 						if (result.ToString() != "boolean")
@@ -832,7 +851,34 @@ namespace Hl7.Fhir.StructuredDataCapture
 			}
 		}
 
-		private FhirPathVisitorProps ValidateFhirPathExpressionValidity(TypedVariableSymbolTable symbolTable, Questionnaire.ItemComponent itemDef, string[] pathToExpressionForError, string name, string expression, FhirPathCompiler fpc)
+		public Dictionary<string, Questionnaire.ItemComponent> _itemsByLinkId = new Dictionary<string, Questionnaire.ItemComponent>();
+
+		public static Dictionary<string, Questionnaire.ItemComponent> IndexItems(Questionnaire q)
+		{
+			var itemsByLinkId = new Dictionary<string, Questionnaire.ItemComponent>();
+			IndexItems(q.Item, itemsByLinkId);
+			return itemsByLinkId;
+		}
+
+		private static void IndexItems(List<Questionnaire.ItemComponent> items, Dictionary<string, Questionnaire.ItemComponent> itemsByLinkId)
+		{
+			foreach (var item in items)
+			{
+				if (!itemsByLinkId.ContainsKey(item.LinkId))
+				{
+					itemsByLinkId.Add(item.LinkId, item);
+				}
+				else
+				{
+					// There are duplicate linkIds in the questionnaire!
+				}
+
+				if (item.Item.Any())
+					IndexItems(item.Item, itemsByLinkId);
+			}
+		}
+
+		private FhirPathVisitorProps ValidateFhirPathExpressionValidity(Questionnaire Q, TypedVariableSymbolTable symbolTable, Questionnaire.ItemComponent itemDef, string[] pathToExpressionForError, string name, string expression, FhirPathCompiler fpc)
 		{
 			var ce = fpc.Parse(expression);
 

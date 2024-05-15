@@ -1,4 +1,6 @@
-﻿using Hl7.Fhir.Model;
+﻿using Hl7.Fhir.ElementModel;
+using Hl7.Fhir.FhirPath;
+using Hl7.Fhir.Model;
 using Hl7.FhirPath;
 using Hl7.FhirPath.Expressions;
 using NaturalSort.Extension;
@@ -90,8 +92,6 @@ namespace Hl7.Fhir.WebApi
                 _algorithm = Algorithm.fhirpath;
                 _fhirpathExpression = fhirpath;
                 _st = new SymbolTable(FhirPathCompiler.DefaultSymbolTable);
-                _st.AddVar("version1", "");
-                _st.AddVar("version2", "");
                 Hl7.FhirPath.FhirPathCompiler compiler = new Hl7.FhirPath.FhirPathCompiler(_st);
                 _fhirpathCompiledExpression = compiler.Compile(_fhirpathExpression);
                 System.Diagnostics.Trace.WriteLine("Sorting by Fhirpath expression");
@@ -158,9 +158,12 @@ namespace Hl7.Fhir.WebApi
                     return _nsComparer.Compare(x.Version, y.Version);
                 case Algorithm.fhirpath:
                     {
-                        _st.AddVar("version1", x.Version);
-                        _st.AddVar("version2", y.Version);
-                        var value = _fhirpathCompiledExpression(null, new EvaluationContext()).FirstOrDefault().Value;
+                        var dv = ElementNode.ForPrimitive(true);
+						var ec = new FhirEvaluationContext(dv);
+						ec.Environment.Add("version1", ElementNode.CreateList(ElementNode.ForPrimitive(x.Version)));
+						ec.Environment.Add("version2", ElementNode.CreateList(ElementNode.ForPrimitive(y.Version)));
+
+                        var value = _fhirpathCompiledExpression(dv, ec).FirstOrDefault().Value;
                         if (value is Integer i)
                             return i.Value ?? 0;
                         break;

@@ -16,8 +16,8 @@ namespace Hl7.DemoFhirAzureFunctionApp
 {
     public class StructuredDataCaptureFunctions
     {
-        [Function("$extract")]
-        public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequestData req,
+        [Function("extract-post")]
+        public static async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "$extract")] HttpRequestData req,
             FunctionContext context,
             // [InputConverter(typeof(FhirInputConverter))]
             Parameters resource)
@@ -39,8 +39,8 @@ namespace Hl7.DemoFhirAzureFunctionApp
             return req.FormatFhirDataOutput(HttpStatusCode.OK, qr);
         }
 
-        [Function("{id}/$extract")]
-        public static async Task<HttpResponseData> ExtractForQuestionnaireResponseId([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequestData req,
+        [Function("extract-by-id")]
+        public static async Task<HttpResponseData> ExtractForQuestionnaireResponseId([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "{id}/$extract")] HttpRequestData req,
             FunctionContext context,
             string id)
         {

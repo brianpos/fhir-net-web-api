@@ -86,7 +86,7 @@ namespace Hl7.Fhir.WebApi
             OperationOutcome oo = exception.ToOperationOutcome();
             foreach (var issue in oo.Issue)
             {
-                // Tweak the severity on specific issues that we can be more tollerant of
+                // Tweak the severity on specific issues that we can be more tolerant of
                 // ...
             }
             if (exception.PartialResult is Resource r)

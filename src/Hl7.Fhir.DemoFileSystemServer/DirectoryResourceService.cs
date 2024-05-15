@@ -116,13 +116,20 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
         public enum ResourceValidationMode { create, update, delete, profile };
         virtual public Task<OperationOutcome> ValidateResource(Resource resource, ResourceValidationMode mode, string[] profiles)
         {
+			// https://github.com/FirelyTeam/firely-docs-firely-net-sdk/blob/f8c9271c21636fdfd21942485a7fa0032545f5ef/validation/terminology-service.rst
+			var localTermService = new LocalTerminologyService(AsyncSource, new ValueSetExpanderSettings() { MaxExpansionSize = 1500 });
+			var mimeTypeTermService = new MimeTypeTerminologyService();
+            // var tsClient = new FhirClient("https://r4.ontoserver.csiro.au/fhir");
+            // var externalTermService = new ExternalTerminologyService(tsClient);
+            var multiTermService = new MultiTerminologyService(localTermService, mimeTypeTermService); //, externalTermService);
             var compiler = new Hl7.FhirPath.FhirPathCompiler();
             var settings = new Hl7.Fhir.Validation.ValidationSettings()
             {
                 ResourceResolver = Source,
-                TerminologyService = new Hl7.Fhir.Specification.Terminology.LocalTerminologyService(AsyncSource, new Specification.Terminology.ValueSetExpanderSettings() { MaxExpansionSize = 1500 }),
+                TerminologyService = multiTermService,
                 FhirPathCompiler = compiler
             };
+
             //settings.ConstraintsToIgnore = settings.ConstraintsToIgnore.Union(new []{
             //    "ref-1", // causes issues with
             //    // "ctm-1", // should permit prac roles too
@@ -145,7 +152,11 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 }
             }
 
-            // TODO: If the resource has the subsetted meta tag, then reject the create/update
+            // If there is an annotation from the parser with the outcome from parsing, inject that too.
+            if (resource?.HasAnnotation<OperationOutcome>() == true)
+            {
+                outcome.Issue.AddRange(resource.Annotation<OperationOutcome>().Issue);
+            }
 
             return Task<OperationOutcome>.FromResult(outcome);
         }

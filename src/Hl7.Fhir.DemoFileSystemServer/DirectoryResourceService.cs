@@ -158,6 +158,18 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                 outcome.Issue.AddRange(resource.Annotation<OperationOutcome>().Issue);
             }
 
+            // If the resource has the subsetted meta tag, then reject the create/update
+            if (resource?.Meta?.Tag.Any(m => m.System == ResourceExtensions.SubsettedSystem && m.Code == "SUBSETTED" 
+                                            || m.System == ResourceExtensions.SubsettedSystem && m.Code == "SUBSETTED") == true)
+            {
+				outcome.Issue.Add(new OperationOutcome.IssueComponent()
+				{
+					Severity = OperationOutcome.IssueSeverity.Error,
+					Code = OperationOutcome.IssueType.BusinessRule,
+					Details = new CodeableConcept() { Text = $"Cannot create/update a resource that is subsetted" }
+				});
+			}
+
             return Task<OperationOutcome>.FromResult(outcome);
         }
 

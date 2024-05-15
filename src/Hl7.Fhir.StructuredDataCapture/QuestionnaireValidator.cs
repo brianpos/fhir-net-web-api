@@ -106,6 +106,11 @@ namespace Hl7.Fhir.StructuredDataCapture
 			/// </summary>
 			unknownExpressionLanguage,
 
+			/// <summary>
+			/// The enableWhen question is not found in the questionnaire
+			/// </summary>
+			enableWhenQuestionNotFound,
+
 			// TODO: Add in validation error types as new checks are included
 		}
 
@@ -246,6 +251,16 @@ namespace Hl7.Fhir.StructuredDataCapture
 					details.Coding[0].Display = "x-fhir-query unknown expression language";
 					details.Text = $"{fieldDisplayText}: x-fhir-query unknown expression language";
 					diagnostics = exceptionThrown?.Message;
+					break;
+
+				case ValidationResult.enableWhenQuestionNotFound:
+					code = OperationOutcome.IssueType.NotFound;
+					severity = OperationOutcome.IssueSeverity.Error;
+					if (exceptionThrown is EnableWhenValidationMessageException ewe) // always should be
+					{
+						details.Coding[0].Display = $"EnableWhen refers to a question '{ewe.EnableWhen.Question}' that doesn't exist";
+						details.Text = $"{fieldDisplayText}: enableWhen refers to question '{ewe.EnableWhen.Question}' that doesn't exist";
+					}
 					break;
 
 				//case ValidationResult.tsError:
@@ -552,6 +567,19 @@ namespace Hl7.Fhir.StructuredDataCapture
 
 		private void ValidateItem(Questionnaire Q, TypedVariableSymbolTable parentSymbolTable, string itemPathExpression, Questionnaire.ItemComponent itemDef)
 		{
+			// Validate native properties
+			// Should this one actually be an invariant?
+			foreach (var ew in itemDef.EnableWhen)
+			{
+				// Ensure that the question being referenced exists (by LinkId)
+				if (!_itemsByLinkId.ContainsKey(ew.Question))
+				{
+					// No such question exists!
+					ReportValidationMessage(ValidationResult.enableWhenQuestionNotFound, 
+						Q, null, new[] { $"{itemPathExpression}.enableWhen[{itemDef.EnableWhen.IndexOf(ew)}].question" }, null, null, new EnableWhenValidationMessageException(ew));
+				}
+			}
+
 			// System.Diagnostics.Trace.WriteLine($"Validating item '{itemDef.LinkId}' - {itemDef.Text}");
 			var itemSymbolTable = new TypedVariableSymbolTable(parentSymbolTable);
 			itemSymbolTable.AddVar("qitem", ElementNode.EmptyList, typeof(QuestionnaireResponse.ItemComponent));
@@ -1529,6 +1557,17 @@ namespace Hl7.Fhir.StructuredDataCapture
 			public string ReturnType { get; set; }
 			public string VariableName { get; set; }
 			public TypedVariableSymbolTable SymbolTable { get; set; }
+		}
+
+		
+		private class EnableWhenValidationMessageException : Exception
+		{
+			public EnableWhenValidationMessageException(Questionnaire.EnableWhenComponent ew)
+			{
+				this.EnableWhen = ew;
+			}
+
+			public Questionnaire.EnableWhenComponent EnableWhen { get; set; }
 		}
 
 		private class ExtensionValidationMessageException : Exception

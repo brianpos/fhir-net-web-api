@@ -389,6 +389,32 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		}
 
 
+		[TestMethod]
+		public async Task ValidateEnableWhenInvalidLinkId()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateInvariantUndefinedVariable" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true, EnableBehavior = Questionnaire.EnableWhenBehavior.Any });
+			q.Item[0].EnableWhen.Add(new Questionnaire.EnableWhenComponent() { Question = "bad-link-id", Answer = new FhirString("val") });
+
+			// qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a3" } });
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.NotFound, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("enableWhenQuestionNotFound", outcome.Issue[0].Details.Coding[0].Code);
+			Assert.AreEqual("Questionnaire.item[0].enableWhen[0].question", outcome.Issue[0].Expression.First());
+		}
 		// Now start the unit tests rather than the integration tests above
 
         [TestMethod]

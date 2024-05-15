@@ -151,6 +151,26 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 
 		}
 
+		[TestMethod]
+		public async Task TestLargeComplexExample()
+		{
+			var q = GetLargeComplexQuestionnaire();
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+
+			if (outcome.Issue.Any())
+				DebugDumpXmlDiagnostics(outcome);
+
+			// Cool we found 4 errors with the validator!
+			Assert.AreEqual(0, outcome.Errors);
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.MultipleMatches, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("invalidFhirpathExpressionTypes", outcome.Issue[0].Details.Coding[0].Code);
+			Assert.AreEqual(176, outcome.Warnings);
+			Assert.AreEqual("Questionnaire.item[0].item[1].item[2].extension[0].expression", outcome.Issue[0].Expression.First());
+		}
+
 		public static void DebugDumpXmlDiagnostics(OperationOutcome outcome)
 		{
 			foreach (var issue in outcome.Issue)
@@ -190,15 +210,15 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			if (outcome.Issue.Any())
 				DebugDumpXmlDiagnostics(outcome);
 
-			Assert.AreEqual(5, outcome.Issue.Count, "Expected 5 total issues");
+			Assert.AreEqual(6, outcome.Issue.Count, "Expected 6 total issues");
 			Assert.AreEqual(0, outcome.Fatals);
-			Assert.AreEqual(4, outcome.Errors);
-			Assert.AreEqual(1, outcome.Warnings);
+			Assert.AreEqual(6, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
 
 			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
-			Assert.AreEqual(OperationOutcome.IssueType.Exception, outcome.Issue[0].Code);
+			Assert.AreEqual(OperationOutcome.IssueType.NotFound, outcome.Issue[0].Code);
 			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
-			Assert.AreEqual("invalidFhirpathExpression", outcome.Issue[0].Details.Coding[0].Code);
+			Assert.AreEqual("invalidFhirpathExpressionTypes", outcome.Issue[0].Details.Coding[0].Code);
 			// Also need to determine what location the report is on, the answer, or the item?
 			Assert.AreEqual("Questionnaire.extension[0].expression", outcome.Issue[0].Expression.First());
 		}

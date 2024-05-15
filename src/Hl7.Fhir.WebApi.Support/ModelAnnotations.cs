@@ -56,6 +56,9 @@ namespace Hl7.Fhir.WebApi
         }
         public FilterOutputToElements(string value)
         {
+            // as the meta contains the subsetted tag, we need to ensure that this always comes through
+            if (!value.Split(',').Contains("meta"))
+                value = value + ",meta";
             _value = value?.Split(',').Select(v => v.Trim()).ToArray();
         }
 

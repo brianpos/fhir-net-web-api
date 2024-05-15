@@ -86,7 +86,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                             // No special validation rules
                             break;
                         case "semver":
-                            if (!Semver.SemVersion.TryParse(icr.Version, Semver.SemVersionStyles.Any, out var ver))
+                            if (!SemanticVersioning.Version.TryParse(icr.Version, true, out var ver))
                             {
                                 outcome.Issue.Insert(0, new OperationOutcome.IssueComponent
                                 {

@@ -147,9 +147,9 @@ namespace Hl7.Fhir.WebApi
                     }
                 case Algorithm.semver:
                     {
-                        var xS = Semver.SemVersion.Parse(x.Version, Semver.SemVersionStyles.Any);
-                        var yS = Semver.SemVersion.Parse(y.Version, Semver.SemVersionStyles.Any);
-                        return xS.CompareSortOrderTo(yS);
+                        var xS = SemanticVersioning.Version.Parse(x.Version, true);
+                        var yS = SemanticVersioning.Version.Parse(y.Version, true);
+                        return xS.CompareTo(yS);
                         //var xS = Hl7.Fhir.Utility.SemVersion.Parse(x.Version);
                         //var yS = Utility.SemVersion.Parse(y.Version);
                         //return Utility.SemVersion.Compare(xS, yS);

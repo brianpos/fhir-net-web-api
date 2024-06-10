@@ -623,7 +623,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 			// Validate all the other expression extensions (except constraint)
 			foreach (var ext in itemDef.Extension.Where(ext => _expressionExtensions.Contains(ext.Url)))
 			{
-				string extPath = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(ext)}]";
+				string extPath = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(ext)}].value";
 				if (ext.Value is Hl7.Fhir.Model.Expression expr)
 				{
 					ValidateExpression(expr, Q, itemSymbolTable, extPath, itemDef, false);
@@ -640,7 +640,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				// it's in a child expression of this one
 				var exprExtension = ext.GetExtension("expression");
 				if (exprExtension != null)
-					extPath += $".extension[{ext.Extension.IndexOf(exprExtension)}]";
+					extPath += $".extension[{ext.Extension.IndexOf(exprExtension)}].value";
 
 				if (exprExtension?.Value is Hl7.Fhir.Model.Expression expr)
 				{

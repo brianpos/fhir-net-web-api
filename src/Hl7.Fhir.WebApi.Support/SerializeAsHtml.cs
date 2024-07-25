@@ -47,13 +47,23 @@ namespace Hl7.Fhir.WebApi
             {
                 elements = me.Annotation<FilterOutputToElements>().Value;
             }
-            var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st, null, elements);
-            var resource = new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Resource>(partialResource);
+			var partialResource = new Hl7.Fhir.Serialization.FhirXmlSerializer().SerializeToString(me, st, null, elements);
+
+			var deserializer = new BaseFhirXmlPocoDeserializer(ModelInfo.ModelInspector);
+			deserializer.TryDeserializeResource(partialResource, out var resource, out var issues);
+            // var resource = new Hl7.Fhir.Serialization.FhirXmlParser(new ParserSettings() {  }).Parse<Resource>(partialResource);
 
             sw.WriteLine("<div class='fhir_resource'>");
-            sw.WriteLine($"&lt;{resource.TypeName} xmlns=\"http://hl7.org/fhir\"&gt;<br/>");
-            WriteXmlChildProperties(resource.GetType(), resource.NamedChildren, 2, sw, ct, baseUrl, st);
-            sw.WriteLine($"&lt;/{resource.TypeName}&gt;");
+            if (resource != null)
+            {
+                sw.WriteLine($"&lt;{resource.TypeName} xmlns=\"http://hl7.org/fhir\"&gt;<br/>");
+                WriteXmlChildProperties(resource.GetType(), resource.NamedChildren, 2, sw, ct, baseUrl, st);
+                sw.WriteLine($"&lt;/{resource.TypeName}&gt;");
+            }
+            else if (issues.Any())
+            {
+                System.Diagnostics.Trace.WriteLine(String.Join("\n",issues.Select(i => i.Message)));
+            }
             sw.WriteLine("</div>");
         }
 

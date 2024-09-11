@@ -40,14 +40,14 @@
     <Reference Include="Firely.Fhir.Packages, Version=4.7.0.0, Culture=neutral, PublicKeyToken=0ddea2cfac6b533f, processorArchitecture=MSIL">
       <HintPath>..\packages\Firely.Fhir.Packages.4.7.0\lib\netstandard2.0\Firely.Fhir.Packages.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.Base, Version=5.9.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Base.5.9.0\lib\netstandard2.0\Hl7.Fhir.Base.dll</HintPath>
+    <Reference Include="Hl7.Fhir.Base, Version=5.10.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Base.5.10.0\lib\netstandard2.0\Hl7.Fhir.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.Conformance, Version=5.9.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Conformance.5.9.0\lib\netstandard2.0\Hl7.Fhir.Conformance.dll</HintPath>
+    <Reference Include="Hl7.Fhir.Conformance, Version=5.10.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Conformance.5.10.0\lib\netstandard2.0\Hl7.Fhir.Conformance.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.R4B, Version=5.9.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.R4B.5.9.0\lib\netstandard2.0\Hl7.Fhir.R4B.dll</HintPath>
+    <Reference Include="Hl7.Fhir.R4B, Version=5.10.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.R4B.5.10.0\lib\netstandard2.0\Hl7.Fhir.R4B.dll</HintPath>
     </Reference>
     <Reference Include="Hl7.Fhir.R4B.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.R4B.4.3.0\lib\net452\Hl7.Fhir.R4B.Core.dll</HintPath>
@@ -69,8 +69,8 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.0\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.1\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>

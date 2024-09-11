@@ -4,7 +4,7 @@
     <TargetFrameworks>net80;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R5.DemoFileSystemFhirServer</AssemblyName>
     <PackageId>brianpos.Fhir.R5.DemoFileSystemFhirServer</PackageId>
-    <Version>5.9.0-beta1</Version>
+    <Version>5.10.0-beta1</Version>
     <Title>Demonstration R5 FHIR File System Facade</Title>
     <Summary>Demonstration R5 FHIR File System Facade</Summary>
     <Description>Demonstration implementation of a FHIR R4 Facade using the file system as a super simple storage provider</Description>
@@ -23,9 +23,9 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="Hl7.Fhir.Conformance" Version="5.9.0" />
-    <PackageReference Include="Hl7.Fhir.R5" Version="5.9.0" />
-    <PackageReference Include="Hl7.Fhir.Specification.Data.R5" Version="5.9.0" />
+    <PackageReference Include="Hl7.Fhir.Conformance" Version="5.10.0" />
+    <PackageReference Include="Hl7.Fhir.R5" Version="5.10.0" />
+    <PackageReference Include="Hl7.Fhir.Specification.Data.R5" Version="5.10.0" />
     <PackageReference Include="Hl7.Fhir.Validation.Legacy.R5" Version="5.9.0" />
   </ItemGroup>
 

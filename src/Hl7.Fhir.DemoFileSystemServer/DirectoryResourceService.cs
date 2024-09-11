@@ -13,6 +13,7 @@ using Hl7.Fhir.Language.Debugging;
 using System.Net;
 using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Specification.Terminology;
+using Hl7.Fhir.Serialization;
 
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
@@ -49,7 +50,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
 
         protected static Serialization.FhirXmlSerializer _serializer = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings() { Pretty = true });
-        protected static Serialization.FhirXmlParser _parser = new Serialization.FhirXmlParser();
+		protected static IFhirSerializationEngine _engine = FhirSerializationEngineFactory.Ostrich(ModelInfo.ModelInspector);
 
         virtual public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
         {
@@ -188,7 +189,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
             string path = Path.Combine(ResourceDirectory, $"{this.ResourceName}.{resourceId}.{VersionId}.xml");
             if (File.Exists(path))
-                return System.Threading.Tasks.Task.FromResult(_parser.Parse<Resource>(File.ReadAllText(path)));
+                return System.Threading.Tasks.Task.FromResult(_engine.DeserializeFromXml(File.ReadAllText(path)));
             throw new FhirServerException(System.Net.HttpStatusCode.Gone, "It might have been deleted!");
         }
 
@@ -233,7 +234,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             {
                 if (filename.EndsWith("..xml"))
                     continue;
-                var resource = _parser.Parse<Resource>(File.ReadAllText(filename));
+                var resource = _engine.DeserializeFromXml(File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(RequestDetails.BaseUri,
                         resource.TypeName,
@@ -479,7 +480,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
                     using (FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         var xr = Hl7.Fhir.Utility.SerializationUtil.XmlReaderFromStream(stream);
-                        var resourceEntry = _parser.Parse<Resource>(xr);
+                        var resourceEntry = _engine.SerializeReaderToXml(xr);
                         if (entries.ContainsKey(resourceEntry.Id))
                         {
                             if (String.Compare(entries[resourceEntry.Id].Meta.VersionId, resourceEntry.Meta.VersionId) < 0)
@@ -553,7 +554,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             {
                 if (filename.EndsWith("..xml")) // this is the current version file, the version number file will have the real data
                     continue;
-                var resource = _parser.Parse<Resource>(File.ReadAllText(filename));
+                var resource = _engine.DeserializeFromXml(File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(RequestDetails.BaseUri,
                         resource.TypeName,

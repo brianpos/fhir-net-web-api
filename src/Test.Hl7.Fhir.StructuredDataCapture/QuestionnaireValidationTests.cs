@@ -323,6 +323,77 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		}
 
 		[TestMethod]
+		public async Task ValidateCodeItemContext()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateCodeItemContext" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+
+			q.Item[0].AddExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext", new Code("Observation"));
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(0, outcome.Issue.Count);
+		}
+
+		[TestMethod]
+		public async Task ValidateInvalidExpressionItemContext()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateCodeItemContext" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+
+			q.Item[0].AddExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext", new Expression()
+			{
+				Language = "text/fhirpath",
+				Expression_ = "iif(%LaunchPatient.exists() > today(), 'ServiceRequest')"
+			});
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+		}
+
+
+		[TestMethod]
+		public async Task ValidateInvalidInitialExpression()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateInvalidInitialExpression" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String });
+			q.Item[0].AddExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression", new Expression()
+			{
+				Language = "text/fhirpath",
+				Expression_ = "today().toString().substring(0,4).toInteger() - %LaunchPatient.birthDate.toString().substring(0,4).toInteger()"
+			});
+
+			// qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a3" } });
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Value, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("invalidConstraint", outcome.Issue[0].Details.Coding[0].Code);
+			// Also need to determine what location the report is on, the answer, or the item?
+			Assert.AreEqual("Questionnaire.item[0].extension[0].extension[2]", outcome.Issue[0].Expression.First());
+		}
+
+		[TestMethod]
 		public async Task ValidateConstraintExpressionReturningAString()
 		{
 			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateConstraintExpressionReturningAString" };

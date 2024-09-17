@@ -893,7 +893,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             }
             if (itemDef.Type == Questionnaire.QuestionnaireItemType.Question)
             {
-                // "Question" Items should't be used
+                // "Question" Items shouldn't be used
                 ReportValidationMessage(ValidationResult.invalidType, itemDef, new[] { pathExpression }, status, item, null, null);
             }
 

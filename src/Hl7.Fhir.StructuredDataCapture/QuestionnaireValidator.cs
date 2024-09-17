@@ -628,8 +628,9 @@ namespace Hl7.Fhir.StructuredDataCapture
 				{
 					ValidateExpression(expr, Q, itemSymbolTable, extPath, itemDef, false);
 				}
-				else
+				else if (ext.Url != "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext")
 				{
+					// the itemExtractionContext can also be a code (so don't report that as a type issue)
 					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value?.TypeName ?? "(null)"));
 				}
 			}

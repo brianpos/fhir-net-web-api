@@ -25,14 +25,11 @@
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.Conformance" Version="5.10.3" />
     <PackageReference Include="Hl7.Fhir.R4" Version="5.10.3" />
+    <PackageReference Include="Hl7.Fhir.Validation.Legacy.R4" Version="5.10.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0' and '$(TargetFramework)' != 'net462'">
-    <PackageReference Include="Firely.Fhir.Validation.R4" Version ="2.5.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Hl7.Fhir.Validation.Legacy.R4" Version="5.9.0" />
+    <PackageReference Include="Firely.Fhir.Validation.R4" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>

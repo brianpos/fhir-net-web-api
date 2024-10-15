@@ -119,11 +119,16 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
 #if !NET462 && !NETSTANDARD2_0
 		protected Validator _validator;
+		public static bool UseNewValidator = true;
 #endif
         public enum ResourceValidationMode { create, update, delete, profile };
         virtual public Task<OperationOutcome> ValidateResource(Resource resource, ResourceValidationMode mode, string[] profiles)
         {
-#if NET462 || NETSTANDARD2_0
+			OperationOutcome outcome;
+#if !NET462 && !NETSTANDARD2_0
+			if (!UseNewValidator)
+			{
+#endif
 			// https://github.com/FirelyTeam/firely-docs-firely-net-sdk/blob/f8c9271c21636fdfd21942485a7fa0032545f5ef/validation/terminology-service.rst
 			var localTermService = new LocalTerminologyService(AsyncSource, new ValueSetExpanderSettings() { MaxExpansionSize = 1500 });
 			var mimeTypeTermService = new MimeTypeTerminologyService();
@@ -145,9 +150,10 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
             //} ).Distinct().ToArray();
             var validator = new Hl7.Fhir.Validation.Validator(settings);
-            var outcome = validator.Validate(resource.ToTypedElement(), profiles);
+				outcome = validator.Validate(resource.ToTypedElement(), profiles);
 
-#else
+#if !NET462 && !NETSTANDARD2_0
+			}
 			// The New Firely Validator code
 			if (_validator == null)
 			{
@@ -166,7 +172,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 
 				_validator = new Validator(AsyncSource, multiTermService, null, settings);
 			}
-			var outcome = new OperationOutcome();
+			outcome = new OperationOutcome();
 			try
 			{
 				if (profiles?.Any() == true)

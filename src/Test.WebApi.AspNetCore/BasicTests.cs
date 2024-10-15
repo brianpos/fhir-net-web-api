@@ -376,7 +376,7 @@ namespace UnitTestWebApi
             dbContext.Database.EnsureCreated();
             var targetResolver = new SqliteConformanceResourceResolver(dbContext);
             var localTerminologyService = new LocalTerminologyService(targetResolver, new ValueSetExpanderSettings() { ValueSetSource = targetResolver });
-            var validator = new Validator(targetResolver, localTerminologyService);
+            var validator = new Firely.Fhir.Validation.Validator(targetResolver, localTerminologyService);
 
             var app = new UnitTestFhirServerApplication();
             var server = new FhirClient(new Uri("http://sqlonfhir-r4.azurewebsites.net/fhir"), app.CreateClient());

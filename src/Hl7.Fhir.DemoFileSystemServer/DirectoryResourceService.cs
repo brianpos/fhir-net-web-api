@@ -52,8 +52,6 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             this.Indexer = indexer;
         }
 
-
-        protected static Serialization.FhirXmlSerializer _serializer = new Serialization.FhirXmlSerializer(new Serialization.SerializerSettings() { Pretty = true });
 		protected static IFhirSerializationEngine _engine = FhirSerializationEngineFactory.Ostrich(ModelInfo.ModelInspector);
 
         virtual public async Task<Resource> Create(Resource resource, string ifMatch, string ifNoneExist, DateTimeOffset? ifModifiedSince)
@@ -105,11 +103,11 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             var settings = new Serialization.SerializerSettings() { Pretty = true };
             File.WriteAllText(
                 path,
-                _serializer.SerializeToString(resource));
+				_engine.SerializeToXml(resource));
             path = Path.Combine(ResourceDirectory, $"{resource.TypeName}.{resource.Id}..xml"); // the current version of the resource
             File.WriteAllText(
                 path,
-                _serializer.SerializeToString(resource));
+				_engine.SerializeToXml(resource));
             if (validationMode == ResourceValidationMode.create)
                 resource.SetAnnotation<CreateOrUpate>(CreateOrUpate.Create);
             else

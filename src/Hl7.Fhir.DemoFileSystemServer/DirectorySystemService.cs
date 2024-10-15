@@ -1,5 +1,6 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Utility;
 using Hl7.Fhir.WebApi;
@@ -27,10 +28,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             _source = cacheResolver;
         }
 
-        /// <summary>
-        /// The File system directory that will be scanned for the storage of FHIR resources
-        /// </summary>
-        public static string Directory { get; set; }
+		protected static IFhirSerializationEngine _engine = FhirSerializationEngineFactory.Ostrich(ModelInfo.ModelInspector);
+
+		/// <summary>
+		/// The File system directory that will be scanned for the storage of FHIR resources
+		/// </summary>
+		public static string Directory { get; set; }
         private SearchIndexer _indexer;
         public int DefaultPageSize { get; set; } = 40;
 
@@ -189,13 +192,12 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             result.Id = new Uri("urn:uuid:" + Guid.NewGuid().ToString("n")).OriginalString;
             result.Type = Bundle.BundleType.History;
 
-            var parser = new Fhir.Serialization.FhirXmlParser();
             var files = System.IO.Directory.EnumerateFiles(Directory, "*.*.*.xml");
             foreach (var filename in files)
             {
                 if (filename.EndsWith("..xml")) // this is the current version file, the version number file will have the real data
                     continue;
-                var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
+                var resource = _engine.DeserializeFromXml(System.IO.File.ReadAllText(filename));
                 result.AddResourceEntry(resource,
                     ResourceIdentity.Build(request.BaseUri,
                         resource.TypeName,

@@ -12,6 +12,7 @@ using Hl7.Fhir.FhirPath;
 using Hl7.Fhir.Language.Debugging;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Serialization;
 using Hl7.FhirPath;
 using Hl7.FhirPath.Sprache;
 
@@ -27,8 +28,9 @@ namespace Hl7.Fhir.WebApi
         // resulting in the filename of the resource
         public ConcurrentDictionary<string, ConcurrentDictionary<string, List<string>>> MemoryIndex = new ConcurrentDictionary<string, ConcurrentDictionary<string, List<string>>>();
         public DateTimeOffset? LastScanTime;
+		protected static IFhirSerializationEngine _engine = FhirSerializationEngineFactory.Ostrich(ModelInfo.ModelInspector);
 
-        public void Initialize(string directory)
+		public void Initialize(string directory)
         {
             Hl7.Fhir.FhirPath.ElementNavFhirExtensions.PrepareFhirSymbolTableFunctions();
             var files = System.IO.Directory.EnumerateFiles(directory, "*.*.*.xml");
@@ -62,13 +64,12 @@ namespace Hl7.Fhir.WebApi
         {
             MemoryIndex.Clear();
             LastScanTime = DateTimeOffset.Now;
-            var parser = new Fhir.Serialization.FhirXmlParser();
             var files = System.IO.Directory.EnumerateFiles(directory, "*.*.*.xml");
             foreach (var filename in files.AsParallel())
             {
                 if (!filename.EndsWith("..xml")) // skip over the version history items
                     continue;
-                ScanResource(parser, filename);
+                ScanResource(filename);
             }
             WriteCache(directory);
         }
@@ -150,9 +151,9 @@ namespace Hl7.Fhir.WebApi
             return null;
         }
 
-        public void ScanResource(Serialization.FhirXmlParser parser, string filename)
+        public void ScanResource(string filename)
         {
-            var resource = parser.Parse<Resource>(System.IO.File.ReadAllText(filename));
+            var resource = _engine.DeserializeFromXml(System.IO.File.ReadAllText(filename));
             ScanResource(resource, filename);
         }
 

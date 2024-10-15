@@ -169,7 +169,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 			var outcome = new OperationOutcome();
 			try
 			{
-				if (profiles.Any())
+				if (profiles?.Any() == true)
 				{
 					foreach (var profile in profiles)
 					{
@@ -185,6 +185,13 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
 			catch (Exception ex)
 			{
 				System.Diagnostics.Trace.WriteLine(ex.Message);
+				outcome.Issue.Add(new OperationOutcome.IssueComponent()
+				{
+					Severity = OperationOutcome.IssueSeverity.Fatal,
+					Code = OperationOutcome.IssueType.Exception,
+					Details = new CodeableConcept() { Text = $"Internal Error validating resource" },
+					Diagnostics = ex.Message
+				});
 			}
 #endif
 

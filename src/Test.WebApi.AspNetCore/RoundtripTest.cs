@@ -382,7 +382,33 @@ namespace UnitTestWebApi
                 "package/MedicinalProductDefinition-Acetamin-500-20-generic.json",
                 "package/ConceptMap-cm-name-use-v2.json",
                 "package/MedicinalProductDefinition-drug-and-device-complete.json",
-            };
+
+				"package/CapabilityStatement-terminology-server.json",
+				"package/TestScript-testscript-example-multisystem.json",
+				"package/Bundle-bundle-references.json",
+				"package/Bundle-00b99077-2bda-436e-98cc-a4f65d6c2fe0.json",
+				"package/CapabilityStatement-knowledge-repository.json",
+				"package/Bundle-54f808cf-d159-4c9b-accb-c33eb20f0ecc.json",
+				"package/Bundle-9601c07a-e34f-4945-93ca-6efb5394c995.json",
+				"package/Bundle-0f322dbe-4f8d-4cbd-9ecb-bc8dc6f65f6a.json",
+				"package/Bundle-920a46b7-045a-4773-82bd-8e90c3e15653.json",
+				"package/TestScript-testscript-example-update.json",
+				"package/Bundle-3945182f-d315-4dbf-9259-09d863c7e7da.json",
+				"package/Bundle-3945182f-d315-4dbf-9259-09d863c7e7da.json",
+				"package/Bundle-3d20ea4b-90dc-4d0d-b15a-c7a893389401.json",
+				"package/CapabilityStatement-measure-processor.json",
+				"package/CapabilityStatement-example.json",
+				"package/TestScript-testscript-example-readtest.json",
+				"package/TestScript-testscript-example-history.json",
+				"package/Bundle-fdd78223-f79f-43b4-8979-ad49d4ac248c.json",
+				"package/CapabilityStatement-base.json",
+				"package/CapabilityStatement-base2.json",
+				"package/TestScript-testscript-example-search.json",
+				"package/Bundle-155141d4-7601-46f7-a82b-b8443bcf9883.json",
+				"package/Bundle-40464b74-fad0-4f45-ab60-e67f949c5e92.json",
+                "package/TestScript-testscript-example.json",
+                "package/MessageHeader-1cbdfb97-5859-48a4-8301-d54eab818d68.json"
+			};
 
             // disable validation during parsing (not its job)
             var ds = new FhirJsonPocoDeserializerSettings { Validator = null };
@@ -506,7 +532,17 @@ namespace UnitTestWebApi
                             }
                             System.Threading.Interlocked.Increment(ref successes);
                         }
-                        catch (Exception ex)
+                        catch (FhirOperationException ex)
+                        {
+                            if (ex.Outcome.Issue.Count != 1 || ex.Outcome.Issue[0].Code.Value != OperationOutcome.IssueType.Duplicate)
+                            {
+                                System.Diagnostics.Trace.WriteLine($"ERROR: ({exampleName}) {ex.Message}");
+                                System.Threading.Interlocked.Increment(ref failures);
+                                // DebugDumpOutputXml(resource);
+                                errFiles.Add(exampleName);
+                            }
+						}
+						catch (Exception ex)
                         {
                             System.Diagnostics.Trace.WriteLine($"ERROR: ({exampleName}) {ex.Message}");
                             System.Threading.Interlocked.Increment(ref failures);

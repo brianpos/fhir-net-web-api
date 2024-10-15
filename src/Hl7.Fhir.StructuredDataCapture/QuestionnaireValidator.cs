@@ -2,6 +2,8 @@
 using Hl7.Fhir.FhirPath.Validator;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Specification;
+using Hl7.Fhir.Specification.Navigation;
 using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
@@ -110,6 +112,16 @@ namespace Hl7.Fhir.StructuredDataCapture
 			/// The enableWhen question is not found in the questionnaire
 			/// </summary>
 			enableWhenQuestionNotFound,
+
+			/// <summary>
+			/// The Definition property does not refer to a valid element definition
+			/// </summary>
+			definitionInvalid,
+
+			/// <summary>
+			/// The Definition property was not able to resolve to a valid StructureDefinition
+			/// </summary>
+			definitionNotFound,
 
 			// TODO: Add in validation error types as new checks are included
 		}
@@ -261,6 +273,25 @@ namespace Hl7.Fhir.StructuredDataCapture
 						details.Coding[0].Display = $"EnableWhen refers to a question '{ewe.EnableWhen.Question}' that doesn't exist";
 						details.Text = $"{fieldDisplayText}: enableWhen refers to question '{ewe.EnableWhen.Question}' that doesn't exist";
 					}
+					break;
+
+				case ValidationResult.definitionInvalid:
+					code = OperationOutcome.IssueType.Invalid;
+					severity = OperationOutcome.IssueSeverity.Error;
+					{
+						var parts = itemDefinition.Definition.Split('#');
+						details.Coding[0].Display = $"Property `{parts[1]}` is not defined in profile {parts[0]}";
+						details.Text = $"{fieldDisplayText}: {details.Coding[0].Display}";
+					}
+					diagnostics = itemDefinition.Definition;
+					break;
+
+				case ValidationResult.definitionNotFound:
+					code = OperationOutcome.IssueType.NotFound;
+					severity = OperationOutcome.IssueSeverity.Error;
+					details.Coding[0].Display = $"profile {itemDefinition.Definition.Split('#').FirstOrDefault()} not found";
+					details.Text = $"{fieldDisplayText}: {details.Coding[0].Display}";
+					diagnostics = itemDefinition.Definition;
 					break;
 
 				//case ValidationResult.tsError:
@@ -674,6 +705,47 @@ namespace Hl7.Fhir.StructuredDataCapture
 				else
 				{
 					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(extensionRegex.Url, "Expression", extensionRegex.Value?.TypeName ?? "(null)"));
+				}
+			}
+
+			// Validate the definition value
+			if (itemDef.Definition != null)
+			{
+				// The definition field is of the form (sd_canonicalURL)#(prop_path)
+				// We need to validate that the canonical URL is a valid StructureDefinition URL
+				// and that the prop_path is a valid path for that StructureDefinition
+				// We also need to validate that the prop_path is a valid path for the type of the item
+
+				// Split the definition into the canonical URL and the path
+				var definitionParts = itemDef.Definition.Split('#');
+
+				// Validate the canonical URL
+				var canonicalUrl = definitionParts[0];
+				var sd = this._source.FindStructureDefinition(canonicalUrl);
+				if (sd != null)
+				{
+					// Validate the path exists in the StructureDefinition
+					if (definitionParts.Length > 1)
+					{
+						var path = definitionParts[1];
+						try
+						{
+							var walker = new StructureDefinitionWalker(sd, _source);
+							if (path.StartsWith($"{sd.Type}."))
+								path = path.Substring(sd.Type.Length + 1);
+							var nodes = walker.Walk(path);
+						}
+						catch (StructureDefinitionWalkerException ex)
+						{
+							// report the issue
+							ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null);
+						}
+					}
+				}
+				else
+				{
+					// report that the SD cannot be resolved
+					ReportValidationMessage(ValidationResult.definitionNotFound, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null);
 				}
 			}
 

@@ -1,3 +1,4 @@
+﻿using Firely.Fhir.Validation;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Serialization;
@@ -375,7 +376,7 @@ namespace UnitTestWebApi
             dbContext.Database.EnsureCreated();
             var targetResolver = new SqliteConformanceResourceResolver(dbContext);
             var localTerminologyService = new LocalTerminologyService(targetResolver, new ValueSetExpanderSettings() { ValueSetSource = targetResolver });
-            var validator = new Validator(new ValidationSettings() { ResourceResolver = targetResolver, TerminologyService = localTerminologyService });
+            var validator = new Validator(targetResolver, localTerminologyService);
 
             var app = new UnitTestFhirServerApplication();
             var server = new FhirClient(new Uri("http://sqlonfhir-r4.azurewebsites.net/fhir"), app.CreateClient());
@@ -823,6 +824,40 @@ namespace UnitTestWebApi
             DebugDumpOutputXml(result);
             Assert.IsNotNull(result, "Should be a NamingSystem returned");
             Assert.AreEqual("45", result.Id);
+        }
+
+        [TestMethod, Ignore]
+        public async System.Threading.Tasks.Task ValidatePatient()
+        {
+            Patient p = new Patient();
+            p.Name = new System.Collections.Generic.List<HumanName>();
+            p.Name.Add(new HumanName().WithGiven("Grahame").AndFamily("Grieve"));
+            p.BirthDate = "123-123-123";
+            p.Gender = AdministrativeGender.Male;
+            p.GenderElement.ObjectValue = "huh";
+            p.Active = true;
+            p.ManagingOrganization = new ResourceReference("Organization/1", "Demo Org");
+
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+            try
+            {
+                var result = await clientFhir.ValidateResourceAsync(p, null, new FhirUri("http://hl7.org/fhir/StructureDefinition/Patient"));
+                DebugDumpOutputXml(result);
+                Assert.IsFalse(result.Success);
+                Assert.Fail("expected it to throw");
+            }
+            catch (FhirOperationException ex)
+            {
+                DebugDumpOutputXml(ex.Outcome);
+                Assert.AreEqual(HttpStatusCode.BadRequest, ex.Status);
+                Assert.AreEqual(OperationOutcome.IssueSeverity.Error, ex.Outcome.Issue.FirstOrDefault().Severity);
+                Assert.AreEqual("Body parsing failed: Type checking the data: Literal '123-123-123' cannot be interpreted as a date: 'Partial is in an invalid format, should use ISO8601 YYYY-MM-DDThh:mm:ss+TZ notation'. (at Parameters.parameter[0].resource[0].birthDate[0])", ex.Outcome.Issue.FirstOrDefault().Details.Text);
+            }
+
+            p.BirthDate = "1970-01-01";
+            var resultGood = await clientFhir.ValidateResourceAsync(p);
+            DebugDumpOutputXml(resultGood);
         }
 
         [TestMethod]

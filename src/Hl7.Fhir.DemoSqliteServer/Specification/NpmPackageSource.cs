@@ -1,4 +1,5 @@
-﻿using Hl7.Fhir.Model;
+﻿using Firely.Fhir.Validation;
+using Hl7.Fhir.Model;
 using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Specification.Terminology;
 using Hl7.Fhir.Validation;
@@ -21,15 +22,11 @@ namespace Hl7.Fhir.DemoSqliteFhirServer.Specification
                     ZipSource.CreateValidationSource(),
                     new DirectorySource(@"c:\temp\OtherProfiles")
                     ));
-            _validator = new Validation.Validator(new Validation.ValidationSettings()
-            {
-                ResourceResolver = _source,
-                TerminologyService = new LocalTerminologyService(_source)
-            });
+            _validator = new Validator(_source, new LocalTerminologyService(_source));
         }
 
         private CachedResolver _source;
-        private Validation.Validator _validator;
+        private Validator _validator;
         private Hl7.Fhir.Serialization.FhirJsonParser _json = new Hl7.Fhir.Serialization.FhirJsonParser();
         private Hl7.Fhir.Serialization.FhirXmlParser _xml = new Hl7.Fhir.Serialization.FhirXmlParser();
 

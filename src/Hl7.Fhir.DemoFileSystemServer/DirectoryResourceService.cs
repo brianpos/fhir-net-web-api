@@ -15,6 +15,10 @@ using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Specification.Terminology;
 using Hl7.Fhir.Serialization;
 
+#if !NET462 && !NETSTANDARD2_0
+using Firely.Fhir.Validation;
+#endif
+
 namespace Hl7.Fhir.DemoFileSystemFhirServer
 {
     public class DirectoryResourceService<TSP> : Hl7.Fhir.WebApi.IFhirResourceServiceR4<TSP>
@@ -115,9 +119,13 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             return resource;
         }
 
+#if !NET462 && !NETSTANDARD2_0
+		protected Validator _validator;
+#endif
         public enum ResourceValidationMode { create, update, delete, profile };
         virtual public Task<OperationOutcome> ValidateResource(Resource resource, ResourceValidationMode mode, string[] profiles)
         {
+#if NET462 || NETSTANDARD2_0
 			// https://github.com/FirelyTeam/firely-docs-firely-net-sdk/blob/f8c9271c21636fdfd21942485a7fa0032545f5ef/validation/terminology-service.rst
 			var localTermService = new LocalTerminologyService(AsyncSource, new ValueSetExpanderSettings() { MaxExpansionSize = 1500 });
 			var mimeTypeTermService = new MimeTypeTerminologyService();
@@ -141,8 +149,49 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             var validator = new Hl7.Fhir.Validation.Validator(settings);
             var outcome = validator.Validate(resource.ToTypedElement(), profiles);
 
-            // strip out any profile missing
-            outcome.Issue.RemoveAll((i) => i.Details.Coding.Any(c => c.Code == "4000") && i.Details.Text.Contains("Unable to resolve reference to profile"));
+#else
+			// The New Firely Validator code
+			if (_validator == null)
+			{
+				// https://github.com/FirelyTeam/firely-docs-firely-net-sdk/blob/f8c9271c21636fdfd21942485a7fa0032545f5ef/validation/terminology-service.rst
+				var localTermService = new LocalTerminologyService(AsyncSource, new ValueSetExpanderSettings() { MaxExpansionSize = 1500 });
+				var mimeTypeTermService = new MimeTypeTerminologyService();
+				// var tsClient = new FhirClient("https://r4.ontoserver.csiro.au/fhir");
+				// var externalTermService = new ExternalTerminologyService(tsClient);
+				var multiTermService = new MultiTerminologyService(localTermService, mimeTypeTermService); //, externalTermService);
+				var compiler = new Hl7.FhirPath.FhirPathCompiler();
+				var settings = new ValidationSettings()
+				{
+					FhirPathCompiler = compiler,
+					FollowExtensionUrl = (location, url) => ExtensionUrlHandling.ErrorIfMissing
+				};
+
+				_validator = new Validator(AsyncSource, multiTermService, null, settings);
+			}
+			var outcome = new OperationOutcome();
+			try
+			{
+				if (profiles.Any())
+				{
+					foreach (var profile in profiles)
+					{
+						var profileOutcome = _validator.Validate(resource, profile);
+						outcome.Issue.AddRange(profileOutcome.Issue);
+					}
+				}
+				else
+				{
+					outcome = _validator.Validate(resource);
+				}
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Trace.WriteLine(ex.Message);
+			}
+#endif
+
+			// strip out any profile missing (new validator changed message from `profile` to `extension` so trim the check down)
+			outcome.Issue.RemoveAll((i) => i.Details.Coding.Any(c => c.Code == "4000" || c.Code == "4009") && i.Details.Text.Contains("Unable to resolve reference to "));
 
             // Version 1.9.0 of the core libs incorrectly report the errors in location, not expression, so move them over
             foreach (var issue in outcome.Issue)

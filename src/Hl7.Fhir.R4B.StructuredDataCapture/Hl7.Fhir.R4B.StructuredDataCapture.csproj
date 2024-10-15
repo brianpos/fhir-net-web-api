@@ -4,7 +4,7 @@
     <TargetFrameworks>net80;net462;netstandard2.1;netstandard2.0</TargetFrameworks>
     <AssemblyName>Hl7.Fhir.R4B.StructuredDataCapture</AssemblyName>
     <PackageId>brianpos.Fhir.R4B.StructuredDataCapture</PackageId>
-    <Version>5.10.2-beta1</Version>
+    <Version>5.10.3-beta1</Version>
     <Title>HL7 FHIR StructuredDataCapture</Title>
     <Summary>HL7 FHIR StructuredDataCapture reference implementation</Summary>
     <Description>This library contains a reference implementation of many of the extended SDC capabilities including QuestionnaireResponse validation and some of the extract techniques</Description>
@@ -22,10 +22,10 @@
   <Import Project="..\fhir-net-web-api.props" />
 
   <ItemGroup>
-    <PackageReference Include="brianpos.Fhir.Base.FhirPath.Validator" Version="5.10.2-rc1" />
-    <PackageReference Include="Hl7.Fhir.R4B" Version="5.10.2" />
+    <PackageReference Include="brianpos.Fhir.Base.FhirPath.Validator" Version="5.10.3-rc1" />
+    <PackageReference Include="Hl7.Fhir.R4B" Version="5.10.3" />
     <PackageReference Include="Fhir.Metrics" Version="1.3.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">

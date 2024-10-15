@@ -104,7 +104,7 @@ namespace UnitTestWebApi
             clientFhir.Settings.VerifyFhirVersion = false;
             clientFhir.Settings.PreferredFormat = Hl7.Fhir.Rest.ResourceFormat.Json;
 
-            var examplesTarball = @"C:\temp\demoserver-5.9.0\examples.tgz";
+            var examplesTarball = @"C:\temp\demoserver-5.10.2\examples.tgz";
             Stream sourceStream;
             if (!System.IO.File.Exists(examplesTarball))
             {

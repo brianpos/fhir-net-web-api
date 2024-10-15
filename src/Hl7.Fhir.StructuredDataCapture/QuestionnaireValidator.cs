@@ -288,7 +288,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 
 				case ValidationResult.definitionNotFound:
 					code = OperationOutcome.IssueType.NotFound;
-					severity = OperationOutcome.IssueSeverity.Error;
+					severity = OperationOutcome.IssueSeverity.Warning;
 					details.Coding[0].Display = $"profile {itemDefinition.Definition.Split('#').FirstOrDefault()} not found";
 					details.Text = $"{fieldDisplayText}: {details.Coding[0].Display}";
 					diagnostics = itemDefinition.Definition;

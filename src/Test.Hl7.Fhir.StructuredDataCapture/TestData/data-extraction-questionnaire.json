@@ -1,0 +1,222 @@
+﻿{
+  "resourceType": "Questionnaire",
+  "id": "de-test-quest-condition-choice",
+  "extension": [
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueCoding": {
+            "system": "http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext",
+            "code": "encounter"
+          }
+        },
+        {
+          "url": "type",
+          "valueCode": "Encounter"
+        }
+      ],
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueCoding": {
+            "system": "http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext",
+            "code": "patient"
+          }
+        },
+        {
+          "url": "type",
+          "valueCode": "Patient"
+        }
+      ],
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueCoding": {
+            "system": "http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext",
+            "code": "user"
+          }
+        },
+        {
+          "url": "type",
+          "valueCode": "Practitioner"
+        }
+      ],
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/variable",
+      "valueExpression": {
+        "name": "ResponseDate",
+        "language": "text/fhirpath",
+        "expression": "%resource.authored"
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/variable",
+      "valueExpression": {
+        "name": "QuestionnaireResponse",
+        "language": "text/fhirpath",
+        "expression": "%resource"
+      }
+    }
+  ],
+  "name": "TestQuestConditionChoice",
+  "title": "Test-exemple de data extraction d'un item de type Choice dans une ressource Condition",
+  "status": "draft",
+  "item": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Condition?_has:Provenance:target:entity={{'QuestionnaireResponse'+%QuestionnaireResponse}}&encounter={{%encounter.id}}&patient={{%patient.id}}&code:in=https://terminology.eds.aphp.fr/fhir/ValueSet/aphp-risque-atcd-maternel-vs"
+          }
+        }
+      ],
+      "linkId": "F_MATER_001361",
+      "definition": "http://hl7.org/fhir/StructureDefinition/Condition#Condition.code",
+      "text": "Risques liés aux antécédents maternels",
+      "type": "choice",
+      "repeats": true,
+      "answerValueSet": "https://terminology.eds.aphp.fr/fhir/ValueSet/aphp-risque-atcd-maternel-vs",
+      "item": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "%ResponseDate"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "linkId": "F_MATER_a01361",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Condition#Condition.recordedDate",
+          "text": "dateTime des 'Risques liés aux antécédents maternels'",
+          "type": "dateTime",
+          "enableWhen": [
+            {
+              "question": "F_MATER_001361",
+              "operator": "exists",
+              "answerBoolean": true
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "linkId": "F_MATER_c01361",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Condition#Condition.clinicalStatus",
+          "text": "clinicalStatus des 'Risques liés aux antécédents maternels'",
+          "type": "choice",
+          "enableWhen": [
+            {
+              "question": "F_MATER_001361",
+              "operator": "exists",
+              "answerBoolean": true
+            }
+          ],
+          "answerOption": [
+            {
+              "initialSelected": true
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "'Patient/'+%patient"
+              }
+            }
+          ],
+          "linkId": "F_MATER_d01361",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Condition#Condition.subject",
+          "text": "subject des 'Risques liés aux antécédents maternels'",
+          "type": "reference",
+          "enableWhen": [
+            {
+              "question": "F_MATER_001361",
+              "operator": "exists",
+              "answerBoolean": true
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "'Encounter/'+%encounter.id"
+              }
+            }
+          ],
+          "linkId": "F_MATER_e01361",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Condition#Condition.encounter",
+          "text": "encounter des 'Risques liés aux antécédents maternels'",
+          "type": "reference",
+          "enableWhen": [
+            {
+              "question": "F_MATER_001361",
+              "operator": "exists",
+              "answerBoolean": true
+            }
+          ]
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "'Patient/' + %user.id"
+              }
+            }
+          ],
+          "linkId": "F_MATER_f01361",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Condition#Condition.recorder",
+          "text": "recorder des 'Risques liés aux antécédents maternels'",
+          "type": "reference",
+          "enableWhen": [
+            {
+              "question": "F_MATER_001361",
+              "operator": "exists",
+              "answerBoolean": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

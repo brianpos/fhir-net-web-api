@@ -283,7 +283,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 						details.Coding[0].Display = $"Property `{parts[1]}` is not defined in profile {parts[0]}";
 						details.Text = $"{fieldDisplayText}: {details.Coding[0].Display}";
 					}
-					diagnostics = itemDefinition.Definition;
+					diagnostics = $"Definition: {itemDefinition.Definition}\nException {exceptionThrown?.Message}";
 					break;
 
 				case ValidationResult.definitionNotFound:
@@ -291,7 +291,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					severity = OperationOutcome.IssueSeverity.Warning;
 					details.Coding[0].Display = $"profile {itemDefinition.Definition.Split('#').FirstOrDefault()} not found";
 					details.Text = $"{fieldDisplayText}: {details.Coding[0].Display}";
-					diagnostics = itemDefinition.Definition;
+					diagnostics = $"Definition: {itemDefinition.Definition}";
 					break;
 
 				//case ValidationResult.tsError:
@@ -735,10 +735,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 								path = path.Substring(sd.Type.Length + 1);
 							var nodes = walker.Walk(path);
 						}
-						catch (StructureDefinitionWalkerException ex)
+						catch (Exception ex)
 						{
-							// report the issue
-							ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null);
+							// report the issue (There are many issues that could result from the walking, capture them all generically)
+							ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null, null, ex);
 						}
 					}
 				}

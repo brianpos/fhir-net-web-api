@@ -36,6 +36,88 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			return new Hl7.Fhir.Serialization.FhirXmlParser().Parse<Bundle>(System.IO.File.ReadAllText(testFile));
 		}
 
+		[TestMethod]
+		public async Task TestExtractExample()
+		{
+			string testFile = @"TestData\data-extraction-questionnaire.json";
+			var q = new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+
+			// Validate the extract example first
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(0, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			// Now perform the actual extraction from an instance
+
+		}
+
+		[TestMethod]
+		public async Task ValidateDefinitionExample()
+		{
+			string testFile = @"TestData\data-extraction-questionnaire.json";
+			var q = new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			// Cool we found 4 errors with the validator!
+			Assert.AreEqual(0, outcome.Errors);
+		}
+
+		[TestMethod]
+		public async Task ValidateDefinitionExampleInvalid()
+		{
+			string testFile = @"TestData\data-extraction-questionnaire.json";
+			var q = new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+			q.Item[0].Definition += "_bad";
+			q.Item[0].Item[0].Definition = "http://hl7.org/fhir/StructureDefinition/Condition";
+			q.Item[0].Item[1].Definition = "http://hl7.org/fhir/StructureDefinition/Condit";
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			// Cool we found 2 errors with the validator!
+			Assert.AreEqual(2, outcome.Errors);
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("definitionInvalid", outcome.Issue[0].Details.Coding[0].Code);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.NotFound, outcome.Issue[1].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
+			Assert.AreEqual("definitionNotFound", outcome.Issue[1].Details.Coding[0].Code);
+
+			Assert.AreEqual(0, outcome.Warnings);
+		}
+
+		[TestMethod]
+		public async Task ValidateDefinitionExampleInvalid2() // Thanks David ;)
+		{
+			string testFile = @"TestData\data-extraction-questionnaire.json";
+			var q = new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+			q.Item[0].Definition = "http://hl7.org/fhir/StructureDefinition/Patient#name.first().family.first()";
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			// Cool we found 1 error with the validator!
+			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("definitionInvalid", outcome.Issue[0].Details.Coding[0].Code);
+
+			Assert.AreEqual(0, outcome.Warnings);
+		}
+
 		[TestMethod, Ignore]
 		public async Task TestLargeBundleSampleData()
 		{

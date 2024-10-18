@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Hl7.Fhir.WebApi
 {
@@ -185,5 +186,67 @@ namespace Hl7.Fhir.WebApi
         }
         #endregion
 
+        #region << Static Helpers for Header Subset comparison that ignores Header parameters >>
+        public static bool IsSubsetOfIgnoreParameters(this MediaType supported, MediaType set)
+        {
+            return supported.MatchesType(set) &&
+                   supported.MatchesSubtype(set);
+        }
+
+        private static bool MatchesType(this MediaType supported, MediaType set)
+        {
+            return set.MatchesAllTypes ||
+                   set.Type.Equals(supported.Type, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool MatchesSubtype(this MediaType supported, MediaType set)
+        {
+            if (set.MatchesAllSubTypes)
+            {
+                return true;
+            }
+
+            if (set.SubTypeSuffix.HasValue)
+            {
+                if (supported.SubTypeSuffix.HasValue)
+                {
+                    // Both the set and the media type being checked have suffixes, so both parts must match.
+                    return supported.MatchesSubtypeWithoutSuffix(set) && supported.MatchesSubtypeSuffix(set);
+                }
+                else
+                {
+                    // The set has a suffix, but the media type being checked doesn't. We never consider this to match.
+                    return false;
+                }
+            }
+            else
+            {
+                // If this subtype or suffix matches the subtype of the set,
+                // it is considered a subtype.
+                // Ex: application/json > application/val+json
+                return supported.MatchesEitherSubtypeOrSuffix(set);
+            }
+        }
+
+        private static bool MatchesSubtypeWithoutSuffix(this MediaType supported, MediaType set)
+        {
+            return set.MatchesAllSubTypesWithoutSuffix ||
+                   set.SubTypeWithoutSuffix.Equals(supported.SubTypeWithoutSuffix, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool MatchesSubtypeSuffix(this MediaType supported, MediaType set)
+        {
+            // We don't have support for wildcards on suffixes alone (e.g., "application/entity+*")
+            // because there's no clear use case for it.
+            return set.SubTypeSuffix.Equals(supported.SubTypeSuffix, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool MatchesEitherSubtypeOrSuffix(this MediaType supported, MediaType set)
+        {
+            return set.SubType.Equals(supported.SubType, StringComparison.OrdinalIgnoreCase) ||
+                   set.SubType.Equals(supported.SubTypeSuffix, StringComparison.OrdinalIgnoreCase);
+        }
+
+        #endregion
     }
 }

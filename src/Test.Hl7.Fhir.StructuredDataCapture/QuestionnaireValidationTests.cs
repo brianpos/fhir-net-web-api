@@ -60,6 +60,75 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		{
 			string testFile = @"TestData\data-extraction-questionnaire.json";
 			var q = new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+			q.Item.Add(new Questionnaire.ItemComponent() {
+				LinkId = "id", Text = "id", Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.id"
+			});
+			q.Item.Add(new Questionnaire.ItemComponent()
+			{
+				LinkId = "name-text",
+				Text = "name",
+				Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.text"
+			});
+			q.Item.Add(new Questionnaire.ItemComponent()
+			{
+				LinkId = "birthDate",
+				Text = "birthDate",
+				Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.birthDate"
+			});
+			q.Item.Add(new Questionnaire.ItemComponent()
+			{
+				LinkId = "gender",
+				Text = "gender",
+				Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.gender"
+			});
+
+			q.Item.Add(new Questionnaire.ItemComponent()
+			{
+				LinkId = "d-a",
+				Text = "deceased a",
+				Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.deceased"
+			});
+			q.Item.Add(new Questionnaire.ItemComponent()
+			{
+				LinkId = "d-b",
+				Text = "deceased b",
+				Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.deceased[x]"
+			});
+			q.Item.Add(new Questionnaire.ItemComponent()
+			{
+				LinkId = "d-c",
+				Text = "deceased c",
+				Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.deceasedBoolean"
+			});
+			q.Item.Add(new Questionnaire.ItemComponent()
+			{
+				LinkId = "d-d",
+				Text = "deceased d",
+				Type = Questionnaire.QuestionnaireItemType.String,
+				Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.deceasedDateTime"
+			});
+			//q.Item.Add(new Questionnaire.ItemComponent()
+			//{
+			//	LinkId = "d-e",
+			//	Text = "deceased e",
+			//	Type = Questionnaire.QuestionnaireItemType.String,
+			//	Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.deceasedCoding"
+			//});
+			//q.Item.Insert(0, new Questionnaire.ItemComponent()
+			//{
+			//	LinkId = "d-f",
+			//	Text = "deceased f",
+			//	Type = Questionnaire.QuestionnaireItemType.String,
+			//	Definition = "http://hl7.org/fhir/StructureDefinition/Patient#Patient.deceased[x]:deceasedDateTime"
+			//});
+
 			var validator = new QuestionnaireValidator();
 			var outcome = await validator.Validate(q);
 
@@ -83,18 +152,18 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			DebugDumpXmlDiagnostics(outcome);
 
 			// Cool we found 2 errors with the validator!
-			Assert.AreEqual(2, outcome.Errors);
+			Assert.AreEqual(2, outcome.Issue.Count);
 			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
 			Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
 			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
 			Assert.AreEqual("definitionInvalid", outcome.Issue[0].Details.Coding[0].Code);
 
-			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[1].Severity);
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Warning, outcome.Issue[1].Severity);
 			Assert.AreEqual(OperationOutcome.IssueType.NotFound, outcome.Issue[1].Code);
 			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[1].Details.Coding[0].System);
 			Assert.AreEqual("definitionNotFound", outcome.Issue[1].Details.Coding[0].Code);
 
-			Assert.AreEqual(0, outcome.Warnings);
+			Assert.AreEqual(1, outcome.Warnings);
 		}
 
 		[TestMethod]
@@ -109,7 +178,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 			DebugDumpXmlDiagnostics(outcome);
 
 			// Cool we found 1 error with the validator!
-			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(1, outcome.Issue.Count);
 			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
 			Assert.AreEqual(OperationOutcome.IssueType.Invalid, outcome.Issue[0].Code);
 			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);

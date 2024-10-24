@@ -545,7 +545,6 @@ namespace Hl7.Fhir.StructuredDataCapture
 					else
 						ReportValidationMessage(ValidationResult.duplicateVariable, q, null, new[] { pathExpression }, null, null, new ValidationMessageException() { VariableName = expr.Name, SymbolTable = symbolTable });
 				}
-				
 			}
 
 			ValidateItems(q, symbolTable, "Questionnaire.item", q.Item);
@@ -630,7 +629,8 @@ namespace Hl7.Fhir.StructuredDataCapture
 					var pathExpression = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(itemDef.Extension.First(e => e.Value == expr))}]";
 					var expressionReturnTypes = ValidateExpression(expr, Q, itemSymbolTable, pathExpression, itemDef, ext.Url != candidateExpressionUrl);
 
-					if (string.IsNullOrEmpty(expr.Language)) {
+					if (string.IsNullOrEmpty(expr.Language))
+					{
 						// No expression defined, so can't exactly test anything ;) 
 						ReportValidationMessage(ValidationResult.variableNoExpression, Q, itemDef, new[] { pathExpression }, null);
 					}
@@ -727,19 +727,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					// Validate the path exists in the StructureDefinition
 					if (definitionParts.Length > 1)
 					{
-						var path = definitionParts[1];
-						try
-						{
-							var walker = new StructureDefinitionWalker(sd, _source);
-							if (path.StartsWith($"{sd.Type}."))
-								path = path.Substring(sd.Type.Length + 1);
-							var nodes = walker.Walk(path);
-						}
-						catch (Exception ex)
-						{
-							// report the issue (There are many issues that could result from the walking, capture them all generically)
-							ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null, null, ex);
-						}
+						ValidateExtractDefinitionValue(Q, itemPathExpression, itemDef, definitionParts[1], sd);
 					}
 				}
 				else
@@ -758,6 +746,104 @@ namespace Hl7.Fhir.StructuredDataCapture
 			{
 				ValidateItems(Q, itemSymbolTable, $"{itemPathExpression}.item", itemDef.Item);
 			}
+		}
+
+		private void ValidateExtractDefinitionValue(Questionnaire Q, string itemPathExpression, Questionnaire.ItemComponent itemDef, string elementIdInStructureDefinition, StructureDefinition sd)
+		{
+			var path = elementIdInStructureDefinition;
+
+						try
+						{
+							var walker = new StructureDefinitionWalker(sd, _source);
+							if (path.StartsWith($"{sd.Type}."))
+								path = path.Substring(sd.Type.Length + 1);
+				//var nodes = walker.Walk(path);
+				var props = path.Split('.');
+				if (path == walker.Current.Path)
+					return;
+
+				var itemWalker = walker;
+				// walk down the children listed in the props to the final node
+				while (props.Any())
+				{
+					// move to the child item
+					var propName = props.First();
+					props = props.Skip(1).ToArray();
+					var cd = ChildDefinitions(itemWalker, propName);
+					if (!cd.Any())
+					{
+						ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null);
+						return;
+					}
+					itemWalker = new StructureDefinitionWalker(cd.First(), _source);
+
+					if (propName.Contains(':'))
+					{
+						// Remove slice from name
+						propName = propName.Substring(0, propName.IndexOf(':'));
+					}
+				}
+						}
+						catch (Exception ex)
+						{
+							// report the issue (There are many issues that could result from the walking, capture them all generically)
+							ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null, null, ex);
+						}
+					}
+
+		private IEnumerable<ElementDefinitionNavigator> ChildDefinitions(StructureDefinitionWalker walker, string? childName = null)
+		{
+			string sliceName = null;
+			if (childName.Contains(':'))
+				{
+				var parts = childName.Split(':');
+				sliceName = parts[1];
+				childName = parts[0];
+			}
+			var canonicals = walker.Current.Current.Type.Select(t => t.GetTypeProfile()).Distinct().ToArray();
+			if (canonicals.Length > 1)
+				throw new StructureDefinitionWalkerException($"Cannot determine which child to select, since there are multiple paths leading from here ('{walker.Current.CanonicalPath()}'), use 'ofType()' to disambiguate");
+
+			// Take First(), since we have determined above that there's just one distinct result to expect.
+			// (this will be the case when Type=R
+			var expanded = walker.Expand().Single();
+			var nav = expanded.Current.ShallowCopy();
+
+			if (!nav.MoveToFirstChild()) yield break;
+
+			do
+			{
+				if (nav.Current.IsPrimitiveValueConstraint()) continue;      // ignore value attribute
+				if (childName != null && nav.Current.MatchesName(childName))
+				{
+					if (sliceName == null || sliceName != null && nav.Current.SliceName == sliceName)
+						yield return nav.ShallowCopy();
+				}
+				// Also check the name as a type constraint e.g. valueQuantity
+				if (nav.Current.IsChoice())
+				{
+					string namePart = GetNameFromPath(nav.Current.Path);
+					foreach (var type in nav.Current.Type)
+					{
+						if (childName.Equals(namePart.Replace("[x]", type.Code), StringComparison.OrdinalIgnoreCase))
+			{
+							if (sliceName == null || sliceName != null && nav.Current.SliceName == sliceName)
+								yield return nav.ShallowCopy();
+						}
+					}
+				}
+			}
+			while (nav.MoveToNext());
+			}
+
+		/// <summary>
+		/// Returns the last part of the element's path.
+		/// </summary>
+		private static string GetNameFromPath(string path)
+		{
+			var pos = path.LastIndexOf(".");
+
+			return pos != -1 ? path.Substring(pos + 1) : path;
 		}
 
 		FhirPathVisitorProps ValidateExpression(Hl7.Fhir.Model.Expression expr, Questionnaire Q, TypedVariableSymbolTable symbolTable, string pathExpression, Questionnaire.ItemComponent itemDef, bool requiresName)

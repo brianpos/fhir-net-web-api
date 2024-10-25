@@ -1,5 +1,6 @@
 ﻿using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.FhirPath.Validator;
+using Hl7.Fhir.Introspection;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Specification;
@@ -30,6 +31,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 	public class QuestionnaireValidator
 	{
 		public const string ErrorCodeSystem = "http://fhir.forms-lab.com/CodeSystem/errors";
+		internal static ModelInspector _inspector = ModelInfo.ModelInspector;
 
 		public enum ValidationResult
 		{
@@ -485,7 +487,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 					continue;
 				}
 				if (!symbolTable.HasLocalVariable(lc.Name))
-					symbolTable.AddVar(lc.Name, ElementNode.EmptyList, ModelInfo.ModelInspector.FindClassMapping(lc.Type.Value)); // the type of this will be in lc.Type
+					symbolTable.AddVar(lc.Name, ElementNode.EmptyList, _inspector.FindClassMapping(lc.Type.Value)); // the type of this will be in lc.Type
 				else
 					ReportValidationMessage(ValidationResult.duplicateVariable, q, null, new[] { $"Questionnaire.extension[{lcExtensionIndex}]" }, null, null, new ValidationMessageException() { VariableName = lc.Name, SymbolTable = symbolTable });
 			}
@@ -977,17 +979,17 @@ namespace Hl7.Fhir.StructuredDataCapture
 						};
 						foreach (var t in OpResultTypeName.Split(','))
 						{
-							result.AddType(ModelInfo.ModelInspector, ModelInfo.ModelInspector.GetTypeForFhirType(t));
+							result.AddType(_inspector, _inspector.GetTypeForFhirType(t));
 						}
 					}
 					else
 					{
 						if (resourceId != null)
-							result.AddType(ModelInfo.ModelInspector, ModelInfo.ModelInspector.GetTypeForFhirType(resourceType));
+							result.AddType(_inspector, _inspector.GetTypeForFhirType(resourceType));
 						else
 						{
 							// for now assume it is a search and hence a bundle being returned
-							result.AddType(ModelInfo.ModelInspector, typeof(Bundle));
+							result.AddType(_inspector, typeof(Bundle));
 
 							// if there are no parameters, create a warning that the query being applied has no filter applied
 							// and may return more than is desired
@@ -1096,10 +1098,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 			{
 				visitor.RegisterVariable(vr.Key, vr.Value);
 			}
-			// visitor.RegisterVariable("questionnaire", ModelInfo.ModelInspector.FindOrImportClassMapping(typeof(Questionnaire)));
+			// visitor.RegisterVariable("questionnaire", _inspector.FindOrImportClassMapping(typeof(Questionnaire)));
 			if (itemDef != null)
 			{
-				// visitor.RegisterVariable("qItem", ModelInfo.ModelInspector.FindOrImportClassMapping(typeof(Questionnaire.ItemComponent)));
+				// visitor.RegisterVariable("qItem", _inspector.FindOrImportClassMapping(typeof(Questionnaire.ItemComponent)));
 				visitor.SetContext("QuestionnaireResponse.item");
 			}
 			else

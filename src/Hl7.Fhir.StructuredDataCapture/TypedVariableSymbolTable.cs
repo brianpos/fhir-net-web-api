@@ -48,7 +48,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 		{
 			ClassMapping cm = null;
 			if (t != null)
-				cm = ModelInfo.ModelInspector.FindClassMapping(t);
+				cm = QuestionnaireValidator._inspector.FindClassMapping(t);
 			RegisterVariable(name, cm);
 		}
 
@@ -62,7 +62,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				// This could be anything!
 				foreach (var sr in ModelInfo.SupportedResources)
 				{
-					props.Types.Add(new NodeProps(ModelInfo.ModelInspector.FindClassMapping(sr)));
+					props.Types.Add(new NodeProps(QuestionnaireValidator._inspector.FindClassMapping(sr)));
 				}
 			}
 			RegisterVariable(name, props);

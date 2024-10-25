@@ -609,7 +609,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				if (!_itemsByLinkId.ContainsKey(ew.Question))
 				{
 					// No such question exists!
-					ReportValidationMessage(ValidationResult.enableWhenQuestionNotFound, 
+					ReportValidationMessage(ValidationResult.enableWhenQuestionNotFound,
 						Q, null, new[] { $"{itemPathExpression}.enableWhen[{itemDef.EnableWhen.IndexOf(ew)}].question" }, null, null, new EnableWhenValidationMessageException(ew));
 				}
 			}
@@ -754,11 +754,11 @@ namespace Hl7.Fhir.StructuredDataCapture
 		{
 			var path = elementIdInStructureDefinition;
 
-						try
-						{
-							var walker = new StructureDefinitionWalker(sd, _source);
-							if (path.StartsWith($"{sd.Type}."))
-								path = path.Substring(sd.Type.Length + 1);
+			try
+			{
+				var walker = new StructureDefinitionWalker(sd, _source);
+				if (path.StartsWith($"{sd.Type}."))
+					path = path.Substring(sd.Type.Length + 1);
 				//var nodes = walker.Walk(path);
 				var props = path.Split('.');
 				if (path == walker.Current.Path)
@@ -771,33 +771,54 @@ namespace Hl7.Fhir.StructuredDataCapture
 					// move to the child item
 					var propName = props.First();
 					props = props.Skip(1).ToArray();
-					var cd = ChildDefinitions(itemWalker, propName);
-					if (!cd.Any())
+					var cd = ChildDefinitions(itemWalker, propName).FirstOrDefault();
+					if (cd == null)
 					{
 						ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null);
 						return;
 					}
-					itemWalker = new StructureDefinitionWalker(cd.First(), _source);
+					itemWalker = new StructureDefinitionWalker(cd, _source);
 
 					if (propName.Contains(':'))
 					{
 						// Remove slice from name
-						propName = propName.Substring(0, propName.IndexOf(':'));
+						var sliceName = propName.Substring(propName.IndexOf(':') + 1);
+						propName = propName.Substring(0, propName.IndexOf(':')).Replace("[x]", "");
+						if (itemWalker.Current.Current.SliceName == null && sliceName.StartsWith(propName))
+						{
+							string typeName = itemWalker.Current.Current.Type.FirstOrDefault(t => String.Equals(t.Code, sliceName.Substring(propName.Length), StringComparison.OrdinalIgnoreCase))?.Code;
+							if (typeName != null)
+								itemWalker = itemWalker.Walk($"ofType({typeName})").First();
+						}
+					}
+					else if (itemWalker.Current.Current.IsChoice() && itemWalker.Current.PathName.Replace("[x]", "") != propName.Replace("[x]", ""))
+					{
+						// Walk into the implicit type slice
+						if (itemWalker.Current.Current.SliceName == null)
+						{
+							var implicitType = propName.Substring(itemWalker.Current.PathName.Length - 3);
+							string typeName = itemWalker.Current.Current.Type.FirstOrDefault(t => String.Equals(t.Code, implicitType, StringComparison.OrdinalIgnoreCase))?.Code;
+							if (typeName != null)
+								itemWalker = itemWalker.Walk($"ofType({typeName})").First();
+						}
 					}
 				}
-						}
-						catch (Exception ex)
-						{
-							// report the issue (There are many issues that could result from the walking, capture them all generically)
-							ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null, null, ex);
-						}
-					}
+
+				// the type we now have in the itemWalker should be compatible with the type of the itemdef.type (or at least 1 of them)
+				// TODO: Check those in the future
+			}
+			catch (Exception ex)
+			{
+				// report the issue (There are many issues that could result from the walking, capture them all generically)
+				ReportValidationMessage(ValidationResult.definitionInvalid, Q, itemDef, new[] { $"{itemPathExpression}.definition" }, null, null, ex);
+			}
+		}
 
 		private IEnumerable<ElementDefinitionNavigator> ChildDefinitions(StructureDefinitionWalker walker, string? childName = null)
 		{
 			string sliceName = null;
 			if (childName.Contains(':'))
-				{
+			{
 				var parts = childName.Split(':');
 				sliceName = parts[1];
 				childName = parts[0];
@@ -824,19 +845,31 @@ namespace Hl7.Fhir.StructuredDataCapture
 				// Also check the name as a type constraint e.g. valueQuantity
 				if (nav.Current.IsChoice())
 				{
+					ElementDefinitionNavigator navForImplicitTypeSlice = null;
 					string namePart = GetNameFromPath(nav.Current.Path);
 					foreach (var type in nav.Current.Type)
 					{
 						if (childName.Equals(namePart.Replace("[x]", type.Code), StringComparison.OrdinalIgnoreCase))
-			{
+						{
 							if (sliceName == null || sliceName != null && nav.Current.SliceName == sliceName)
+							{
+								navForImplicitTypeSlice = null; // there was an actual slice match, so don't return the implicit type slice
 								yield return nav.ShallowCopy();
+							}
+						}
+						// special case for this Questionnaire item definition based validation routine
+						// permitting walking into a type slice, even if the profile doesn't actually have one.
+						if (childName == namePart && sliceName.Equals(namePart.Replace("[x]", type.Code), StringComparison.OrdinalIgnoreCase))
+						{
+							navForImplicitTypeSlice = nav.ShallowCopy();
 						}
 					}
+					if (navForImplicitTypeSlice != null)
+						yield return navForImplicitTypeSlice;
 				}
 			}
 			while (nav.MoveToNext());
-			}
+		}
 
 		/// <summary>
 		/// Returns the last part of the element's path.
@@ -1746,7 +1779,6 @@ namespace Hl7.Fhir.StructuredDataCapture
 			public TypedVariableSymbolTable SymbolTable { get; set; }
 		}
 
-		
 		private class EnableWhenValidationMessageException : Exception
 		{
 			public EnableWhenValidationMessageException(Questionnaire.EnableWhenComponent ew)

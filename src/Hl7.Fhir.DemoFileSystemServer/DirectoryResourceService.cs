@@ -87,6 +87,11 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             if (versionNumber != 1)
                 validationMode = ResourceValidationMode.update;
             var validationOutcome = await ValidateResource(resource, validationMode, null);
+
+			// Strip out some known issues with the updated validator
+			// (appears to be issues with verifying the extension context)
+			validationOutcome.Issue.RemoveAll(i => i.Details?.Text.StartsWith("Extension used outside of appropriate contexts. Expected context ") == true);
+
             if (!validationOutcome.Success)
             {
                 var message = $"Validation failed: {validationOutcome.Errors} errors, {validationOutcome.Warnings}";

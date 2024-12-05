@@ -582,7 +582,10 @@ namespace Hl7.Fhir.StructuredDataCapture
                 }
             }
 
-            if (status == QuestionnaireResponse.QuestionnaireResponseStatus.InProgress)
+			// Downgrade any errors to warnings if the response is in progress
+			if (severity == OperationOutcome.IssueSeverity.Error && 
+                (status == QuestionnaireResponse.QuestionnaireResponseStatus.InProgress || status == QuestionnaireResponse.QuestionnaireResponseStatus.Stopped
+				 || status == QuestionnaireResponse.QuestionnaireResponseStatus.EnteredInError))
             {
                 // when the response is in progress, downgrade errors to warnings
                 severity = OperationOutcome.IssueSeverity.Warning;

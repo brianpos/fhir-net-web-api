@@ -418,6 +418,60 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		}
 
 		[TestMethod]
+		public async Task ValidateContextExtensionExpression()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateContextExtensionExpression" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			var ce = q.Item[0].AddExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-contextExpression", null);
+			ce.SetExtension("expression", new Expression()
+			{
+				Language = "text/fhirpath",
+				Expression_ = "today()"
+			});
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(0, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(0, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+		}
+
+		[TestMethod]
+		public async Task ValidateContextExtensionInvalidExpression()
+		{
+			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateContextExtensionExpression" };
+			q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
+			q.Item[0].AddExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-contextExpression", new Expression()
+			{
+				Language = "text/fhirpath",
+				Expression_ = "iif(%LaunchPatient.exists() > today(), 'ServiceRequest')"
+			});
+
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+			DebugDumpXml(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(1, outcome.Issue.Count);
+			Assert.AreEqual(0, outcome.Fatals);
+			Assert.AreEqual(1, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			Assert.AreEqual(OperationOutcome.IssueSeverity.Error, outcome.Issue[0].Severity);
+			Assert.AreEqual(OperationOutcome.IssueType.Structure, outcome.Issue[0].Code);
+			Assert.AreEqual(QuestionnaireValidator.ErrorCodeSystem, outcome.Issue[0].Details.Coding[0].System);
+			Assert.AreEqual("invalidExtensionType", outcome.Issue[0].Details.Coding[0].Code);
+			// Also need to determine what location the report is on, the answer, or the item?
+			Assert.AreEqual("Questionnaire.item[0].extension[0]", outcome.Issue[0].Expression.First());
+		}
+
+		[TestMethod]
 		public async Task ValidateInvariantCorruptedConstraintExpression()
 		{
 			var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateInvariantCorruptedExpression" };

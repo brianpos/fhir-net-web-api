@@ -586,7 +586,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 		readonly List<string> _expressionExtensions = new List<string>(new[] {
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-contextExpression",
+			// "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-contextExpression", (This is a complex extension)
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-enableWhenExpression",
 			"http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
@@ -668,8 +668,10 @@ namespace Hl7.Fhir.StructuredDataCapture
 					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value?.TypeName ?? "(null)"));
 				}
 			}
+
 			const string aote = "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerOptionsToggleExpression";
-			foreach (var ext in itemDef.Extension.Where(ext => ext.Url == aote))
+			const string ce = "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-contextExpression";
+			foreach (var ext in itemDef.Extension.Where(ext => ext.Url == aote || ext.Url == ce))
 			{
 				string extPath = $"{itemPathExpression}.extension[{itemDef.Extension.IndexOf(ext)}]";
 				// it's in a child expression of this one
@@ -683,7 +685,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 				}
 				else
 				{
-					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "Expression", ext.Value?.TypeName ?? "(null)"));
+					ReportValidationMessage(ValidationResult.invalidExtensionType, Q, itemDef, new[] { extPath }, null, null, new ExtensionValidationMessageException(ext.Url, "(complex extension)", ext.Value?.TypeName ?? "(null)"));
 				}
 			}
 

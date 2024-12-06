@@ -471,6 +471,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 			symbolTable.AddVar("questionnaire", q.ToTypedElement(), typeof(Questionnaire));
 			AddFakeFunction(symbolTable, "answers");
 			AddFakeFunction(symbolTable, "ordinal");
+			AddFakeFunction(symbolTable, "weight");
 			AddFakeFunction(symbolTable, "sum");
 			AddFakeFunction(symbolTable, "min");
 			AddFakeFunction(symbolTable, "max");

@@ -1560,8 +1560,7 @@ namespace Hl7.Fhir.StructuredDataCapture
                 invariants = Q.Constraints();
             if (invariants != null && invariants.Any())
             {
-                FhirEvaluationContext ctxt;
-                ctxt = new FhirEvaluationContext(QR.ToTypedElement());
+                FhirEvaluationContext ctx = new FhirEvaluationContext().WithResourceOverrides(new ScopedNode(QR.ToTypedElement()));
                 foreach (var invariant in invariants)
                 {
                     try
@@ -1576,9 +1575,9 @@ namespace Hl7.Fhir.StructuredDataCapture
 
                         IEnumerable<ITypedElement> result;
                         if (itemDef != null)
-                            result = expr(item.ToTypedElement(), ctxt);
+                            result = expr(item.ToTypedElement(), ctx);
                         else
-                            result = expr(QR.ToTypedElement(), ctxt);
+                            result = expr(QR.ToTypedElement(), ctx);
 
                         if (result.Count() != 1 || !(bool)result.First().Value)
                         {

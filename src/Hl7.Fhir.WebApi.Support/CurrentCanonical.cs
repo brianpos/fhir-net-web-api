@@ -159,7 +159,7 @@ namespace Hl7.Fhir.WebApi
                 case Algorithm.fhirpath:
                     {
                         var dv = ElementNode.ForPrimitive(true);
-						var ec = new FhirEvaluationContext(dv);
+						var ec = new FhirEvaluationContext();
 						ec.Environment.Add("version1", ElementNode.CreateList(ElementNode.ForPrimitive(x.Version)));
 						ec.Environment.Add("version2", ElementNode.CreateList(ElementNode.ForPrimitive(y.Version)));
 

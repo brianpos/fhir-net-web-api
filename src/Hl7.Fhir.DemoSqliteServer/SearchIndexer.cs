@@ -393,7 +393,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer
             IEnumerable<ITypedElement> results;
             try
             {
-                results = resourceModel.Select(index.Expression, new FhirEvaluationContext(resourceModel) { ElementResolver = mockResolver });
+                results = resourceModel.Select(index.Expression, new FhirEvaluationContext() { ElementResolver = mockResolver }.WithResourceOverrides(resourceModel));
             }
             catch (Exception ex)
             {

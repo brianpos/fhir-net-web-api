@@ -94,7 +94,7 @@ namespace Hl7.Fhir.WebApi
                 _st = new SymbolTable(FhirPathCompiler.DefaultSymbolTable);
                 Hl7.FhirPath.FhirPathCompiler compiler = new Hl7.FhirPath.FhirPathCompiler(_st);
                 _fhirpathCompiledExpression = compiler.Compile(_fhirpathExpression);
-                System.Diagnostics.Trace.WriteLine("Sorting by Fhirpath expression");
+                // System.Diagnostics.Trace.WriteLine("Sorting by Fhirpath expression");
             }
             else
             {
@@ -110,7 +110,7 @@ namespace Hl7.Fhir.WebApi
                         case "natural": _algorithm = Algorithm.natural; break;
                     }
                 }
-                System.Diagnostics.Trace.WriteLine($"Sorting by {_algorithm}");
+                // System.Diagnostics.Trace.WriteLine($"Sorting by {_algorithm}");
             }
 
             // if no engine is found, try to deduce what versioning mechanism was intended
@@ -142,7 +142,7 @@ namespace Hl7.Fhir.WebApi
                     {
                         if (decimal.TryParse(x.Version, out decimal xD) && decimal.TryParse(y.Version, out decimal yD))
                             return xD.CompareTo(yD);
-                        System.Diagnostics.Trace.WriteLine($"Unable to compare {x.Version} to {y.Version}");
+                        // System.Diagnostics.Trace.WriteLine($"Unable to compare {x.Version} to {y.Version}");
                         return 0;
                     }
                 case Algorithm.semver:

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net80;</TargetFrameworks>
+    <TargetFrameworks>net90;</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -23,15 +23,15 @@
 
   <ItemGroup>
     <PackageReference Include="Firely.Fhir.Packages" Version="4.9.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.7.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.7.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net80'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.10" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net90'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="9.0.1" />
     <ProjectReference Include="..\Hl7.Fhir.DemoSqliteServer\Hl7.Fhir.R4B.DemoSqliteServer.csproj" />
   </ItemGroup>
 

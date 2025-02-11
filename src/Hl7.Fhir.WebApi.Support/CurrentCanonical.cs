@@ -83,9 +83,10 @@ namespace Hl7.Fhir.WebApi
 
     public class CurrentCanonicalComparer : IComparer<IVersionableConformanceResource>
     {
-        public CurrentCanonicalComparer(IEnumerable<IVersionableConformanceResource> vcrs)
+		static Algorithm DefaultAlgorithm { get; set; } = Algorithm.alpha;
+		
+		public CurrentCanonicalComparer(IEnumerable<IVersionableConformanceResource> vcrs)
         {
-            _algorithm = Algorithm.alpha;
             var fhirpath = vcrs.FirstOrDefault(vcr => !string.IsNullOrEmpty(vcr.versionAlgorithFhirPathExpression())).versionAlgorithFhirPathExpression();
             if (!string.IsNullOrEmpty(fhirpath))
             {
@@ -110,14 +111,25 @@ namespace Hl7.Fhir.WebApi
                         case "natural": _algorithm = Algorithm.natural; break;
                     }
                 }
-                // System.Diagnostics.Trace.WriteLine($"Sorting by {_algorithm}");
             }
 
-            // if no engine is found, try to deduce what versioning mechanism was intended
+			// if no engine is found, try to deduce what versioning mechanism was intended
+			if (!_algorithm.HasValue)
+			{
+				var versions = vcrs.Select(vcr => vcr.Version).Distinct().ToList();
+				if (versions.All(v => v.All(char.IsDigit)))
+					_algorithm = Algorithm.integer;
+				else if (versions.All(v => SemanticVersioning.Version.TryParse(v, true, out var result)))
+					_algorithm = Algorithm.semver;
+				else
+				{
+					_algorithm = DefaultAlgorithm;
+					System.Diagnostics.Trace.WriteLine($"Falling back to sorting by {_algorithm}");
+				}
+			}
+		}
 
-        }
-
-        private enum Algorithm
+		private enum Algorithm
         {
             semver,
             integer,
@@ -126,7 +138,7 @@ namespace Hl7.Fhir.WebApi
             natural,
             fhirpath
         };
-        private Algorithm _algorithm;
+        private Algorithm? _algorithm;
         private string _fhirpathExpression;
         CompiledExpression _fhirpathCompiledExpression;
         SymbolTable _st;

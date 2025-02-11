@@ -309,5 +309,35 @@ namespace UnitTestWebApi
                 System.Diagnostics.Trace.WriteLine($"{item.Status?.ToString() ?? "(null)"}, {item.Version}");
             Assert.AreEqual(q3.Version, result.First().Version);
         }
-    }
+
+		[TestMethod]
+		public void DeduceSemverCanonicalVersionsWithPreReleases()
+		{
+			var q1 = new Questionnaire { Id = "q1-semver-pre", Url = "http://example.org/canonical-semver-pre-release", Version = "2.0.1-alpha2", Status = PublicationStatus.Active };
+			var q2 = new Questionnaire { Id = "q2-semver-pre", Url = "http://example.org/canonical-semver-pre-release", Version = "1.0.2", Status = PublicationStatus.Active };
+			var q3 = new Questionnaire { Id = "q3-semver-pre", Url = "http://example.org/canonical-semver-pre-release", Version = "1.0.3", Status = PublicationStatus.Active };
+			var q4 = new Questionnaire { Id = "q4-semver-pre", Url = "http://example.org/canonical-semver-pre-release", Version = "2.0.1-alpha1", Status = PublicationStatus.Active };
+			var q5 = new Questionnaire { Id = "q5-semver-pre", Url = "http://example.org/canonical-semver-pre-release", Version = "2.0.1", Status = PublicationStatus.Active };
+			// q3.versionAlgorithm(new Coding("http://hl7.org/fhir/version-algorithm", "semver"));
+
+			var result = CurrentCanonical.Current(new[] { q1, q2, q3, q4, q5 });
+			Assert.AreEqual(q5.Version, result.Version);
+		}
+
+		[TestMethod]
+		public void DeduceAlphaCanonicalVersions()
+		{
+			var q1 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Version = "general1", Status = PublicationStatus.Active };
+			var q2 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Version = "general2", Status = PublicationStatus.Retired };
+			var q3 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Version = "general3", Status = PublicationStatus.Active };
+			var q4 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Version = "general1000", Status = PublicationStatus.Draft };
+			var q5 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Version = "general200", Status = PublicationStatus.Retired };
+			var q6 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Version = "general200" };
+
+			IOrderedEnumerable<IVersionableConformanceResource> result = CurrentCanonical.Ordered(new[] { q1, q2, q3, q4, q5, q6 });
+			foreach (var item in result)
+				System.Diagnostics.Trace.WriteLine($"{item.Status?.ToString() ?? "(null)"}, {item.Version}");
+			Assert.AreEqual(q3.Version, result.First().Version);
+		}
+	}
 }

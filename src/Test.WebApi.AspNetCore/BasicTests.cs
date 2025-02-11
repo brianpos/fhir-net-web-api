@@ -703,7 +703,7 @@ namespace UnitTestWebApi
             var httpclient = app.CreateDefaultClient(handler);
             var clientFhir = new FhirClient(app.Server.BaseAddress, httpclient);
 
-            // Capqbility statement
+            // Capability statement
             var cs = await clientFhir.CapabilityStatementAsync();
             Assert.AreEqual("https://demo.org/testme/v2/metadata", cs.Url, "Should matching capability statement");
             Assert.AreEqual("https://demo.org/testme/v2", cs.Implementation.Url, "Should matching capability statement");

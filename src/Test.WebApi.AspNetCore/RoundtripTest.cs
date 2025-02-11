@@ -104,7 +104,7 @@ namespace UnitTestWebApi
             clientFhir.Settings.VerifyFhirVersion = false;
             clientFhir.Settings.PreferredFormat = Hl7.Fhir.Rest.ResourceFormat.Json;
 
-            var examplesTarball = @"C:\temp\demoserver-5.10.2\examples.tgz";
+            var examplesTarball = @"C:\temp\demoserver-5.11.3\examples.tgz";
             Stream sourceStream;
             if (!System.IO.File.Exists(examplesTarball))
             {
@@ -118,6 +118,7 @@ namespace UnitTestWebApi
                 // var pr = new Firely.Fhir.Packages.PackageReference("hl7.fhir.r4.examples", "4.0.1");
                 // examplesPkg = await pc.GetPackage(pr);
                 HttpClient client = new HttpClient();
+				client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("TestWebApiExampleLoader", "5.11.3"));
                 examplesPkg = await client.GetByteArrayAsync("http://hl7.org/fhir/R4B/hl7.fhir.r4b.examples.tgz");
                 System.IO.File.WriteAllBytes(examplesTarball, examplesPkg);
                 sourceStream = new MemoryStream(examplesPkg);

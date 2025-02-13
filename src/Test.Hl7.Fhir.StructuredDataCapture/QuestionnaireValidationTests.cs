@@ -56,6 +56,25 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
 		}
 
 		[TestMethod]
+		public async Task TestQs1Example()
+		{
+			string testFile = @"TestData\Questionnaire-validation-example.json";
+			var q = new Hl7.Fhir.Serialization.FhirJsonParser().Parse<Questionnaire>(System.IO.File.ReadAllText(testFile));
+
+			// Validate the extract example first
+			var validator = new QuestionnaireValidator();
+			var outcome = await validator.Validate(q);
+
+			DebugDumpXmlDiagnostics(outcome);
+
+			Assert.AreEqual(0, outcome.Errors);
+			Assert.AreEqual(0, outcome.Warnings);
+
+			// Now perform the actual extraction from an instance
+
+		}
+
+		[TestMethod]
 		public async Task ValidateDefinitionExample()
 		{
 			string testFile = @"TestData\data-extraction-questionnaire.json";

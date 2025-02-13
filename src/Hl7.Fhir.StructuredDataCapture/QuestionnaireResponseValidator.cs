@@ -723,7 +723,7 @@ namespace Hl7.Fhir.StructuredDataCapture
         {
             _settings = settings ?? new ValidationSettings()
             {
-                TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
+                // TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
                 TerminologyServerFhirClientSettings = new FhirClientSettings()
                 {
                     VerifyFhirVersion = false,

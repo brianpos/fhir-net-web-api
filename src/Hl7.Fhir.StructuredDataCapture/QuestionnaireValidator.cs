@@ -396,7 +396,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 		{
 			_settings = settings ?? new ValidationSettings()
 			{
-				TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
+				// TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
 				TerminologyServerFhirClientSettings = new FhirClientSettings()
 				{
 					VerifyFhirVersion = false,
@@ -410,7 +410,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 		{
 			_settings = settings ?? new ValidationSettings()
 			{
-				TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
+				// TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
 				TerminologyServerFhirClientSettings = new FhirClientSettings()
 				{
 					VerifyFhirVersion = false,
@@ -1107,7 +1107,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 
 		private static void IndexItems(List<Questionnaire.ItemComponent> items, Dictionary<string, Questionnaire.ItemComponent> itemsByLinkId)
 		{
-			foreach (var item in items)
+			foreach (var item in items.Where(i => !string.IsNullOrEmpty(i.LinkId)))
 			{
 				if (!itemsByLinkId.ContainsKey(item.LinkId))
 				{

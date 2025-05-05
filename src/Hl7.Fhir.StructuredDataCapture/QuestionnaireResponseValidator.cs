@@ -161,6 +161,11 @@ namespace Hl7.Fhir.StructuredDataCapture
             tsError,
 
             /// <summary>
+            /// Error accessing the Terminology Server
+            /// </summary>
+            tsNotConfigured,
+
+            /// <summary>
             /// Maximum attachment size constraint violated
             /// </summary>
             maxAttachmentSize,
@@ -456,6 +461,12 @@ namespace Hl7.Fhir.StructuredDataCapture
                     }
                     break;
 
+                case ValidationResult.tsNotConfigured:
+                    code = OperationOutcome.IssueType.Informational;
+                    details.Coding[0].Display = "missing configuration";
+                    details.Text = $"{fieldDisplayText}: no terminology server configured, unable to validate code";
+                    break;
+
                 case ValidationResult.invalidCoding:
                     code = OperationOutcome.IssueType.CodeInvalid;
                     details.Coding[0].Display = "invalid code";
@@ -582,10 +593,10 @@ namespace Hl7.Fhir.StructuredDataCapture
                 }
             }
 
-			// Downgrade any errors to warnings if the response is in progress
-			if (severity == OperationOutcome.IssueSeverity.Error && 
+            // Downgrade any errors to warnings if the response is in progress
+            if (severity == OperationOutcome.IssueSeverity.Error && 
                 (status == QuestionnaireResponse.QuestionnaireResponseStatus.InProgress || status == QuestionnaireResponse.QuestionnaireResponseStatus.Stopped
-				 || status == QuestionnaireResponse.QuestionnaireResponseStatus.EnteredInError))
+                 || status == QuestionnaireResponse.QuestionnaireResponseStatus.EnteredInError))
             {
                 // when the response is in progress, downgrade errors to warnings
                 severity = OperationOutcome.IssueSeverity.Warning;
@@ -684,14 +695,14 @@ namespace Hl7.Fhir.StructuredDataCapture
 					if (value is Coding coding) return coding.Display ?? coding.Code;
 					break;
 #else
-				case Questionnaire.QuestionnaireItemType.Choice:
+                case Questionnaire.QuestionnaireItemType.Choice:
                     if (value is Coding coding) return coding.Display ?? coding.Code;
                     break;
                 case Questionnaire.QuestionnaireItemType.OpenChoice:
                     if (value is Coding codingOpen) return codingOpen.Display ?? codingOpen.Code;
                     break;
 #endif
-				case Questionnaire.QuestionnaireItemType.Attachment:
+                case Questionnaire.QuestionnaireItemType.Attachment:
                     // just return the first n chars of the attachment?
                     if (value is Attachment att)
                     {
@@ -1142,12 +1153,20 @@ namespace Hl7.Fhir.StructuredDataCapture
         {
             if (!string.IsNullOrEmpty(itemDef.AnswerValueSet))
             {
-                // TODO: Check for the preferrred terminology server extension
+                // TODO: Check for the preferred terminology server extension
                 FhirClient ts;
                 if (_settings.TerminologyServerMessageHandler != null)
                     ts = new FhirClient(_settings.TerminologyServerAddress, _settings.TerminologyServerFhirClientSettings, _settings.TerminologyServerMessageHandler);
                 else
+                {
+                    if (string.IsNullOrEmpty(_settings.TerminologyServerAddress))
+                    {
+                        // There is no terminology server configured, so just report that as a warning
+                        ReportValidationMessage(ValidationResult.tsNotConfigured, itemDef, answerItemPathExpression, status, item, answerIndex, null);
+                        return;
+                    }
                     ts = new FhirClient(_settings.TerminologyServerAddress, _settings.TerminologyServerFhirClientSettings);
+                }
 
                 // split the AnswerValueSet value into canonical and version.
                 var canonical = new CanonicalUrl(itemDef.AnswerValueSet);
@@ -1204,7 +1223,15 @@ namespace Hl7.Fhir.StructuredDataCapture
                 if (_settings.TerminologyServerMessageHandler != null)
                     ts = new FhirClient(_settings.TerminologyServerAddress, _settings.TerminologyServerFhirClientSettings, _settings.TerminologyServerMessageHandler);
                 else
+				{
+					if (string.IsNullOrEmpty(_settings.TerminologyServerAddress))
+					{
+						// There is no terminology server configured, so just report that as a warning
+						ReportValidationMessage(ValidationResult.tsNotConfigured, itemDef, answerItemPathExpression, status, item, answerIndex, null);
+						return;
+					}
                     ts = new FhirClient(_settings.TerminologyServerAddress, _settings.TerminologyServerFhirClientSettings);
+                }
 
                 // split the AnswerValueSet value into canonical and version.
                 var canonical = new CanonicalUrl(itemDef.UnitValueSet());

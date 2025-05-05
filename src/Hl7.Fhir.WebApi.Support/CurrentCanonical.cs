@@ -116,7 +116,7 @@ namespace Hl7.Fhir.WebApi
 			// if no engine is found, try to deduce what versioning mechanism was intended
 			if (!_algorithm.HasValue)
 			{
-				var versions = vcrs.Select(vcr => vcr.Version).Distinct().ToList();
+				var versions = vcrs.Select(vcr => vcr.Version).Where(v => !string.IsNullOrEmpty(v)).Distinct().ToList();
 				if (versions.All(v => v.All(char.IsDigit)))
 					_algorithm = Algorithm.integer;
 				else if (versions.All(v => SemanticVersioning.Version.TryParse(v, true, out var result)))

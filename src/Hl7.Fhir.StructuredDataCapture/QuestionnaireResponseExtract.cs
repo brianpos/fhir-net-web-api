@@ -147,8 +147,19 @@ namespace Hl7.Fhir.StructuredDataCapture
                     }
                     else
                     {
+                            // Need to recheck if there are other types that don't work here
+                            if (answer.Value is Coding)
+                            {
+                                var cc = new CodeableConcept();
+                                cc.Coding.Add(answer.Value as Coding);
+                                obs.Value = cc;
+
+                            }
+                            else
+                            {
                         obs.Value = answer.Value;
                     }
+                        }
                     results.AddResourceEntry(obs, $"urn:uuid:{Guid.NewGuid().ToFhirId()}");
                 }
             }

@@ -59,7 +59,7 @@ namespace Hl7.Fhir.DemoFileSystemFhirServer
             con.Name = "demoCapStmt";
             con.Experimental = true;
             con.Status = PublicationStatus.Active;
-            con.FhirVersion = FHIRVersion.N4_3_0;
+            con.FhirVersion = EnumUtility.ParseLiteral<FHIRVersion>(ModelInfo.Version);
             // con.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
             con.Format = new string[] { "xml", "json" };
             con.Kind = CapabilityStatementKind.Instance;

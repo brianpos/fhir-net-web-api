@@ -154,6 +154,29 @@ namespace Hl7.Fhir.WebApi
                                 }
                             }
 
+                            // Detect and handle conditional updates...
+                            // https://build.fhir.org/http.html#cond-update
+                            if (entry.Request.Method == Bundle.HTTPVerb.PUT && entry.Request.Url?.Contains('?') == true)
+                            {
+                                // Perform a search to locate the 
+                                var parameters = System.Web.HttpUtility.ParseQueryString(entry.Request.Url.Substring(entry.Request.Url.IndexOf('?')+1)).TupledParameters(false);
+                                Bundle conditionalSearch = await model.Search(parameters, 2, SummaryType.True, null);
+                                var updateResource = conditionalSearch.Entry.FirstOrDefault();
+                                if (conditionalSearch.Entry.Count() == 1 && updateResource.TypeName == entry.Resource.TypeName)
+                                {
+                                    // bonza, good to go, update this one.
+                                    entry.Resource.Id = updateResource.Resource.Id;
+                                }
+                                else if (conditionalSearch.Entry.Count() > 0)
+                                {
+                                    // Wrong type, or too many resources found, so fails conditional create
+                                    itemResult.Response.Status = HttpStatusCode.Conflict.ToString();
+                                    // itemResult.Resource = ex.Outcome;
+                                    return;
+                                }
+                            }
+
+
                             // Store the changes
                             Resource r = await model.Create(entry.Resource, entry.Request?.IfMatch, entry.Request?.IfNoneExist, entry.Request?.IfModifiedSince);
                             if (!string.IsNullOrEmpty(oldId) && oldId != resourceType + "/" && !mappedResourceIds.ContainsKey(oldId))

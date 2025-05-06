@@ -7,6 +7,7 @@ using Hl7.Fhir.Specification.Terminology;
 using Hl7.Fhir.Validation;
 using Hl7.Fhir.WebApi;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
@@ -982,6 +984,79 @@ namespace UnitTestWebApi
             {
                 DebugDumpOutputXml(ex.Outcome);
                 throw;
+            }
+
+        }
+
+        [TestMethod]
+        public async Task RequestAcceptJsonWithHeaderParameter()
+        {
+            var app = new UnitTestFhirServerApplication();
+            var httpClient = app.CreateClient();
+            var acceptHeader = "application/json+fhir";
+            var acceptHeaderWithEncoding = "application/json+fhir; charset=utf-8";
+            var acceptHeaderWithEncodingAndVersion = "application/json+fhir; carset=utf-8; fhirVersion=4.0";
+            var badAcceptHeader = "application/notjson+fhir";
+            var acceptXmlHeader = "application/xml+fhir";
+
+            httpClient.DefaultRequestHeaders.Add("Accept", acceptHeader);
+            var raw = await httpClient.GetStringAsync($"{app.Server.BaseAddress}Patient");
+            
+            try
+            {
+                await new FhirJsonParser().ParseAsync<Bundle>(raw);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Expected Json formatted bundle: " + ex.Message);
+            }
+
+            httpClient.DefaultRequestHeaders.Remove("Accept");
+            httpClient.DefaultRequestHeaders.Add("Accept", acceptHeaderWithEncoding);
+            raw = await httpClient.GetStringAsync($"{app.Server.BaseAddress}Patient");
+            try
+            {
+                await new FhirJsonParser().ParseAsync<Bundle>(raw);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Expected Json formatted bundle: " + ex.Message);
+            }
+
+            httpClient.DefaultRequestHeaders.Remove("Accept");
+            httpClient.DefaultRequestHeaders.Add("Accept", acceptHeaderWithEncodingAndVersion);
+            raw = await httpClient.GetStringAsync($"{app.Server.BaseAddress}Patient");
+            try
+            {
+                await new FhirJsonParser().ParseAsync<Bundle>(raw);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Expected Json formatted bundle: " + ex.Message);
+            }
+
+            httpClient.DefaultRequestHeaders.Remove("Accept");
+            httpClient.DefaultRequestHeaders.Add("Accept", badAcceptHeader);
+            raw = await httpClient.GetStringAsync($"{app.Server.BaseAddress}Patient");
+            try
+            {
+                await new FhirXmlParser().ParseAsync<Bundle>(raw);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Expected Xml formatted bundle: " + ex.Message);
+            }
+
+            httpClient.DefaultRequestHeaders.Remove("Accept");
+            httpClient.DefaultRequestHeaders.Add("Accept", acceptXmlHeader);
+            raw = await httpClient.GetStringAsync($"{app.Server.BaseAddress}Patient");
+            try
+            {
+                await new FhirXmlParser().ParseAsync<Bundle>(raw);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Expected Xml formatted bundle: " + ex.Message);
             }
 
         }

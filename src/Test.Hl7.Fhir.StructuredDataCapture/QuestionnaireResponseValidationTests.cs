@@ -1470,8 +1470,8 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
         {
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateAttachment", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Attachment });
-            q.Item[0].SetStringExtension("http://hl7.org/fhir/StructureDefinition/mimeType", "application/pdf");
-            q.Item[0].MaxLength = 1000;
+            q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/mimeType", new Code("application/pdf"));
+            // q.Item[0].MaxLength = 1000; // attatchment size is in an extension
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachment" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             byte[] dataSimulated = new byte[500];
@@ -1503,7 +1503,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
         {
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateAttachmentContentType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Attachment });
-            q.Item[0].SetStringExtension("http://hl7.org/fhir/StructureDefinition/mimeType", "iamge/gif");
+            q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/mimeType", new Code("image/gif"));
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachmentContentType" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             byte[] dataSimulated = new byte[500];
@@ -1840,7 +1840,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Reference });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidURL" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
-            qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("htsdtps://example.org/Chicken/example", "Example Patient") });
+            qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("ht sdtps://example.org/Chicken/example", "Example Patient") });
             var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             ValidateQuestionnaire(q, outcome);

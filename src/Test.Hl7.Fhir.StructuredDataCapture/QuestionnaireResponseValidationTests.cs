@@ -77,6 +77,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
         public async Task ValidateQrQuestionnaireNotResolved()
         {
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuestionnaireWontResolve" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q2" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
@@ -104,6 +105,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateInvalidLinkId", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Required = false });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateInvalidLinkId" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q2" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
@@ -163,6 +165,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateString", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateString" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
@@ -192,6 +195,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true });
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-maxOccurs", new Integer(2));
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringMaxOccurs" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a2") });
@@ -222,6 +226,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String });
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-minOccurs", new Integer(2));
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringMinOccurs" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
@@ -250,6 +255,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new FhirString("str1") });
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new FhirString("str2") });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringAnswerOption" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new FhirString("str1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new FhirString("str2") });
@@ -278,6 +284,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateStringRequired", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringRequired" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
@@ -305,6 +312,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q2", Type = Questionnaire.QuestionnaireItemType.Text, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringVsText" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1\r\nsmile") });
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q2" });
@@ -334,6 +342,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateStringInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -361,6 +370,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateTextInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Text, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateTextInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -391,6 +401,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].MaxLength = 2;
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringMinMaxLength" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("fasdfa") });
             var validator = new QuestionnaireResponseValidator();
@@ -429,6 +440,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/entryFormat", new FhirString(@"blah@example.com"));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringRegex" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("fasdfa@test.com.au") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("fasdfa@@test.com.au") });
@@ -458,6 +470,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateStringWithCodingAsync", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.String, Repeats = true, AnswerValueSet = "http://hl7.org/fhir/ValueSet/jurisdiction" });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateStringWithCodingAsync" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("AU") }); // this is code
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("Australia") }); // this is display (it should not pass validation)
@@ -485,6 +498,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateBooleanInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Boolean, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateBooleanInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -512,6 +526,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateIntegerInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Integer, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateIntegerInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -539,6 +554,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateInteger", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Integer, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateInteger" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Integer(5) });
             var validator = new QuestionnaireResponseValidator();
@@ -563,6 +579,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/maxValue", new Integer(2));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateIntegerMinMax" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Integer(5) });
             var validator = new QuestionnaireResponseValidator();
@@ -600,6 +617,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new Integer(1) });
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new Integer(2) });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateIntegerAnswerOption" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Integer(1) });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Integer(2) });
@@ -628,6 +646,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateDecimalInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Decimal, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimalInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -655,6 +674,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateDecimal", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Decimal, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimal" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDecimal(5.6M) });
             var validator = new QuestionnaireResponseValidator();
@@ -679,6 +699,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/maxValue", new FhirDecimal(2));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimalMinMax" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDecimal(5.6M) });
             var validator = new QuestionnaireResponseValidator();
@@ -716,6 +737,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/maxDecimalPlaces", new Integer(2));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDecimalMaxDecimalPlaces" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDecimal(-5.12340M) });
             var validator = new QuestionnaireResponseValidator();
@@ -744,6 +766,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateDisplayAnswerIncluded", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Display });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDisplayAnswerIncluded" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -771,6 +794,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateAbstractQuestionTypeIncluded", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Question });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAbstractQuestionTypeIncluded" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -801,6 +825,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].Item.Add(new Questionnaire.ItemComponent { LinkId = "q2", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateGroupWithStringInvalidNesting" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "grp1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent());
             qr.Item[0].Answer[0].Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
@@ -837,6 +862,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].Item.Add(new Questionnaire.ItemComponent { LinkId = "q2", Type = Questionnaire.QuestionnaireItemType.String });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateGroupWithStringInvalidNesting" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "grp1" });
 
             var validator = new QuestionnaireResponseValidator();
@@ -867,6 +893,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].Item.Add(new Questionnaire.ItemComponent { LinkId = "q2", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateGroupWithStringInvalidNestingLinkId" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "grp2" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent());
             qr.Item[0].Answer[0].Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
@@ -899,6 +926,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].Item.Add(new Questionnaire.ItemComponent { LinkId = "q2", Type = Questionnaire.QuestionnaireItemType.String, Required = true });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateGroupWithString" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "grp1" });
             qr.Item[0].Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("a1 smile") });
@@ -927,6 +955,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateDateTimeInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.DateTime, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDateTimeInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -957,6 +986,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/maxValue", new FhirDateTime("2022-06"));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDateTimeMinMax" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDateTime("2021") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirDateTime("2020") });
@@ -996,6 +1026,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateDateInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Date, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDateInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -1026,6 +1057,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/maxValue", new Date("2022"));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDateMinMax" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Date("2021") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Date("2020") });
@@ -1067,6 +1099,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new Date("2022-01-01") });
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new Date("2022-02-01") });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateDateAnswerOption" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Date("2022-01-01") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Date("2022-02-01") });
@@ -1109,6 +1142,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateChoiceAsync", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Choice, Repeats = true, AnswerValueSet = "http://hl7.org/fhir/ValueSet/jurisdiction" });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceAsync" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "AU", "Australia") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "BD", "Australia") });
@@ -1136,6 +1170,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateChoiceInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Choice, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("http://example.org") });
             var validator = new QuestionnaireResponseValidator();
@@ -1163,6 +1198,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.OpenChoice, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Code("http://example.org") });
             var validator = new QuestionnaireResponseValidator();
@@ -1190,6 +1226,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateChoiceInvalidValueSetAsync", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Choice, AnswerValueSet = "http://example.org/invalid-valueset-canonical" });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceInvalidValueSetAsync" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "AU", "Australia") });
             var validator = new QuestionnaireResponseValidator(tsServerSettings);
@@ -1216,6 +1253,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateChoiceGenderCodingAsync", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Choice, Repeats = true, AnswerValueSet = "http://hl7.org/fhir/ValueSet/item-type" });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceGenderCodingAsync" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "string", "Australia") });
@@ -1243,6 +1281,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceGenderCodingAsync", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.OpenChoice, Repeats = true, AnswerValueSet = "http://hl7.org/fhir/ValueSet/item-type" });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceGenderCodingAsync" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "string", "Australia") });
@@ -1270,6 +1309,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceStringAsync", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.OpenChoice, Repeats = true, AnswerValueSet = "http://hl7.org/fhir/ValueSet/item-type" });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateOpenChoiceStringAsync" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("Example free text") });
             var validator = new QuestionnaireResponseValidator(new ValidationSettings { TerminologyServerAddress = "https://r4.ontoserver.csiro.au/fhir" });
@@ -1293,6 +1333,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new Coding("http://example.org", "c1") });
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new Coding("http://example.org", "c2", "Code 2") });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceAnswerOption" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c2", "Code 2") });
@@ -1327,6 +1368,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AnswerOption[1].AddExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive", new FhirBoolean(true));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceAnswerOptionExclusive" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent() { Value = new Coding("http://example.org", "c2") });
@@ -1357,6 +1399,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AnswerOption.Add(new Questionnaire.AnswerOptionComponent() { Value = new Time("11:00:00") });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateTime" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Time("10:00:00") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Time("09:00:00") });
@@ -1385,6 +1428,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateTimeInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Time, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateTimeInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -1412,6 +1456,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateUrlValue", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Url, Repeats = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateUrlValue" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirUri(@"Patient/1") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirUri(@"c:\temp\example.txt") });
@@ -1444,6 +1489,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateUrlInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Url, Required = true });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateUrlInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://example.org", "1", "First Choice") });
             var validator = new QuestionnaireResponseValidator();
@@ -1473,6 +1519,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/mimeType", new Code("application/pdf"));
             // q.Item[0].MaxLength = 1000; // attatchment size is in an extension
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachment" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             byte[] dataSimulated = new byte[500];
             dataSimulated[0] = (byte)'a';
@@ -1505,6 +1552,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Attachment });
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/mimeType", new Code("image/gif"));
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachmentContentType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             byte[] dataSimulated = new byte[500];
             dataSimulated[0] = (byte)'a';
@@ -1542,6 +1590,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Attachment });
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/maxSize", new FhirDecimal(50));
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachmentMaxSize" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             byte[] dataSimulated = new byte[500];
             dataSimulated[0] = (byte)'a';
@@ -1579,6 +1628,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateAttachmentInconsistentSize", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Attachment });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachmentInconsistentSize" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             byte[] dataSimulated = new byte[500];
             dataSimulated[0] = (byte)'a';
@@ -1615,6 +1665,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateAttachmentInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Attachment });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateAttachmentInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
             var validator = new QuestionnaireResponseValidator();
@@ -1645,6 +1696,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Choice });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuestionnaireDraft" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
             var validator = new QuestionnaireResponseValidator();
@@ -1675,6 +1727,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Choice });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuestionnaireRetired" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("http://hl7.org/fhir/item-type", "boolean", "Boolean") });
             var validator = new QuestionnaireResponseValidator();
@@ -1708,6 +1761,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse()
             {
                 Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuestionnaireInactiveStart",
+                Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed,
                 Authored = "2021-12-12"
             };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
@@ -1743,6 +1797,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse()
             {
                 Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuestionnaireInactiveEnd",
+                Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed,
                 Authored = "2021-12-12"
             };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
@@ -1771,6 +1826,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Reference });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("example value") });
             var validator = new QuestionnaireResponseValidator();
@@ -1797,6 +1853,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateReferenceRelative", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Reference });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceRelative" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("Patient/example", "Example Patient") });
             var validator = new QuestionnaireResponseValidator();
@@ -1818,6 +1875,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateReferenceAbsolute", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Reference });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceAbsolute" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("https://example.org/Patient/example", "Example Patient") });
             var validator = new QuestionnaireResponseValidator();
@@ -1839,6 +1897,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidURL", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Reference });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidURL" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("ht sdtps://example.org/Chicken/example", "Example Patient") });
             var validator = new QuestionnaireResponseValidator();
@@ -1865,6 +1924,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidResourceType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Reference });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceInvalidResourceType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("https://example.org/Chicken/example", "Example Patient") });
             var validator = new QuestionnaireResponseValidator();
@@ -1893,6 +1953,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource", new Code("Patient"));
             q.Item[0].AddExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource", new Code("Practitioner"));
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateReferenceUnconstrainedResourceType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("Patient/example", "Example Patient") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new ResourceReference("Organization/example", "Example Organization") });
@@ -1923,6 +1984,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-maxQuantity", new Quantity() { Value = 50, Unit = "Kg" });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantity" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Kg" } });
             var validator = new QuestionnaireResponseValidator();
@@ -1944,6 +2006,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var q = new Questionnaire() { Url = "http://forms-lab.com/Questionnaire/ValidateQuantityInvalidType", Status = PublicationStatus.Active };
             q.Item.Add(new Questionnaire.ItemComponent { LinkId = "q1", Type = Questionnaire.QuestionnaireItemType.Quantity });
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityInvalidType" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString("example value") });
             var validator = new QuestionnaireResponseValidator();
@@ -1973,6 +2036,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-minQuantity", new Quantity() { Value = 50, Unit = "Kg" });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityMinMax" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Kg" } });
             var validator = new QuestionnaireResponseValidator();
@@ -2011,8 +2075,9 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-minQuantity", new Quantity() { Value = 50, Unit = "km", Code = "km", System = "http://unitsofmeasure.org" });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityMinMaxCompatUnits" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
-            qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10000, Unit = "m", Code = "m" } });
+            qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10000, Unit = "m", Code = "m", System = "http://unitsofmeasure.org" } });
             var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             ValidateQuestionnaire(q, outcome);
@@ -2049,8 +2114,9 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-minQuantity", new Quantity() { Value = 50, Unit = "Kg", Code = "kg", System = "http://unitsofmeasure.org" });
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityMinMaxIncompatUnits" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
-            qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Miles", Code = "[mi_i]" } });
+            qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Miles", Code = "[mi_i]", System = "http://unitsofmeasure.org" } });
             var validator = new QuestionnaireResponseValidator();
             var outcome = await validator.Validate(qr, q);
             ValidateQuestionnaire(q, outcome);
@@ -2088,6 +2154,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AddExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption", new Coding("http://unitsofmeasure.org", "[mi_i]", "miles"));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityUnits" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "kilometer", Code = "km", System = "http://unitsofmeasure.org" } });
             // provide more than is in the unitOption will pass
@@ -2116,6 +2183,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-unitValueSet", new Canonical("http://hl7.org/fhir/ValueSet/jurisdiction"));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityUnitsInValueSet" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Australia", Code = "AU", System = "urn:iso:std:iso:3166" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Code = "BD", System = "urn:iso:std:iso:3166" } });
@@ -2141,6 +2209,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].SetExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-unitValueSet", new Canonical("http://hl7.org/fhir/ValueSet/jurisdiction"));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityUnitsNotInValueSet|0.1" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "kilometer", System = "http://unitsofmeasure.org" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "kilometer", Code = "km", System = "http://unitsofmeasure.org" } });
@@ -2180,6 +2249,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].AddExtension("http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption", new Coding("http://unitsofmeasure.org", "[mi_i]", "miles"));
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateQuantityUnitsInvalid" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Kg", Code = "kg", System = "http://unitsofmeasure.org" } });
             var validator = new QuestionnaireResponseValidator();
@@ -2230,6 +2300,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].Extension.Add(ce2);
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateInvariantQuestionnaire" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a1" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a2" } });
@@ -2269,6 +2340,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].Extension.Add(ce);
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateInvariantCorruptedExpression" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a1" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a2" } });
@@ -2308,6 +2380,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             q.Item[0].Extension.Add(ce);
 
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateInvariantUndefinedVariable" };
+            qr.Status = QuestionnaireResponse.QuestionnaireResponseStatus.Completed;
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a1" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new FhirString() { Value = "a2" } });

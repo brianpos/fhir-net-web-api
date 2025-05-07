@@ -68,7 +68,7 @@ namespace Hl7.Fhir.StructuredDataCapture
 		public static IEnumerable<string> MimeTypes(this Questionnaire.ItemComponent item)
 		{
 			var result = item.GetExtensions("http://hl7.org/fhir/StructureDefinition/mimeType");
-			return result.Select(e => (e.Value as FhirString)?.Value).SkipWhile(s => string.IsNullOrEmpty(s));
+			return result.Select(e => (e.Value as FhirString)?.Value ?? (e.Value as Code)?.Value).SkipWhile(s => string.IsNullOrEmpty(s));
 		}
 
 		/// <summary>

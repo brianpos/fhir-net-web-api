@@ -746,6 +746,15 @@ namespace Hl7.Fhir.StructuredDataCapture
         List<Task> AsyncValidations = new List<System.Threading.Tasks.Task>();
         ConcurrentQueue<OperationOutcome.IssueComponent> outcomeIssues = new ConcurrentQueue<OperationOutcome.IssueComponent>();
 
+        /// <summary>
+        /// return the set of issues that have been processed so far
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<OperationOutcome.IssueComponent> GetCurrentIssues()
+        {
+            return outcomeIssues;
+        }
+
         private int DateCompare(string date1, string date2)
         {
             if (string.IsNullOrEmpty(date1) || string.IsNullOrEmpty(date2)) return 0;
@@ -950,7 +959,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             ValidateInvariants(QR, Q, symbolTable, item, itemDef, new[] { pathExpression }, status);
         }
 
-        private void ValidateItemTypeData(QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, QuestionnaireResponse.QuestionnaireResponseStatus status)
+        public void ValidateItemTypeData(QuestionnaireResponse.ItemComponent item, Questionnaire.ItemComponent itemDef, int answerIndex, string[] answerItemPathExpression, QuestionnaireResponse.QuestionnaireResponseStatus status)
         {
             switch (itemDef.Type)
             {

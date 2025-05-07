@@ -1089,6 +1089,20 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             Assert.AreEqual("QuestionnaireResponse.item[0].answer[2]", outcome.Issue[0].Expression.First());
         }
 
+        /// <summary>
+        /// Private settings ovject to test with a known test server
+        /// </summary>
+        private ValidationSettings tsServerSettings =
+        new ValidationSettings()
+        {
+            TerminologyServerAddress = "https://sqlonfhir-r4.azurewebsites.net/fhir",
+            TerminologyServerFhirClientSettings = new FhirClientSettings()
+            {
+                VerifyFhirVersion = false,
+                PreferCompressedResponses = true
+            }
+        };
+
         [TestMethod]
         public async Task ValidateQrChoiceAsync()
         {
@@ -1098,7 +1112,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "AU", "Australia") });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "BD", "Australia") });
-            var validator = new QuestionnaireResponseValidator();
+            var validator = new QuestionnaireResponseValidator(tsServerSettings);
             var outcome = await validator.Validate(qr, q);
             ValidateQuestionnaire(q, outcome);
             DebugDumpXml(q);
@@ -1178,7 +1192,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             var qr = new QuestionnaireResponse() { Questionnaire = "http://forms-lab.com/Questionnaire/ValidateChoiceInvalidValueSetAsync" };
             qr.Item.Add(new QuestionnaireResponse.ItemComponent { LinkId = "q1" });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Coding("urn:iso:std:iso:3166", "AU", "Australia") });
-            var validator = new QuestionnaireResponseValidator();
+            var validator = new QuestionnaireResponseValidator(tsServerSettings);
             var outcome = await validator.Validate(qr, q);
             ValidateQuestionnaire(q, outcome);
             DebugDumpXml(q);
@@ -2106,7 +2120,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "Australia", Code = "AU", System = "urn:iso:std:iso:3166" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Code = "BD", System = "urn:iso:std:iso:3166" } });
 
-            var validator = new QuestionnaireResponseValidator();
+            var validator = new QuestionnaireResponseValidator(tsServerSettings);
             var outcome = await validator.Validate(qr, q);
             ValidateQuestionnaire(q, outcome);
             DebugDumpXml(q);
@@ -2131,7 +2145,7 @@ namespace Hl7.Fhir.StructuredDataCapture.Test
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "kilometer", System = "http://unitsofmeasure.org" } });
             qr.Item[0].Answer.Add(new QuestionnaireResponse.AnswerComponent { Value = new Quantity() { Value = 10, Unit = "kilometer", Code = "km", System = "http://unitsofmeasure.org" } });
 
-            var validator = new QuestionnaireResponseValidator();
+            var validator = new QuestionnaireResponseValidator(tsServerSettings);
             var outcome = await validator.Validate(qr, q);
             ValidateQuestionnaire(q, outcome);
             DebugDumpXml(q);

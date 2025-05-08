@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- SDC Solution-wide properties for NuGet packaging -->
+  <PropertyGroup>
+		<Version>5.11.4-rc4</Version>
+  </PropertyGroup>
+</Project>
+

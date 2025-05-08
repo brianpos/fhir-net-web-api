@@ -772,7 +772,7 @@ namespace Hl7.Fhir.StructuredDataCapture
             {
                 // Check the versioning of the canonical URLs match (this is really a sanity check that the resolver found the correct definition)
                 var cu = new CanonicalUrl(qr.Questionnaire);
-                if (cu.Url?.Value != q.Url || string.IsNullOrEmpty(q.Url))
+                if ((cu.Url?.Value != q.Url && qr.Questionnaire != "#" + q.Id) || string.IsNullOrEmpty(q.Url))
                 {
                     ReportValidationMessage(ValidationResult.unknown, null, new[] { "QuestionnaireResponse.questionnaire" }, qr.Status ?? QuestionnaireResponse.QuestionnaireResponseStatus.Completed, null, null, null);
                 }

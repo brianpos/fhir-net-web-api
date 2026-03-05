@@ -131,14 +131,14 @@ namespace Hl7.Fhir.DemoSqliteFhirServer.Specification
             };
 
             // https://stackoverflow.com/questions/8863875/decompress-tar-files-using-c-sharp
-            var reader = ReaderFactory.Open(ms);
+            var reader = ReaderFactory.OpenReader(ms);
             var packageItemCount = 0;
             while (reader.MoveToNextEntry())
             {
                 packageItemCount++;
             }
             ms.Seek(0, SeekOrigin.Begin);
-            reader = ReaderFactory.Open(ms);
+            reader = ReaderFactory.OpenReader(ms);
             while (reader.MoveToNextEntry())
             {
                 currentPosition = reader.Entry.Key;
@@ -253,7 +253,7 @@ namespace Hl7.Fhir.DemoSqliteFhirServer.Specification
             {
                 // Spool the package all into memory, uncompressing as it goes
                 Stream gzipStream = new System.IO.Compression.GZipStream(packageStream, System.IO.Compression.CompressionMode.Decompress);
-                var reader = ReaderFactory.Open(gzipStream);
+                var reader = ReaderFactory.OpenReader(gzipStream);
                 while (reader.MoveToNextEntry())
                 {
                     if (itemName != reader.Entry.Key) continue;

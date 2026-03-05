@@ -118,7 +118,7 @@ namespace UnitTestWebApi
                 // var pr = new Firely.Fhir.Packages.PackageReference("hl7.fhir.r4.examples", "4.0.1");
                 // examplesPkg = await pc.GetPackage(pr);
                 HttpClient client = new HttpClient();
-				client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("TestWebApiExampleLoader", "5.11.3"));
+				client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("TestWebApiExampleLoader", "5.13.2"));
                 examplesPkg = await client.GetByteArrayAsync("http://hl7.org/fhir/R4B/hl7.fhir.r4b.examples.tgz");
                 System.IO.File.WriteAllBytes(examplesTarball, examplesPkg);
                 sourceStream = new MemoryStream(examplesPkg);
@@ -139,14 +139,14 @@ namespace UnitTestWebApi
                 ms.Seek(0, SeekOrigin.Begin);
             }
 
-            var reader = ReaderFactory.Open(ms);
+            var reader = ReaderFactory.OpenReader(ms);
             var packageItemCount = 0;
             while (reader.MoveToNextEntry())
             {
                 packageItemCount++;
             }
             ms.Seek(0, SeekOrigin.Begin);
-            reader = ReaderFactory.Open(ms);
+            reader = ReaderFactory.OpenReader(ms);
             string currentPosition;
 
             var files = packageItemCount;

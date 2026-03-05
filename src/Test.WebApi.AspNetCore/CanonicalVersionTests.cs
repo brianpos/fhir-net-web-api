@@ -339,5 +339,17 @@ namespace UnitTestWebApi
 				System.Diagnostics.Trace.WriteLine($"{item.Status?.ToString() ?? "(null)"}, {item.Version}");
 			Assert.AreEqual(q3.Version, result.First().Version);
 		}
+
+		[TestMethod]
+		public void DefaultCanonicalVersions()
+		{
+			var q1 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Status = PublicationStatus.Active };
+			var q2 = new Questionnaire { Id = "q1-nat-b", Url = "http://example.org/canonical-natural-sort", Status = PublicationStatus.Retired };
+
+			IOrderedEnumerable<IVersionableConformanceResource> result = CurrentCanonical.Ordered(new[] { q1, q2 });
+			foreach (var item in result)
+				System.Diagnostics.Trace.WriteLine($"{item.Status?.ToString() ?? "(null)"}, {item.Version ?? "(no version)"}");
+			Assert.AreEqual(q1.Version, result.First().Version);
+		}
 	}
 }

@@ -152,6 +152,22 @@ namespace UnitTestWebApi
             Assert.IsNotNull(result.Meta.LastUpdated, "Newly created condition should have the creation date populated");
         }
 
+        [TestMethod, Ignore]
+        public void CreateObservationQuantitySearch()
+        {
+            var obs = new Observation();
+            // obs.Subject = new ResourceReference(null, "Demo");
+
+            var app = new UnitTestFhirServerApplication();
+            var clientFhir = new FhirClient(app.Server.BaseAddress, app.CreateClient());
+
+            var result = clientFhir.Create(obs);
+
+            Assert.IsNotNull(result.Id, "Newly created patient should have an ID");
+            Assert.IsNotNull(result.Meta, "Newly created patient should have an Meta created");
+            Assert.IsNotNull(result.Meta.LastUpdated, "Newly created patient should have the creation date populated");
+        }
+
         [TestMethod]
         public async Task CreatePatientWithInvalidDate()
         {

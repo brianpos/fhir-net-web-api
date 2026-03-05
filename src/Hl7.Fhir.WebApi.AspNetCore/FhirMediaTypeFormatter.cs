@@ -120,7 +120,12 @@ namespace Hl7.Fhir.WebApi
             return false;
         }
 
-        const string x_correlation_id = "X-Correlation-Id";
+		public override bool CanWriteResult(OutputFormatterCanWriteContext context)
+		{
+			return base.CanWriteResult(context);
+		}
+
+		const string x_correlation_id = "X-Correlation-Id";
         public override void WriteResponseHeaders(OutputFormatterWriteContext context)
         {
             base.WriteResponseHeaders(context);

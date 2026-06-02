@@ -104,7 +104,10 @@ namespace UnitTestWebApi
             clientFhir.Settings.VerifyFhirVersion = false;
             clientFhir.Settings.PreferredFormat = Hl7.Fhir.Rest.ResourceFormat.Json;
 
-            var examplesTarball = @"C:\temp\demoserver-5.11.3\examples.tgz";
+			var examplesTarballPath = Path.Combine(Path.GetTempPath(), "FHIR.WebApi", "demoserver-5.13.2");
+			if (!Directory.Exists(examplesTarballPath))
+				Directory.CreateDirectory(examplesTarballPath);
+			var examplesTarball = Path.Combine(examplesTarballPath, "examples.tgz");
             Stream sourceStream;
             if (!System.IO.File.Exists(examplesTarball))
             {
@@ -355,6 +358,8 @@ namespace UnitTestWebApi
                 "package/CapabilityStatement-phr.json", // has a duplicate canonical URL with another example
                 "package/CapabilityStatement-messagedefinition.json", // has a duplicate canonical URL with another example
                 "package/CodeSystem-snomedct.json",
+
+                "package/Questionnaire-phq-9-questionnaire.json",
 
                 "package/Observation-decimal.json",
                 "package/Questionnaire-qs1.json",

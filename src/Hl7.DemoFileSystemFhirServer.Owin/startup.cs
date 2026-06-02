@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Sockets;
-using System.Net;
-using Owin;
-using System.Web.Http;
+﻿using Hl7.Fhir.DemoFileSystemFhirServer;
 using Hl7.Fhir.WebApi;
 using Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin;
-using System.Net.Http.Extensions.Compression.Core.Compressors;
-using Hl7.Fhir.DemoFileSystemFhirServer;
 using Microsoft.Owin.Logging;
+using Owin;
+using System.IO;
+using System.Net.Http.Extensions.Compression.Core.Compressors;
+using System.Web.Http;
 
 namespace Hl7.DemoFileSystemFhirServer
 {
@@ -23,7 +17,7 @@ namespace Hl7.DemoFileSystemFhirServer
         // parameter in the WebApp.Start method.
         public void Configuration(IAppBuilder appBuilder)
         {
-            DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = @"c:\temp\demoserver-5.13.2";
+			DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = Path.Combine(Path.GetTempPath(), "FHIR.WebApi.Demo", "5.13.2");
             if (!System.IO.Directory.Exists(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory))
                 System.IO.Directory.CreateDirectory(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory);
 

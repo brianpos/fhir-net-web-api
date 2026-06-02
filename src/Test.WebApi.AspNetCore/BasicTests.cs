@@ -898,7 +898,10 @@ namespace UnitTestWebApi
             var resRaw = await rawWriter.PutAsync($"{app.Server.BaseAddress}Binary/bin1", content);
             Console.WriteLine("Raw Result:");
             Console.WriteLine(System.Convert.ToBase64String(await resRaw.Content.ReadAsByteArrayAsync()));
-            Assert.AreEqual(HttpStatusCode.Created, resRaw.StatusCode);
+            // PUT is allowed to return either 201 Created (first time) or 200 OK (update of an existing resource)
+            // so this test is repeatable regardless of any state left over from a previous run.
+            Assert.IsTrue(resRaw.StatusCode == HttpStatusCode.Created || resRaw.StatusCode == HttpStatusCode.OK,
+                $"Expected Created or OK but was {resRaw.StatusCode}");
             Assert.AreEqual("image/gif", resRaw.Content.Headers.ContentType.MediaType);
             Assert.AreEqual("Organization/2", resRaw.Headers.Value("X-Security-Context"));
 

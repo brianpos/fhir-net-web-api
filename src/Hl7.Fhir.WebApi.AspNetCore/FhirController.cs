@@ -169,6 +169,23 @@ namespace Hl7.Fhir.WebApi
         }
 
         /// <summary>
+        /// When a <see cref="Binary"/> resource is submitted as a structured FHIR resource (XML/JSON)
+        /// the FHIR specified <c>X-Security-Context</c> header (if present) should override any
+        /// SecurityContext provided in the body. This keeps behaviour consistent with the
+        /// <see cref="BinaryFhirInputFormatter"/> which reads the same header when the raw binary
+        /// stream approach is used.
+        /// </summary>
+        private void ApplyBinarySecurityContextHeader(Resource bodyResource)
+        {
+            if (bodyResource is Binary binary)
+            {
+                string securityContext = Request.Header("X-Security-Context");
+                if (!string.IsNullOrEmpty(securityContext))
+                    binary.SecurityContext = new ResourceReference(securityContext);
+            }
+        }
+
+        /// <summary>
         /// http://hl7-fhir.github.io/http.html#transaction
         /// </summary>
         [HttpPost, Route("")]
@@ -817,6 +834,8 @@ namespace Hl7.Fhir.WebApi
                 return new BadRequestObjectResult(oo) { StatusCode = (int)HttpStatusCode.BadRequest };
             }
 
+            ApplyBinarySecurityContextHeader(bodyResource);
+
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             try
             {
@@ -935,6 +954,8 @@ namespace Hl7.Fhir.WebApi
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot PUT a AuditEvent, you must POST them");
             }
 
+            ApplyBinarySecurityContextHeader(bodyResource);
+
             // so.Success();
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
 
@@ -1038,6 +1059,8 @@ namespace Hl7.Fhir.WebApi
                 // otherwise externally reported events can be updated!
                 //throw new FhirServerException(HttpStatusCode.MethodNotAllowed, "Cannot PUT a AuditEvent, you must POST them");
             }
+
+            ApplyBinarySecurityContextHeader(bodyResource);
 
             IFhirResourceServiceR4<IServiceProvider> model = GetResourceModel(ResourceName, inputs);
             try

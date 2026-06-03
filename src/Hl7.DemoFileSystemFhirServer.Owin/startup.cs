@@ -17,7 +17,7 @@ namespace Hl7.DemoFileSystemFhirServer
         // parameter in the WebApp.Start method.
         public void Configuration(IAppBuilder appBuilder)
         {
-			DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = Path.Combine(Path.GetTempPath(), "FHIR.WebApi.Demo", "5.13.2");
+			DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory = Path.Combine(Path.GetTempPath(), "FHIR.WebApi.Demo", "5.13.4");
             if (!System.IO.Directory.Exists(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory))
                 System.IO.Directory.CreateDirectory(DirectorySystemService<System.Web.Http.Dependencies.IDependencyScope>.Directory);
 

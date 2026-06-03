@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <PackageReference Include="Hl7.Fhir.R4B" Version="5.13.4" />
-    <PackageReference Include="Firely.Fhir.Validation.R4B" Version="2.7.1" />
-    <PackageReference Include="SharpCompress" Version="0.47.0" />
+    <PackageReference Include="Firely.Fhir.Validation.R4B" Version="2.7.3" />
+    <PackageReference Include="SharpCompress" Version="0.49.1" />
     <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
   </ItemGroup>
 
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.103" />
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.300" />
   </ItemGroup>
 
 </Project>
